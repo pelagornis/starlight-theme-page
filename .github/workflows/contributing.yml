@@ -1,0 +1,11 @@
+name: Contributing
+
+on:
+  workflow_call:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  check-contributing-guide:
+    name: Contribute
+    uses: pelagornis/github-workflows/.github/workflows/contributing.yml@main

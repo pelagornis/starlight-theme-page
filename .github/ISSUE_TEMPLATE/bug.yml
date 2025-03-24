@@ -1,0 +1,25 @@
+name: Bug Report
+description: Create a report to help us improve
+title: "Insert title here"
+labels: ["type:bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the bug and the expected behavior
+      placeholder: A clear and concise description of what the bug is, and what you expect to happen instead.
+    validations:
+      required: true
+  - type: textarea
+    id: error-log
+    attributes:
+      label: Error log
+      description: The full error message
+      placeholder: The full error message
+    validations:
+      required: true
