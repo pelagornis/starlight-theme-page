@@ -1,6 +1,5 @@
-# Github Template
-Github Repository Template for Pelagornis.
-
+# <img src="/packages/page/assets/page.svg" alt="" align="left" width="40" height="40"> Page
+Page is a documentation website framework for pelagornis.
 
 ## License
-**github-template** is under MIT license. See the [LICENSE](LICENSE) file for more info.
+**page** is under MIT license. See the [LICENSE](LICENSE) file for more info.
