@@ -1,5 +1,6 @@
 import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
+import page from '@pelagornis/page';
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,7 +16,7 @@ export default defineConfig({
           baseUrl: 'https://github.com/pelagornis/page/edit/main/docs/',
         },
         plugins: [
-          
+          page()
         ],
       }),
     ],
