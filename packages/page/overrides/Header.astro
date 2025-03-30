@@ -5,7 +5,61 @@ import SiteTitle from './SiteTitle.astro';
 import SocialIcons from './SocialIcons.astro';
 import ThemeSelect from './ThemeSelect.astro';
 import LanguageSelect from '@astrojs/starlight/components/LanguageSelect.astro'
+import MobileMenuToggle from './MobileMenuToggle.astro';
 
-
+import Navigation from '../components/Navigation.astro';
 ---
 
+<div class="site-title-wrapper">
+    <SiteTitle/>
+    <Navigation/>
+</div>
+
+<MobileMenuToggle/>
+
+<div class="header-right">
+    <Search />
+
+    <nav class="header-nav">
+      <div>
+        <LanguageSelect/>
+      </div>
+      <div>
+        <ThemeSelect/>
+      </div>
+      <div>
+        <SocialIcons/>
+      </div>
+    </nav>
+</div>
+
+<style>
+  .site-title-wrapper {
+    display: none;
+    margin-right: 1rem;
+  }
+  @media (min-width: 768px) {
+    .site-title-wrapper {
+        display: flex
+    }
+  }
+
+  .header-right {
+    display: flex;
+    gap: 0.25rem;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1 1 0%;
+  }
+  @media (min-width: 768px) {
+    .header-right {
+      justify-content: flex-end;
+    }
+  }
+
+  .header-nav {
+    gap: 0.125rem;
+    align-items: center;
+    display: flex;
+  }
+</style>
