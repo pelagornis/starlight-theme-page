@@ -4,7 +4,14 @@
     "license": "MIT",
     "description": "Starlight theme for Pelagornis Docs",
     "type": "module",
-    "exports": {},
+    "exports": {
+      ".": "./index.ts",
+      "./styles": "./styles.css",
+      "./schema": "./schema.ts",
+      "./components": "./components.ts",
+      "./overrides/ThemeSelect.astro": "./overrides/ThemeSelect.astro",
+      "./overrides/Header.astro": "./overrides/Header.astro"
+    },
     "keywords": [
         "pelagornis",
         "styles",
