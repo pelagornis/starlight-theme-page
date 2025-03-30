@@ -1,4 +1,149 @@
 :root,
 ::backdrop {
-    
+  --color-primary-lightgray: #e6e6e6;
+  --color-primary-gray: #d4d4d4;
+  --color-primary-darkgray: #4d4d4a;
+  --color-primary-black: #212121;
+  --color-neutral-white: #fff;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-150: #f0f0f0;
+  --color-neutral-200: #ebebeb;
+  --color-neutral-250: #e0e0e0;
+  --color-neutral-300: #dbdbdb;
+  --color-neutral-350: #d8d8d8;
+  --color-neutral-400: #cecece;
+  --color-neutral-450: #bbb;
+  --color-neutral-500: #a4a4a4;
+  --color-neutral-550: #8d8d8d;
+  --color-neutral-600: #6c6c6c;
+  --color-neutral-650: #5b5b5b;
+  --color-neutral-700: #404040;
+  --color-neutral-750: #333;
+  --color-neutral-800: #2a2a2a;
+  --color-neutral-850: #222;
+  --color-neutral-900: #1a1a1a;
+  --color-neutral-950: #111;
+  --color-neutral-black: #000;
+  --color-red-100: #ffd3de;
+  --color-red-200: #ffc3c3;
+  --color-red-300: #ffa7a7;
+  --color-red-400: #ff8989;
+  --color-red-500: #ff6969;
+  --color-red-600: #f94343;
+  --color-red-700: #d93a3a;
+  --color-red-800: #ba3232;
+  --color-red-900: #9c2929;
+  --color-red-1000: #7f2222;
+  --color-orange-100: #fae0d1;
+  --color-orange-200: #f6c8ae;
+  --color-orange-300: #f3b08b;
+  --color-orange-400: #ef9664;
+  --color-orange-500: #eb7c3e;
+  --color-orange-600: #d6692c;
+  --color-orange-700: #ba5b26;
+  --color-orange-800: #9f4e21;
+  --color-orange-900: #85411b;
+  --color-orange-1000: #6c3516;
+  --color-yellow-100: #ffe493;
+  --color-yellow-200: #ffcb2f;
+  --color-yellow-300: #f1b500;
+  --color-yellow-400: #daa300;
+  --color-yellow-500: #c49200;
+  --color-yellow-600: #ad8100;
+  --color-yellow-700: #947000;
+  --color-yellow-800: #806000;
+  --color-yellow-900: #6b5000; 
+  --color-yellow-1000: #564100;
+  --color-lime-100: #c8f46f;
+  --color-lime-200: #a4e61f;
+  --color-lime-300: #95d11c;
+  --color-lime-400: #86bc19;
+  --color-lime-500: #78a917;
+  --color-lime-600: #6a9514;
+  --color-lime-700: #5c8111;
+  --color-lime-800: #4f6e0f;
+  --color-lime-900: #425c0c;
+  --color-lime-1000: #354b0a;
+  --color-green-100: #adf7b0;
+  --color-green-200: #5bee62;
+  --color-green-300: #2fdc37;
+  --color-green-400: #2ac632;
+  --color-green-500: #26b12d;
+  --color-green-600: #229d28;
+  --color-green-700: #1d8822;
+  --color-green-800: #19751d;
+  --color-green-900: #156119;
+  --color-green-1000: #114f14;
+  --color-teal-100: #c9ecf0;
+  --color-teal-200: #9edde4;
+  --color-teal-300: #71cdd7;
+  --color-teal-400: #54bac6;
+  --color-teal-500: #4ba7b1;
+  --color-teal-600: #42949d;
+  --color-teal-700: #398088;
+  --color-teal-800: #316d74;
+  --color-teal-900: #295b61;
+  --color-teal-1000: #214a4e;
+  --color-blue-100: #dee5ff;
+  --color-blue-200: #c3d0ff;
+  --color-blue-300: #a9bcff;
+  --color-blue-400: #90a8ff;
+  --color-blue-500: #7694ff;
+  --color-blue-600: #5b7fff;
+  --color-blue-700: #3e68ff;
+  --color-blue-800: #2351f7;
+  --color-blue-900: #1d44ce;
+  --color-blue-1000: #1837a8;
+  --color-purple-100: #efdfff;
+  --color-purple-200: #e3c7ff;
+  --color-purple-300: #d6aeff;
+  --color-purple-400: #c995ff;
+  --color-purple-500: #bd7bff;
+  --color-purple-600: #af60ff;
+  --color-purple-700: #9e3fff;
+  --color-purple-800: #891cf9;
+  --color-purple-900: #7318d0;
+  --color-purple-1000: #5e13ab;
+  --color-magenta-100: #fcdeec;
+  --color-magenta-200: #fac3dc;
+  --color-magenta-300: #f7a7cb;
+  --color-magenta-400: #f58aba;
+  --color-magenta-500: #f26ba8;
+  --color-magenta-600: #ef4592;
+  --color-magenta-700: #d6327c;
+  --color-magenta-800: #b82b6b;
+  --color-magenta-900: #9a2459;
+  --color-magenta-1000: #7d1e49;
+}
+
+:root[data-theme='dark'] {
+  --background: var(--color-neutral-black);
+  --foreground: var(--color-neutral-900);
+}
+
+:root[data-theme='light'] {
+  --background: var(--color-neutral-white);
+  --foreground: var(--color-neutral-100);
+}
+
+*,
+:after :before {
+  box-sizing: border-box;
+  border: 0 solid #e5e7eb;
+}
+
+html {
+  
+}
+
+.container-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+@media (min-width: 1800px) {
+  .container-wrapper {
+    max-width: 1536px;
+  }
 }
