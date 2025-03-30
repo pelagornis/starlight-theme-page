@@ -6,10 +6,16 @@
     "description": "Starlight theme for Pelagornis Docs",
     "type": "module",
     "engines": {
-      "node": "^18.17.1 || ^20.3.0 || >=21.0.0"
+        "node": "^18.17.1 || ^20.3.0 || >=21.0.0"
     },
     "packageManager": "pnpm@9.6.0",
     "homepage": "https://github.com/pelagornis/starlight-theme-page",
+    "scripts": {
+        "start": "cd docs && astro dev"
+    },
+    "devDependencies": {
+        "astro": "^4.4.0"
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/pelagornis/starlight-theme-page.git"
