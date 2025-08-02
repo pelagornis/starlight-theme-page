@@ -1,36 +1,46 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
+title: Starlight Theme Page
+description: starlight-theme-black에서 영감을 받은 현대적인 Starlight 테마
 template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
-  image:
-    file: ../../assets/houston.webp
+  tagline: shadcn/ui 스타일의 현대적인 문서 사이트 테마
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: 시작하기
+      link: /guides/getting-started/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
+    - text: GitHub에서 보기
+      link: https://github.com/pelagornis/starlight-theme-page
       icon: external
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid } from "@astrojs/starlight/components";
 
-## Next steps
+## ✨ 주요 특징
 
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+  <Card title="🎨 현대적인 디자인" icon="star">
+    shadcn/ui에서 영감을 받은 HSL 기반 색상 시스템과 그라데이션 효과
+  </Card>
+  <Card title="🌊 부드러운 애니메이션" icon="rocket">
+    모든 인터랙션에 자연스러운 전환 효과와 hover 애니메이션
+  </Card>
+  <Card title="🌙 다크 모드" icon="moon">
+    글래스 효과와 함께 완벽한 라이트/다크 모드 지원
+  </Card>
+  <Card title="📱 반응형" icon="laptop">
+    모바일부터 데스크톱까지 모든 기기에서 완벽한 사용자 경험
+  </Card>
 </CardGrid>
+
+## 🚀 개선된 컴포넌트
+
+이 테마는 다음 컴포넌트들을 현대적으로 재디자인했습니다:
+
+- **Header**: Sticky 네비게이션과 글래스 효과
+- **ThemeSelect**: 회전 애니메이션이 있는 테마 토글
+- **Navigation**: 호버 효과와 활성 상태 표시기
+- **Search**: 블러 배경의 현대적인 모달
+- **SiteTitle**: 인터랙티브 로고와 그라데이션 텍스트
+
+헤더의 테마 토글 버튼을 클릭해보거나, 로고에 마우스를 올려보세요! 🎯
