@@ -11,7 +11,7 @@
     "packageManager": "pnpm@9.6.0",
     "homepage": "https://github.com/pelagornis/starlight-theme-page",
     "scripts": {
-        "start": "cd docs && astro dev"
+        "start": "pnpm --filter docs dev"
     },
     "devDependencies": {
         "astro": "^4.4.0"
