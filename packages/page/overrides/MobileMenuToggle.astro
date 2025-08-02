@@ -1,5 +1,373 @@
 ---
-import Default from '@astrojs/starlight/components/MobileMenuToggle.astro'
+// Page 스타일 모바일 메뉴 토글
 ---
 
-<Default />
+<button
+  class="page-mobile-menu-toggle"
+  aria-label="메뉴 열기"
+  id="page-mobile-menu-toggle"
+>
+  <!-- 햄버거 메뉴 아이콘 -->
+  <svg
+    class="page-menu-icon"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <line x1="3" y1="12" x2="21" y2="12"></line>
+    <line x1="3" y1="18" x2="21" y2="18"></line>
+  </svg>
+
+  <!-- X 닫기 아이콘 -->
+  <svg
+    class="page-close-icon"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    style="display: none;"
+  >
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>
+</button>
+
+<script>
+  // DOM이 로드된 후 실행
+  function initializeMobileMenu() {
+    const button = document.querySelector(
+      "#page-mobile-menu-toggle"
+    ) as HTMLButtonElement;
+    if (!button) {
+      console.error("모바일 메뉴 토글 버튼을 찾을 수 없습니다.");
+      return;
+    }
+
+    // 현재 경로 업데이트
+    const updateCurrentPath = () => {
+      if (typeof window !== "undefined") {
+        const currentPath = window.location.pathname;
+        button.setAttribute("data-current-path", currentPath);
+      }
+    };
+
+    // 초기 경로 설정
+    updateCurrentPath();
+
+    // 페이지 변경 시 경로 업데이트
+    if (typeof window !== "undefined") {
+      window.addEventListener("popstate", updateCurrentPath);
+    }
+    document.addEventListener("astro:page-load", updateCurrentPath);
+
+    // 클릭 이벤트 리스너
+    button.addEventListener("click", (event) => {
+      console.log("모바일 메뉴 버튼 클릭됨!");
+      event.preventDefault();
+      event.stopPropagation();
+
+      // 사이드바 토글
+      const isOpen = toggleSidebar();
+      console.log("토글 결과:", isOpen);
+
+      // 아이콘 토글
+      const menuIcon = button.querySelector(".page-menu-icon") as HTMLElement;
+      const closeIcon = button.querySelector(".page-close-icon") as HTMLElement;
+
+      if (isOpen) {
+        if (menuIcon) menuIcon.style.display = "none";
+        if (closeIcon) closeIcon.style.display = "block";
+      } else {
+        if (menuIcon) menuIcon.style.display = "block";
+        if (closeIcon) closeIcon.style.display = "none";
+      }
+
+      // 클릭 애니메이션
+      button.style.transform = "scale(0.95)";
+      setTimeout(() => {
+        button.style.transform = "";
+      }, 150);
+    });
+  }
+
+  function toggleSidebar(): boolean {
+    console.log("toggleSidebar 함수 호출됨");
+
+    // 모바일 메뉴 오버레이 생성 또는 찾기
+    let mobileMenu = document.querySelector(
+      ".page-mobile-menu-overlay"
+    ) as HTMLElement;
+
+    if (!mobileMenu) {
+      console.log("모바일 메뉴 오버레이 생성 중...");
+      // 모바일 메뉴 오버레이가 없으면 생성
+      mobileMenu = document.createElement("div");
+      mobileMenu.className = "page-mobile-menu-overlay";
+      mobileMenu.innerHTML = `
+        <div class="page-mobile-menu-content">
+          <div class="page-mobile-menu-header">
+            <h3>메뉴</h3>
+            <button class="page-mobile-menu-close" aria-label="메뉴 닫기">×</button>
+          </div>
+          <nav class="page-mobile-menu-nav">
+            <a href="/" class="page-mobile-menu-link">소개</a>
+            <a href="/guides/getting-started/" class="page-mobile-menu-link">설치 가이드</a>
+            <a href="/components/header/" class="page-mobile-menu-link">Header</a>
+            <a href="/components/theme-toggle/" class="page-mobile-menu-link">Theme Toggle</a>
+            <a href="/components/navigation/" class="page-mobile-menu-link">Navigation</a>
+            <a href="/examples/basic/" class="page-mobile-menu-link">기본 예제</a>
+            <a href="/examples/advanced/" class="page-mobile-menu-link">고급 예제</a>
+          </nav>
+        </div>
+      `;
+      document.body.appendChild(mobileMenu);
+      console.log("모바일 메뉴 오버레이 생성 완료:", mobileMenu);
+
+      // 닫기 버튼 이벤트 리스너 추가
+      const closeButton = mobileMenu.querySelector(".page-mobile-menu-close");
+      if (closeButton) {
+        closeButton.addEventListener("click", () => {
+          console.log("닫기 버튼 클릭됨");
+          toggleSidebar();
+        });
+      }
+
+      // 오버레이 클릭 시 닫기
+      mobileMenu.addEventListener("click", (event) => {
+        if (event.target === mobileMenu) {
+          console.log("오버레이 클릭됨 - 메뉴 닫기");
+          toggleSidebar();
+        }
+      });
+    } else {
+      console.log("기존 모바일 메뉴 오버레이 찾음:", mobileMenu);
+    }
+
+    const isOpen = mobileMenu.classList.contains("page-mobile-menu-open");
+    console.log("현재 메뉴 상태:", isOpen ? "열림" : "닫힘");
+
+    if (isOpen) {
+      mobileMenu.classList.remove("page-mobile-menu-open");
+      document.body.style.overflow = "";
+      console.log("모바일 메뉴 닫힘");
+      return false;
+    } else {
+      mobileMenu.classList.add("page-mobile-menu-open");
+      document.body.style.overflow = "hidden";
+      // 임시로 강제 스타일 적용
+      mobileMenu.style.opacity = "1";
+      mobileMenu.style.visibility = "visible";
+      mobileMenu.style.display = "flex";
+      console.log(
+        "모바일 메뉴 열림, 클래스 추가됨:",
+        mobileMenu.classList.toString()
+      );
+      return true;
+    }
+  }
+
+  // DOM이 로드되면 초기화
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeMobileMenu);
+  } else {
+    initializeMobileMenu();
+  }
+
+  // Astro 페이지 로드 시에도 초기화
+  document.addEventListener("astro:page-load", initializeMobileMenu);
+</script>
+
+<style>
+  .page-mobile-menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: var(--page-radius);
+    background: var(--page-accent-light);
+    color: var(--page-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+  }
+
+  .page-mobile-menu-toggle:hover {
+    background: var(--page-neutral-200);
+    color: var(--page-text);
+    transform: translateY(-1px);
+  }
+
+  [data-theme="dark"] .page-mobile-menu-toggle {
+    background: var(--page-accent-light) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-toggle:hover {
+    background: var(--page-neutral-800) !important;
+    color: var(--page-text) !important;
+  }
+
+  .page-mobile-menu-toggle svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* 모바일에서만 표시 */
+  @media (max-width: 768px) {
+    .page-mobile-menu-toggle {
+      display: flex;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .page-mobile-menu-toggle {
+      display: none !important;
+    }
+  }
+
+  /* ===== 모바일 메뉴 오버레이 스타일 ===== */
+  .page-mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+
+  .page-mobile-menu-overlay.page-mobile-menu-open {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  .page-mobile-menu-content {
+    width: 280px;
+    height: 100%;
+    background: var(--page-bg);
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-mobile-menu-overlay.page-mobile-menu-open .page-mobile-menu-content {
+    transform: translateX(0) !important;
+  }
+
+  .page-mobile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--page-space-6);
+    border-bottom: 1px solid var(--page-border);
+    background: var(--page-bg-secondary);
+  }
+
+  .page-mobile-menu-header h3 {
+    margin: 0;
+    font-size: var(--page-font-size-lg);
+    font-weight: var(--page-font-weight-semibold);
+    color: var(--page-text);
+  }
+
+  .page-mobile-menu-close {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: var(--page-accent-light);
+    color: var(--page-text-secondary);
+    border-radius: var(--page-radius);
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .page-mobile-menu-close:hover {
+    background: var(--page-neutral-200);
+    color: var(--page-text);
+  }
+
+  .page-mobile-menu-nav {
+    flex: 1;
+    padding: var(--page-space-4);
+    overflow-y: auto;
+  }
+
+  .page-mobile-menu-link {
+    display: block;
+    padding: var(--page-space-4);
+    color: var(--page-text-secondary);
+    text-decoration: none;
+    border-radius: var(--page-radius);
+    transition: all 0.2s ease;
+    margin-bottom: var(--page-space-2);
+  }
+
+  .page-mobile-menu-link:hover {
+    background: var(--page-accent-light);
+    color: var(--page-text);
+  }
+
+  /* 다크 테마에서 모바일 메뉴 */
+  [data-theme="dark"] .page-mobile-menu-overlay {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  [data-theme="dark"] .page-mobile-menu-content {
+    background: var(--page-bg) !important;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+  }
+
+  [data-theme="dark"] .page-mobile-menu-header {
+    background: var(--page-bg-secondary) !important;
+    border-bottom-color: var(--page-border) !important;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-header h3 {
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-close {
+    background: var(--page-accent-light) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-close:hover {
+    background: var(--page-neutral-800) !important;
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-link {
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-link:hover {
+    background: var(--page-accent-light) !important;
+    color: var(--page-text) !important;
+  }
+</style>

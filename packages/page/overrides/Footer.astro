@@ -1,6 +1,6 @@
 ---
-import Default from '@astrojs/starlight/components/Footer.astro'
-import Config from 'virtual:starlight/user-config';
+import Default from "@astrojs/starlight/components/Footer.astro";
+import config from "virtual:starlight/user-config";
 
 const {
   pagination,
@@ -9,28 +9,272 @@ const {
   entry: {
     data: { template },
   },
-} = Astro.locals.starlightRoute
+} = Astro.locals.starlightRoute;
 
 const showFooterInSplash =
-  template === 'splash' && !!(editUrl || lastUpdated || pagination.next || pagination.prev || config.credits)
+  template === "splash" &&
+  !!(
+    editUrl ||
+    lastUpdated ||
+    pagination.next ||
+    pagination.prev ||
+    config.credits
+  );
 ---
 
 {
-    showFooterInSplash && (
-      <div class="container-wrapper">
-        <div class="container">
-          <Default />
-        </div>
+  showFooterInSplash && (
+    <div class="page-footer-wrapper">
+      <div class="page-footer-container">
+        <Default />
       </div>
-    )
+    </div>
+  )
 }
-  
-{!showFooterInSplash && template === 'splash' && <div class="padding-negative" />}
-  
-{template === 'doc' && <Default />}
-  
+
+{
+  !showFooterInSplash && template === "splash" && (
+    <div class="page-footer-padding" />
+  )
+}
+
+{template === "doc" && <Default />}
+
 <style>
-    .padding-negative {
-      margin-bottom: -3vh;
+  .page-footer-wrapper {
+    margin-top: var(--page-space-8);
+  }
+
+  .page-footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--page-space-8) var(--page-space-6);
+    background: var(--page-bg-secondary);
+    border-top: 1px solid var(--page-border);
+    border-radius: var(--page-radius-lg);
+  }
+
+  [data-theme="dark"] .page-footer-container {
+    background: var(--page-bg-secondary) !important;
+    border-top-color: var(--page-border) !important;
+  }
+
+  .page-footer-padding {
+    margin-bottom: -3vh;
+  }
+
+  /* Starlight 기본 푸터 스타일 오버라이드 */
+  :global(.sl-footer) {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  :global(.sl-footer .sl-flex) {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  :global(.sl-footer .meta) {
+    gap: 0.75rem 3rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+    font-size: var(--sl-text-sm);
+    color: var(--page-text-secondary);
+  }
+
+  :global(.sl-footer .meta > p:only-child) {
+    margin-inline-start: auto;
+  }
+
+  :global(.sl-footer .kudos) {
+    align-items: center;
+    gap: 0.5em;
+    margin: 1.5rem auto;
+    font-size: var(--sl-text-xs);
+    text-decoration: none;
+    color: var(--page-text-secondary);
+  }
+
+  :global(.sl-footer .kudos svg) {
+    color: var(--page-accent);
+  }
+
+  :global(.sl-footer .kudos:hover) {
+    color: var(--page-text);
+  }
+
+  /* 페이지네이션 스타일 */
+  :global(.sl-footer .pagination-links) {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: var(--page-space-4) !important;
+    margin: var(--page-space-6) 0 !important;
+  }
+
+  :global(.sl-footer .pagination-links a) {
+    background: var(--page-bg) !important;
+    border: 1px solid var(--page-border) !important;
+    border-radius: var(--page-radius) !important;
+    padding: var(--page-space-4) !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--page-space-1) !important;
+  }
+
+  :global(.sl-footer .pagination-links a:hover) {
+    background: var(--page-accent-light) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-footer .pagination-links a) {
+    background: var(--page-bg) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-footer .pagination-links a:hover) {
+    background: var(--page-accent-light) !important;
+    color: var(--page-accent) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-footer .pagination-links .title) {
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-footer .pagination-links .description) {
+    color: var(--page-text-secondary) !important;
+  }
+
+  :global(.sl-footer .pagination-links .title) {
+    font-weight: 600 !important;
+    color: var(--page-text) !important;
+    font-size: 0.875rem !important;
+  }
+
+  :global(.sl-footer .pagination-links .description) {
+    color: var(--page-text-secondary) !important;
+    font-size: 0.8125rem !important;
+  }
+
+  /* 편집 링크 스타일 */
+  :global(.sl-footer .edit-page) {
+    background: var(--page-accent-light) !important;
+    color: var(--page-accent) !important;
+    border: 1px solid var(--page-border) !important;
+    border-radius: var(--page-radius) !important;
+    padding: var(--page-space-2) var(--page-space-4) !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: var(--page-space-1) !important;
+  }
+
+  :global(.sl-footer .edit-page:hover) {
+    background: var(--page-accent) !important;
+    color: var(--page-bg) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-footer .edit-page) {
+    background: var(--page-accent-light) !important;
+    color: var(--page-accent) !important;
+    border-color: var(--page-border) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-footer .edit-page:hover) {
+    background: var(--page-accent) !important;
+    color: var(--page-bg) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-footer .last-updated) {
+    background: var(--page-bg-secondary) !important;
+    color: var(--page-text-muted) !important;
+    border-color: var(--page-border) !important;
+  }
+
+  /* 최종 업데이트 정보 스타일 */
+  :global(.sl-footer .last-updated) {
+    color: var(--page-text-muted) !important;
+    font-size: 0.8125rem !important;
+    margin: var(--page-space-4) 0 !important;
+    padding: var(--page-space-2) !important;
+    background: var(--page-bg-secondary) !important;
+    border-radius: var(--page-radius) !important;
+    border: 1px solid var(--page-border) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-footer .last-updated) {
+    background: var(--page-bg-secondary) !important;
+  }
+
+  /* Footer link-title 다크 테마 스타일 */
+  [data-theme="dark"] :global(.sl-footer .pagination-links a .title) {
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-footer .pagination-links a .description) {
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-footer .pagination-links a:hover .title) {
+    color: var(--page-accent) !important;
+  }
+
+  [data-theme="dark"]
+    :global(.sl-footer .pagination-links a:hover .description) {
+    color: var(--page-text) !important;
+  }
+
+  /* 강제 스타일 적용 */
+  :global(.sl-footer .pagination-links .title) {
+    color: var(--page-text) !important;
+  }
+
+  :global(.sl-footer .pagination-links .description) {
+    color: var(--page-text-secondary) !important;
+  }
+
+  :global(.sl-footer .pagination-links a:hover .title) {
+    color: var(--page-accent) !important;
+  }
+
+  :global(.sl-footer .pagination-links a:hover .description) {
+    color: var(--page-text) !important;
+  }
+
+  /* 다크 테마에서 강제 적용 */
+  [data-theme="dark"] :global(.sl-footer .pagination-links .title) {
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-footer .pagination-links .description) {
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-footer .pagination-links a:hover .title) {
+    color: var(--page-accent) !important;
+  }
+
+  [data-theme="dark"]
+    :global(.sl-footer .pagination-links a:hover .description) {
+    color: var(--page-text) !important;
+  }
+
+  /* 모바일 반응형 */
+  @media (max-width: 768px) {
+    .page-footer-container {
+      padding: var(--page-space-6) var(--page-space-4);
     }
+
+    :global(.sl-footer .pagination-links) {
+      grid-template-columns: 1fr !important;
+      gap: var(--page-space-2) !important;
+    }
+  }
 </style>

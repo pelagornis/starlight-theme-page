@@ -1,0 +1,135 @@
+---
+import type { StarlightRouteData } from "@astrojs/starlight/route-data";
+
+interface Props {
+  sublist: StarlightRouteData["sidebar"];
+  nested?: boolean;
+}
+
+const { sublist, nested } = Astro.props;
+---
+
+{
+  sublist.map((entry) =>
+    entry.type === "link" ? (
+      <a
+        href={entry.href}
+        aria-current={entry.isCurrent && "page"}
+        class:list={["page-sidebar-link", entry.attrs.class]}
+        {...entry.attrs}
+      >
+        {entry.label}
+        {entry.badge && (
+          <span class="page-sidebar-badge">{entry.badge.text}</span>
+        )}
+      </a>
+    ) : (
+      <div class="page-sidebar-group">
+        <h4 class="page-sidebar-group-title">{entry.label}</h4>
+        <div class="page-sidebar-group-links">
+          <Astro.self sublist={entry.entries} nested />
+        </div>
+      </div>
+    )
+  )
+}
+
+<style>
+  .page-sidebar-group {
+    gap: var(--page-space-3);
+    flex-direction: column;
+    display: flex;
+    margin-bottom: var(--page-space-6);
+  }
+
+  .page-sidebar-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .page-sidebar-group-title {
+    font-weight: 700;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    padding: var(--page-space-2) var(--page-space-3);
+    border-radius: var(--page-radius);
+    color: var(--page-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: transparent;
+    margin-bottom: var(--page-space-2);
+  }
+
+  .page-sidebar-group-links {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    gap: var(--page-space-1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-sidebar-link {
+    text-underline-offset: 2px;
+    color: var(--page-text-secondary);
+    font-weight: 500;
+    padding: var(--page-space-3) var(--page-space-4);
+    border-radius: var(--page-radius);
+    align-items: center;
+    width: 100%;
+    min-height: 40px;
+    display: flex;
+    color: inherit;
+    text-decoration: inherit;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    font-size: 0.875rem;
+  }
+
+  .page-sidebar-link[aria-current="page"] {
+    color: var(--page-accent);
+    font-weight: 600;
+    background: var(--page-accent-light);
+    position: relative;
+  }
+
+  .page-sidebar-link[aria-current="page"]::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: transparent;
+    border-radius: 0 var(--page-radius-sm) var(--page-radius-sm) 0;
+  }
+
+  [data-theme="dark"] .page-sidebar-link[aria-current="page"] {
+    color: var(--page-accent);
+    background: var(--page-accent-light);
+  }
+
+  .page-sidebar-link:hover {
+    color: var(--page-text);
+    background: var(--page-accent-light);
+    transform: translateX(2px);
+  }
+
+  [data-theme="dark"] .page-sidebar-link:hover {
+    background: var(--page-accent-light);
+    color: var(--page-text);
+  }
+
+  .page-sidebar-badge {
+    color: var(--page-neutral-white);
+    line-height: 1;
+    font-size: 0.75rem;
+    padding: var(--page-space-1) var(--page-space-2);
+    background: var(--page-neutral-700);
+    border-radius: var(--page-radius-sm);
+    margin-left: auto;
+    font-weight: 600;
+  }
+
+  [data-theme="dark"] .page-sidebar-badge {
+    background: var(--page-neutral-600);
+  }
+</style>

@@ -1,17 +1,26 @@
 {
     "name": "@pelagornis/page",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "license": "MIT",
     "description": "Starlight theme for Pelagornis Docs",
     "type": "module",
-    "exports": {
-      ".": "./index.ts",
-      "./styles": "./styles.css",
-      "./schema": "./schema.ts",
-      "./components": "./components.ts",
-      "./overrides/ThemeSelect.astro": "./overrides/ThemeSelect.astro",
-      "./overrides/Header.astro": "./overrides/Header.astro"
-    },
+      "exports": {
+    ".": "./index.ts",
+    "./styles.css": "./styles.css",
+    "./overrides/Header.astro": "./overrides/Header.astro",
+    "./overrides/PageFrame.astro": "./overrides/PageFrame.astro",
+    "./overrides/Hero.astro": "./overrides/Hero.astro",
+    "./overrides/Sidebar.astro": "./overrides/Sidebar.astro",
+    "./overrides/Search.astro": "./overrides/Search.astro",
+    "./overrides/MarkdownContent.astro": "./overrides/MarkdownContent.astro",
+    "./overrides/TwoColumnContent.astro": "./overrides/TwoColumnContent.astro",
+    "./overrides/Footer.astro": "./overrides/Footer.astro",
+    "./overrides/ThemeSelect.astro": "./overrides/ThemeSelect.astro",
+    "./overrides/SocialIcons.astro": "./overrides/SocialIcons.astro",
+    "./overrides/SiteTitle.astro": "./overrides/SiteTitle.astro",
+    "./overrides/MobileMenuToggle.astro": "./overrides/MobileMenuToggle.astro",
+    "./overrides/SidebarSublist.astro": "./overrides/SidebarSublist.astro"
+  },
     "keywords": [
         "pelagornis",
         "styles",

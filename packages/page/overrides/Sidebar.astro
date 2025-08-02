@@ -1,0 +1,59 @@
+---
+import SidebarSublist from "./SidebarSublist.astro";
+
+const { sidebar } = Astro.locals.starlightRoute;
+---
+
+<div class="page-sidebar">
+  <div class="page-sidebar-container">
+    <SidebarSublist sublist={sidebar} />
+  </div>
+</div>
+
+<style>
+  .page-sidebar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: var(--page-space-8) var(--page-space-6);
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    background: var(--page-bg);
+    scroll-behavior: smooth;
+    -webkit-scrollbar-width: none;
+    -moz-scrollbar-width: none;
+  }
+
+  .page-sidebar::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+  }
+
+  .page-sidebar::-webkit-scrollbar-track {
+    display: none !important;
+    background: transparent !important;
+  }
+
+  .page-sidebar::-webkit-scrollbar-thumb {
+    display: none !important;
+    background: transparent !important;
+  }
+
+  .page-sidebar::-webkit-scrollbar-corner {
+    display: none !important;
+    background: transparent !important;
+  }
+
+  @media (min-width: 1024px) {
+    .page-sidebar {
+      padding: var(--page-space-10) var(--page-space-8);
+    }
+  }
+
+  .page-sidebar-container {
+    gap: var(--page-space-8);
+    flex-direction: column;
+    display: flex;
+  }
+</style>

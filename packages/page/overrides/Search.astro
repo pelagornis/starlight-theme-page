@@ -1,30 +1,144 @@
 ---
-import Default from '@astrojs/starlight/components/Search.astro'
+import Default from "@astrojs/starlight/components/Search.astro";
 ---
 
-<Default/>
+<Default />
 
 <style is:global>
+  /* page 스타일 검색 다이얼로그 */
   site-search {
     & dialog {
-      background-color: var(--sl-color-bg);
+      background-color: var(--page-bg);
+      border: 1px solid var(--page-border);
+      border-radius: var(--page-radius-lg);
+      box-shadow: var(--page-shadow-xl);
+      backdrop-filter: blur(20px);
+      color: var(--page-text);
+    }
+
+    & input {
+      background-color: var(--page-bg);
+      border: 1px solid var(--page-border);
+      border-radius: var(--page-radius);
+      color: var(--page-text);
+      transition: all 0.2s ease;
+      font-family: var(--page-font-family);
+      padding: 12px 16px;
+      font-size: 16px;
     }
 
     & input:focus-visible {
-      outline-style: solid;
-      outline-width: 1px;
-      outline-color: var(--sl-color-accent);
+      outline: none;
+      border-color: var(--page-accent);
+      box-shadow: 0 0 0 2px var(--page-accent-light);
+    }
+
+    & input::placeholder {
+      color: var(--page-text-muted);
+    }
+
+    /* page 스타일 검색 결과 */
+    & mark {
+      background: var(--page-accent-light);
+      color: var(--page-accent);
+      border-radius: 3px;
+      padding: 0 2px;
+    }
+
+    /* 검색 결과 아이템 */
+    & .sl-flex {
+      color: var(--page-text);
+    }
+
+    & h3 {
+      color: var(--page-text);
+    }
+
+    & p {
+      color: var(--page-text-secondary);
+    }
+
+    /* 검색 결과 링크 */
+    & a {
+      color: var(--page-text);
+      border-radius: var(--page-radius);
+      transition: all 0.2s ease;
+    }
+
+    & a:hover {
+      background: var(--page-accent-light);
     }
   }
 
+  /* page 스타일 검색 버튼 - 다른 버튼들과 동일 */
+  :global(.sl-search-button) {
+    background: var(--page-accent-light) !important;
+    border: none !important;
+    border-radius: var(--page-radius) !important;
+    color: var(--page-text-secondary) !important;
+    transition: all 0.2s ease !important;
+    font-family: var(--page-font-family) !important;
+  }
+
+  :global(.sl-search-button:hover) {
+    background: var(--page-neutral-200) !important;
+    color: var(--page-text) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-search-button:hover) {
+    background: var(--page-neutral-800) !important;
+    color: var(--page-text-dark) !important;
+  }
+
+  /* 검색 버튼 포커스 효과 - 다른 버튼들과 동일 */
+  :global(.sl-search-button:focus-visible) {
+    outline: 2px solid var(--page-accent) !important;
+    outline-offset: 2px !important;
+  }
+
+  /* 검색 아이콘 스타일 */
+  :global(.sl-search-button svg) {
+    color: currentColor !important;
+  }
+
+  /* 검색 키보드 힌트 스타일 */
+  :global(.sl-search-button kbd) {
+    background: var(--page-accent-light) !important;
+    color: var(--page-accent) !important;
+    border: 1px solid var(--page-border) !important;
+    border-radius: 4px !important;
+    font-family: inherit !important;
+  }
+
+  [data-theme="dark"] :global(.sl-search-button kbd) {
+    background: var(--page-accent-light) !important;
+    color: var(--page-accent) !important;
+  }
+
+  /* 검색 다이얼로그 헤더 */
+  :global(site-search dialog header) {
+    border-bottom: 1px solid var(--page-border) !important;
+    padding: var(--page-space-6) !important;
+  }
+
+  /* 검색 결과 없음 메시지 */
+  :global(site-search .sl-search-empty) {
+    color: var(--page-text-secondary) !important;
+    text-align: center !important;
+    padding: var(--page-space-8) !important;
+  }
+
   ::backdrop {
-    --sl-color-backdrop-overlay: hsl(0 0 0% / 0.9);
+    --sl-color-backdrop-overlay: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
   }
 
-  [data-theme='light'] ::backdrop {
-    --sl-color-backdrop-overlay: hsl(0 0 100% / 0.9);
+  [data-theme="light"] ::backdrop {
+    --sl-color-backdrop-overlay: rgba(255, 255, 255, 0.8);
   }
 
+  /* page 스타일 검색 애니메이션 */
   @media (prefers-reduced-motion: no-preference) {
     site-search {
       & dialog,
@@ -38,14 +152,14 @@ import Default from '@astrojs/starlight/components/Search.astro'
       }
 
       & dialog {
-        animation-name: nova-search-dialog-zoom-out;
+        animation-name: page-search-dialog-zoom-out;
         animation-duration: 150ms;
         transform: translateZ(0);
       }
 
       & dialog[open] {
         animation-duration: 50ms;
-        animation-name: nova-search-dialog-zoom-in;
+        animation-name: page-search-dialog-zoom-in;
       }
 
       & dialog::backdrop {
@@ -53,17 +167,18 @@ import Default from '@astrojs/starlight/components/Search.astro'
         backdrop-filter: none;
 
         animation-duration: 150ms;
-        animation-name: nova-search-backdrop-fade-out;
+        animation-name: page-search-backdrop-fade-out;
       }
 
       & dialog[open]::backdrop {
         animation-duration: 50ms;
-        animation-name: nova-search-backdrop-fade-in;
+        animation-name: page-search-backdrop-fade-in;
       }
     }
   }
 
-  @keyframes nova-search-backdrop-fade-in {
+  /* page 스타일 검색 키프레임 애니메이션 */
+  @keyframes page-search-backdrop-fade-in {
     from {
       background-color: transparent;
     }
@@ -72,7 +187,7 @@ import Default from '@astrojs/starlight/components/Search.astro'
     }
   }
 
-  @keyframes nova-search-backdrop-fade-out {
+  @keyframes page-search-backdrop-fade-out {
     from {
       background-color: var(--sl-color-backdrop-overlay);
     }
@@ -82,22 +197,22 @@ import Default from '@astrojs/starlight/components/Search.astro'
   }
 
   site-search {
-    --nova-search-dialog-zoom-scale: 1;
-    --nova-search-dialog-zoom-translate-y: 0;
+    --page-search-dialog-zoom-scale: 1;
+    --page-search-dialog-zoom-translate-y: 0;
   }
 
   @media (min-width: 72rem) {
     site-search {
-      --nova-search-dialog-zoom-scale: 0.95;
-      --nova-search-dialog-zoom-translate-y: -1rem;
+      --page-search-dialog-zoom-scale: 0.95;
+      --page-search-dialog-zoom-translate-y: -1rem;
     }
   }
 
-  @keyframes nova-search-dialog-zoom-in {
+  @keyframes page-search-dialog-zoom-in {
     from {
       opacity: 0;
-      transform: scale(var(--nova-search-dialog-zoom-scale))
-        translateY(var(--nova-search-dialog-zoom-translate-y));
+      transform: scale(var(--page-search-dialog-zoom-scale))
+        translateY(var(--page-search-dialog-zoom-translate-y));
     }
     to {
       opacity: 1;
@@ -105,15 +220,15 @@ import Default from '@astrojs/starlight/components/Search.astro'
     }
   }
 
-  @keyframes nova-search-dialog-zoom-out {
+  @keyframes page-search-dialog-zoom-out {
     from {
       opacity: 1;
       transform: scale(1) translateY(0);
     }
     to {
       opacity: 0;
-      transform: scale(var(--nova-search-dialog-zoom-scale))
-        translateY(var(--nova-search-dialog-zoom-translate-y));
+      transform: scale(var(--page-search-dialog-zoom-scale))
+        translateY(var(--page-search-dialog-zoom-translate-y));
     }
   }
 </style>
