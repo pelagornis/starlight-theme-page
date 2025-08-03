@@ -12,55 +12,25 @@ const { hasSidebar } = Astro.locals.starlightRoute;
     <slot name="header" />
   </header>
 
-  <!-- 사이드바 표시 - 모바일에서는 숨김 -->
-  {
-    hasSidebar && (
-      <nav class="sidebar print:hidden" aria-label="Main">
-        <MobileMenuToggle />
-        <slot name="sidebar" />
-      </nav>
-    )
-  }
-
   <div class="main-frame">
     <slot />
   </div>
 </div>
 
 <style>
-  /* 데스크톱에서 사이드바 표시 */
-  @media (min-width: 769px) {
-    .sidebar {
-      display: block !important;
-      width: 280px !important;
-      height: auto !important;
-      overflow: visible !important;
-    }
-
-    .main-frame {
-      width: calc(100% - 280px) !important;
-      margin-left: 280px !important;
-    }
-  }
-
-  /* 모바일에서 사이드바 숨김 */
-  @media (max-width: 768px) {
-    .sidebar {
-      display: none !important;
-    }
-
-    .main-frame {
-      width: 100% !important;
-      margin-left: 0 !important;
-      padding-left: 0 !important;
-    }
-  }
-
   /* 페이지 레이아웃 조정 */
   .page {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+  }
+
+  /* 메인 프레임 - 전체 너비 사용 */
+  .main-frame {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    flex: 1;
   }
 
   /* 헤더 스타일 유지 */

@@ -1,6 +1,7 @@
 ---
 const { toc } = Astro.locals.starlightRoute;
 import Sidebar from "./Sidebar.astro";
+import MobileMenuToggle from "./MobileMenuToggle.astro";
 ---
 
 {
@@ -8,6 +9,7 @@ import Sidebar from "./Sidebar.astro";
     <div class="page-layout-wrapper">
       <main class="page-main-container">
         <aside class="page-sidebar-nav">
+          <MobileMenuToggle />
           <Sidebar />
         </aside>
         <div class="page-content-wrapper">
@@ -20,31 +22,63 @@ import Sidebar from "./Sidebar.astro";
 
 {
   toc && (
-    <div class="page-layout-wrapper">
-      <main class="page-main-container">
-        <aside class="page-sidebar-nav">
-          <Sidebar />
-        </aside>
+    <main class="page-main-container">
+      <aside class="page-sidebar-nav">
+        <MobileMenuToggle />
+        <Sidebar />
+      </aside>
 
-        <div class="page-content-wrapper">
-          <slot />
+      <div class="page-content-wrapper">
+        <slot />
+      </div>
+
+      <aside class="page-toc-sidebar">
+        <div class="page-toc-sticky">
+          <slot name="right-sidebar" />
         </div>
-
-        <aside class="page-toc-sidebar">
-          <div class="page-toc-sticky">
-            <slot name="right-sidebar" />
-          </div>
-        </aside>
-      </main>
-    </div>
+      </aside>
+    </main>
   )
 }
 
 <style>
+  /* CSS 변수 정의 */
+  :root {
+    --page-sidebar-width: 280px;
+    --page-toc-width: 320px;
+    --page-content-gap: var(--page-space-10);
+    --page-toc-right-margin: 40px;
+    --page-toc-top-position: 88px;
+    --page-toc-height: calc(100vh - 104px);
+  }
+
+  /* 화면 크기에 따른 동적 조절 */
+  @media (min-width: 1600px) and (max-width: 1999px) {
+    :root {
+      --page-toc-width: 300px;
+      --page-content-gap: var(--page-space-8);
+    }
+  }
+
+  @media (min-width: 2000px) and (max-width: 2399px) {
+    :root {
+      --page-toc-width: 320px;
+      --page-content-gap: var(--page-space-10);
+    }
+  }
+
+  @media (min-width: 2400px) {
+    :root {
+      --page-toc-width: 360px;
+      --page-content-gap: var(--page-space-12);
+    }
+  }
+
   /* 전체 레이아웃 래퍼 */
   .page-layout-wrapper {
-    min-height: calc(100vh - var(--page-header-height));
+    min-height: 100vh;
     background: var(--page-bg);
+    margin-top: var(--page-header-height);
   }
 
   /* 메인 컨테이너 */
@@ -56,7 +90,7 @@ import Sidebar from "./Sidebar.astro";
 
   /* 왼쪽 사이드바 (메인 네비게이션) */
   .page-sidebar-nav {
-    width: 280px;
+    width: var(--page-sidebar-width, 280px);
     flex-shrink: 0;
     background: var(--page-bg);
     overflow-y: auto;
@@ -73,11 +107,13 @@ import Sidebar from "./Sidebar.astro";
       z-index: 10;
       transform: translateX(0);
       padding: var(--page-space-8);
+      width: var(--page-sidebar-width);
     }
 
     .page-content-wrapper {
-      margin-left: 280px;
-      width: calc(100% - 280px);
+      margin-left: var(--page-sidebar-width);
+      width: calc(100% - var(--page-sidebar-width));
+      max-width: calc(100% - var(--page-sidebar-width));
     }
   }
 
@@ -91,7 +127,7 @@ import Sidebar from "./Sidebar.astro";
       position: fixed;
       top: var(--page-header-height, 64px);
       left: 0;
-      width: 280px;
+      width: var(--page-sidebar-width);
       height: calc(100vh - var(--page-header-height, 64px));
       background: var(--page-bg);
       border-right: 1px solid var(--page-border);
@@ -112,20 +148,37 @@ import Sidebar from "./Sidebar.astro";
       width: 100%;
       padding-left: 0;
       margin-left: 0;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    /* 모바일 메뉴 토글을 사이드바 상단에 고정 */
+    .page-sidebar-nav :global(.page-mobile-menu-toggle) {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--page-bg);
+      border-bottom: 1px solid var(--page-border);
+      padding: var(--page-space-4);
+      margin: 0;
+      width: 100%;
+      display: flex !important;
     }
   }
 
-  /* 컨텐츠 래퍼 */
+  /* 컨텐츠 래퍼 - 반응형 자동 조절 */
   .page-content-wrapper {
     flex: 1;
     min-height: calc(100vh - var(--page-header-height));
     width: 100%;
+    padding-top: var(--page-space-6);
+    min-width: 0;
   }
 
   .page-single-column {
     max-width: 1200px;
     margin: 0 auto;
-    padding: var(--page-space-10) var(--page-space-8);
+    padding: var(--page-space-6) var(--page-space-8);
     animation: pageFadeIn 0.3s ease-out;
     background: var(--page-bg);
     flex: 1;
@@ -134,7 +187,7 @@ import Sidebar from "./Sidebar.astro";
 
   .page-two-column-layout {
     position: relative;
-    padding: var(--page-space-10) var(--page-space-8);
+    padding: var(--page-space-6) var(--page-space-8);
     animation: pageFadeIn 0.3s ease-out;
     background: var(--page-bg);
     min-height: calc(100vh - var(--page-header-height));
@@ -144,37 +197,45 @@ import Sidebar from "./Sidebar.astro";
     gap: var(--page-space-8);
   }
 
-  @media (min-width: 1600px) {
+  /* 매우 큰 화면에서 최대 너비 제한 */
+  @media (min-width: 2000px) {
     .page-main-container {
-      display: flex;
-      gap: var(--page-space-10);
-      max-width: 1600px;
+      max-width: 1800px;
       margin: 0 auto;
-      padding: var(--page-space-10) var(--page-space-10);
-    }
-
-    .page-content-wrapper {
-      flex: 1;
-      margin-left: 0;
-      width: auto;
-    }
-
-    .page-toc-sidebar {
-      width: 320px;
     }
   }
 
-  /* 중간 화면에서 TOC를 위로 이동 */
-  @media (min-width: 768px) and (max-width: 1599px) {
+  /* 초대형 화면에서 더 넓은 최대 너비 */
+  @media (min-width: 2400px) {
+    .page-main-container {
+      max-width: 2000px;
+      margin: 0 auto;
+    }
+  }
+
+  /* 중간 화면에서 TOC를 위로 이동 - 반응형 */
+  @media (min-width: 768px) and (max-width: 1279px) {
     .page-main-container {
       flex-direction: column;
       gap: var(--page-space-8);
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      padding: var(--page-space-8);
+    }
+
+    .page-content-wrapper {
+      margin-left: var(--page-sidebar-width);
+      width: calc(100% - var(--page-sidebar-width));
+      min-width: 0;
+      order: 2;
     }
 
     .page-toc-sidebar {
-      order: -1;
+      order: 1;
       margin-bottom: var(--page-space-8);
       width: 100%;
+      display: none !important;
     }
 
     .page-toc-sticky {
@@ -186,25 +247,43 @@ import Sidebar from "./Sidebar.astro";
     }
   }
 
+  /* 중간 화면에서 최대 너비 제한 */
+  @media (min-width: 1200px) and (max-width: 1599px) {
+    .page-main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  }
+
   /* 큰 화면에서 TOC를 오른쪽에 표시 */
-  @media (min-width: 1600px) {
+  @media (min-width: 1280px) {
     .page-main-container {
       display: flex;
-      gap: var(--page-space-10);
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: var(--page-space-10) var(--page-space-10);
+      flex-direction: row;
+      gap: var(--page-content-gap);
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      padding: var(--page-space-10);
     }
 
     .page-content-wrapper {
       flex: 1;
-      margin-left: 0;
+      margin-left: var(--page-sidebar-width);
       width: auto;
+      min-width: 0;
+      max-width: none;
+      margin-right: 5rem;
     }
 
     .page-toc-sidebar {
-      width: 320px;
-      display: block;
+      display: block !important;
+      position: fixed;
+      right: var(--page-toc-right-margin);
+      top: var(--page-toc-top-position);
+      width: var(--page-toc-width);
+      height: var(--page-toc-height);
+      z-index: 20;
     }
   }
 
@@ -241,7 +320,7 @@ import Sidebar from "./Sidebar.astro";
   }
 
   .page-toc-sticky {
-    position: sticky;
+    position: fixed;
     top: calc(var(--page-header-height) + var(--page-space-8));
     max-height: calc(100vh - var(--page-header-height) - var(--page-space-10));
     overflow-y: auto;
@@ -389,30 +468,123 @@ import Sidebar from "./Sidebar.astro";
     font-size: 0.8125rem !important;
   }
 
-  /* 모바일에서 TOC 숨기기 */
+  /* Starlight 기본 TOC 복구 및 스타일링 */
+  :global(.sl-toc) {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  :global(.sl-toc-mobile) {
+    display: block !important;
+  }
+
+  /* Starlight 기본 TOC를 header 아래에 fixed로 표시 */
+  :global(.sl-toc:not(.sl-toc-mobile)) {
+    position: fixed !important;
+    top: calc(var(--page-header-height) + var(--page-space-4)) !important;
+    left: var(--page-sidebar-width) !important;
+    right: var(--page-space-4) !important;
+    z-index: 100 !important;
+    max-height: calc(
+      100vh - var(--page-header-height) - var(--page-space-8)
+    ) !important;
+    overflow-y: auto !important;
+  }
+
+  /* Starlight 기본 TOC 제목 스타일 - 원래 디자인 유지 */
+  :global(.sl-toc > summary) {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--page-space-3) var(--page-space-4);
+    background: var(--page-bg);
+    border: 1px solid var(--page-border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--page-text);
+    margin-bottom: var(--page-space-4);
+  }
+
+  /* Starlight 기본 TOC 목록 스타일 - 원래 디자인 유지 */
+  :global(.sl-toc ul) {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  :global(.sl-toc li) {
+    margin: 0 !important;
+  }
+
+  :global(.sl-toc a) {
+    display: block !important;
+    padding: var(--page-space-2) 0 !important;
+    color: var(--page-text-secondary) !important;
+    text-decoration: none !important;
+    font-size: 0.875rem !important;
+    line-height: 1.4 !important;
+    transition: all 0.2s ease !important;
+    border-radius: 6px !important;
+    margin: 2px 0 !important;
+  }
+
+  :global(.sl-toc a:hover) {
+    color: var(--page-text) !important;
+    background: var(--page-accent-light) !important;
+    padding-left: var(--page-space-2) !important;
+  }
+
+  :global(.sl-toc a[aria-current="true"]) {
+    color: var(--page-accent) !important;
+    background: var(--page-accent-light) !important;
+    padding-left: var(--page-space-2) !important;
+    font-weight: 500 !important;
+  }
+
+  /* 모바일에서 TOC 위치 조정 */
   @media (max-width: 767px) {
     .page-toc-sidebar {
       display: none !important;
     }
+
+    :global(.sl-toc:not(.sl-toc-mobile)) {
+      left: var(--page-space-4) !important;
+      right: var(--page-space-4) !important;
+    }
+
+    /* 컨텐츠에 상단 여백 추가 */
+    .page-content-wrapper {
+      padding-top: calc(var(--page-header-height) + 80px);
+    }
   }
 
-  /* 모바일 TOC 스타일 개선 */
+  /* 중간 화면에서 TOC 숨기기 */
   @media (max-width: 1279px) {
-    .page-toc-sticky {
-      position: relative;
-      top: auto;
-      max-height: none;
-      margin: var(--page-space-8) 0;
-      border-radius: 12px;
-      background: var(--page-bg);
-      border: 1px solid var(--page-border);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    .page-toc-sidebar {
+      display: none !important;
     }
 
-    [data-theme="dark"] .page-toc-sticky {
-      background: var(--page-bg);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    /* 중간 화면에서 컨텐츠 여백 추가 */
+    .page-content-wrapper {
+      padding-top: calc(var(--page-header-height) + 80px);
     }
+  }
+
+  /* 다크 테마에서 TOC 스타일 */
+  [data-theme="dark"] :global(.sl-toc) {
+    background: var(--page-bg) !important;
+    border-color: var(--page-border) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-toc > summary) {
+    background: var(--page-bg) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
   }
 
   /* 모바일 반응형 */

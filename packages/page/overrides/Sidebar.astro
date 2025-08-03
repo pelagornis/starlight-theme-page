@@ -14,7 +14,6 @@ const { sidebar } = Astro.locals.starlightRoute;
   .page-sidebar {
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: var(--page-space-8) var(--page-space-6);
     overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
@@ -43,12 +42,6 @@ const { sidebar } = Astro.locals.starlightRoute;
   .page-sidebar::-webkit-scrollbar-corner {
     display: none !important;
     background: transparent !important;
-  }
-
-  @media (min-width: 1024px) {
-    .page-sidebar {
-      padding: var(--page-space-10) var(--page-space-8);
-    }
   }
 
   .page-sidebar-container {

@@ -93,9 +93,11 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
 <script>
   // page 스타일 테마 토글
   function initpageThemeToggle() {
-    const toggleButton = document.getElementById("page-theme-toggle");
-    const sunIcon = document.querySelector(".page-sun-icon");
-    const moonIcon = document.querySelector(".page-moon-icon");
+    const toggleButton = document.getElementById(
+      "page-theme-toggle"
+    ) as HTMLButtonElement;
+    const sunIcon = document.querySelector(".page-sun-icon") as HTMLElement;
+    const moonIcon = document.querySelector(".page-moon-icon") as HTMLElement;
 
     if (!toggleButton || !sunIcon || !moonIcon) return;
 
@@ -140,7 +142,7 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
     }
 
     // 테마 적용
-    function applyTheme(theme) {
+    function applyTheme(theme: string) {
       document.documentElement.setAttribute("data-theme", theme);
       if (typeof localStorage !== "undefined") {
         localStorage.setItem("starlight-theme", theme);
@@ -183,7 +185,7 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
       // 더 정확한 활성 링크 매칭
       if (href === "/" && currentPath === "/") {
         link.classList.add("active");
-      } else if (href !== "/" && currentPath.startsWith(href)) {
+      } else if (href !== "/" && href && currentPath.startsWith(href)) {
         link.classList.add("active");
       }
     });

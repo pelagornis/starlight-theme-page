@@ -383,29 +383,61 @@ body {
   display: none !important;
 }
 
+/* Starlight TOC 요소들은 표시 */
+:global(.sl-toc) {
+  display: block !important;
+}
+
+:global(.sl-toc-mobile) {
+  display: block !important;
+}
+
+:global(nav[aria-labelledby="starlight__on-this-page--mobile"]) {
+  display: block !important;
+}
+
+:global(#starlight__mobile-toc) {
+  display: block !important;
+}
+
+:global(#starlight__on-this-page--mobile) {
+  display: flex !important;
+}
+
 :global(.sl-container) {
   padding: 0 !important;
   max-width: none !important;
+  width: 100% !important;
   background-color: var(--page-bg) !important;
   color: var(--page-text) !important;
+  overflow-x: hidden !important;
 }
 
 :global(.sl-content) {
   padding: 0 !important;
   background-color: var(--page-bg) !important;
   color: var(--page-text) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 :global(.sl-content-panel) {
   padding: 0 !important;
   background-color: var(--page-bg) !important;
   color: var(--page-text) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 :global(.sl-markdown-content) {
   padding: 0 !important;
   background-color: var(--page-bg) !important;
   color: var(--page-text) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 /* ===== 다크 테마 강제 적용 ===== */
@@ -718,50 +750,170 @@ body {
 /* ===== 홈 페이지에서 모바일 메뉴 토글 숨기기 ===== */
 /* 홈 페이지에서도 메뉴 표시 */
 
-/* ===== 모바일 메뉴 토글 숨기기 ===== */
+/* ===== 모바일 메뉴 토글 반응형 처리 ===== */
+@media (max-width: 768px) {
+  .page-mobile-menu-toggle {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
+
 @media (min-width: 769px) {
   .page-mobile-menu-toggle {
     display: none !important;
   }
 }
 
-/* ===== 사이드바 모바일에서만 숨김 ===== */
-@media (max-width: 768px) {
-  :global(.sl-sidebar),
-  :global(.sidebar),
-  :global(.sidebar-pane),
-  :global(.page-sidebar),
-  :global(#starlight__sidebar),
-  :global(.sidebar-content) {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    width: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
-  }
+/* ===== Starlight 기본 사이드바 완전 제거 ===== */
+:global(.sl-sidebar),
+:global(.sidebar),
+:global(.sidebar-pane),
+:global(.page-sidebar),
+:global(#starlight__sidebar),
+:global(.sidebar-content),
+:global(nav[aria-label="Main"]) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  position: fixed !important;
+  left: -100% !important;
+  pointer-events: none !important;
 }
 
-/* ===== 데스크톱에서 사이드바 표시 ===== */
-@media (min-width: 769px) {
-  :global(.sl-sidebar),
-  :global(.sidebar),
-  :global(.sidebar-pane),
-  :global(.page-sidebar),
-  :global(#starlight__sidebar),
-  :global(.sidebar-content) {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    width: auto !important;
-    height: auto !important;
-    overflow: visible !important;
-  }
+/* 모든 화면 크기에서 컨텐츠가 전체 너비 사용 */
+:global(.sl-content),
+:global(.sl-content-panel) {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  padding-left: var(--sl-content-pad-x) !important;
+  padding-right: var(--sl-content-pad-x) !important;
+}
+
+
+
+
+
+/* ===== 검색 버튼 키보드 단축키 스타일 ===== */
+:global(button > kbd) {
+  border-radius: 0.25rem !important;
+  font-size: var(--sl-text-2xs) !important;
+  gap: 0.25em !important;
+  padding-inline: 0.375rem !important;
+  background-color: var(--page-bg-secondary) !important;
+  border: 1px solid var(--page-border) !important;
+  color: var(--page-text-secondary) !important;
+}
+
+[data-theme="dark"] :global(button > kbd) {
+  background-color: var(--page-bg-secondary) !important;
+  border-color: var(--page-border) !important;
+  color: var(--page-text-secondary) !important;
+}
+
+/* 동적 클래스명에 대한 강제 스타일 */
+:global(button:where([class*="astro-"]) > kbd:where([class*="astro-"])) {
+  background-color: var(--page-bg-secondary) !important;
+  border: 1px solid var(--page-border) !important;
+  color: var(--page-text-secondary) !important;
+}
+
+[data-theme="dark"] :global(button:where([class*="astro-"]) > kbd:where([class*="astro-"])) {
+  background-color: var(--page-bg-secondary) !important;
+  border-color: var(--page-border) !important;
+  color: var(--page-text-secondary) !important;
+}
+
+/* 더 강력한 선택자 */
+:global(button kbd) {
+  background-color: var(--page-bg-secondary) !important;
+  border: 1px solid var(--page-border) !important;
+  color: var(--page-text-secondary) !important;
+}
+
+[data-theme="dark"] :global(button kbd) {
+  background-color: var(--page-bg-secondary) !important;
+  border-color: var(--page-border) !important;
+  color: var(--page-text-secondary) !important;
+}
+
+/* 모든 kbd 요소에 대한 최종 강제 스타일 */
+:global(kbd) {
+  background-color: var(--page-bg-secondary) !important;
+  border: 1px solid var(--page-border) !important;
+  color: var(--page-text-secondary) !important;
+}
+
+[data-theme="dark"] :global(kbd) {
+  background-color: var(--page-bg-secondary) !important;
+  border-color: var(--page-border) !important;
+  color: var(--page-text-secondary) !important;
 }
 
 /* ===== 데스크톱에서 모바일 메뉴 토글 숨기기 ===== */
 @media (min-width: 769px) {
   .page-mobile-menu-toggle {
     display: none !important;
+  }
+}
+
+/* ===== 전체 레이아웃 최적화 ===== */
+:global(.sl-container) {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+:global(.sl-content),
+:global(.sl-content-panel),
+:global(.sl-markdown-content) {
+  padding: var(--sl-content-pad-x) !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  :global(.sl-container) {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  :global(.sl-content),
+  :global(.sl-content-panel),
+  :global(.sl-markdown-content) {
+    padding: var(--sl-content-pad-x) !important;
+    margin-left: var(--sl-sidebar-width) !important;
+    width: var(--sl-content-width) !important;
+    max-width: var(--sl-content-width) !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  :global(.sl-container) {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  :global(.sl-content),
+  :global(.sl-content-panel),
+  :global(.sl-markdown-content) {
+    padding: var(--sl-content-pad-x) !important;
+    margin-left: var(--sl-sidebar-width) !important;
+    width: var(--sl-content-width) !important;
+    max-width: var(--sl-content-width) !important;
+    box-sizing: border-box !important;
   }
 }
