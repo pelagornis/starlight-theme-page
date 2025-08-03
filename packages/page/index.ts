@@ -22,6 +22,7 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
             PageFrame: '@pelagornis/page/overrides/PageFrame.astro',
             Sidebar: '@pelagornis/page/overrides/Sidebar.astro',
             TwoColumnContent: '@pelagornis/page/overrides/TwoColumnContent.astro',
+            ContentPanel: '@pelagornis/page/overrides/ContentPanel.astro',
             Search: '@pelagornis/page/overrides/Search.astro',
             ThemeSelect: '@pelagornis/page/overrides/ThemeSelect.astro',
             Footer: '@pelagornis/page/overrides/Footer.astro',

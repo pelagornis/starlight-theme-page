@@ -14,11 +14,13 @@
     "./overrides/Search.astro": "./overrides/Search.astro",
     "./overrides/MarkdownContent.astro": "./overrides/MarkdownContent.astro",
     "./overrides/TwoColumnContent.astro": "./overrides/TwoColumnContent.astro",
+    "./overrides/ContentPanel.astro": "./overrides/ContentPanel.astro",
     "./overrides/Footer.astro": "./overrides/Footer.astro",
     "./overrides/ThemeSelect.astro": "./overrides/ThemeSelect.astro",
     "./overrides/SocialIcons.astro": "./overrides/SocialIcons.astro",
     "./overrides/SiteTitle.astro": "./overrides/SiteTitle.astro",
     "./overrides/MobileMenuToggle.astro": "./overrides/MobileMenuToggle.astro",
+    "./overrides/MobileMenuOverlay.astro": "./overrides/MobileMenuOverlay.astro",
     "./overrides/SidebarSublist.astro": "./overrides/SidebarSublist.astro"
   },
     "keywords": [

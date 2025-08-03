@@ -8,9 +8,7 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
   <div class="page-hero-container">
     <div class="page-hero-content">
       <!-- page 스타일 메인 타이틀 -->
-      <h1 class="page-hero-title">
-        {title}
-      </h1>
+      <h1 class="page-hero-title">Starlight Page</h1>
 
       <!-- page 스타일 서브타이틀 -->
       {tagline && <p class="page-hero-tagline">{tagline}</p>}
@@ -19,25 +17,27 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
       {
         actions && actions.length > 0 && (
           <div class="page-hero-actions">
-            {actions.map((action) => (
-              <a
-                href={action.link}
-                class={`page-hero-btn ${action.variant === "primary" ? "page-hero-btn-primary" : "page-hero-btn-secondary"}`}
-              >
-                {action.text}
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  class="page-hero-btn-icon"
+            {actions.map(
+              (action: { link: string; text: string; variant?: string }) => (
+                <a
+                  href={action.link}
+                  class={`page-hero-btn ${action.variant === "primary" ? "page-hero-btn-primary" : "page-hero-btn-secondary"}`}
                 >
-                  <path d="m9 18 6-6-6-6" />
-                </svg>
-              </a>
-            ))}
+                  {action.text}
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="page-hero-btn-icon"
+                  >
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </a>
+              )
+            )}
           </div>
         )
       }
@@ -66,16 +66,22 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
 
 <style>
   .page-hero {
-    background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+    background: linear-gradient(
+      135deg,
+      var(--page-bg-secondary) 0%,
+      var(--page-bg) 100%
+    );
     padding: 6rem 0 4rem;
     margin-top: calc(-1 * var(--page-header-height));
     padding-top: calc(6rem + var(--page-header-height));
     position: relative;
     overflow: hidden;
+    transition: background 0.3s ease !important;
   }
 
   [data-theme="dark"] .page-hero {
-    background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    transition: background 0.3s ease !important;
   }
 
   .page-hero::before {
@@ -93,6 +99,58 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
     pointer-events: none;
   }
 
+  [data-theme="dark"] .page-hero::before {
+    background: radial-gradient(
+      circle at 30% 20%,
+      rgba(45, 55, 72, 0.1) 0%,
+      transparent 50%
+    );
+  }
+
+  .page-hero::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        circle at 20% 80%,
+        rgba(120, 119, 198, 0.1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 20%,
+        rgba(255, 119, 198, 0.1) 0%,
+        transparent 50%
+      );
+    pointer-events: none;
+    animation: pageHeroFloat 20s ease-in-out infinite;
+  }
+
+  [data-theme="dark"] .page-hero::after {
+    background: radial-gradient(
+        circle at 20% 80%,
+        rgba(120, 119, 198, 0.15) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 20%,
+        rgba(255, 119, 198, 0.15) 0%,
+        transparent 50%
+      );
+  }
+
+  @keyframes pageHeroFloat {
+    0%,
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(1deg);
+    }
+  }
+
   .page-hero-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -108,13 +166,31 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
   }
 
   .page-hero-title {
-    font-size: 3.5rem;
     font-weight: 800;
-    line-height: 1.1;
     color: var(--page-text);
     margin: 0 0 var(--page-space-6) 0;
     letter-spacing: -0.02em;
     font-family: var(--page-font-family);
+    background: linear-gradient(
+      135deg,
+      var(--page-text) 0%,
+      var(--page-accent) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+
+  .page-hero-title::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: var(--page-accent);
+    border-radius: 2px;
   }
 
   .page-hero-tagline {
@@ -123,6 +199,8 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
     color: var(--page-text-secondary);
     margin: 0 0 var(--page-space-8) 0;
     font-weight: 400;
+    max-width: 600px;
+    opacity: 0.9;
   }
 
   .page-hero-actions {
@@ -140,43 +218,96 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
     text-decoration: none;
     font-weight: 600;
     font-size: 1rem;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+
+  .page-hero-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: left 0.5s;
+  }
+
+  .page-hero-btn:hover::before {
+    left: 100%;
   }
 
   .page-hero-btn-primary {
-    background: var(--page-accent);
+    background: linear-gradient(
+      135deg,
+      var(--page-accent) 0%,
+      var(--page-accent-hover) 100%
+    );
     color: var(--page-bg);
     box-shadow: var(--page-shadow-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .page-hero-btn-primary:hover {
-    background: var(--page-accent-hover);
-    transform: translateY(-2px);
+    background: linear-gradient(
+      135deg,
+      var(--page-accent-hover) 0%,
+      var(--page-accent) 100%
+    );
+    transform: translateY(-3px);
     box-shadow: var(--page-shadow-xl);
   }
 
   [data-theme="dark"] .page-hero-btn-primary {
-    background: var(--page-accent);
+    background: linear-gradient(
+      135deg,
+      var(--page-accent) 0%,
+      var(--page-accent-hover) 100%
+    );
     color: var(--page-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   [data-theme="dark"] .page-hero-btn-primary:hover {
-    background: var(--page-neutral-300);
+    background: linear-gradient(
+      135deg,
+      var(--page-accent-hover) 0%,
+      var(--page-accent) 100%
+    );
+    transform: translateY(-3px);
   }
 
   .page-hero-btn-secondary {
-    background: var(--page-bg);
+    background: rgba(255, 255, 255, 0.1);
     color: var(--page-text);
     border: 1px solid var(--page-border);
     box-shadow: var(--page-shadow-sm);
+    backdrop-filter: blur(10px);
   }
 
   .page-hero-btn-secondary:hover {
-    background: var(--page-accent-light);
+    background: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
     box-shadow: var(--page-shadow-md);
+    border-color: var(--page-accent);
+  }
+
+  [data-theme="dark"] .page-hero-btn-secondary {
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--page-text);
+    border: 1px solid var(--page-border);
+  }
+
+  [data-theme="dark"] .page-hero-btn-secondary:hover {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: var(--page-accent);
   }
 
   .page-hero-btn-icon {
@@ -203,17 +334,62 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
     width: 320px;
     overflow: hidden;
     transform: rotate(3deg);
-    transition: transform 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    backdrop-filter: blur(10px);
+  }
+
+  .page-hero-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 100%
+    );
+    pointer-events: none;
   }
 
   .page-hero-card:hover {
     transform: rotate(0deg) scale(1.05);
+    box-shadow: var(--page-shadow-2xl);
   }
 
   .page-hero-card-header {
     padding: var(--page-space-6);
     border-bottom: 1px solid var(--page-border);
     background: var(--page-bg-secondary);
+    position: relative;
+  }
+
+  .page-hero-card-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.05),
+      transparent
+    );
+    animation: pageCardShine 3s ease-in-out infinite;
+  }
+
+  @keyframes pageCardShine {
+    0%,
+    100% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(100%);
+    }
   }
 
   .page-hero-card-dots {
@@ -339,5 +515,21 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
     .page-hero-title {
       font-size: 4rem;
     }
+  }
+
+  [data-theme="dark"] .page-hero-title {
+    color: var(--page-neutral-white);
+    background: linear-gradient(
+      135deg,
+      var(--page-neutral-white) 0%,
+      var(--page-accent) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  [data-theme="dark"] .page-hero-tagline {
+    color: var(--page-neutral-300);
   }
 </style>

@@ -12,9 +12,19 @@ const { hasSidebar } = Astro.locals.starlightRoute;
     <slot name="header" />
   </header>
 
-  <div class="main-frame">
+  <main class="main-frame">
     <slot />
-  </div>
+  </main>
+
+  <footer class="page-footer">
+    <div class="page-footer-content">
+      <div class="page-footer-left">
+        <p class="page-footer-copyright">
+          © {new Date().getFullYear()} Pelagornis Inc. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
 </div>
 
 <style>
@@ -38,5 +48,56 @@ const { hasSidebar } = Astro.locals.starlightRoute;
     position: sticky;
     top: 0;
     z-index: 100;
+  }
+
+  /* Footer 스타일 */
+  .page-footer {
+    border-top: 1px solid var(--page-border);
+    z-index: 100;
+    padding: var(--page-space-6) var(--page-space-8);
+    margin-top: auto;
+  }
+
+  .page-footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .page-footer-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .page-footer-copyright {
+    margin: 0;
+    font-size: var(--page-font-size-sm);
+    color: var(--page-text-secondary);
+    font-weight: var(--page-font-weight-medium);
+  }
+
+  /* 다크 테마에서 Footer 스타일 */
+  [data-theme="dark"] .page-footer {
+    background: var(--page-bg-secondary);
+    border-top-color: var(--page-border);
+  }
+
+  [data-theme="dark"] .page-footer-copyright {
+    color: var(--page-text-secondary);
+  }
+
+  /* 반응형 Footer */
+  @media (max-width: 768px) {
+    .page-footer {
+      padding: var(--page-space-4) var(--page-space-6);
+    }
+
+    .page-footer-content {
+      flex-direction: column;
+      gap: var(--page-space-2);
+      text-align: center;
+    }
   }
 </style>

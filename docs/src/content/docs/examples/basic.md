@@ -3,8 +3,6 @@ title: 기본 예제
 description: Starlight Theme Page의 기본 사용법과 예제
 ---
 
-# 기본 예제
-
 이 페이지는 테마의 모든 기본 요소들을 보여줍니다.
 
 ## 🎨 타이포그래피

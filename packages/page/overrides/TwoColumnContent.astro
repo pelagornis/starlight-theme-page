@@ -2,6 +2,7 @@
 const { toc } = Astro.locals.starlightRoute;
 import Sidebar from "./Sidebar.astro";
 import MobileMenuToggle from "./MobileMenuToggle.astro";
+import MobileMenuOverlay from "./MobileMenuOverlay.astro";
 ---
 
 {
@@ -16,6 +17,7 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
           <slot />
         </div>
       </main>
+      <MobileMenuOverlay />
     </div>
   )
 }
@@ -37,6 +39,7 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
           <slot name="right-sidebar" />
         </div>
       </aside>
+      <MobileMenuOverlay />
     </main>
   )
 }
@@ -78,7 +81,6 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
   .page-layout-wrapper {
     min-height: 100vh;
     background: var(--page-bg);
-    margin-top: var(--page-header-height);
   }
 
   /* 메인 컨테이너 */
@@ -146,7 +148,7 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
 
     .page-content-wrapper {
       width: 100%;
-      padding-left: 0;
+      padding: 0 4rem;
       margin-left: 0;
       min-width: 0;
       max-width: 100%;
@@ -563,9 +565,14 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
   }
 
   /* 중간 화면에서 TOC 숨기기 */
-  @media (max-width: 1279px) {
+  @media (min-width: 768px) and (max-width: 1279px) {
     .page-toc-sidebar {
       display: none !important;
+    }
+
+    :global(.sl-toc:not(.sl-toc-mobile)) {
+      left: var(--page-sidebar-width) !important;
+      right: var(--page-space-4) !important;
     }
 
     /* 중간 화면에서 컨텐츠 여백 추가 */

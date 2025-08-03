@@ -3,8 +3,6 @@ title: Header 컴포넌트
 description: 현대적인 헤더 컴포넌트의 특징과 사용법
 ---
 
-# Header 컴포넌트
-
 현대적인 헤더는 sticky 네비게이션과 글래스 효과를 특징으로 합니다.
 
 ## 주요 기능

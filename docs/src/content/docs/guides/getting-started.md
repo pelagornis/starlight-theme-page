@@ -3,8 +3,6 @@ title: 시작하기
 description: Starlight Theme Page를 설치하고 사용하는 방법을 배워보세요.
 ---
 
-# 시작하기
-
 Starlight Theme Page는 [starlight-theme-black](https://github.com/adrian-ub/starlight-theme-black)에서 영감을 받아 만든 현대적인 Starlight 테마입니다.
 
 ## 설치
