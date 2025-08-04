@@ -292,17 +292,17 @@ const { tabs, defaultTab = tabs[0]?.id } = Astro.props;
         tabButtons.forEach((btn) => btn.classList.remove("active"));
         // 모든 탭 패널 숨기기
         tabPanels.forEach((panel) => {
-          panel.style.display = "none";
-          panel.style.opacity = "0";
-          panel.style.transform = "translateY(15px)";
+          (panel as HTMLElement).style.display = "none";
+          (panel as HTMLElement).style.opacity = "0";
+          (panel as HTMLElement).style.transform = "translateY(15px)";
         });
 
         // 선택된 탭 활성화
         button.classList.add("active");
         if (tabPanels[index]) {
-          tabPanels[index].style.display = "block";
-          tabPanels[index].style.opacity = "1";
-          tabPanels[index].style.transform = "translateY(0)";
+          (tabPanels[index] as HTMLElement).style.display = "block";
+          (tabPanels[index] as HTMLElement).style.opacity = "1";
+          (tabPanels[index] as HTMLElement).style.transform = "translateY(0)";
         }
       });
     });
