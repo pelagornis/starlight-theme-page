@@ -1,15 +1,40 @@
 ---
 title: 고급 예제
 description: 고급 기능과 커스터마이제이션 예제
+sidebar:
+  order: 2
+  group: examples
 ---
+
+import { Card, Tabs, TabItem, Steps } from "@astrojs/starlight/components";
 
 이 페이지에서는 테마의 고급 기능들과 커스터마이제이션 방법을 소개합니다.
 
 ## 🎨 고급 커스터마이제이션
 
+### 🎨 CSS 변수 오버라이드
+
+테마의 모든 색상과 스타일을 CSS 변수로 커스터마이즈
+
+### ⚡ 고급 애니메이션
+
+커스텀 애니메이션과 성능 최적화된 전환 효과
+
+### 🔧 JavaScript 확장
+
+테마 상태 감지와 스크롤 기반 애니메이션
+
+### 📱 반응형 고급 기능
+
+브레이크포인트 감지와 동적 레이아웃 조정
+
 ### CSS 변수 오버라이드
 
 테마의 모든 색상과 스타일을 CSS 변수로 커스터마이즈할 수 있습니다:
+
+<Tabs syncKey="css-override">
+
+<TabItem label="기본 색상">
 
 ```css
 :root {
@@ -32,7 +57,9 @@ description: 고급 기능과 커스터마이제이션 예제
 }
 ```
 
-### 다크 모드 전용 스타일
+</TabItem>
+
+<TabItem label="다크 모드">
 
 ```css
 [data-theme="dark"] {
@@ -48,11 +75,19 @@ description: 고급 기능과 커스터마이제이션 예제
 }
 ```
 
+</TabItem>
+
+</Tabs>
+
 ## ⚡ 고급 애니메이션
 
 ### 커스텀 애니메이션 추가
 
 테마에 자신만의 애니메이션을 추가할 수 있습니다:
+
+<Tabs syncKey="animations">
+
+<TabItem label="Pulse 애니메이션">
 
 ```css
 /* Pulse 애니메이션 */
@@ -71,7 +106,13 @@ description: 고급 기능과 커스터마이제이션 예제
 .pulse-element {
   animation: pulse 2s ease-in-out infinite;
 }
+```
 
+</TabItem>
+
+<TabItem label="Glow 효과">
+
+```css
 /* Glow 효과 */
 @keyframes glow {
   from {
@@ -86,6 +127,10 @@ description: 고급 기능과 커스터마이제이션 예제
   animation: glow 1s ease-in-out infinite alternate;
 }
 ```
+
+</TabItem>
+
+</Tabs>
 
 ## 🔧 고급 JavaScript 기능
 
@@ -186,6 +231,10 @@ function setupResponsiveLogic() {
 
 ### 헤더 확장
 
+<Tabs syncKey="header-customization">
+
+<TabItem label="Astro 컴포넌트">
+
 ```astro
 ---
 // custom-header.astro
@@ -195,7 +244,7 @@ import BaseHeader from '@pelagornis/page/overrides/Header.astro';
 <div class="enhanced-header">
   <BaseHeader />
 
-  <!-- 추가 기능들 -->
+  {/* 추가 기능들 */}
   <div class="header-extras">
     <button class="notification-bell">🔔</button>
     <div class="user-avatar">👤</div>
@@ -234,6 +283,45 @@ import BaseHeader from '@pelagornis/page/overrides/Header.astro';
   }
 </style>
 ```
+
+</TabItem>
+
+<TabItem label="CSS 스타일">
+
+```css
+/* 고급 헤더 스타일 */
+.enhanced-header {
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-extras {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.notification-bell,
+.user-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.notification-bell:hover,
+.user-avatar:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+```
+
+</TabItem>
+
+</Tabs>
 
 ## 🔍 고급 검색 기능
 
@@ -283,6 +371,10 @@ import BaseHeader from '@pelagornis/page/overrides/Header.astro';
 
 ### 애니메이션 성능 개선
 
+<Tabs syncKey="performance">
+
+<TabItem label="GPU 가속">
+
 ```css
 /* GPU 가속을 위한 will-change 사용 */
 .optimized-animation {
@@ -303,7 +395,9 @@ import BaseHeader from '@pelagornis/page/overrides/Header.astro';
 }
 ```
 
-### 이미지 최적화
+</TabItem>
+
+<TabItem label="이미지 최적화">
 
 ```css
 /* 현대적인 이미지 처리 */
@@ -327,6 +421,10 @@ import BaseHeader from '@pelagornis/page/overrides/Header.astro';
   content: url("image.jpg");
 }
 ```
+
+</TabItem>
+
+</Tabs>
 
 ## 🎯 사용자 경험 개선
 
@@ -364,6 +462,22 @@ class LoadingIndicator {
 
 new LoadingIndicator();
 ```
+
+## 🚀 구현 가이드
+
+<Steps>
+
+1. **CSS 변수 설정**: 프로젝트의 색상 팔레트 정의
+
+2. **커스텀 애니메이션 추가**: 성능을 고려한 애니메이션 구현
+
+3. **JavaScript 확장**: 테마 상태 감지 및 동적 기능 추가
+
+4. **성능 최적화**: GPU 가속 및 이미지 최적화 적용
+
+5. **사용자 경험 개선**: 로딩 상태 및 반응형 기능 구현
+
+</Steps>
 
 ---
 

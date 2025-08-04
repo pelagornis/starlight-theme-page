@@ -21,7 +21,14 @@
     "./overrides/SiteTitle.astro": "./overrides/SiteTitle.astro",
     "./overrides/MobileMenuToggle.astro": "./overrides/MobileMenuToggle.astro",
     "./overrides/MobileMenuOverlay.astro": "./overrides/MobileMenuOverlay.astro",
-    "./overrides/SidebarSublist.astro": "./overrides/SidebarSublist.astro"
+    "./overrides/SidebarSublist.astro": "./overrides/SidebarSublist.astro",
+    "./components/PackageManagerTabs.astro": "./components/PackageManagerTabs.astro",
+    "./components/Alert.astro": "./components/Alert.astro",
+    "./components/Badge.astro": "./components/Badge.astro",
+    "./components/Button.astro": "./components/Button.astro",
+    "./components/Card.astro": "./components/Card.astro",
+    "./components/CodeCopy.astro": "./components/CodeCopy.astro",
+    "./components/Tabs.astro": "./components/Tabs.astro"
   },
     "keywords": [
         "pelagornis",

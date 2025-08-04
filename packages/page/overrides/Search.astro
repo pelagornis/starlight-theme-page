@@ -4,6 +4,30 @@ import Default from "@astrojs/starlight/components/Search.astro";
 
 <Default />
 
+<script>
+  // kbd 요소의 배경색을 강제로 제거
+  function removeKbdBackground() {
+    const kbdElements = document.querySelectorAll("kbd");
+    kbdElements.forEach((kbd) => {
+      kbd.style.backgroundColor = "transparent";
+      kbd.style.background = "transparent";
+    });
+  }
+
+  // DOM이 로드된 후 실행
+  document.addEventListener("DOMContentLoaded", removeKbdBackground);
+
+  // 테마 변경 시에도 실행
+  const observer = new MutationObserver(() => {
+    removeKbdBackground();
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+</script>
+
 <style is:global>
   /* page 스타일 검색 다이얼로그 */
   site-search {
@@ -95,60 +119,6 @@ import Default from "@astrojs/starlight/components/Search.astro";
   :global(.sl-search-button:focus-visible) {
     outline: 2px solid var(--page-accent) !important;
     outline-offset: 2px !important;
-  }
-
-  /* 검색 아이콘 스타일 */
-  :global(.sl-search-button svg) {
-    color: currentColor !important;
-  }
-
-  /* 검색 키보드 힌트 스타일 */
-  :global(.sl-search-button kbd) {
-    background: transparent !important;
-    color: var(--page-text-secondary) !important;
-    border: 1px solid var(--page-border) !important;
-    border-radius: 4px !important;
-    font-family: inherit !important;
-  }
-
-  [data-theme="dark"] :global(.sl-search-button kbd) {
-    background: transparent !important;
-    color: var(--page-text-secondary) !important;
-  }
-
-  /* 동적 클래스명에 대한 강제 스타일 */
-  :global(button kbd) {
-    background: transparent !important;
-    color: var(--page-text-secondary) !important;
-    border: 1px solid var(--page-border) !important;
-    border-radius: 4px !important;
-    font-family: inherit !important;
-  }
-
-  [data-theme="dark"] :global(button kbd) {
-    background: transparent !important;
-    color: var(--page-text-secondary) !important;
-  }
-
-  /* 모든 kbd 요소에 대한 강제 스타일 */
-  :global(kbd) {
-    background: transparent !important;
-    color: var(--page-text-secondary) !important;
-    border: 1px solid var(--page-border) !important;
-    border-radius: 4px !important;
-  }
-
-  /* 검색 다이얼로그 헤더 */
-  :global(site-search dialog header) {
-    border-bottom: 1px solid var(--page-border) !important;
-    padding: var(--page-space) !important;
-  }
-
-  /* 검색 결과 없음 메시지 */
-  :global(site-search .sl-search-empty) {
-    color: var(--page-text-pagendary) !important;
-    text-align: center !important;
-    padding: var(--page-space) !important;
   }
 
   ::backdrop {

@@ -8,7 +8,6 @@ import CodeCopy from "../components/CodeCopy.astro";
     <slot />
   </Default>
 </div>
-
 <style is:global>
   .page-content {
     animation: pageFadeIn 0.3s ease-out;
@@ -30,7 +29,6 @@ import CodeCopy from "../components/CodeCopy.astro";
   .page-content .sl-markdown-content h6 {
     font-weight: 700;
     line-height: 1.3;
-    margin-top: 2rem;
     margin-bottom: 1rem;
     color: var(--page-text);
     scroll-margin-top: 5rem;
@@ -39,7 +37,6 @@ import CodeCopy from "../components/CodeCopy.astro";
 
   .page-content .sl-markdown-content h1 {
     font-size: 2.25rem;
-    margin-top: 0;
     color: var(--page-accent);
     font-weight: 800;
   }
@@ -105,31 +102,12 @@ import CodeCopy from "../components/CodeCopy.astro";
     color: var(--page-accent);
     text-decoration: none;
     font-weight: 500;
-    position: relative;
-    transition: all 0.2s ease;
-    border-radius: 2px;
-  }
-
-  .page-content .sl-markdown-content a::after {
-    content: "";
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: var(--page-accent);
-    transition: width 0.2s ease;
+    transition: color 0.2s ease;
   }
 
   .page-content .sl-markdown-content a:hover {
-    color: var(--page-accent);
-    background: var(--page-accent-light);
-    padding: 0 2px;
-    margin: 0 -2px;
-  }
-
-  .page-content .sl-markdown-content a:hover::after {
-    width: 100%;
+    color: var(--page-accent-hover);
+    text-decoration: underline;
   }
 
   /* page 스타일 인용구 */
@@ -151,7 +129,6 @@ import CodeCopy from "../components/CodeCopy.astro";
 
   /* page 스타일 코드 블록 */
   .page-content .sl-markdown-content pre {
-    margin: 2rem 0;
     padding: 1.5rem;
     border-radius: var(--page-radius-lg);
     background: var(--page-bg-secondary);
@@ -183,6 +160,7 @@ import CodeCopy from "../components/CodeCopy.astro";
 
   /* page 스타일 테이블 */
   .page-content .sl-markdown-content table {
+    display: inline-table;
     width: 100%;
     border-collapse: collapse;
     margin: 2rem 0;
@@ -247,7 +225,6 @@ import CodeCopy from "../components/CodeCopy.astro";
   .page-content .sl-markdown-content dt {
     font-weight: 600;
     color: var(--page-text);
-    margin-top: 1rem;
   }
 
   /* page 스타일 Starlight Aside 컴포넌트 */
@@ -384,6 +361,13 @@ import CodeCopy from "../components/CodeCopy.astro";
     pre::-webkit-scrollbar-thumb:hover {
     background: var(--page-neutral-500);
   }
+
+  /* Starlight 기본 스타일 오버라이드 - margin-top 제거 */
+  /* .sl-markdown-content
+    :not(a, strong, em, del, span, input, code, br)
+    + :not(a, strong, em, del, span, input, code, br, :where(.not-content *)) {
+    margin-top: 0;
+  } */
 </style>
 
 <CodeCopy />

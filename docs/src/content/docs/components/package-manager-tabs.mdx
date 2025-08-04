@@ -1,0 +1,122 @@
+---
+title: PackageManagerTabs
+description: 패키지 설치 명령어를 탭으로 표시하는 컴포넌트
+sidebar:
+  order: 8
+  group: components
+---
+
+import PackageManagerTabs from "@pelagornis/page/components/PackageManagerTabs.astro";
+
+PackageManagerTabs 컴포넌트는 npm, pnpm, yarn 등 다양한 패키지 매니저의 설치 명령어를 탭 형태로 표시합니다. 현대적인 글래스 효과와 부드러운 애니메이션을 제공합니다.
+
+## 기본 사용법
+
+<PackageManagerTabs />
+
+## 다른 패키지 사용
+
+<PackageManagerTabs packageName="my-awesome-package" />
+
+## Props
+
+| Prop          | Type     | Default              | Description |
+| ------------- | -------- | -------------------- | ----------- |
+| `packageName` | `string` | `"@pelagornis/page"` | 패키지 이름 |
+| `npmCommand`  | `string` | 자동 생성            | npm 명령어  |
+| `pnpmCommand` | `string` | 자동 생성            | pnpm 명령어 |
+| `yarnCommand` | `string` | 자동 생성            | yarn 명령어 |
+
+## 사용 예시
+
+### 기본 사용
+
+```mdx
+<PackageManagerTabs />
+```
+
+### 다른 패키지
+
+```mdx
+<PackageManagerTabs packageName="my-package" />
+```
+
+### 커스텀 명령어
+
+```mdx
+<PackageManagerTabs
+  packageName="my-package"
+  npmCommand="npm install my-package@latest"
+  pnpmCommand="pnpm add my-package@latest"
+  yarnCommand="yarn add my-package@latest"
+/>
+```
+
+## 특징
+
+### ✨ 현대적인 디자인
+
+- **글래스 효과**: `backdrop-filter: blur(20px)` 적용
+- **그라데이션 배경**: 아름다운 그라데이션 효과
+- **부드러운 그림자**: 다층 그림자로 깊이감 표현
+- **호버 애니메이션**: `translateY(-4px) scale(1.05)` 변환
+
+### 🎭 탭 인터랙션
+
+- **부드러운 전환**: 탭 클릭 시 자연스러운 페이드인 효과
+- **아이콘 애니메이션**: 호버 시 아이콘 스케일 효과
+- **활성 탭 강조**: 선택된 탭의 시각적 강조
+- **패키지별 색상**: 각 패키지 매니저별 고유 색상
+
+### 📦 패키지 매니저별 특징
+
+- **npm**: 빨간색 아이콘, 📦 이모지
+- **pnpm**: 주황색 아이콘, 🚀 이모지
+- **yarn**: 파란색 아이콘, 🧶 이모지
+
+### 🌙 다크 모드 지원
+
+- 자동 색상 조정
+- 일관된 사용자 경험
+- 완벽한 테마 호환성
+
+### 📱 반응형 디자인
+
+- 모바일에서 최적화된 크기
+- 적응형 패딩과 폰트 크기
+- 터치 친화적 인터페이스
+
+### 💫 애니메이션 효과
+
+- **탭 전환**: 부드러운 페이드인/아웃 효과
+- **호버 효과**: 마우스 오버 시 자연스러운 변환
+- **아이콘 바운스**: 호버 시 아이콘 스케일 효과
+- **명령어 영역**: 호버 시 전체 영역 애니메이션
+
+### ♿ 접근성
+
+- 키보드 네비게이션 지원
+- 포커스 표시
+- 스크린 리더 호환
+- 명확한 색상 구분
+
+## 스타일링
+
+PackageManagerTabs 컴포넌트는 CSS 변수를 통해 커스터마이징할 수 있습니다:
+
+```css
+:root {
+  --page-tab-border-radius: 14px;
+  --page-tab-padding: 16px 28px;
+  --page-tab-gap: 16px;
+}
+```
+
+## 브라우저 지원
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+모던 브라우저에서 최적의 성능을 제공합니다.

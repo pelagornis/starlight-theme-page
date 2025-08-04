@@ -47,7 +47,7 @@ import MobileMenuOverlay from "./MobileMenuOverlay.astro";
 <style>
   /* CSS 변수 정의 */
   :root {
-    --page-sidebar-width: 280px;
+    --page-sidebar-width: 320px;
     --page-toc-width: 320px;
     --page-content-gap: var(--page-space-10);
     --page-toc-right-margin: 40px;
@@ -90,16 +90,16 @@ import MobileMenuOverlay from "./MobileMenuOverlay.astro";
     position: relative;
   }
 
-  /* 왼쪽 사이드바 (메인 네비게이션) */
+  /* 왼쪽 사이드바 (축소된 크기) */
   .page-sidebar-nav {
-    width: var(--page-sidebar-width, 280px);
+    width: var(--page-sidebar-width);
     flex-shrink: 0;
     background: var(--page-bg);
     overflow-y: auto;
     transition: transform 0.3s ease;
   }
 
-  /* 데스크톱에서는 항상 보이는 고정 사이드바 */
+  /* 데스크톱에서 사이드바 표시 (축소된 크기) */
   @media (min-width: 769px) {
     .page-sidebar-nav {
       position: fixed;
@@ -108,18 +108,18 @@ import MobileMenuOverlay from "./MobileMenuOverlay.astro";
       height: calc(100vh - var(--page-header-height, 64px));
       z-index: 10;
       transform: translateX(0);
-      padding: var(--page-space-8);
+      padding: var(--page-space-6);
       width: var(--page-sidebar-width);
     }
 
     .page-content-wrapper {
-      margin-left: var(--page-sidebar-width);
-      width: calc(100% - var(--page-sidebar-width));
-      max-width: calc(100% - var(--page-sidebar-width));
+      margin-left: 200px;
+      width: calc(100% - 200px);
+      max-width: calc(100% - 200px);
     }
   }
 
-  /* 모바일에서는 숨기기 (햄버거 메뉴로만 접근) */
+  /* 모바일에서는 사이드바 숨기기 (햄버거 메뉴로만 접근) */
   @media (max-width: 768px) {
     .page-main-container {
       flex-direction: column;
@@ -129,7 +129,7 @@ import MobileMenuOverlay from "./MobileMenuOverlay.astro";
       position: fixed;
       top: var(--page-header-height, 64px);
       left: 0;
-      width: var(--page-sidebar-width);
+      width: 200px;
       height: calc(100vh - var(--page-header-height, 64px));
       background: var(--page-bg);
       border-right: 1px solid var(--page-border);

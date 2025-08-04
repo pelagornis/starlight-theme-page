@@ -125,7 +125,6 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
         transparent 50%
       );
     pointer-events: none;
-    animation: pageHeroFloat 20s ease-in-out infinite;
   }
 
   [data-theme="dark"] .page-hero::after {
@@ -139,16 +138,6 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
         rgba(255, 119, 198, 0.15) 0%,
         transparent 50%
       );
-  }
-
-  @keyframes pageHeroFloat {
-    0%,
-    100% {
-      transform: translateY(0px) rotate(0deg);
-    }
-    50% {
-      transform: translateY(-20px) rotate(1deg);
-    }
   }
 
   .page-hero-container {
@@ -429,7 +418,6 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
       var(--page-accent-light) 100%
     );
     border-radius: 8px;
-    animation: pageCodePulse 2s ease-in-out infinite;
   }
 
   [data-theme="dark"] .page-code-line {
@@ -442,22 +430,10 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
 
   .page-code-line.short {
     width: 60%;
-    animation-delay: 0.5s;
   }
 
   .page-code-line.medium {
     width: 80%;
-    animation-delay: 1s;
-  }
-
-  @keyframes pageCodePulse {
-    0%,
-    100% {
-      opacity: 0.6;
-    }
-    50% {
-      opacity: 1;
-    }
   }
 
   /* 모바일 대응 */

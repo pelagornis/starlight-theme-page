@@ -1,0 +1,615 @@
+---
+// PackageManagerTabs.astro
+import CodeCopy from "./CodeCopy.astro";
+
+export interface Props {
+  packageName?: string;
+  npmCommand?: string;
+  pnpmCommand?: string;
+  yarnCommand?: string;
+}
+
+const {
+  packageName = "@pelagornis/page",
+  npmCommand = `npm install ${packageName}`,
+  pnpmCommand = `pnpm add ${packageName}`,
+  yarnCommand = `yarn add ${packageName}`,
+} = Astro.props;
+---
+
+<div class="package-manager-selector">
+  <div class="custom-tabs">
+    <div class="custom-tabs-header">
+      <button class="custom-tab-button active" data-tab="npm">
+        <span class="tab-icon">📦</span>
+        <span class="tab-label">npm</span>
+      </button>
+      <button class="custom-tab-button" data-tab="pnpm">
+        <span class="tab-icon">🚀</span>
+        <span class="tab-label">pnpm</span>
+      </button>
+      <button class="custom-tab-button" data-tab="yarn">
+        <span class="tab-icon">🧶</span>
+        <span class="tab-label">Yarn</span>
+      </button>
+    </div>
+
+    <div class="custom-tabs-content">
+      <div class="custom-tab-panel active" data-tab="npm">
+        <div class="package-command" data-command={npmCommand}>
+          <span class="package-icon">📦</span>
+          <code>{npmCommand}</code>
+          <page-code-copy-button data-code={npmCommand}></page-code-copy-button>
+        </div>
+      </div>
+
+      <div class="custom-tab-panel" data-tab="pnpm">
+        <div class="package-command" data-command={pnpmCommand}>
+          <span class="package-icon">🚀</span>
+          <code>{pnpmCommand}</code>
+          <page-code-copy-button data-code={pnpmCommand}
+          ></page-code-copy-button>
+        </div>
+      </div>
+
+      <div class="custom-tab-panel" data-tab="yarn">
+        <div class="package-command" data-command={yarnCommand}>
+          <span class="package-icon">🧶</span>
+          <code>{yarnCommand}</code>
+          <page-code-copy-button data-code={yarnCommand}
+          ></page-code-copy-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<CodeCopy />
+
+<style>
+  /* ===== 패키지 매니저 탭 스타일 ===== */
+  .package-manager-selector {
+    margin: 2rem 0;
+  }
+
+  .custom-tabs {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.85) 100%
+    );
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow:
+      0 8px 32px -8px rgba(0, 0, 0, 0.12),
+      0 4px 16px -4px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .custom-tabs::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    pointer-events: none;
+    border-radius: 20px;
+  }
+
+  [data-theme="dark"] .custom-tabs {
+    background: linear-gradient(
+      135deg,
+      rgba(30, 41, 59, 0.95) 0%,
+      rgba(15, 23, 42, 0.85) 100%
+    );
+    box-shadow:
+      0 8px 32px -8px rgba(0, 0, 0, 0.4),
+      0 4px 16px -4px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  [data-theme="dark"] .custom-tabs::before {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+  }
+
+  /* 탭 헤더 */
+  .custom-tabs-header {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  /* 탭 버튼 */
+  .custom-tab-button {
+    padding: 16px 28px;
+    margin-top: 0 !important;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.6) 100%
+    );
+    border: 1px solid rgba(203, 213, 225, 0.5);
+    color: #475569;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 14px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    justify-content: center;
+    position: relative;
+    transform: none;
+    border-bottom: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif;
+    backdrop-filter: blur(15px);
+    overflow: hidden;
+  }
+
+  .custom-tab-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    border-radius: 14px;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .custom-tab-button:hover {
+    color: #1e293b;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.85) 100%
+    );
+    border-color: rgba(203, 213, 225, 0.7);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow:
+      0 8px 25px -6px rgba(0, 0, 0, 0.15),
+      0 4px 12px -3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .custom-tab-button.active {
+    color: #000000;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(255, 255, 255, 0.95) 100%
+    );
+    font-weight: 700;
+    transform: translateY(-4px) scale(1.05);
+    box-shadow:
+      0 16px 40px -12px rgba(59, 130, 246, 0.4),
+      0 8px 20px -6px rgba(59, 130, 246, 0.3);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  [data-theme="dark"] .custom-tab-button {
+    color: #cbd5e1;
+    background: linear-gradient(
+      135deg,
+      rgba(30, 41, 59, 0.8) 0%,
+      rgba(15, 23, 42, 0.6) 100%
+    );
+    border-color: rgba(71, 85, 105, 0.5);
+  }
+
+  [data-theme="dark"] .custom-tab-button:hover {
+    color: #f1f5f9;
+    background: linear-gradient(
+      135deg,
+      rgba(30, 41, 59, 0.95) 0%,
+      rgba(15, 23, 42, 0.85) 100%
+    );
+    border-color: rgba(71, 85, 105, 0.7);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow:
+      0 8px 25px -6px rgba(0, 0, 0, 0.4),
+      0 4px 12px -3px rgba(0, 0, 0, 0.3);
+  }
+
+  [data-theme="dark"] .custom-tab-button.active {
+    color: #ffffff;
+    background: linear-gradient(
+      135deg,
+      rgba(30, 41, 59, 0.98) 0%,
+      rgba(15, 23, 42, 0.95) 100%
+    );
+    transform: translateY(-4px) scale(1.05);
+    box-shadow:
+      0 16px 40px -12px rgba(96, 165, 250, 0.4),
+      0 8px 20px -6px rgba(96, 165, 250, 0.3);
+  }
+
+  /* 탭 아이콘 */
+  .tab-icon {
+    font-size: 20px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+    transition: transform 0.3s ease;
+  }
+
+  .custom-tab-button:hover .tab-icon {
+    transform: scale(1.1);
+  }
+
+  .tab-label {
+    font-size: 14px;
+    font-weight: inherit;
+    letter-spacing: -0.01em;
+  }
+
+  /* 패키지별 아이콘 색상 */
+  .custom-tab-button[data-tab="npm"] .tab-icon {
+    color: #cb3837;
+  }
+
+  .custom-tab-button[data-tab="pnpm"] .tab-icon {
+    color: #f69220;
+  }
+
+  .custom-tab-button[data-tab="yarn"] .tab-icon {
+    color: #2c8ebb;
+  }
+
+  /* 탭 콘텐츠 */
+  .custom-tabs-content {
+    position: relative;
+  }
+
+  .custom-tab-panel {
+    display: none;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .custom-tab-panel.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* 패키지 명령어 */
+  .package-command {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.8) 100%
+    );
+    border: 1px solid rgba(203, 213, 225, 0.6);
+    border-radius: 16px;
+    padding: 24px 28px;
+    font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+      "Courier New", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    position: relative;
+    overflow-x: auto;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:
+      0 4px 12px -4px rgba(0, 0, 0, 0.12),
+      0 2px 6px -2px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(15px);
+  }
+
+  .package-command::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    border-radius: 16px;
+    pointer-events: none;
+  }
+
+  [data-theme="dark"] .package-command {
+    background: linear-gradient(
+      135deg,
+      rgba(30, 41, 59, 0.9) 0%,
+      rgba(15, 23, 42, 0.8) 100%
+    );
+    border-color: rgba(71, 85, 105, 0.6);
+    box-shadow:
+      0 4px 12px -4px rgba(0, 0, 0, 0.4),
+      0 2px 6px -2px rgba(0, 0, 0, 0.3);
+  }
+
+  .package-command code {
+    background: transparent !important;
+    color: #1e293b !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    flex: 1 !important;
+    font-family: inherit !important;
+    letter-spacing: -0.01em;
+  }
+
+  [data-theme="dark"] .package-command code {
+    color: #f1f5f9 !important;
+  }
+
+  /* 패키지 아이콘 */
+  .package-icon {
+    font-size: 22px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.15));
+    transition: transform 0.3s ease;
+  }
+
+  .package-command:hover .package-icon {
+    transform: scale(1.1);
+  }
+
+  /* CodeCopy 컴포넌트 스타일 */
+  page-code-copy-button {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.85) 100%
+    );
+    border: 1px solid rgba(203, 213, 225, 0.7);
+    color: #6b7280;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    opacity: 0.8;
+    min-width: 40px;
+    height: 40px;
+    backdrop-filter: blur(15px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  page-code-copy-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    border-radius: 10px;
+    pointer-events: none;
+  }
+
+  [data-theme="dark"] page-code-copy-button {
+    color: #cbd5e1;
+    background: linear-gradient(
+      135deg,
+      rgba(30, 41, 59, 0.95) 0%,
+      rgba(15, 23, 42, 0.85) 100%
+    );
+    border-color: rgba(71, 85, 105, 0.7);
+  }
+
+  page-code-copy-button:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0.95) 100%
+    );
+    color: #374151;
+    border-color: #9ca3af;
+    opacity: 1;
+    transform: translateY(-3px) scale(1.1);
+    box-shadow:
+      0 8px 20px -4px rgba(0, 0, 0, 0.25),
+      0 4px 10px -2px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  [data-theme="dark"] page-code-copy-button:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(30, 41, 59, 1) 0%,
+      rgba(15, 23, 42, 0.95) 100%
+    );
+    color: #f1f5f9;
+    border-color: #6b7280;
+    transform: translateY(-3px) scale(1.1);
+    box-shadow:
+      0 8px 20px -4px rgba(0, 0, 0, 0.5),
+      0 4px 10px -2px rgba(0, 0, 0, 0.3);
+  }
+
+  /* 호버 효과 */
+  .package-command:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.9) 100%
+    );
+    border-color: rgba(203, 213, 225, 0.8);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow:
+      0 12px 35px -8px rgba(0, 0, 0, 0.25),
+      0 6px 18px -4px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  [data-theme="dark"] .package-command:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(30, 41, 59, 0.95) 0%,
+      rgba(15, 23, 42, 0.9) 100%
+    );
+    border-color: rgba(71, 85, 105, 0.8);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow:
+      0 12px 35px -8px rgba(0, 0, 0, 0.5),
+      0 6px 18px -4px rgba(0, 0, 0, 0.3);
+  }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    .custom-tabs {
+      padding: 24px;
+      border-radius: 16px;
+    }
+
+    .custom-tab-button {
+      padding: 14px 20px;
+      font-size: 13px;
+    }
+
+    .package-command {
+      padding: 20px 24px;
+      font-size: 13px;
+    }
+
+    .package-icon {
+      font-size: 20px;
+      width: 28px;
+      height: 28px;
+    }
+
+    page-code-copy-button {
+      min-width: 36px;
+      height: 36px;
+      padding: 10px;
+    }
+
+    .tab-icon {
+      font-size: 18px;
+      width: 24px;
+      height: 24px;
+    }
+
+    .custom-tabs-header {
+      gap: 12px;
+    }
+  }
+
+  /* 애니메이션 */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .custom-tab-panel.active {
+    animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* 포커스 스타일 */
+  .custom-tab-button:focus-visible,
+  page-code-copy-button:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  [data-theme="dark"] .custom-tab-button:focus-visible,
+  [data-theme="dark"] page-code-copy-button:focus-visible {
+    outline-color: #60a5fa;
+  }
+
+  /* 탭 전환 애니메이션 */
+  @keyframes tabSwitch {
+    0% {
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .custom-tab-panel.active {
+    animation: tabSwitch 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+</style>
+
+<script>
+  // 탭 전환 기능
+  document.addEventListener("DOMContentLoaded", function () {
+    const tabButtons = document.querySelectorAll(".custom-tab-button");
+    const tabPanels = document.querySelectorAll(".custom-tab-panel");
+
+    tabButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const targetTab = button.getAttribute("data-tab");
+
+        // 모든 탭 버튼 비활성화
+        tabButtons.forEach((btn) => btn.classList.remove("active"));
+        // 모든 탭 패널 숨기기
+        tabPanels.forEach((panel) => panel.classList.remove("active"));
+
+        // 선택된 탭 활성화
+        button.classList.add("active");
+        const targetPanel = document.querySelector(
+          `.custom-tab-panel[data-tab="${targetTab}"]`
+        );
+        if (targetPanel) {
+          targetPanel.classList.add("active");
+        }
+      });
+    });
+  });
+</script>

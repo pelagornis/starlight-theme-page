@@ -1,11 +1,32 @@
 ---
 title: 기본 예제
 description: Starlight Theme Page의 기본 사용법과 예제
+sidebar:
+  order: 1
+  group: examples
 ---
+
+import { Card, Tabs, TabItem, Steps } from "@astrojs/starlight/components";
 
 이 페이지는 테마의 모든 기본 요소들을 보여줍니다.
 
 ## 🎨 타이포그래피
+
+### 📝 제목들
+
+H1부터 H4까지 모든 제목 스타일을 확인할 수 있습니다.
+
+### 🔗 링크와 버튼
+
+호버 시 그라데이션 언더라인이 나타나는 링크들
+
+### 💻 코드 블록
+
+구문 강조와 복사 기능이 있는 코드 블록
+
+### 📊 표와 리스트
+
+반응형 표와 다양한 리스트 스타일
 
 ### 제목들 (Headings)
 
@@ -25,7 +46,9 @@ description: Starlight Theme Page의 기본 사용법과 예제
 
 ## 📝 리스트
 
-### 순서 없는 리스트
+<Tabs syncKey="lists">
+
+<TabItem label="순서 없는 리스트">
 
 - 첫 번째 항목
 - 두 번째 항목
@@ -33,15 +56,23 @@ description: Starlight Theme Page의 기본 사용법과 예제
   - 또 다른 중첩 항목
 - 세 번째 항목
 
-### 순서 있는 리스트
+</TabItem>
+
+<TabItem label="순서 있는 리스트">
 
 1. 첫 번째 단계
 2. 두 번째 단계
 3. 세 번째 단계
 
+</TabItem>
+
+</Tabs>
+
 ## 💻 코드 블록
 
-### JavaScript 예제
+<Tabs syncKey="code-examples">
+
+<TabItem label="JavaScript">
 
 ```javascript
 // 테마 변경 함수
@@ -55,7 +86,9 @@ function toggleTheme() {
 document.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
 ```
 
-### CSS 예제
+</TabItem>
+
+<TabItem label="CSS">
 
 ```css
 /* 현대적인 버튼 스타일 */
@@ -73,6 +106,43 @@ document.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
   box-shadow: var(--shadow-lg);
 }
 ```
+
+</TabItem>
+
+<TabItem label="Terminal">
+
+<figure class="frame is-terminal not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+    <span class="sr-only">Terminal window</span>
+  </figcaption>
+  <pre data-language="bash">
+    <code>
+      <div class="ec-line">
+        <div class="code">
+          <span style="--0:#82AAFF;--1:#3B61B0">npm</span>
+          <span style="--0:#D6DEEB;--1:#403F53"> </span>
+          <span style="--0:#ECC48D;--1:#3B61B0">install</span>
+          <span style="--0:#D6DEEB;--1:#403F53"> </span>
+          <span style="--0:#ECC48D;--1:#3B61B0">@pelagornis/page</span>
+        </div>
+      </div>
+    </code>
+  </pre>
+  <div class="copy">
+    <button
+      title="Copy to clipboard"
+      data-copied="Copied!"
+      data-code="npm install @pelagornis/page"
+    >
+      <div></div>
+    </button>
+  </div>
+</figure>
+
+</TabItem>
+
+</Tabs>
 
 ## 📊 표격
 
@@ -111,8 +181,8 @@ document.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
 
 이미지는 자동으로 반응형으로 조정되며, 호버 시 약간의 확대 효과가 있습니다.
 
-<!-- 이미지 예제는 실제 프로젝트에서 assets 폴더에 이미지를 추가한 후 사용하세요 -->
-<!-- ![Starlight Logo](../../assets/your-image.webp) -->
+{/* 이미지 예제는 실제 프로젝트에서 assets 폴더에 이미지를 추가한 후 사용하세요 */}
+{/* ![Starlight Logo](../../assets/your-image.webp) */}
 
 ## 🔗 링크와 버튼
 
@@ -132,6 +202,20 @@ document.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
 - [x] 다크 모드 지원
 - [x] 접근성 개선
 - [ ] 추가 컴포넌트 (진행 중)
+
+## 🎯 사용법 가이드
+
+<Steps>
+
+1. **테마 설치**: `npm install @pelagornis/page`
+
+2. **Astro 설정**: `astro.config.js`에 플러그인 추가
+
+3. **스타일 적용**: `customCss: ["@pelagornis/page/styles"]`
+
+4. **개발 서버 시작**: `npm run dev`
+
+</Steps>
 
 ---
 
