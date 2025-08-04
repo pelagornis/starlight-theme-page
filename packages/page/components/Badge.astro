@@ -3,14 +3,12 @@
 export interface Props {
   variant?: "default" | "primary" | "success" | "warning" | "error";
   size?: "sm" | "md" | "lg";
-  icon?: string;
 }
 
-const { variant = "default", size = "md", icon } = Astro.props;
+const { variant = "default", size = "md" } = Astro.props;
 ---
 
 <span class={`page-badge page-badge-${variant} page-badge-${size}`}>
-  {icon && <span class="page-badge-icon">{icon}</span>}
   <span class="page-badge-text">
     <slot />
   </span>
@@ -20,54 +18,19 @@ const { variant = "default", size = "md", icon } = Astro.props;
   .page-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
     padding: 6px 12px;
-    border-radius: 10px;
-    font-weight: 600;
+    border-radius: 6px;
+    font-weight: 500;
     font-size: 12px;
     line-height: 1;
     white-space: nowrap;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(10px);
     border: 1px solid;
-    position: relative;
-    overflow: hidden;
   }
 
   /* 전역 스타일로 강제 적용 */
   :global(.page-badge p) {
     margin: 0 !important;
     padding: 0 !important;
-  }
-
-  .page-badge::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 10px;
-    pointer-events: none;
-  }
-
-  .page-badge:hover {
-    transform: translateY(-1px) scale(1.05);
-    box-shadow:
-      0 4px 12px -2px rgba(0, 0, 0, 0.15),
-      0 0 0 1px rgba(59, 130, 246, 0.1);
-  }
-
-  .page-badge-icon {
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease;
-  }
-
-  .page-badge:hover .page-badge-icon {
-    transform: scale(1.1);
   }
 
   .page-badge-text {
@@ -82,10 +45,10 @@ const { variant = "default", size = "md", icon } = Astro.props;
     color: var(--neutral600);
   }
 
-  [data-theme="dark"] .page-badge-default {
-    background: var(--neutral800);
-    border-color: var(--neutral600);
-    color: var(--neutral200);
+  :global([data-theme="dark"]) .page-badge-default {
+    background: var(--neutral800) !important;
+    border-color: var(--neutral600) !important;
+    color: var(--neutral200) !important;
   }
 
   .page-badge-primary {
@@ -94,10 +57,10 @@ const { variant = "default", size = "md", icon } = Astro.props;
     color: var(--blue700);
   }
 
-  [data-theme="dark"] .page-badge-primary {
-    background: var(--blue900);
-    border-color: var(--blue700);
-    color: var(--blue200);
+  :global([data-theme="dark"]) .page-badge-primary {
+    background: var(--blue900) !important;
+    border-color: var(--blue700) !important;
+    color: var(--blue200) !important;
   }
 
   .page-badge-success {
@@ -106,10 +69,10 @@ const { variant = "default", size = "md", icon } = Astro.props;
     color: var(--green700);
   }
 
-  [data-theme="dark"] .page-badge-success {
-    background: var(--green900);
-    border-color: var(--green700);
-    color: var(--green200);
+  :global([data-theme="dark"]) .page-badge-success {
+    background: var(--green900) !important;
+    border-color: var(--green700) !important;
+    color: var(--green200) !important;
   }
 
   .page-badge-warning {
@@ -118,10 +81,10 @@ const { variant = "default", size = "md", icon } = Astro.props;
     color: var(--orange700);
   }
 
-  [data-theme="dark"] .page-badge-warning {
-    background: var(--orange900);
-    border-color: var(--orange700);
-    color: var(--orange200);
+  :global([data-theme="dark"]) .page-badge-warning {
+    background: var(--orange900) !important;
+    border-color: var(--orange700) !important;
+    color: var(--orange200) !important;
   }
 
   .page-badge-error {
@@ -130,44 +93,29 @@ const { variant = "default", size = "md", icon } = Astro.props;
     color: var(--red700);
   }
 
-  [data-theme="dark"] .page-badge-error {
-    background: var(--red900);
-    border-color: var(--red700);
-    color: var(--red200);
+  :global([data-theme="dark"]) .page-badge-error {
+    background: var(--red900) !important;
+    border-color: var(--red700) !important;
+    color: var(--red200) !important;
   }
 
   /* Sizes */
   .page-badge-sm {
     padding: 4px 8px;
     font-size: 11px;
-    border-radius: 8px;
-    gap: 4px;
-  }
-
-  .page-badge-sm .page-badge-icon {
-    font-size: 11px;
+    border-radius: 4px;
   }
 
   .page-badge-md {
     padding: 6px 12px;
     font-size: 12px;
-    border-radius: 10px;
-    gap: 6px;
-  }
-
-  .page-badge-md .page-badge-icon {
-    font-size: 12px;
+    border-radius: 6px;
   }
 
   .page-badge-lg {
     padding: 8px 16px;
     font-size: 14px;
-    border-radius: 12px;
-    gap: 8px;
-  }
-
-  .page-badge-lg .page-badge-icon {
-    font-size: 14px;
+    border-radius: 8px;
   }
 
   /* 반응형 */
@@ -183,30 +131,9 @@ const { variant = "default", size = "md", icon } = Astro.props;
     }
   }
 
-  /* 애니메이션 */
-  @keyframes badgePulse {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.05);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-
-  .page-badge:hover {
-    animation: badgePulse 0.3s ease-in-out;
-  }
-
   /* 포커스 스타일 */
   .page-badge:focus-visible {
-    outline: 2px solid rgba(59, 130, 246, 0.5);
+    outline: 2px solid var(--page-accent);
     outline-offset: 2px;
-  }
-
-  [data-theme="dark"] .page-badge:focus-visible {
-    outline-color: rgba(96, 165, 250, 0.5);
   }
 </style>
