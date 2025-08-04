@@ -1,14 +1,7 @@
 ---
 // Button.astro
 export interface Props {
-  variant?:
-    | "default"
-    | "primary"
-    | "success"
-    | "warning"
-    | "error"
-    | "ghost"
-    | "gradient";
+  variant?: "default" | "primary" | "success" | "warning" | "error" | "ghost";
   size?: "sm" | "md" | "lg";
   icon?: string;
   href?: string;
@@ -49,43 +42,36 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
     justify-content: center;
     gap: 8px;
     padding: 12px 20px;
-    border-radius: 12px;
-    font-weight: 600;
+    border-radius: 8px;
+    font-weight: 500;
     font-size: 14px;
     line-height: 1;
     text-decoration: none;
-    border: 1px solid;
+    border: 1px solid var(--page-border);
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
     white-space: nowrap;
     user-select: none;
-    position: relative;
-    overflow: hidden;
+    background: var(--neutral100);
+    color: var(--neutral600);
+    border-color: var(--neutral300);
   }
 
-  .page-button::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0.05) 100%
-    );
-    border-radius: 12px;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
+  /* slot 안의 p 태그 스타일 제거 */
+  .page-button p {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 전역 스타일로 강제 적용 */
+  :global(.page-button p) {
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .page-button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow:
-      0 8px 25px -5px rgba(0, 0, 0, 0.15),
-      0 0 0 1px rgba(59, 130, 246, 0.1);
+    background: var(--neutralWhite);
+    border-color: var(--neutral400);
   }
 
   .page-button:active:not(:disabled) {
@@ -114,7 +100,7 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
   }
 
   .page-button[href]:focus {
-    outline: 2px solid rgba(59, 130, 246, 0.5);
+    outline: 2px solid var(--blue500);
     outline-offset: 2px;
   }
 
@@ -123,7 +109,7 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
   }
 
   [data-theme="dark"] .page-button[href]:focus {
-    outline-color: rgba(96, 165, 250, 0.5);
+    outline-color: var(--blue400);
   }
 
   .page-button-icon {
@@ -145,162 +131,144 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
 
   /* Variants */
   .page-button-default {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(255, 255, 255, 0.7) 100%
-    );
-    border-color: rgba(203, 213, 225, 0.6);
-    color: #475569;
-    box-shadow:
-      0 2px 4px -1px rgba(0, 0, 0, 0.1),
-      0 1px 2px -1px rgba(0, 0, 0, 0.06);
+    background: var(--neutral100);
+    border-color: var(--neutral300);
+    color: var(--neutral600);
   }
 
   .page-button-default:hover:not(:disabled) {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 0.9) 100%
-    );
-    border-color: rgba(203, 213, 225, 0.8);
-    color: #1e293b;
+    background: var(--neutralWhite);
+    border-color: var(--neutral400);
   }
 
   [data-theme="dark"] .page-button-default {
-    background: linear-gradient(
-      135deg,
-      rgba(30, 41, 59, 0.9) 0%,
-      rgba(15, 23, 42, 0.7) 100%
-    );
-    border-color: rgba(71, 85, 105, 0.6);
-    color: #cbd5e1;
-    box-shadow:
-      0 2px 4px -1px rgba(0, 0, 0, 0.3),
-      0 1px 2px -1px rgba(0, 0, 0, 0.2);
+    background: var(--neutral800);
+    border-color: var(--neutral600);
+    color: var(--neutral200);
   }
 
   [data-theme="dark"] .page-button-default:hover:not(:disabled) {
-    background: linear-gradient(
-      135deg,
-      rgba(30, 41, 59, 1) 0%,
-      rgba(15, 23, 42, 0.9) 100%
-    );
-    border-color: rgba(71, 85, 105, 0.8);
-    color: #f1f5f9;
+    background: var(--neutral700);
+    border-color: var(--neutral500);
   }
 
   .page-button-primary {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    border-color: rgba(59, 130, 246, 0.8);
-    color: #ffffff;
-    box-shadow:
-      0 4px 6px -1px rgba(59, 130, 246, 0.2),
-      0 2px 4px -1px rgba(59, 130, 246, 0.1);
+    background: var(--blue600);
+    border-color: var(--blue600);
+    color: var(--neutralWhite);
   }
 
   .page-button-primary:hover:not(:disabled) {
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-    border-color: rgba(59, 130, 246, 1);
-    box-shadow:
-      0 8px 25px -5px rgba(59, 130, 246, 0.3),
-      0 0 0 1px rgba(59, 130, 246, 0.1);
+    background: var(--blue700);
+    border-color: var(--blue700);
+    color: var(--neutralWhite);
   }
 
   [data-theme="dark"] .page-button-primary {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    border-color: rgba(59, 130, 246, 0.8);
-    color: #ffffff;
+    background: var(--blue500);
+    border-color: var(--blue500);
+    color: var(--neutralWhite);
+  }
+
+  [data-theme="dark"] .page-button-primary:hover:not(:disabled) {
+    background: var(--blue600);
+    border-color: var(--blue600);
+    color: var(--neutralWhite);
   }
 
   .page-button-success {
-    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-    border-color: rgba(34, 197, 94, 0.8);
-    color: #ffffff;
-    box-shadow:
-      0 4px 6px -1px rgba(34, 197, 94, 0.2),
-      0 2px 4px -1px rgba(34, 197, 94, 0.1);
+    background: var(--green600);
+    border-color: var(--green600);
+    color: var(--neutralWhite);
   }
 
   .page-button-success:hover:not(:disabled) {
-    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-    border-color: rgba(34, 197, 94, 1);
-    box-shadow:
-      0 8px 25px -5px rgba(34, 197, 94, 0.3),
-      0 0 0 1px rgba(34, 197, 94, 0.1);
+    background: var(--green700);
+    border-color: var(--green700);
+    color: var(--neutralWhite);
+  }
+
+  [data-theme="dark"] .page-button-success {
+    background: var(--green500) !important;
+    border-color: var(--green500) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  [data-theme="dark"] .page-button-success:hover:not(:disabled) {
+    background: var(--green600) !important;
+    border-color: var(--green600) !important;
+    color: var(--neutralWhite) !important;
   }
 
   .page-button-warning {
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    border-color: rgba(245, 158, 11, 0.8);
-    color: #ffffff;
-    box-shadow:
-      0 4px 6px -1px rgba(245, 158, 11, 0.2),
-      0 2px 4px -1px rgba(245, 158, 11, 0.1);
+    background: var(--orange600);
+    border-color: var(--orange600);
+    color: var(--neutralWhite);
   }
 
   .page-button-warning:hover:not(:disabled) {
-    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-    border-color: rgba(245, 158, 11, 1);
-    box-shadow:
-      0 8px 25px -5px rgba(245, 158, 11, 0.3),
-      0 0 0 1px rgba(245, 158, 11, 0.1);
+    background: var(--orange700);
+    border-color: var(--orange700);
+    color: var(--neutralWhite);
+  }
+
+  [data-theme="dark"] .page-button-warning {
+    background: var(--orange500) !important;
+    border-color: var(--orange500) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  [data-theme="dark"] .page-button-warning:hover:not(:disabled) {
+    background: var(--orange600) !important;
+    border-color: var(--orange600) !important;
+    color: var(--neutralWhite) !important;
   }
 
   .page-button-error {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    border-color: rgba(239, 68, 68, 0.8);
-    color: #ffffff;
-    box-shadow:
-      0 4px 6px -1px rgba(239, 68, 68, 0.2),
-      0 2px 4px -1px rgba(239, 68, 68, 0.1);
+    background: var(--red600);
+    border-color: var(--red600);
+    color: var(--neutralWhite);
   }
 
   .page-button-error:hover:not(:disabled) {
-    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-    border-color: rgba(239, 68, 68, 1);
-    box-shadow:
-      0 8px 25px -5px rgba(239, 68, 68, 0.3),
-      0 0 0 1px rgba(239, 68, 68, 0.1);
+    background: var(--red700);
+    border-color: var(--red700);
+    color: var(--neutralWhite);
+  }
+
+  [data-theme="dark"] .page-button-error {
+    background: var(--red500) !important;
+    border-color: var(--red500) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  [data-theme="dark"] .page-button-error:hover:not(:disabled) {
+    background: var(--red600) !important;
+    border-color: var(--red600) !important;
+    color: var(--neutralWhite) !important;
   }
 
   .page-button-ghost {
     background: transparent;
-    border-color: rgba(148, 163, 184, 0.3);
-    color: #475569;
+    border-color: var(--neutral400);
+    color: var(--neutral600);
   }
 
   .page-button-ghost:hover:not(:disabled) {
-    background: rgba(148, 163, 184, 0.1);
-    border-color: rgba(148, 163, 184, 0.4);
-    color: #1e293b;
+    background: var(--neutral100);
+    border-color: var(--neutral500);
+    color: var(--neutral800);
   }
 
   [data-theme="dark"] .page-button-ghost {
-    color: #cbd5e1;
-    border-color: rgba(148, 163, 184, 0.4);
+    color: var(--neutral300) !important;
+    border-color: var(--neutral600) !important;
   }
 
   [data-theme="dark"] .page-button-ghost:hover:not(:disabled) {
-    background: rgba(148, 163, 184, 0.1);
-    border-color: rgba(148, 163, 184, 0.5);
-    color: #f1f5f9;
-  }
-
-  .page-button-gradient {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-color: transparent;
-    color: #ffffff;
-    box-shadow:
-      0 4px 6px -1px rgba(102, 126, 234, 0.2),
-      0 2px 4px -1px rgba(102, 126, 234, 0.1);
-  }
-
-  .page-button-gradient:hover:not(:disabled) {
-    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-    box-shadow:
-      0 8px 25px -5px rgba(102, 126, 234, 0.3),
-      0 0 0 1px rgba(102, 126, 234, 0.1);
+    background: var(--neutral800) !important;
+    border-color: var(--neutral500) !important;
+    color: var(--neutral100) !important;
   }
 
   /* Sizes */
@@ -366,11 +334,36 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
 
   /* 포커스 스타일 */
   .page-button:focus-visible {
-    outline: 2px solid rgba(59, 130, 246, 0.5);
+    outline: 2px solid var(--blue500);
     outline-offset: 2px;
   }
 
   [data-theme="dark"] .page-button:focus-visible {
-    outline-color: rgba(96, 165, 250, 0.5);
+    outline-color: var(--blue400);
+  }
+
+  /* 전역 버튼 스타일 덮어쓰기 - Default 버튼만 */
+  .page-button-default {
+    background: var(--neutral100) !important;
+    color: var(--neutral600) !important;
+    border-color: var(--neutral300) !important;
+  }
+
+  .page-button-default:hover {
+    background: var(--neutralWhite) !important;
+    border-color: var(--neutral400) !important;
+    color: var(--neutral800) !important;
+  }
+
+  [data-theme="dark"] .page-button-default {
+    background: var(--neutral800) !important;
+    color: var(--neutral200) !important;
+    border-color: var(--neutral600) !important;
+  }
+
+  [data-theme="dark"] .page-button-default:hover {
+    background: var(--neutral700) !important;
+    border-color: var(--neutral500) !important;
+    color: var(--neutral100) !important;
   }
 </style>
