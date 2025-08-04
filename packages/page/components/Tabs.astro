@@ -45,9 +45,9 @@ const { tabs, defaultTab = tabs[0]?.id } = Astro.props;
     gap: 8px;
     margin-bottom: 20px;
     padding: 4px;
-    background: var(--neutral100);
+    background: var(--page-bg-secondary);
     border-radius: 12px;
-    border: 1px solid var(--neutral300);
+    border: 1px solid var(--page-border);
   }
 
   /* 탭 버튼 */
@@ -57,7 +57,7 @@ const { tabs, defaultTab = tabs[0]?.id } = Astro.props;
     padding: 12px 16px;
     background: transparent;
     border: none;
-    color: var(--neutral500);
+    color: var(--page-text-secondary);
     font-weight: 500;
     font-size: 14px;
     cursor: pointer;
@@ -72,19 +72,36 @@ const { tabs, defaultTab = tabs[0]?.id } = Astro.props;
   }
 
   .page-tab-button:hover {
-    color: var(--neutral600);
-    background: var(--neutralWhite);
+    color: var(--page-text);
+    background: var(--page-bg);
   }
 
   .page-tab-button.active {
-    color: var(--primaryBlack);
-    background: var(--neutralWhite);
+    color: var(--page-text);
+    background: var(--page-bg);
     font-weight: 600;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--page-shadow-sm);
+  }
+
+  /* 다크모드 스타일 */
+  [data-theme="dark"] .page-tabs-header {
+    background: var(--page-bg-secondary);
+    border-color: var(--page-border);
+  }
+
+  [data-theme="dark"] .page-tab-button {
+    color: var(--page-text-secondary);
+  }
+
+  [data-theme="dark"] .page-tab-button:hover {
+    color: var(--page-text);
+    background: var(--page-bg-elevated);
   }
 
   [data-theme="dark"] .page-tab-button.active {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    color: var(--page-text);
+    background: var(--page-bg-elevated);
+    box-shadow: var(--page-shadow-md);
   }
 
   /* 탭 아이콘 */
