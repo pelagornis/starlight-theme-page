@@ -38,7 +38,15 @@ const showFooterInSplash =
   )
 }
 
-{template === "doc" && <Default />}
+{
+  template === "doc" && (
+    <div class="page-footer-wrapper">
+      <div class="page-footer-container">
+        <Default />
+      </div>
+    </div>
+  )
+}
 
 <style>
   .page-footer-wrapper {
@@ -68,6 +76,24 @@ const showFooterInSplash =
     background: transparent !important;
     border: none !important;
     padding: 0 !important;
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-footer) {
+    background: transparent !important;
+    color: var(--page-text) !important;
+  }
+
+  :global(.page-footer-container .sl-footer) {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] :global(.page-footer-container .sl-footer) {
+    background: transparent !important;
+    color: var(--page-text) !important;
   }
 
   :global(.sl-footer .sl-flex) {
@@ -75,20 +101,29 @@ const showFooterInSplash =
     gap: 1.5rem;
   }
 
-  :global(.sl-footer .meta) {
+  :global(.page-footer-container .page-footer-container .sl-flex) {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  :global(.page-footer-container .meta) {
     gap: 0.75rem 3rem;
     justify-content: space-between;
     flex-wrap: wrap;
-    margin-top: 3rem;
+    margin-top: 0;
     font-size: var(--sl-text-sm);
     color: var(--page-text-secondary);
   }
 
-  :global(.sl-footer .meta > p:only-child) {
+  [data-theme="dark"] :global(.page-footer-container .meta) {
+    color: var(--page-text-secondary) !important;
+  }
+
+  :global(.page-footer-container .meta > p:only-child) {
     margin-inline-start: auto;
   }
 
-  :global(.sl-footer .kudos) {
+  :global(.page-footer-container .kudos) {
     align-items: center;
     gap: 0.5em;
     margin: 1.5rem auto;
@@ -97,23 +132,72 @@ const showFooterInSplash =
     color: var(--page-text-secondary);
   }
 
-  :global(.sl-footer .kudos svg) {
+  :global(.page-footer-container .page-footer-container .kudos) {
+    align-items: center;
+    gap: 0.5em;
+    margin: 1.5rem auto;
+    font-size: var(--sl-text-xs);
+    text-decoration: none;
+    color: var(--page-text-secondary);
+  }
+
+  [data-theme="dark"] :global(.page-footer-container .kudos) {
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"]
+    :global(.page-footer-container .page-footer-container .kudos) {
+    color: var(--page-text-secondary) !important;
+  }
+
+  :global(.page-footer-container .kudos svg) {
     color: var(--page-accent);
   }
 
-  :global(.sl-footer .kudos:hover) {
+  :global(.page-footer-container .page-footer-container .kudos svg) {
+    color: var(--page-accent);
+  }
+
+  [data-theme="dark"] :global(.page-footer-container .kudos svg) {
+    color: var(--page-accent) !important;
+  }
+
+  [data-theme="dark"]
+    :global(.page-footer-container .page-footer-container .kudos svg) {
+    color: var(--page-accent) !important;
+  }
+
+  :global(.page-footer-container .kudos:hover) {
     color: var(--page-text);
   }
 
+  :global(.page-footer-container .page-footer-container .kudos:hover) {
+    color: var(--page-text);
+  }
+
+  [data-theme="dark"] :global(.page-footer-container .kudos:hover) {
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"]
+    :global(.page-footer-container .page-footer-container .kudos:hover) {
+    color: var(--page-text) !important;
+  }
+
   /* 페이지네이션 스타일 */
-  :global(.sl-footer .pagination-links) {
+  :global(.page-footer-container .pagination-links) {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
     gap: var(--page-space-4) !important;
     margin: var(--page-space-6) 0 !important;
   }
 
-  :global(.sl-footer .pagination-links a) {
+  /* 링크가 하나일 때 한 열로 표시 */
+  :global(.page-footer-container .pagination-links:has(a:only-child)) {
+    grid-template-columns: 1fr !important;
+  }
+
+  :global(.page-footer-container .pagination-links a) {
     background: var(--page-bg) !important;
     border: 1px solid var(--page-border) !important;
     border-radius: var(--page-radius) !important;
@@ -121,47 +205,99 @@ const showFooterInSplash =
     text-decoration: none !important;
     transition: all 0.2s ease !important;
     display: flex !important;
-    flex-direction: column !important;
     gap: var(--page-space-1) !important;
+    color: var(--page-text) !important;
   }
 
-  :global(.sl-footer .pagination-links a:hover) {
+  :global(.page-footer-container .pagination-links a:hover) {
     background: var(--page-accent-light) !important;
     transform: translateY(-1px) !important;
   }
 
-  [data-theme="dark"] :global(.sl-footer .pagination-links a) {
+  [data-theme="dark"] :global(.page-footer-container .pagination-links a) {
     background: var(--page-bg) !important;
     border-color: var(--page-border) !important;
     color: var(--page-text) !important;
   }
 
-  [data-theme="dark"] :global(.sl-footer .pagination-links a:hover) {
+  [data-theme="dark"]
+    :global(.page-footer-container .pagination-links a:hover) {
     background: var(--page-accent-light) !important;
     color: var(--page-accent) !important;
   }
 
-  [data-theme="dark"] :global(.sl-footer .pagination-links .title) {
-    color: var(--page-text) !important;
-  }
-
-  [data-theme="dark"] :global(.sl-footer .pagination-links .description) {
-    color: var(--page-text-secondary) !important;
-  }
-
-  :global(.sl-footer .pagination-links .title) {
+  /* 페이지네이션 제목과 설명 스타일 */
+  :global(.page-footer-container .pagination-links .link-title) {
     font-weight: 600 !important;
     color: var(--page-text) !important;
-    font-size: 0.875rem !important;
+    font-size: 1.5rem !important;
   }
 
-  :global(.sl-footer .pagination-links .description) {
+  :global(.page-footer-container .pagination-links .description) {
     color: var(--page-text-secondary) !important;
     font-size: 0.8125rem !important;
   }
 
+  :global(
+      .page-footer-container
+        .page-footer-container
+        .pagination-links
+        .description
+    ) {
+    color: var(--page-text-secondary) !important;
+    font-size: 0.8125rem !important;
+  }
+
+  :global(.page-footer-container .pagination-links a:hover .title) {
+    color: var(--page-accent) !important;
+  }
+
+  :global(
+      .page-footer-container
+        .page-footer-container
+        .pagination-links
+        a:hover
+        .title
+    ) {
+    color: var(--page-accent) !important;
+  }
+
+  :global(.page-footer-container .pagination-links a:hover .description) {
+    color: var(--page-text) !important;
+  }
+
+  :global(
+      .page-footer-container
+        .page-footer-container
+        .pagination-links
+        a:hover
+        .description
+    ) {
+    color: var(--page-text) !important;
+  }
+
+  /* 다크모드 페이지네이션 스타일 */
+  [data-theme="dark"] :global(.page-footer-container .pagination-links .title) {
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"]
+    :global(.page-footer-container .pagination-links .description) {
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"]
+    :global(.page-footer-container .pagination-links a:hover .title) {
+    color: var(--page-accent) !important;
+  }
+
+  [data-theme="dark"]
+    :global(.page-footer-container .pagination-links a:hover .description) {
+    color: var(--page-text) !important;
+  }
+
   /* 편집 링크 스타일 */
-  :global(.sl-footer .edit-page) {
+  :global(.page-footer-container .edit-page) {
     background: var(--page-accent-light) !important;
     color: var(--page-accent) !important;
     border: 1px solid var(--page-border) !important;
@@ -175,31 +311,31 @@ const showFooterInSplash =
     gap: var(--page-space-1) !important;
   }
 
-  :global(.sl-footer .edit-page:hover) {
+  :global(.page-footer-container .edit-page:hover) {
     background: var(--page-accent) !important;
     color: var(--page-bg) !important;
     transform: translateY(-1px) !important;
   }
 
-  [data-theme="dark"] :global(.sl-footer .edit-page) {
+  [data-theme="dark"] :global(.page-footer-container .edit-page) {
     background: var(--page-accent-light) !important;
     color: var(--page-accent) !important;
     border-color: var(--page-border) !important;
   }
 
-  [data-theme="dark"] :global(.sl-footer .edit-page:hover) {
+  [data-theme="dark"] :global(.page-footer-container .edit-page:hover) {
     background: var(--page-accent) !important;
     color: var(--page-bg) !important;
   }
 
-  [data-theme="dark"] :global(.sl-footer .last-updated) {
+  [data-theme="dark"] :global(.page-footer-container .last-updated) {
     background: var(--page-bg-secondary) !important;
     color: var(--page-text-muted) !important;
     border-color: var(--page-border) !important;
   }
 
   /* 최종 업데이트 정보 스타일 */
-  :global(.sl-footer .last-updated) {
+  :global(.page-footer-container .last-updated) {
     color: var(--page-text-muted) !important;
     font-size: 0.8125rem !important;
     margin: var(--page-space-4) 0 !important;
@@ -209,61 +345,13 @@ const showFooterInSplash =
     border: 1px solid var(--page-border) !important;
   }
 
-  [data-theme="dark"] :global(.sl-footer .last-updated) {
-    background: var(--page-bg-secondary) !important;
+  /* 다크모드 래퍼 스타일 */
+  [data-theme="dark"] .page-footer-wrapper {
+    background: var(--page-bg) !important;
   }
 
-  /* Footer link-title 다크 테마 스타일 */
-  [data-theme="dark"] :global(.sl-footer .pagination-links a .title) {
-    color: var(--page-text) !important;
-  }
-
-  [data-theme="dark"] :global(.sl-footer .pagination-links a .description) {
-    color: var(--page-text-secondary) !important;
-  }
-
-  [data-theme="dark"] :global(.sl-footer .pagination-links a:hover .title) {
-    color: var(--page-accent) !important;
-  }
-
-  [data-theme="dark"]
-    :global(.sl-footer .pagination-links a:hover .description) {
-    color: var(--page-text) !important;
-  }
-
-  /* 강제 스타일 적용 */
-  :global(.sl-footer .pagination-links .title) {
-    color: var(--page-text) !important;
-  }
-
-  :global(.sl-footer .pagination-links .description) {
-    color: var(--page-text-secondary) !important;
-  }
-
-  :global(.sl-footer .pagination-links a:hover .title) {
-    color: var(--page-accent) !important;
-  }
-
-  :global(.sl-footer .pagination-links a:hover .description) {
-    color: var(--page-text) !important;
-  }
-
-  /* 다크 테마에서 강제 적용 */
-  [data-theme="dark"] :global(.sl-footer .pagination-links .title) {
-    color: var(--page-text) !important;
-  }
-
-  [data-theme="dark"] :global(.sl-footer .pagination-links .description) {
-    color: var(--page-text-secondary) !important;
-  }
-
-  [data-theme="dark"] :global(.sl-footer .pagination-links a:hover .title) {
-    color: var(--page-accent) !important;
-  }
-
-  [data-theme="dark"]
-    :global(.sl-footer .pagination-links a:hover .description) {
-    color: var(--page-text) !important;
+  [data-theme="dark"] .page-footer-padding {
+    background: var(--page-bg) !important;
   }
 
   /* 모바일 반응형 */
@@ -272,7 +360,7 @@ const showFooterInSplash =
       padding: var(--page-space-6) var(--page-space-4);
     }
 
-    :global(.sl-footer .pagination-links) {
+    :global(.page-footer-container .pagination-links) {
       grid-template-columns: 1fr !important;
       gap: var(--page-space-2) !important;
     }

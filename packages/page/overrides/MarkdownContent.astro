@@ -1,6 +1,5 @@
 ---
 import Default from "@astrojs/starlight/components/MarkdownContent.astro";
-import CodeCopy from "../components/CodeCopy.astro";
 ---
 
 <div class="page-content">
@@ -361,13 +360,4 @@ import CodeCopy from "../components/CodeCopy.astro";
     pre::-webkit-scrollbar-thumb:hover {
     background: var(--page-neutral-500);
   }
-
-  /* Starlight 기본 스타일 오버라이드 - margin-top 제거 */
-  /* .sl-markdown-content
-    :not(a, strong, em, del, span, input, code, br)
-    + :not(a, strong, em, del, span, input, code, br, :where(.not-content *)) {
-    margin-top: 0;
-  } */
 </style>
-
-<CodeCopy />

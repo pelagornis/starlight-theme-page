@@ -72,10 +72,12 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
       var(--page-bg) 100%
     );
     padding: 6rem 0 4rem;
-    margin-top: calc(-1 * var(--page-header-height));
+    margin-top: calc(-1 * var(--page-header-height) + 3rem);
+    margin-bottom: 5rem;
     padding-top: calc(6rem + var(--page-header-height));
     position: relative;
     overflow: hidden;
+    border-radius: var(--page-radius-lg);
     transition: background 0.3s ease !important;
   }
 

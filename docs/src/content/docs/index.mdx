@@ -19,24 +19,24 @@ hero:
       variant: secondary
 ---
 
-import { Card, CardGrid } from "@astrojs/starlight/components";
+import Card from "@pelagornis/page/components/Card.astro";
 
 ## ✨ 주요 특징
 
-<CardGrid stagger>
-  <Card title="🎨 현대적인 디자인" icon="star">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 32px 0;">
+  <Card title="🎨 현대적인 디자인" icon="⭐">
     shadcn/ui에서 영감을 받은 HSL 기반 색상 시스템과 그라데이션 효과
   </Card>
-  <Card title="🌊 부드러운 애니메이션" icon="rocket">
+  <Card title="🌊 부드러운 애니메이션" icon="🚀">
     모든 인터랙션에 자연스러운 전환 효과와 hover 애니메이션
   </Card>
-  <Card title="🌙 다크 모드" icon="moon">
+  <Card title="🌙 다크 모드" icon="🌙">
     글래스 효과와 함께 완벽한 라이트/다크 모드 지원
   </Card>
-  <Card title="📱 반응형" icon="laptop">
+  <Card title="📱 반응형" icon="💻">
     모바일부터 데스크톱까지 모든 기기에서 완벽한 사용자 경험
   </Card>
-</CardGrid>
+</div>
 
 ## 🚀 개선된 컴포넌트
 

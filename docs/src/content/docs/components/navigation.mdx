@@ -1,12 +1,13 @@
 ---
-title: 네비게이션
+title: Navigation
 description: 동적 네비게이션 링크와 인터랙티브 효과
 sidebar:
   order: 3
   group: components
 ---
 
-import { Card, Tabs, TabItem, Steps } from "@astrojs/starlight/components";
+import { Card, Steps } from "@astrojs/starlight/components";
+import Tabs from "@pelagornis/page/components/Tabs.astro";
 
 현대적인 호버 효과와 활성 상태 표시기를 갖춘 네비게이션 시스템입니다.
 
@@ -46,77 +47,63 @@ import { Card, Tabs, TabItem, Steps } from "@astrojs/starlight/components";
 
 네비게이션은 화면 크기에 따라 다르게 동작합니다:
 
-<Tabs syncKey="responsive-nav">
-
-<TabItem label="Desktop (1024px+)">
-
-- 모든 링크가 수평으로 배치
-- 충분한 간격 (gap: 1.5rem)
-- 호버 효과 최대한 활용
-
-</TabItem>
-
-<TabItem label="Tablet (768px-1023px)">
-
-- 약간 줄어든 간격 (gap: 1rem)
-- 여전히 수평 배치 유지
-
-</TabItem>
-
-<TabItem label="Mobile (768px 미만)">
-
-- 햄버거 메뉴로 전환
-- 세로 드롭다운 메뉴
-- 터치 친화적 인터페이스
-
-</TabItem>
-
+<Tabs
+  tabs={[
+    { id: "desktop", label: "Desktop (1024px+)", icon: "💻" },
+    { id: "tablet", label: "Tablet (768px-1023px)", icon: "📱" },
+    { id: "mobile", label: "Mobile (768px 미만)", icon: "📱" },
+  ]}
+  defaultTab="desktop"
+>
+  <div>
+    - 모든 링크가 수평으로 배치 - 충분한 간격 (gap: 1.5rem) - 호버 효과 최대한
+    활용
+  </div>
+  <div>- 약간 줄어든 간격 (gap: 1rem) - 여전히 수평 배치 유지</div>
+  <div>- 햄버거 메뉴로 전환 - 세로 드롭다운 메뉴 - 터치 친화적 인터페이스</div>
 </Tabs>
 
 ## 🎨 스타일 상세
 
-<Tabs syncKey="nav-styles">
-
-<TabItem label="기본 링크">
-
-```css
-.nav-bar a {
-  position: relative;
-  padding: 0.5rem 0.75rem;
-  border-radius: var(--radius);
-  color: var(--color-muted-foreground);
-  transition: all 0.2s ease-in-out;
-}
-```
-
-</TabItem>
-
-<TabItem label="호버 효과">
-
-```css
-.nav-bar a:hover {
-  color: var(--color-foreground);
-  background-color: var(--color-accent);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-}
-```
-
-</TabItem>
-
-<TabItem label="활성 상태">
-
-```css
-.nav-bar a.active {
-  color: var(--color-primary-foreground);
-  background-color: var(--color-primary);
-  font-weight: 600;
-  box-shadow: var(--shadow-md);
-}
-```
-
-</TabItem>
-
+<Tabs
+  tabs={[
+    { id: "basic-link", label: "기본 링크", icon: "🔗" },
+    { id: "hover-effect", label: "호버 효과", icon: "✨" },
+    { id: "active-state", label: "활성 상태", icon: "🎯" },
+  ]}
+  defaultTab="basic-link"
+>
+  <div>
+    ```css
+    .nav-bar a {
+      position: relative;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius);
+      color: var(--color-muted-foreground);
+      transition: all 0.2s ease-in-out;
+    }
+    ```
+  </div>
+  <div>
+    ```css
+    .nav-bar a:hover {
+      color: var(--color-foreground);
+      background-color: var(--color-accent);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+    ```
+  </div>
+  <div>
+    ```css
+    .nav-bar a.active {
+      color: var(--color-primary-foreground);
+      background-color: var(--color-primary);
+      font-weight: 600;
+      box-shadow: var(--shadow-md);
+    }
+    ```
+  </div>
 </Tabs>
 
 ## 🏷️ 배지 시스템
@@ -220,118 +207,3 @@ import { Card, Tabs, TabItem, Steps } from "@astrojs/starlight/components";
    - "Deprecated": 빨간색 배지
 
 </Steps>
-
-## 시각적 예제
-
-### 기본 네비게이션
-
-<figure class="frame not-content">
-  <figcaption class="header">
-    <span class="title">Navigation Preview</span>
-  </figcaption>
-  <pre data-language="html">
-    <code>
-      <div class="ec-line">
-        <div class="code">
-          <span style="--0:#82AAFF;--1:#3B61B0">&lt;nav</span>
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#89DDFF;--1:#3B61B0">class</span>
-          <span style="--0:#D6DEEB;--1:#403F53">=</span>
-          <span style="--0:#F78C6C;--1:#3B61B0">"page-nav"</span>
-          <span style="--0:#82AAFF;--1:#3B61B0">&gt;</span>
-        </div>
-      </div>
-      <div class="ec-line">
-        <div class="code">
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#82AAFF;--1:#3B61B0">&lt;a</span>
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#89DDFF;--1:#3B61B0">href</span>
-          <span style="--0:#D6DEEB;--1:#403F53">=</span>
-          <span style="--0:#F78C6C;--1:#3B61B0">"/"</span>
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#89DDFF;--1:#3B61B0">class</span>
-          <span style="--0:#D6DEEB;--1:#403F53">=</span>
-          <span style="--0:#F78C6C;--1:#3B61B0">"nav-link"</span>
-          <span style="--0:#82AAFF;--1:#3B61B0">&gt;</span>
-        </div>
-      </div>
-      <div class="ec-line">
-        <div class="code">
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#C792EA;--1:#3B61B0">홈</span>
-        </div>
-      </div>
-      <div class="ec-line">
-        <div class="code">
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#82AAFF;--1:#3B61B0">&lt;/a&gt;</span>
-        </div>
-      </div>
-      <div class="ec-line">
-        <div class="code">
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#82AAFF;--1:#3B61B0">&lt;a</span>
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#89DDFF;--1:#3B61B0">href</span>
-          <span style="--0:#D6DEEB;--1:#403F53">=</span>
-          <span style="--0:#F78C6C;--1:#3B61B0">"/docs/"</span>
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#89DDFF;--1:#3B61B0">class</span>
-          <span style="--0:#D6DEEB;--1:#403F53">=</span>
-          <span style="--0:#F78C6C;--1:#3B61B0">"nav-link active"</span>
-          <span style="--0:#82AAFF;--1:#3B61B0">&gt;</span>
-        </div>
-      </div>
-      <div class="ec-line">
-        <div class="code">
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#C792EA;--1:#3B61B0">문서</span>
-        </div>
-      </div>
-      <div class="ec-line">
-        <div class="code">
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#82AAFF;--1:#3B61B0">&lt;span</span>
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#89DDFF;--1:#3B61B0">class</span>
-          <span style="--0:#D6DEEB;--1:#403F53">=</span>
-          <span style="--0:#F78C6C;--1:#3B61B0">"nav-badge"</span>
-          <span style="--0:#82AAFF;--1:#3B61B0">&gt;</span>
-        </div>
-      </div>
-      <div class="ec-line">
-        <div class="code">
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#C792EA;--1:#3B61B0">New</span>
-        </div>
-      </div>
-      <div class="ec-line">
-        <div class="code">
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#82AAFF;--1:#3B61B0">&lt;/span&gt;</span>
-        </div>
-      </div>
-      <div class="ec-line">
-        <div class="code">
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#82AAFF;--1:#3B61B0">&lt;/a&gt;</span>
-        </div>
-      </div>
-      <div class="ec-line">
-        <div class="code">
-          <span style="--0:#82AAFF;--1:#3B61B0">&lt;/nav&gt;</span>
-        </div>
-      </div>
-    </code>
-  </pre>
-  <div class="copy">
-    <button
-      title="Copy to clipboard"
-      data-copied="Copied!"
-      data-code='&lt;nav class="page-nav"&gt;&#10;  &lt;a href="/" class="nav-link"&gt;&#10;    홈&#10;  &lt;/a&gt;&#10;  &lt;a href="/docs/" class="nav-link active"&gt;&#10;    문서&#10;    &lt;span class="nav-badge"&gt;&#10;      New&#10;    &lt;/span&gt;&#10;  &lt;/a&gt;&#10;&lt;/nav&gt;'
-    >
-      <div></div>
-    </button>
-  </div>
-</figure>{" "}

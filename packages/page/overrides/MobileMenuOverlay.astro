@@ -2,6 +2,214 @@
 // Page 스타일 모바일 메뉴 오버레이
 ---
 
+<style>
+  .page-mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+  }
+
+  .page-mobile-menu-overlay.page-mobile-menu-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .page-mobile-menu-content {
+    width: 300px;
+    height: 100%;
+    background: var(--page-bg);
+    border-right: 1px solid var(--page-border);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .page-mobile-menu-overlay.page-mobile-menu-open .page-mobile-menu-content {
+    transform: translateX(0);
+  }
+
+  .page-mobile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: var(--page-space-4);
+    border-bottom: 1px solid var(--page-border);
+    background: var(--page-bg-secondary);
+  }
+
+  .page-mobile-menu-close {
+    background: none;
+    border: none;
+    font-size: var(--page-font-size-2xl);
+    color: var(--page-text-secondary);
+    cursor: pointer;
+    padding: var(--page-space-1);
+    border-radius: var(--page-radius);
+    transition: all 0.2s ease;
+  }
+
+  .page-mobile-menu-close:hover {
+    background: var(--page-accent-light);
+    color: var(--page-accent);
+  }
+
+  .page-mobile-menu-nav {
+    flex: 1;
+    padding: var(--page-space-4);
+    overflow-y: auto;
+  }
+
+  /* 모바일 메뉴에서 사이드바 스타일 적용 */
+  .page-mobile-menu-nav .page-sidebar-container {
+    gap: var(--page-space-6);
+    flex-direction: column;
+    display: flex;
+  }
+
+  .page-mobile-menu-nav .page-sidebar-group {
+    gap: var(--page-space-3);
+    flex-direction: column;
+    display: flex;
+    margin-bottom: var(--page-space-6);
+  }
+
+  .page-mobile-menu-nav .page-sidebar-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .page-mobile-menu-nav .page-sidebar-group-title {
+    font-weight: 700;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    padding: var(--page-space-2) var(--page-space-3);
+    border-radius: var(--page-radius);
+    color: var(--page-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: transparent;
+    margin-bottom: var(--page-space-2);
+  }
+
+  .page-mobile-menu-nav .page-sidebar-group-links {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    gap: var(--page-space-1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-mobile-menu-nav .page-sidebar-link {
+    text-underline-offset: 2px;
+    color: var(--page-text-secondary);
+    font-weight: 500;
+    padding: var(--page-space-3) var(--page-space-4);
+    border-radius: var(--page-radius);
+    align-items: center;
+    width: 100%;
+    min-height: 40px;
+    display: flex;
+    color: inherit;
+    text-decoration: inherit;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    font-size: 0.875rem;
+  }
+
+  .page-mobile-menu-nav .page-sidebar-link[aria-current="page"] {
+    color: var(--page-accent);
+    font-weight: 600;
+    background: var(--page-accent-light);
+    position: relative;
+  }
+
+  .page-mobile-menu-nav .page-sidebar-link[aria-current="page"]::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    border-radius: 0 var(--page-radius-sm) var(--page-radius-sm) 0;
+  }
+
+  .page-mobile-menu-nav .page-sidebar-link:hover {
+    color: var(--page-text);
+    background: var(--page-accent-light);
+    transform: translateX(4px);
+  }
+
+  .page-mobile-menu-nav .page-sidebar-badge {
+    color: var(--page-neutral-white);
+    line-height: 1;
+    font-size: 0.75rem;
+    padding: var(--page-space-1) var(--page-space-2);
+    background: var(--page-neutral-700);
+    border-radius: var(--page-radius-sm);
+    margin-left: auto;
+    font-weight: 600;
+  }
+
+  /* 다크 테마에서 모바일 메뉴 스타일 */
+  [data-theme="dark"] .page-mobile-menu-content {
+    background: var(--page-bg) !important;
+    border-color: var(--page-border) !important;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-header {
+    background: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-header h3 {
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-close {
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-close:hover {
+    background: var(--page-accent-light) !important;
+    color: var(--page-accent) !important;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-nav .page-sidebar-link {
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"]
+    .page-mobile-menu-nav
+    .page-sidebar-link[aria-current="page"] {
+    color: var(--page-accent) !important;
+    background: var(--page-accent-light) !important;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-nav .page-sidebar-link:hover {
+    color: var(--page-text) !important;
+    background: var(--page-accent-light) !important;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-nav .page-sidebar-badge {
+    background: var(--page-neutral-700) !important;
+    color: var(--page-neutral-white) !important;
+  }
+</style>
+
 <!-- 모바일 메뉴 오버레이 -->
 <div class="page-mobile-menu-overlay" id="page-mobile-menu-overlay">
   <div class="page-mobile-menu-content">
@@ -45,7 +253,18 @@
 </div>
 
 <script>
+  // 전역 변수로 이벤트 리스너 참조 저장
+  let isInitialized = false;
+  let closeButtonHandler: (() => void) | null = null;
+  let overlayClickHandler: ((event: Event) => void) | null = null;
+  let astroPageLoadHandler: (() => void) | null = null;
+
   function initializeMobileMenuOverlay() {
+    // 이미 초기화되었다면 중복 실행 방지
+    if (isInitialized) {
+      return;
+    }
+
     const mobileMenu = document.querySelector(
       "#page-mobile-menu-overlay"
     ) as HTMLElement;
@@ -58,22 +277,28 @@
     // 실제 사이드바 내용으로 업데이트
     updateMobileMenuContent();
 
-    // 닫기 버튼 이벤트 리스너 추가
+    // 닫기 버튼 이벤트 리스너 추가 (중복 등록 방지)
     const closeButton = mobileMenu.querySelector(".page-mobile-menu-close");
-    if (closeButton) {
-      closeButton.addEventListener("click", () => {
+    if (closeButton && !closeButtonHandler) {
+      closeButtonHandler = () => {
         console.log("닫기 버튼 클릭됨");
         toggleMobileMenu();
-      });
+      };
+      closeButton.addEventListener("click", closeButtonHandler);
     }
 
-    // 오버레이 클릭 시 닫기
-    mobileMenu.addEventListener("click", (event) => {
-      if (event.target === mobileMenu) {
-        console.log("오버레이 클릭됨 - 메뉴 닫기");
-        toggleMobileMenu();
-      }
-    });
+    // 오버레이 클릭 시 닫기 (중복 등록 방지)
+    if (!overlayClickHandler) {
+      overlayClickHandler = (event: Event) => {
+        if (event.target === mobileMenu) {
+          console.log("오버레이 클릭됨 - 메뉴 닫기");
+          toggleMobileMenu();
+        }
+      };
+      mobileMenu.addEventListener("click", overlayClickHandler);
+    }
+
+    isInitialized = true;
   }
 
   function updateMobileMenuContent() {
@@ -121,6 +346,31 @@
     }
   }
 
+  // 이벤트 리스너 정리 함수
+  function cleanup() {
+    const mobileMenu = document.querySelector(
+      "#page-mobile-menu-overlay"
+    ) as HTMLElement;
+    const closeButton = mobileMenu?.querySelector(".page-mobile-menu-close");
+
+    if (closeButton && closeButtonHandler) {
+      closeButton.removeEventListener("click", closeButtonHandler);
+      closeButtonHandler = null;
+    }
+
+    if (mobileMenu && overlayClickHandler) {
+      mobileMenu.removeEventListener("click", overlayClickHandler);
+      overlayClickHandler = null;
+    }
+
+    if (astroPageLoadHandler) {
+      document.removeEventListener("astro:page-load", astroPageLoadHandler);
+      astroPageLoadHandler = null;
+    }
+
+    isInitialized = false;
+  }
+
   // DOM이 로드되면 초기화
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initializeMobileMenuOverlay);
@@ -128,8 +378,14 @@
     initializeMobileMenuOverlay();
   }
 
-  // Astro 페이지 로드 시에도 초기화
-  document.addEventListener("astro:page-load", initializeMobileMenuOverlay);
+  // Astro 페이지 로드 시에도 초기화 (기존 리스너 정리 후)
+  document.addEventListener("astro:page-load", () => {
+    cleanup();
+    initializeMobileMenuOverlay();
+  });
+
+  // 페이지 언로드 시 정리
+  window.addEventListener("beforeunload", cleanup);
 
   // 전역 함수로 노출 (MobileMenuToggle에서 사용)
   (window as any).toggleMobileMenu = toggleMobileMenu;

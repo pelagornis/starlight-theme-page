@@ -7,18 +7,24 @@ export interface Props {
     icon?: string;
   }>;
   defaultTab?: string;
+  id?: string;
 }
 
-const { tabs, defaultTab = tabs[0]?.id } = Astro.props;
+const {
+  tabs,
+  defaultTab = tabs[0]?.id,
+  id = `tabs-${Math.random().toString(36).substr(2, 9)}`,
+} = Astro.props;
 ---
 
-<div class="page-tabs">
+<div class="page-tabs" data-tabs-id={id}>
   <div class="page-tabs-header">
     {
       tabs.map((tab) => (
         <button
           class={`page-tab-button ${tab.id === defaultTab ? "active" : ""}`}
           data-tab={tab.id}
+          data-tabs-id={id}
         >
           {tab.icon && <span class="tab-icon">{tab.icon}</span>}
           <span class="tab-label">{tab.label}</span>
@@ -134,11 +140,6 @@ const { tabs, defaultTab = tabs[0]?.id } = Astro.props;
     transition: opacity 0.2s ease;
   }
 
-  .page-tab-panels > *:first-child {
-    display: block;
-    opacity: 1;
-  }
-
   /* 반응형 디자인 */
   @media (max-width: 768px) {
     .page-tab-button {
@@ -163,25 +164,45 @@ const { tabs, defaultTab = tabs[0]?.id } = Astro.props;
 <script>
   // 탭 전환 기능
   document.addEventListener("DOMContentLoaded", function () {
-    const tabButtons = document.querySelectorAll(".page-tab-button");
-    const tabPanels = document.querySelectorAll(".page-tab-panels > *");
+    const tabContainers = document.querySelectorAll(".page-tabs");
 
-    tabButtons.forEach((button, index) => {
-      button.addEventListener("click", () => {
-        // 모든 탭 버튼 비활성화
-        tabButtons.forEach((btn) => btn.classList.remove("active"));
-        // 모든 탭 패널 숨기기
-        tabPanels.forEach((panel) => {
-          (panel as HTMLElement).style.display = "none";
-          (panel as HTMLElement).style.opacity = "0";
+    tabContainers.forEach((container) => {
+      const tabsId = container.getAttribute("data-tabs-id");
+      const tabButtons = container.querySelectorAll(
+        `[data-tabs-id="${tabsId}"]`
+      );
+      const tabPanels = container.querySelectorAll(".page-tab-panels > *");
+
+      // 초기 상태 설정: 모든 탭 패널 숨기기
+      tabPanels.forEach((panel) => {
+        (panel as HTMLElement).style.display = "none";
+        (panel as HTMLElement).style.opacity = "0";
+      });
+
+      // 첫 번째 탭만 활성화
+      if (tabButtons.length > 0 && tabPanels.length > 0) {
+        tabButtons[0].classList.add("active");
+        (tabPanels[0] as HTMLElement).style.display = "block";
+        (tabPanels[0] as HTMLElement).style.opacity = "1";
+      }
+
+      tabButtons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+          // 현재 탭 컨테이너의 모든 탭 버튼 비활성화
+          tabButtons.forEach((btn) => btn.classList.remove("active"));
+          // 현재 탭 컨테이너의 모든 탭 패널 숨기기
+          tabPanels.forEach((panel) => {
+            (panel as HTMLElement).style.display = "none";
+            (panel as HTMLElement).style.opacity = "0";
+          });
+
+          // 선택된 탭 활성화
+          button.classList.add("active");
+          if (tabPanels[index]) {
+            (tabPanels[index] as HTMLElement).style.display = "block";
+            (tabPanels[index] as HTMLElement).style.opacity = "1";
+          }
         });
-
-        // 선택된 탭 활성화
-        button.classList.add("active");
-        if (tabPanels[index]) {
-          (tabPanels[index] as HTMLElement).style.display = "block";
-          (tabPanels[index] as HTMLElement).style.opacity = "1";
-        }
       });
     });
   });

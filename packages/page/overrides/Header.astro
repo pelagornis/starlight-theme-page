@@ -91,6 +91,11 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
 </div>
 
 <script>
+  // 전역 변수로 이벤트 리스너 참조 저장
+  let isInitialized = false;
+  let themeToggleHandler: (() => void) | null = null;
+  let astroPageLoadHandler: (() => void) | null = null;
+
   // page 스타일 테마 토글
   function initpageThemeToggle() {
     const toggleButton = document.getElementById(
@@ -154,19 +159,22 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
     const initialTheme = getSavedTheme();
     applyTheme(initialTheme);
 
-    // page 스타일 부드러운 클릭 효과
-    toggleButton.addEventListener("click", () => {
-      const currentTheme = getCurrentTheme();
-      const newTheme = currentTheme === "dark" ? "light" : "dark";
+    // page 스타일 부드러운 클릭 효과 (중복 등록 방지)
+    if (!themeToggleHandler) {
+      themeToggleHandler = () => {
+        const currentTheme = getCurrentTheme();
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
 
-      // page 스타일 클릭 애니메이션
-      toggleButton.style.transform = "scale(0.95)";
-      setTimeout(() => {
-        toggleButton.style.transform = "";
-      }, 150);
+        // page 스타일 클릭 애니메이션
+        toggleButton.style.transform = "scale(0.95)";
+        setTimeout(() => {
+          toggleButton.style.transform = "";
+        }, 150);
 
-      applyTheme(newTheme);
-    });
+        applyTheme(newTheme);
+      };
+      toggleButton.addEventListener("click", themeToggleHandler);
+    }
 
     // 아이콘에 부드러운 전환 효과 추가
     sunIcon.style.transition = "opacity 0.2s ease";
@@ -191,17 +199,56 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
     });
   }
 
-  // 초기화
-  document.addEventListener("DOMContentLoaded", () => {
-    initpageThemeToggle();
-    setpageActiveNavLink();
-  });
+  // 초기화 함수
+  function initializeHeader() {
+    // 이미 초기화되었다면 중복 실행 방지
+    if (isInitialized) {
+      return;
+    }
 
-  // Astro 페이지 변경 시에도 실행
-  document.addEventListener("astro:page-load", () => {
     initpageThemeToggle();
     setpageActiveNavLink();
-  });
+
+    isInitialized = true;
+  }
+
+  // 정리 함수
+  function cleanup() {
+    const toggleButton = document.getElementById(
+      "page-theme-toggle"
+    ) as HTMLButtonElement;
+
+    if (toggleButton && themeToggleHandler) {
+      toggleButton.removeEventListener("click", themeToggleHandler);
+      themeToggleHandler = null;
+    }
+
+    if (astroPageLoadHandler) {
+      document.removeEventListener("astro:page-load", astroPageLoadHandler);
+      astroPageLoadHandler = null;
+    }
+
+    isInitialized = false;
+  }
+
+  // 초기화
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeHeader);
+  } else {
+    initializeHeader();
+  }
+
+  // Astro 페이지 변경 시에도 실행 (기존 리스너 정리 후)
+  if (!astroPageLoadHandler) {
+    astroPageLoadHandler = () => {
+      cleanup();
+      initializeHeader();
+    };
+    document.addEventListener("astro:page-load", astroPageLoadHandler);
+  }
+
+  // 페이지 언로드 시 정리
+  window.addEventListener("beforeunload", cleanup);
 </script>
 
 <style>
@@ -440,6 +487,97 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
   .page-search-wrapper {
     display: flex;
     align-items: center;
+    position: relative;
+  }
+
+  /* 검색 래퍼 내부 스타일 개선 */
+  .page-search-wrapper :global(.sl-search-button) {
+    background: var(--page-bg-secondary) !important;
+    border: 1px solid var(--page-border) !important;
+    border-radius: var(--page-radius) !important;
+    color: var(--page-text-secondary) !important;
+    transition: all 0.2s ease !important;
+    font-family: var(--page-font-family) !important;
+    padding: 8px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    min-width: 120px !important;
+    height: 40px !important;
+    will-change: transform;
+    /* Starlight 기본 변수 강제 오버라이드 */
+    --sl-color-gray-1: var(--page-bg-secondary) !important;
+    --sl-color-gray-2: var(--page-border) !important;
+    --sl-color-gray-3: var(--page-border-strong) !important;
+    --sl-color-gray-4: var(--page-text-secondary) !important;
+    --sl-color-gray-5: var(--page-text) !important;
+    --sl-color-gray-6: var(--page-text) !important;
+    --sl-color-white: var(--page-bg) !important;
+    --sl-color-black: var(--page-text) !important;
+  }
+
+  .page-search-wrapper :global(.sl-search-button:hover) {
+    background: var(--page-bg-elevated) !important;
+    border-color: var(--page-border-strong) !important;
+    color: var(--page-text) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--page-shadow-sm) !important;
+    /* 호버 상태에서도 Starlight 변수 오버라이드 */
+    --sl-color-gray-1: var(--page-bg-elevated) !important;
+    --sl-color-gray-2: var(--page-border-strong) !important;
+    --sl-color-gray-3: var(--page-border-strong) !important;
+    --sl-color-gray-4: var(--page-text) !important;
+    --sl-color-gray-5: var(--page-text) !important;
+    --sl-color-gray-6: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] .page-search-wrapper :global(.sl-search-button) {
+    background: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+    /* 다크 모드에서 Starlight 변수 오버라이드 */
+    --sl-color-gray-1: var(--page-bg-secondary) !important;
+    --sl-color-gray-2: var(--page-border) !important;
+    --sl-color-gray-3: var(--page-border-strong) !important;
+    --sl-color-gray-4: var(--page-text-secondary) !important;
+    --sl-color-gray-5: var(--page-text) !important;
+    --sl-color-gray-6: var(--page-text) !important;
+    --sl-color-white: var(--page-bg) !important;
+    --sl-color-black: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] .page-search-wrapper :global(.sl-search-button:hover) {
+    background: var(--page-bg-elevated) !important;
+    border-color: var(--page-border-strong) !important;
+    color: var(--page-text) !important;
+    /* 다크 모드 호버 상태에서도 Starlight 변수 오버라이드 */
+    --sl-color-gray-1: var(--page-bg-elevated) !important;
+    --sl-color-gray-2: var(--page-border-strong) !important;
+    --sl-color-gray-3: var(--page-border-strong) !important;
+    --sl-color-gray-4: var(--page-text) !important;
+    --sl-color-gray-5: var(--page-text) !important;
+    --sl-color-gray-6: var(--page-text) !important;
+  }
+
+  /* 검색 버튼 포커스 효과 */
+  .page-search-wrapper :global(.sl-search-button:focus-visible) {
+    outline: 2px solid var(--page-accent) !important;
+    outline-offset: 2px !important;
+  }
+
+  /* 검색 버튼 내부 아이콘 */
+  .page-search-wrapper :global(.sl-search-button svg) {
+    width: 16px !important;
+    height: 16px !important;
+    color: inherit !important;
+  }
+
+  /* 검색 버튼 내부 텍스트 */
+  .page-search-wrapper :global(.sl-search-button span) {
+    color: inherit !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
   }
 
   /* 모바일 대응 */

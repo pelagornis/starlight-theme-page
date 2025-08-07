@@ -251,9 +251,11 @@
       // 테마 변경 이벤트 리스너
       window.addEventListener("themechange", (event: any) => {
         const { theme } = event.detail;
-        // 모든 요소에 테마 속성 강제 적용
-        const allElements = document.querySelectorAll("*");
-        allElements.forEach((element) => {
+        // 주요 요소들에만 테마 속성 적용 (성능 최적화)
+        const keyElements = document.querySelectorAll(
+          ".sl-container, .sl-content, .sl-sidebar, .sl-nav, .page-header, .page-footer-container, .page-code-copy-button, .page-mobile-menu-toggle, .page-mobile-menu-overlay"
+        );
+        keyElements.forEach((element) => {
           if (element instanceof HTMLElement) {
             element.setAttribute("data-theme", theme);
           }

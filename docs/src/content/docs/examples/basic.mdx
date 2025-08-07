@@ -6,7 +6,8 @@ sidebar:
   group: examples
 ---
 
-import { Card, Tabs, TabItem, Steps } from "@astrojs/starlight/components";
+import { Card, Steps } from "@astrojs/starlight/components";
+import Tabs from "@pelagornis/page/components/Tabs.astro";
 
 이 페이지는 테마의 모든 기본 요소들을 보여줍니다.
 
@@ -46,102 +47,98 @@ H1부터 H4까지 모든 제목 스타일을 확인할 수 있습니다.
 
 ## 📝 리스트
 
-<Tabs syncKey="lists">
-
-<TabItem label="순서 없는 리스트">
-
-- 첫 번째 항목
-- 두 번째 항목
-  - 중첩된 항목
-  - 또 다른 중첩 항목
-- 세 번째 항목
-
-</TabItem>
-
-<TabItem label="순서 있는 리스트">
-
-1. 첫 번째 단계
-2. 두 번째 단계
-3. 세 번째 단계
-
-</TabItem>
-
+<Tabs
+  tabs={[
+    { id: "unordered", label: "순서 없는 리스트" },
+    { id: "ordered", label: "순서 있는 리스트" },
+  ]}
+  defaultTab="unordered"
+>
+  <div>
+    - 첫 번째 항목
+    - 두 번째 항목
+      - 중첩된 항목
+      - 또 다른 중첩 항목
+    - 세 번째 항목
+  </div>
+  <div>
+    1. 첫 번째 단계
+    2. 두 번째 단계
+    3. 세 번째 단계
+  </div>
 </Tabs>
 
 ## 💻 코드 블록
 
-<Tabs syncKey="code-examples">
+<Tabs
+  tabs={[
+    { id: "javascript", label: "JavaScript", icon: "💻" },
+    { id: "css", label: "CSS", icon: "🎨" },
+    { id: "terminal", label: "Terminal", icon: "💻" },
+  ]}
+  defaultTab="javascript"
+>
+  <div>
+    ```javascript
+    // 테마 변경 함수
+    function toggleTheme() {
+      const currentTheme = document.documentElement.dataset.theme;
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = newTheme;
+    }
 
-<TabItem label="JavaScript">
-
-```javascript
-// 테마 변경 함수
-function toggleTheme() {
-  const currentTheme = document.documentElement.dataset.theme;
-  const newTheme = currentTheme === "dark" ? "light" : "dark";
-  document.documentElement.dataset.theme = newTheme;
-}
-
-// 부드러운 애니메이션과 함께 테마 변경
-document.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
-```
-
-</TabItem>
-
-<TabItem label="CSS">
-
-```css
-/* 현대적인 버튼 스타일 */
-.modern-button {
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--radius);
-  background: var(--gradient-primary);
-  border: none;
-  color: white;
-  transition: all 0.2s ease;
-}
-
-.modern-button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-}
-```
-
-</TabItem>
-
-<TabItem label="Terminal">
-
-<figure class="frame is-terminal not-content">
-  <figcaption class="header">
-    <span class="title"></span>
-    <span class="sr-only">Terminal window</span>
-  </figcaption>
-  <pre data-language="bash">
-    <code>
-      <div class="ec-line">
-        <div class="code">
-          <span style="--0:#82AAFF;--1:#3B61B0">npm</span>
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#ECC48D;--1:#3B61B0">install</span>
-          <span style="--0:#D6DEEB;--1:#403F53"> </span>
-          <span style="--0:#ECC48D;--1:#3B61B0">@pelagornis/page</span>
-        </div>
-      </div>
-    </code>
-  </pre>
-  <div class="copy">
-    <button
-      title="Copy to clipboard"
-      data-copied="Copied!"
-      data-code="npm install @pelagornis/page"
-    >
-      <div></div>
-    </button>
+    // 부드러운 애니메이션과 함께 테마 변경
+    document.querySelector(".theme-toggle").addEventListener("click", toggleTheme);
+    ```
   </div>
-</figure>
+  <div>
+    ```css
+    /* 현대적인 버튼 스타일 */
+    .modern-button {
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      background: var(--gradient-primary);
+      border: none;
+      color: white;
+      transition: all 0.2s ease;
+    }
 
-</TabItem>
-
+    .modern-button:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+    ```
+  </div>
+  <div>
+    <figure class="frame is-terminal not-content">
+      <figcaption class="header">
+        <span class="title"></span>
+        <span class="sr-only">Terminal window</span>
+      </figcaption>
+      <pre data-language="bash">
+        <code>
+          <div class="ec-line">
+            <div class="code">
+              <span style="--0:#82AAFF;--1:#3B61B0">npm</span>
+              <span style="--0:#D6DEEB;--1:#403F53"> </span>
+              <span style="--0:#ECC48D;--1:#3B61B0">install</span>
+              <span style="--0:#D6DEEB;--1:#403F53"> </span>
+              <span style="--0:#ECC48D;--1:#3B61B0">@pelagornis/page</span>
+            </div>
+          </div>
+        </code>
+      </pre>
+      <div class="copy">
+        <button
+          title="Copy to clipboard"
+          data-copied="Copied!"
+          data-code="npm install @pelagornis/page"
+        >
+          <div></div>
+        </button>
+      </div>
+    </figure>
+  </div>
 </Tabs>
 
 ## 📊 표격

@@ -50,7 +50,7 @@ const attrs = href ? { href, target } : {};
     background: var(--neutralWhite);
     border: 1px solid var(--neutral300);
     border-radius: 12px;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     text-decoration: none;
     color: inherit;
@@ -62,18 +62,20 @@ const attrs = href ? { href, target } : {};
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
-  [data-theme="dark"] .page-card:hover {
-    border-color: #6c757d !important;
-  }
-
-  /* 더 강력한 다크 테마 선택자 */
-  :global([data-theme="dark"]) .page-card {
-    background: var(--neutral850) !important;
+  [data-theme="dark"] .page-card {
+    background: var(--neutral900) !important;
     border-color: var(--neutral600) !important;
     color: var(--neutral200) !important;
   }
 
-  :global([data-theme="dark"]) .page-card:hover {
+  /* 더 강력한 다크모드 선택자 */
+  :global([data-theme="dark"]) .page-card {
+    background: var(--neutral900) !important;
+    border-color: var(--neutral600) !important;
+    color: var(--neutral200) !important;
+  }
+
+  [data-theme="dark"] .page-card:hover {
     border-color: var(--neutral500) !important;
   }
 
@@ -173,7 +175,17 @@ const attrs = href ? { href, target } : {};
   }
 
   [data-theme="dark"] .page-card-title {
-    color: #f1f5f9;
+    color: #f1f5f9 !important;
+  }
+
+  /* 더 강력한 다크모드 제목 선택자 */
+  :global([data-theme="dark"]) .page-card-title {
+    color: #f1f5f9 !important;
+  }
+
+  /* 추가적인 다크모드 제목 선택자 */
+  :global([data-theme="dark"]) .page-card .page-card-title {
+    color: #f1f5f9 !important;
   }
 
   .page-card-gradient .page-card-title {
@@ -188,7 +200,17 @@ const attrs = href ? { href, target } : {};
   }
 
   [data-theme="dark"] .page-card-subtitle {
-    color: #94a3b8;
+    color: #94a3b8 !important;
+  }
+
+  /* 더 강력한 다크모드 서브타이틀 선택자 */
+  :global([data-theme="dark"]) .page-card-subtitle {
+    color: #94a3b8 !important;
+  }
+
+  /* 추가적인 다크모드 서브타이틀 선택자 */
+  :global([data-theme="dark"]) .page-card .page-card-subtitle {
+    color: #94a3b8 !important;
   }
 
   .page-card-gradient .page-card-subtitle {
@@ -203,7 +225,17 @@ const attrs = href ? { href, target } : {};
   }
 
   [data-theme="dark"] .page-card-body {
-    color: #cbd5e1;
+    color: #cbd5e1 !important;
+  }
+
+  /* 더 강력한 다크모드 바디 선택자 */
+  :global([data-theme="dark"]) .page-card-body {
+    color: #cbd5e1 !important;
+  }
+
+  /* 추가적인 다크모드 바디 선택자 */
+  :global([data-theme="dark"]) .page-card .page-card-body {
+    color: #cbd5e1 !important;
   }
 
   .page-card-gradient .page-card-body {
@@ -218,29 +250,37 @@ const attrs = href ? { href, target } : {};
   }
 
   .page-card[href]:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow:
-      0 20px 25px -5px rgba(0, 0, 0, 0.1),
-      0 10px 10px -5px rgba(0, 0, 0, 0.04),
-      0 0 0 1px rgba(59, 130, 246, 0.1);
-    border-color: rgba(59, 130, 246, 0.3);
+    border-color: var(--blue500);
     text-decoration: none !important;
     color: inherit !important;
-    background: inherit !important;
-    padding: inherit !important;
-    margin: inherit !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
 
   .page-card[href]:hover::after {
     width: 0 !important;
   }
 
+  [data-theme="dark"] .page-card[href] {
+    background: var(--neutral850) !important;
+    border-color: var(--neutral600) !important;
+    color: var(--neutral200) !important;
+  }
+
   [data-theme="dark"] .page-card[href]:hover {
-    border-color: rgba(96, 165, 250, 0.3);
-    box-shadow:
-      0 20px 25px -5px rgba(0, 0, 0, 0.4),
-      0 10px 10px -5px rgba(0, 0, 0, 0.3),
-      0 0 0 1px rgba(96, 165, 250, 0.1);
+    border-color: var(--blue400) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* 더 강력한 다크모드 링크 카드 선택자 */
+  :global([data-theme="dark"]) .page-card[href] {
+    background: var(--neutral850) !important;
+    border-color: var(--neutral600) !important;
+    color: var(--neutral200) !important;
+  }
+
+  :global([data-theme="dark"]) .page-card[href]:hover {
+    border-color: var(--blue400) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
   }
 
   /* 반응형 */

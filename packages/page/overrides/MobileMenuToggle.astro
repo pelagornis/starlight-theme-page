@@ -26,8 +26,19 @@
 </button>
 
 <script>
+  // 전역 변수로 이벤트 리스너 참조 저장
+  let isInitialized = false;
+  let clickHandler: ((event: Event) => void) | null = null;
+  let popstateHandler: (() => void) | null = null;
+  let astroPageLoadHandler: (() => void) | null = null;
+
   // DOM이 로드된 후 실행
   function initializeMobileMenu() {
+    // 이미 초기화되었다면 중복 실행 방지
+    if (isInitialized) {
+      return;
+    }
+
     const button = document.querySelector(
       "#page-mobile-menu-toggle"
     ) as HTMLButtonElement;
@@ -48,24 +59,32 @@
     // 초기 경로 설정
     updateCurrentPath();
 
-    // 페이지 변경 시 경로 업데이트
-    if (typeof window !== "undefined") {
-      window.addEventListener("popstate", updateCurrentPath);
+    // 클릭 이벤트 리스너 (중복 등록 방지)
+    if (!clickHandler) {
+      clickHandler = (event: Event) => {
+        console.log("모바일 메뉴 버튼 클릭됨!");
+        event.preventDefault();
+        event.stopPropagation();
+
+        // 사이드바 토글
+        const isOpen = toggleSidebar();
+        console.log("토글 결과:", isOpen);
+      };
+      button.addEventListener("click", clickHandler);
     }
-    document.addEventListener("astro:page-load", updateCurrentPath);
 
-    // 클릭 이벤트 리스너
-    button.addEventListener("click", (event) => {
-      console.log("모바일 메뉴 버튼 클릭됨!");
-      event.preventDefault();
-      event.stopPropagation();
+    // 페이지 변경 시 경로 업데이트 (중복 등록 방지)
+    if (typeof window !== "undefined" && !popstateHandler) {
+      popstateHandler = updateCurrentPath;
+      window.addEventListener("popstate", popstateHandler);
+    }
 
-      // 사이드바 토글
-      const isOpen = toggleSidebar();
-      console.log("토글 결과:", isOpen);
+    if (!astroPageLoadHandler) {
+      astroPageLoadHandler = updateCurrentPath;
+      document.addEventListener("astro:page-load", astroPageLoadHandler);
+    }
 
-      // 아이콘은 그대로 유지 (변경하지 않음)
-    });
+    isInitialized = true;
   }
 
   function toggleSidebar(): boolean {
@@ -105,6 +124,30 @@
     }
   }
 
+  // 이벤트 리스너 정리 함수
+  function cleanup() {
+    const button = document.querySelector(
+      "#page-mobile-menu-toggle"
+    ) as HTMLButtonElement;
+
+    if (button && clickHandler) {
+      button.removeEventListener("click", clickHandler);
+      clickHandler = null;
+    }
+
+    if (typeof window !== "undefined" && popstateHandler) {
+      window.removeEventListener("popstate", popstateHandler);
+      popstateHandler = null;
+    }
+
+    if (astroPageLoadHandler) {
+      document.removeEventListener("astro:page-load", astroPageLoadHandler);
+      astroPageLoadHandler = null;
+    }
+
+    isInitialized = false;
+  }
+
   // DOM이 로드되면 초기화
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initializeMobileMenu);
@@ -112,6 +155,12 @@
     initializeMobileMenu();
   }
 
-  // Astro 페이지 로드 시에도 초기화
-  document.addEventListener("astro:page-load", initializeMobileMenu);
+  // Astro 페이지 로드 시에도 초기화 (기존 리스너 정리 후)
+  document.addEventListener("astro:page-load", () => {
+    cleanup();
+    initializeMobileMenu();
+  });
+
+  // 페이지 언로드 시 정리
+  window.addEventListener("beforeunload", cleanup);
 </script>

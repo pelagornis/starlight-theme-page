@@ -52,26 +52,77 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
     transition: all 0.2s ease;
     white-space: nowrap;
     user-select: none;
-    background: var(--neutral100);
-    color: var(--neutral600);
-    border-color: var(--neutral300);
+    background: var(--page-bg-secondary);
+    color: var(--page-text);
+    border-color: var(--page-border);
   }
 
   /* slot 안의 p 태그 스타일 제거 */
   .page-button p {
     margin: 0 !important;
     padding: 0 !important;
+    color: inherit !important;
+    font-weight: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    text-decoration: inherit !important;
+    background: inherit !important;
+    border: inherit !important;
   }
 
   /* 전역 스타일로 강제 적용 */
   :global(.page-button p) {
     margin: 0 !important;
     padding: 0 !important;
+    color: inherit !important;
+    font-weight: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    text-decoration: inherit !important;
+    background: inherit !important;
+    border: inherit !important;
+  }
+
+  /* 더 강력한 선택자로 마크다운 스타일 덮어쓰기 */
+  :global(.page-content .sl-markdown-content .page-button p) {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: inherit !important;
+    font-weight: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    text-decoration: inherit !important;
+    background: inherit !important;
+    border: inherit !important;
+  }
+
+  /* 버튼 내부의 모든 요소에 대해 상속 강제 */
+  .page-button * {
+    color: inherit !important;
+    font-weight: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    text-decoration: inherit !important;
+    background: inherit !important;
+    border: inherit !important;
+  }
+
+  /* 전역 스타일로 버튼 내부 요소 강제 상속 */
+  :global(.page-button *) {
+    color: inherit !important;
+    font-weight: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    text-decoration: inherit !important;
+    background: inherit !important;
+    border: inherit !important;
   }
 
   .page-button:hover:not(:disabled) {
-    background: var(--neutralWhite);
-    border-color: var(--neutral400);
+    background: var(--page-bg-elevated);
+    border-color: var(--page-border-strong);
+    transform: translateY(-1px);
+    box-shadow: var(--page-shadow-sm);
   }
 
   .page-button:active:not(:disabled) {
@@ -87,29 +138,186 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
 
   /* 링크 버튼 스타일 */
   .page-button[href] {
-    text-decoration: none;
-    color: inherit;
+    text-decoration: none !important;
+    color: inherit !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 12px 20px !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+    border: 1px solid var(--page-border) !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    white-space: nowrap !important;
+    user-select: none !important;
+    background: var(--page-bg-secondary) !important;
+    color: var(--page-text) !important;
+    border-color: var(--page-border) !important;
   }
 
   .page-button[href]:hover {
-    text-decoration: none;
+    text-decoration: none !important;
     color: inherit !important;
-    background: inherit !important;
-    padding: inherit !important;
-    margin: inherit !important;
+    background: var(--page-bg-elevated) !important;
+    border-color: var(--page-border-strong) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--page-shadow-sm) !important;
   }
 
   .page-button[href]:focus {
-    outline: 2px solid var(--blue500);
-    outline-offset: 2px;
+    outline: 2px solid var(--page-accent) !important;
+    outline-offset: 2px !important;
+  }
+
+  .page-button[href]:active {
+    transform: translateY(0) !important;
+    box-shadow: var(--page-shadow-xs) !important;
   }
 
   .page-button[href]:hover::after {
     width: 0 !important;
   }
 
+  [data-theme="dark"] .page-button[href] {
+    background: var(--page-bg-secondary) !important;
+    color: var(--page-text) !important;
+    border-color: var(--page-border) !important;
+  }
+
+  [data-theme="dark"] .page-button[href]:hover {
+    background: var(--page-bg-elevated) !important;
+    border-color: var(--page-border-strong) !important;
+    color: var(--page-text) !important;
+  }
+
   [data-theme="dark"] .page-button[href]:focus {
-    outline-color: var(--blue400);
+    outline-color: var(--page-accent) !important;
+  }
+
+  /* 링크 버튼 variant별 스타일 */
+  .page-button[href].page-button-primary {
+    background: var(--blue600) !important;
+    border-color: var(--blue600) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  .page-button[href].page-button-primary:hover {
+    background: var(--blue700) !important;
+    border-color: var(--blue700) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  .page-button[href].page-button-success {
+    background: var(--green600) !important;
+    border-color: var(--green600) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  .page-button[href].page-button-success:hover {
+    background: var(--green700) !important;
+    border-color: var(--green700) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  .page-button[href].page-button-warning {
+    background: var(--orange600) !important;
+    border-color: var(--orange600) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  .page-button[href].page-button-warning:hover {
+    background: var(--orange700) !important;
+    border-color: var(--orange700) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  .page-button[href].page-button-error {
+    background: var(--red600) !important;
+    border-color: var(--red600) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  .page-button[href].page-button-error:hover {
+    background: var(--red700) !important;
+    border-color: var(--red700) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  .page-button[href].page-button-ghost {
+    background: transparent !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
+  }
+
+  .page-button[href].page-button-ghost:hover {
+    background: var(--page-bg-secondary) !important;
+    border-color: var(--page-border-strong) !important;
+    color: var(--page-text) !important;
+  }
+
+  /* 다크 모드 링크 버튼 variant */
+  [data-theme="dark"] .page-button[href].page-button-primary {
+    background: var(--blue500) !important;
+    border-color: var(--blue500) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  [data-theme="dark"] .page-button[href].page-button-primary:hover {
+    background: var(--blue600) !important;
+    border-color: var(--blue600) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  [data-theme="dark"] .page-button[href].page-button-success {
+    background: var(--green500) !important;
+    border-color: var(--green500) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  [data-theme="dark"] .page-button[href].page-button-success:hover {
+    background: var(--green600) !important;
+    border-color: var(--green600) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  [data-theme="dark"] .page-button[href].page-button-warning {
+    background: var(--orange500) !important;
+    border-color: var(--orange500) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  [data-theme="dark"] .page-button[href].page-button-warning:hover {
+    background: var(--orange600) !important;
+    border-color: var(--orange600) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  [data-theme="dark"] .page-button[href].page-button-error {
+    background: var(--red500) !important;
+    border-color: var(--red500) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  [data-theme="dark"] .page-button[href].page-button-error:hover {
+    background: var(--red600) !important;
+    border-color: var(--red600) !important;
+    color: var(--neutralWhite) !important;
+  }
+
+  [data-theme="dark"] .page-button[href].page-button-ghost {
+    background: transparent !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] .page-button[href].page-button-ghost:hover {
+    background: var(--page-bg-secondary) !important;
+    border-color: var(--page-border-strong) !important;
+    color: var(--page-text) !important;
   }
 
   .page-button-icon {
@@ -118,6 +326,9 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
     align-items: center;
     justify-content: center;
     transition: transform 0.2s ease;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
   }
 
   .page-button:hover .page-button-icon {
@@ -129,146 +340,169 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
     font-weight: inherit;
   }
 
-  /* Variants */
+  /* 전역 스타일로 아이콘 border 제거 */
+  :global(.page-button .page-button-icon) {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  :global(.page-button-text) {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* Default Button */
   .page-button-default {
-    background: var(--neutral100);
-    border-color: var(--neutral300);
-    color: var(--neutral600);
+    background: var(--page-bg-secondary);
+    border-color: var(--page-border);
+    color: var(--page-text);
   }
 
   .page-button-default:hover:not(:disabled) {
-    background: var(--neutralWhite);
-    border-color: var(--neutral400);
+    background: var(--page-bg-elevated);
+    border-color: var(--page-border-strong);
+    color: var(--page-text);
   }
 
-  [data-theme="dark"] .page-button-default {
-    background: var(--neutral800);
-    border-color: var(--neutral600);
-    color: var(--neutral200);
+  :global([data-theme="dark"]) .page-button-default {
+    background: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
   }
 
-  [data-theme="dark"] .page-button-default:hover:not(:disabled) {
-    background: var(--neutral700);
-    border-color: var(--neutral500);
+  :global([data-theme="dark"]) .page-button-default:hover:not(:disabled) {
+    background: var(--page-bg-elevated) !important;
+    border-color: var(--page-border-strong) !important;
+    color: var(--page-text) !important;
   }
 
+  /* Primary Button */
   .page-button-primary {
     background: var(--blue600);
     border-color: var(--blue600);
-    color: var(--neutralWhite);
+    color: var(--neutralWhite) !important;
   }
 
   .page-button-primary:hover:not(:disabled) {
     background: var(--blue700);
     border-color: var(--blue700);
-    color: var(--neutralWhite);
+    color: var(--neutralWhite) !important;
   }
 
-  [data-theme="dark"] .page-button-primary {
-    background: var(--blue500);
-    border-color: var(--blue500);
-    color: var(--neutralWhite);
+  :global([data-theme="dark"]) .page-button-primary {
+    background: var(--blue500) !important;
+    border-color: var(--blue500) !important;
+    color: var(--neutralWhite) !important;
   }
 
-  [data-theme="dark"] .page-button-primary:hover:not(:disabled) {
-    background: var(--blue600);
-    border-color: var(--blue600);
-    color: var(--neutralWhite);
+  :global([data-theme="dark"]) .page-button-primary:hover:not(:disabled) {
+    background: var(--blue600) !important;
+    border-color: var(--blue600) !important;
+    color: var(--neutralWhite) !important;
   }
 
+  /* Success Button */
   .page-button-success {
     background: var(--green600);
     border-color: var(--green600);
-    color: var(--neutralWhite);
+    color: var(--neutralWhite) !important;
   }
 
   .page-button-success:hover:not(:disabled) {
     background: var(--green700);
     border-color: var(--green700);
-    color: var(--neutralWhite);
+    color: var(--neutralWhite) !important;
   }
 
-  [data-theme="dark"] .page-button-success {
+  :global([data-theme="dark"]) .page-button-success {
     background: var(--green500) !important;
     border-color: var(--green500) !important;
     color: var(--neutralWhite) !important;
   }
 
-  [data-theme="dark"] .page-button-success:hover:not(:disabled) {
+  :global([data-theme="dark"]) .page-button-success:hover:not(:disabled) {
     background: var(--green600) !important;
     border-color: var(--green600) !important;
     color: var(--neutralWhite) !important;
   }
 
+  /* Warning Button */
   .page-button-warning {
     background: var(--orange600);
     border-color: var(--orange600);
-    color: var(--neutralWhite);
+    color: var(--neutralWhite) !important;
   }
 
   .page-button-warning:hover:not(:disabled) {
     background: var(--orange700);
     border-color: var(--orange700);
-    color: var(--neutralWhite);
+    color: var(--neutralWhite) !important;
   }
 
-  [data-theme="dark"] .page-button-warning {
+  :global([data-theme="dark"]) .page-button-warning {
     background: var(--orange500) !important;
     border-color: var(--orange500) !important;
     color: var(--neutralWhite) !important;
   }
 
-  [data-theme="dark"] .page-button-warning:hover:not(:disabled) {
+  :global([data-theme="dark"]) .page-button-warning:hover:not(:disabled) {
     background: var(--orange600) !important;
     border-color: var(--orange600) !important;
     color: var(--neutralWhite) !important;
   }
 
+  /* Error Button */
   .page-button-error {
     background: var(--red600);
     border-color: var(--red600);
-    color: var(--neutralWhite);
+    color: var(--neutralWhite) !important;
   }
 
   .page-button-error:hover:not(:disabled) {
     background: var(--red700);
     border-color: var(--red700);
-    color: var(--neutralWhite);
+    color: var(--neutralWhite) !important;
   }
 
-  [data-theme="dark"] .page-button-error {
+  :global([data-theme="dark"]) .page-button-error {
     background: var(--red500) !important;
     border-color: var(--red500) !important;
     color: var(--neutralWhite) !important;
   }
 
-  [data-theme="dark"] .page-button-error:hover:not(:disabled) {
+  :global([data-theme="dark"]) .page-button-error:hover:not(:disabled) {
     background: var(--red600) !important;
     border-color: var(--red600) !important;
     color: var(--neutralWhite) !important;
   }
 
+  /* Ghost Button */
   .page-button-ghost {
     background: transparent;
-    border-color: var(--neutral400);
-    color: var(--neutral600);
+    border-color: var(--page-border);
+    color: var(--page-text);
   }
 
   .page-button-ghost:hover:not(:disabled) {
-    background: var(--neutral100);
-    border-color: var(--neutral500);
-    color: var(--neutral800);
+    background: var(--page-bg-secondary);
+    border-color: var(--page-border-strong);
+    color: var(--page-text);
   }
 
-  [data-theme="dark"] .page-button-ghost {
-    color: var(--neutral300) !important;
-    border-color: var(--neutral600) !important;
+  :global([data-theme="dark"]) .page-button-ghost {
+    background: transparent !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
   }
 
-  [data-theme="dark"] .page-button-ghost:hover:not(:disabled) {
-    background: var(--neutral800) !important;
-    border-color: var(--neutral500) !important;
-    color: var(--neutral100) !important;
+  :global([data-theme="dark"]) .page-button-ghost:hover:not(:disabled) {
+    background: var(--page-bg-secondary) !important;
+    border-color: var(--page-border-strong) !important;
+    color: var(--page-text) !important;
   }
 
   /* Sizes */
@@ -334,36 +568,11 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
 
   /* 포커스 스타일 */
   .page-button:focus-visible {
-    outline: 2px solid var(--blue500);
+    outline: 2px solid var(--page-accent);
     outline-offset: 2px;
   }
 
   [data-theme="dark"] .page-button:focus-visible {
-    outline-color: var(--blue400);
-  }
-
-  /* 전역 버튼 스타일 덮어쓰기 - Default 버튼만 */
-  .page-button-default {
-    background: var(--neutral100) !important;
-    color: var(--neutral600) !important;
-    border-color: var(--neutral300) !important;
-  }
-
-  .page-button-default:hover {
-    background: var(--neutralWhite) !important;
-    border-color: var(--neutral400) !important;
-    color: var(--neutral800) !important;
-  }
-
-  [data-theme="dark"] .page-button-default {
-    background: var(--neutral800) !important;
-    color: var(--neutral200) !important;
-    border-color: var(--neutral600) !important;
-  }
-
-  [data-theme="dark"] .page-button-default:hover {
-    background: var(--neutral700) !important;
-    border-color: var(--neutral500) !important;
-    color: var(--neutral100) !important;
+    outline-color: var(--page-accent);
   }
 </style>

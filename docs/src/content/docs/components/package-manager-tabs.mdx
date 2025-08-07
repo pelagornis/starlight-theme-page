@@ -12,11 +12,14 @@ PackageManagerTabs 컴포넌트는 npm, pnpm, yarn 등 다양한 패키지 매�
 
 ## 기본 사용법
 
-<PackageManagerTabs />
+<PackageManagerTabs id="basic-example" />
 
 ## 다른 패키지 사용
 
-<PackageManagerTabs packageName="my-awesome-package" />
+<PackageManagerTabs
+  packageName="my-awesome-package"
+  id="custom-package-example"
+/>
 
 ## Props
 
@@ -26,6 +29,7 @@ PackageManagerTabs 컴포넌트는 npm, pnpm, yarn 등 다양한 패키지 매�
 | `npmCommand`  | `string` | 자동 생성            | npm 명령어  |
 | `pnpmCommand` | `string` | 자동 생성            | pnpm 명령어 |
 | `yarnCommand` | `string` | 자동 생성            | yarn 명령어 |
+| `id`          | `string` | 자동 생성            | 고유 식별자 |
 
 ## 사용 예시
 
