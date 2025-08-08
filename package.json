@@ -14,7 +14,7 @@
         "start": "pnpm --filter docs dev"
     },
     "devDependencies": {
-        "astro": "^4.4.0"
+        "astro": "^5.12.8"
     },
     "repository": {
         "type": "git",
