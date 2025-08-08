@@ -73,6 +73,14 @@ const showFooterInSplash =
   [data-theme="dark"] .page-footer-container {
     background: var(--page-bg-secondary) !important;
     border-top-color: var(--page-border) !important;
+    color: var(--page-text) !important;
+  }
+
+  /* 전역 다크모드 스타일 오버라이드 */
+  :global([data-theme="dark"]) .page-footer-container {
+    background: var(--page-bg-secondary) !important;
+    border-top-color: var(--page-border) !important;
+    color: var(--page-text) !important;
   }
 
   .page-footer-padding {
@@ -89,7 +97,12 @@ const showFooterInSplash =
 
   [data-theme="dark"] :global(.sl-footer) {
     background: transparent !important;
-    color: var(--page-bg-secondary) !important;
+    color: var(--page-text) !important;
+  }
+
+  :global([data-theme="dark"]) :global(.sl-footer) {
+    background: transparent !important;
+    color: var(--page-text) !important;
   }
 
   :global(.page-footer-container .sl-footer) {
@@ -356,10 +369,22 @@ const showFooterInSplash =
   /* 다크모드 래퍼 스타일 */
   [data-theme="dark"] .page-footer-wrapper {
     background: var(--page-bg) !important;
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] .page-footer-padding {
     background: var(--page-bg) !important;
+    color: var(--page-text) !important;
+  }
+
+  :global([data-theme="dark"]) .page-footer-wrapper {
+    background: var(--page-bg) !important;
+    color: var(--page-text) !important;
+  }
+
+  :global([data-theme="dark"]) .page-footer-padding {
+    background: var(--page-bg) !important;
+    color: var(--page-text) !important;
   }
 
   /* 모바일 반응형 */
