@@ -1,7 +1,12 @@
 import type { StarlightPlugin, StarlightUserConfig } from '@astrojs/starlight/types';
 
+export interface NavigationItem {
+  href: string;
+  label: string;
+}
+
 export interface pageConfig {
-  // 추후 확장 가능한 설정들
+  navigation?: NavigationItem[];
 }
 
 export type pageUserConfig = pageConfig;
@@ -15,6 +20,11 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
     name: 'page-plugin',
     hooks: {
       setup({ config, updateConfig }) {
+        // navigation 설정을 환경 변수로 저장
+        if (userConfig?.navigation) {
+          process.env.PAGE_NAVIGATION = JSON.stringify(userConfig.navigation);
+        }
+
         updateConfig({
           components: {
             // page 스타일 컴포넌트들 오버라이드
@@ -40,3 +50,13 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
     },
   };
 }
+
+// navigation 설정을 가져오는 함수
+export const getPageNavigation = (): NavigationItem[] | undefined => {
+  try {
+    const navigation = process.env.PAGE_NAVIGATION;
+    return navigation ? JSON.parse(navigation) : undefined;
+  } catch {
+    return undefined;
+  }
+};
