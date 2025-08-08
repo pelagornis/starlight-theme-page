@@ -183,3 +183,81 @@
   // 페이지 언로드 시 정리
   window.addEventListener("beforeunload", cleanup);
 </script>
+
+<style>
+  .page-mobile-menu-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--page-border);
+    border-radius: var(--page-radius);
+    padding: var(--page-space-3);
+    font-size: 0.875rem;
+    color: var(--page-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  .page-mobile-menu-toggle:hover {
+    border-color: var(--page-accent);
+    background: var(--page-bg-secondary);
+  }
+
+  .page-mobile-menu-toggle:focus {
+    outline: none;
+    border-color: var(--page-accent);
+    box-shadow: 0 0 0 2px var(--page-accent-light);
+  }
+
+  .page-menu-icon {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+    fill: currentColor;
+    color: inherit;
+    stroke: currentColor;
+  }
+
+  /* 다크모드 스타일 */
+  [data-theme="dark"] .page-mobile-menu-toggle {
+    background: transparent;
+    border-color: var(--page-border);
+    color: var(--page-text);
+  }
+
+  [data-theme="dark"] .page-mobile-menu-toggle:hover {
+    border-color: var(--page-accent);
+    background: var(--page-bg-secondary);
+  }
+
+  /* 모바일에서만 표시 */
+  @media (max-width: 768px) {
+    .page-mobile-menu-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-mobile-menu-toggle {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      min-height: 36px;
+    }
+
+    .page-menu-icon {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      min-height: 18px;
+    }
+  }
+</style>

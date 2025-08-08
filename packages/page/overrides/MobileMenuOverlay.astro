@@ -11,7 +11,7 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
-    z-index: 9999;
+    z-index: 99999;
     opacity: 0;
     visibility: hidden;
     display: flex;
@@ -53,19 +53,34 @@
   }
 
   .page-mobile-menu-close {
-    background: none;
-    border: none;
-    font-size: var(--page-font-size-2xl);
-    color: var(--page-text-secondary);
-    cursor: pointer;
-    padding: var(--page-space-1);
+    background: transparent;
+    border: 1px solid var(--page-border);
     border-radius: var(--page-radius);
+    padding: var(--page-space-3);
+    font-size: 0.875rem;
+    color: var(--page-text);
+    cursor: pointer;
     transition: all 0.2s ease;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .page-mobile-menu-close:hover {
-    background: var(--page-accent-light);
-    color: var(--page-accent);
+    border-color: var(--page-accent);
+    background: var(--page-bg-secondary);
+  }
+
+  .page-mobile-menu-close:focus {
+    outline: none;
+    border-color: var(--page-accent);
+    box-shadow: 0 0 0 2px var(--page-accent-light);
   }
 
   .page-mobile-menu-nav {
@@ -180,12 +195,14 @@
   }
 
   [data-theme="dark"] .page-mobile-menu-close {
-    color: var(--page-text-secondary) !important;
+    background: transparent !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] .page-mobile-menu-close:hover {
-    background: var(--page-accent-light) !important;
-    color: var(--page-accent) !important;
+    border-color: var(--page-accent) !important;
+    background: var(--page-bg-secondary) !important;
   }
 
   [data-theme="dark"] .page-mobile-menu-nav .page-sidebar-link {
@@ -207,6 +224,42 @@
   [data-theme="dark"] .page-mobile-menu-nav .page-sidebar-badge {
     background: var(--page-neutral-700) !important;
     color: var(--page-neutral-white) !important;
+  }
+
+  /* 다크모드에서 오버레이 배경 강화 */
+  [data-theme="dark"] .page-mobile-menu-overlay {
+    background: rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(8px) !important;
+  }
+
+  /* 전역 다크모드 스타일 오버라이드 */
+  :global([data-theme="dark"]) .page-mobile-menu-overlay {
+    background: rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(8px) !important;
+    color: inherit !important;
+  }
+
+  :global([data-theme="dark"]) .page-mobile-menu-content {
+    background: var(--page-bg) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
+  }
+
+  :global([data-theme="dark"]) .page-mobile-menu-header {
+    background: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
+  }
+
+  :global([data-theme="dark"]) .page-mobile-menu-close {
+    background: transparent !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
+  }
+
+  :global([data-theme="dark"]) .page-mobile-menu-close:hover {
+    border-color: var(--page-accent) !important;
+    background: var(--page-bg-secondary) !important;
   }
 </style>
 
