@@ -43,11 +43,11 @@
         "directory": "packages/page"
     },
     "devDependencies": {
-        "@astrojs/starlight": "^0.32.4",
-        "astro": "^5.5.4"
+        "@astrojs/starlight": "^0.35.2",
+        "astro": "^5.12.8"
     },
     "peerDependencies": {
-        "@astrojs/starlight": ">=0.32"
+        "@astrojs/starlight": ">=0.35.2"
     },
     "engines": {
         "node": "^18.17.1 || ^20.3.0 || >=21.0.0"
