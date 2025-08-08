@@ -90,9 +90,16 @@
   function toggleSidebar(): boolean {
     console.log("toggleSidebar 함수 호출됨");
 
-    // 전역 toggleMobileMenu 함수 사용
-    if (typeof (window as any).toggleMobileMenu === "function") {
-      return (window as any).toggleMobileMenu();
+    // 전역 toggleMobileMenu 함수 사용 (안전한 체크)
+    if (
+      typeof window !== "undefined" &&
+      typeof (window as any).toggleMobileMenu === "function"
+    ) {
+      try {
+        return (window as any).toggleMobileMenu();
+      } catch (error) {
+        console.warn("전역 toggleMobileMenu 함수 실행 실패:", error);
+      }
     }
 
     // 폴백: 직접 구현
@@ -105,22 +112,31 @@
       return false;
     }
 
-    const isOpen = mobileMenu.classList.contains("page-mobile-menu-open");
-    console.log("현재 메뉴 상태:", isOpen ? "열림" : "닫힘");
+    try {
+      const isOpen = mobileMenu.classList.contains("page-mobile-menu-open");
+      console.log("현재 메뉴 상태:", isOpen ? "열림" : "닫힘");
 
-    if (isOpen) {
-      mobileMenu.classList.remove("page-mobile-menu-open");
-      document.body.style.overflow = "";
-      console.log("모바일 메뉴 닫힘");
+      if (isOpen) {
+        mobileMenu.classList.remove("page-mobile-menu-open");
+        if (document.body) {
+          document.body.style.overflow = "";
+        }
+        console.log("모바일 메뉴 닫힘");
+        return false;
+      } else {
+        mobileMenu.classList.add("page-mobile-menu-open");
+        if (document.body) {
+          document.body.style.overflow = "hidden";
+        }
+        console.log(
+          "모바일 메뉴 열림, 클래스 추가됨:",
+          mobileMenu.classList.toString()
+        );
+        return true;
+      }
+    } catch (error) {
+      console.error("모바일 메뉴 토글 중 에러:", error);
       return false;
-    } else {
-      mobileMenu.classList.add("page-mobile-menu-open");
-      document.body.style.overflow = "hidden";
-      console.log(
-        "모바일 메뉴 열림, 클래스 추가됨:",
-        mobileMenu.classList.toString()
-      );
-      return true;
     }
   }
 
@@ -157,8 +173,11 @@
 
   // Astro 페이지 로드 시에도 초기화 (기존 리스너 정리 후)
   document.addEventListener("astro:page-load", () => {
-    cleanup();
-    initializeMobileMenu();
+    // 약간의 지연을 두어 DOM이 완전히 로드된 후 실행
+    setTimeout(() => {
+      cleanup();
+      initializeMobileMenu();
+    }, 10);
   });
 
   // 페이지 언로드 시 정리
