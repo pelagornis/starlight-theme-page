@@ -220,10 +220,33 @@
   
 }
 
-/* ===== 기본 스타일 ===== */
-* {
-  box-sizing: border-box;
-}
+  /* ===== 기본 스타일 ===== */
+  * {
+    box-sizing: border-box;
+  }
+
+  /* ===== ThemeSelect 아이콘 보호 ===== */
+  .page-theme-toggle-button .moon {
+    opacity: 0 !important;
+    transform: rotate(90deg) scale(0.8) !important;
+    transition: all 0.2s ease !important;
+  }
+
+  [data-theme="dark"] .page-theme-toggle-button .moon {
+    opacity: 1 !important;
+    transform: rotate(0deg) scale(1) !important;
+  }
+
+  .page-theme-toggle-button .sun {
+    opacity: 1 !important;
+    transform: rotate(0deg) scale(1) !important;
+    transition: all 0.2s ease !important;
+  }
+
+  [data-theme="dark"] .page-theme-toggle-button .sun {
+    opacity: 0 !important;
+    transform: rotate(-90deg) scale(0.8) !important;
+  }
 
 html {
   scroll-behavior: smooth;

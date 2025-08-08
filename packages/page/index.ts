@@ -36,13 +36,14 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
             Search: '@pelagornis/page/overrides/Search.astro',
             ThemeSelect: '@pelagornis/page/overrides/ThemeSelect.astro',
             LanguageSelect: '@pelagornis/page/overrides/LanguageSelect.astro',
+            SocialIcons: '@pelagornis/page/overrides/SocialIcons.astro',
             Footer: '@pelagornis/page/overrides/Footer.astro',
             MarkdownContent: '@pelagornis/page/overrides/MarkdownContent.astro',
             Hero: '@pelagornis/page/overrides/Hero.astro',
             MobileMenuToggle: '@pelagornis/page/overrides/MobileMenuToggle.astro',
           },
           customCss: [
-            // page 스타일 CSS를 먼저 로드하여 기본 스타일을 override
+            ...(config.customCss ?? []),
             '@pelagornis/page/styles.css',
           ],
         });

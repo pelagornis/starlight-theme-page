@@ -1,0 +1,161 @@
+---
+import Default from "@astrojs/starlight/components/SocialIcons.astro";
+---
+
+<div class="page-social-icons-wrapper">
+  <Default />
+</div>
+
+<style>
+  .page-social-icons-wrapper {
+    display: flex;
+    gap: var(--page-space-4);
+  }
+</style>
+
+<style is:global>
+  /* ===== Social Icons 스타일 ===== */
+
+  /* 기본 소셜 컨테이너 */
+  .page-social-icons-wrapper :global(.sl-social) {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--page-space-2) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+
+  /* 소셜 링크 기본 스타일 */
+  .page-social-icons-wrapper :global(.sl-social a),
+  :global(.sl-social a) {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: var(--page-space-3) !important;
+    border: none !important;
+    border-radius: var(--page-radius) !important;
+    background: var(--page-accent) !important;
+    color: var(--page-bg) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    overflow: hidden !important;
+    z-index: 2 !important;
+    isolation: isolate !important;
+  }
+
+  /* 호버 효과 */
+  .page-social-icons-wrapper :global(.sl-social a:hover),
+  :global(.sl-social a:hover) {
+    background: var(--page-accent-hover) !important;
+    color: var(--page-bg) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--page-shadow-sm) !important;
+    z-index: 3 !important;
+  }
+
+  /* SVG 아이콘 스타일 */
+  .page-social-icons-wrapper :global(.sl-social svg),
+  :global(.sl-social svg) {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    fill: currentColor !important;
+    color: inherit !important;
+    stroke: none !important;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+
+  /* 포커스 효과 */
+  .page-social-icons-wrapper :global(.sl-social a:focus-visible),
+  :global(.sl-social a:focus-visible) {
+    outline: 2px solid var(--page-accent) !important;
+    outline-offset: 2px !important;
+    z-index: 4 !important;
+  }
+
+  /* 활성 상태 */
+  .page-social-icons-wrapper :global(.sl-social a:active),
+  :global(.sl-social a:active) {
+    transform: translateY(0) !important;
+    transition: transform 0.1s ease !important;
+  }
+
+  /* 다크모드 스타일 */
+  [data-theme="dark"] .page-social-icons-wrapper :global(.sl-social a),
+  [data-theme="dark"] :global(.sl-social a) {
+    background: var(--page-accent) !important;
+    color: var(--page-bg) !important;
+    border: none !important;
+  }
+
+  [data-theme="dark"] .page-social-icons-wrapper :global(.sl-social a:hover),
+  [data-theme="dark"] :global(.sl-social a:hover) {
+    background: var(--page-neutral-300) !important;
+    color: var(--page-bg) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  /* 모바일 반응형 */
+  @media (max-width: 768px) {
+    .page-social-icons-wrapper :global(.sl-social) {
+      gap: var(--page-space-1) !important;
+    }
+
+    .page-social-icons-wrapper :global(.sl-social a),
+    :global(.sl-social a) {
+      width: 36px !important;
+      height: 36px !important;
+      min-width: 36px !important;
+      min-height: 36px !important;
+    }
+
+    .page-social-icons-wrapper :global(.sl-social svg),
+    :global(.sl-social svg) {
+      width: 18px !important;
+      height: 18px !important;
+      min-width: 18px !important;
+      min-height: 18px !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-social-icons-wrapper :global(.sl-social a),
+    :global(.sl-social a) {
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      min-height: 32px !important;
+    }
+
+    .page-social-icons-wrapper :global(.sl-social svg),
+    :global(.sl-social svg) {
+      width: 16px !important;
+      height: 16px !important;
+      min-width: 16px !important;
+      min-height: 16px !important;
+    }
+  }
+
+  /* 겹침 방지 */
+  .page-social-icons-wrapper {
+    position: relative !important;
+    z-index: 1 !important;
+    isolation: isolate !important;
+  }
+
+  :global(.sl-social) * {
+    position: relative !important;
+  }
+</style>

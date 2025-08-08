@@ -36,10 +36,15 @@ export default defineConfig({
       ],
       social: [
         {
+            icon: 'discord',
+            label: 'Discord',
+            href: 'https://github.com/pelagornis/starlight-theme-page',
+        },
+        {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/pelagornis/starlight-theme-page'
-        }
+          href: 'https://github.com/pelagornis/starlight-theme-page',
+        },
       ],
       title: 'starlight/page',
       locales: {

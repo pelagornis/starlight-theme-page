@@ -1,8 +1,10 @@
 ---
 // page 스타일 헤더 구성
 import Search from "./Search.astro";
+import SocialIcons from "./SocialIcons.astro";
 import MobileMenuToggle from "./MobileMenuToggle.astro";
 import LanguageSelect from "./LanguageSelect.astro";
+import ThemeSelect from "./ThemeSelect.astro";
 import config from "virtual:starlight/user-config";
 
 // locale을 고려한 경로 생성 함수
@@ -58,64 +60,13 @@ try {
       </div>
 
       <!-- page 스타일 테마 토글 -->
-      <button
-        class="page-theme-toggle"
-        aria-label="테마 변경"
-        id="page-theme-toggle"
-      >
-        <!-- 라이트 모드 아이콘 -->
-        <svg
-          class="page-sun-icon"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-
-        <!-- 다크 모드 아이콘 -->
-        <svg
-          class="page-moon-icon"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          style="display: none;"
-        >
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-      </button>
+      <ThemeSelect />
 
       <!-- page 스타일 언어 선택 -->
       <LanguageSelect />
 
-      <!-- page 스타일 GitHub 링크 -->
-      <a
-        href="https://github.com/your-username/starlight-theme-page"
-        class="page-btn-primary page-btn page-github-btn"
-        target="_blank"
-        rel="noopener"
-        aria-label="GitHub에서 보기"
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-          ></path>
-        </svg>
-      </a>
+      <!-- page 스타일 소셜 링크 -->
+      <SocialIcons />
 
       <!-- page 스타일 모바일 메뉴 토글 -->
       <MobileMenuToggle />
@@ -128,91 +79,11 @@ try {
   let isInitialized = false;
   let themeToggleHandler: (() => void) | null = null;
   let astroPageLoadHandler: (() => void) | null = null;
-  let resizeHandler: (() => void) | null = null;
 
-  // page 스타일 테마 토글
+  // page 스타일 테마 토글 (ThemeSelect 컴포넌트로 대체됨)
   function initpageThemeToggle() {
-    const toggleButton = document.getElementById(
-      "page-theme-toggle"
-    ) as HTMLButtonElement;
-    const sunIcon = document.querySelector(".page-sun-icon") as HTMLElement;
-    const moonIcon = document.querySelector(".page-moon-icon") as HTMLElement;
-
-    if (!toggleButton || !sunIcon || !moonIcon) return;
-
-    // 저장된 테마 불러오기 또는 기본값
-    function getSavedTheme() {
-      if (typeof localStorage !== "undefined") {
-        return localStorage.getItem("starlight-theme") || "light";
-      }
-      return "light";
-    }
-
-    // 현재 테마 확인
-    function getCurrentTheme() {
-      return (
-        document.documentElement.getAttribute("data-theme") || getSavedTheme()
-      );
-    }
-
-    // 부드러운 아이콘 전환
-    function updateIcons(theme: string) {
-      if (theme === "dark") {
-        if (sunIcon) sunIcon.style.opacity = "0";
-        setTimeout(() => {
-          if (sunIcon) sunIcon.style.display = "none";
-          if (moonIcon) moonIcon.style.display = "block";
-          if (moonIcon) moonIcon.style.opacity = "0";
-          setTimeout(() => {
-            if (moonIcon) moonIcon.style.opacity = "1";
-          }, 50);
-        }, 100);
-      } else {
-        if (moonIcon) moonIcon.style.opacity = "0";
-        setTimeout(() => {
-          if (moonIcon) moonIcon.style.display = "none";
-          if (sunIcon) sunIcon.style.display = "block";
-          if (sunIcon) sunIcon.style.opacity = "0";
-          setTimeout(() => {
-            if (sunIcon) sunIcon.style.opacity = "1";
-          }, 50);
-        }, 100);
-      }
-    }
-
-    // 테마 적용
-    function applyTheme(theme: string) {
-      document.documentElement.setAttribute("data-theme", theme);
-      if (typeof localStorage !== "undefined") {
-        localStorage.setItem("starlight-theme", theme);
-      }
-      updateIcons(theme);
-    }
-
-    // 초기 설정
-    const initialTheme = getSavedTheme();
-    applyTheme(initialTheme);
-
-    // page 스타일 부드러운 클릭 효과 (중복 등록 방지)
-    if (!themeToggleHandler) {
-      themeToggleHandler = () => {
-        const currentTheme = getCurrentTheme();
-        const newTheme = currentTheme === "dark" ? "light" : "dark";
-
-        // page 스타일 클릭 애니메이션
-        toggleButton.style.transform = "scale(0.95)";
-        setTimeout(() => {
-          toggleButton.style.transform = "";
-        }, 150);
-
-        applyTheme(newTheme);
-      };
-      toggleButton.addEventListener("click", themeToggleHandler);
-    }
-
-    // 아이콘에 부드러운 전환 효과 추가
-    sunIcon.style.transition = "opacity 0.2s ease";
-    moonIcon.style.transition = "opacity 0.2s ease";
+    // ThemeSelect 컴포넌트가 테마 토글 기능을 제공하므로 여기서는 초기화만 수행
+    // 필요한 경우 여기에 추가 로직을 구현할 수 있습니다
   }
 
   // page 스타일 활성 네비게이션
@@ -243,18 +114,6 @@ try {
     initpageThemeToggle();
     setpageActiveNavLink();
 
-    // resize 이벤트 리스너 추가 (중복 등록 방지)
-    if (typeof window !== "undefined" && !resizeHandler) {
-      resizeHandler = () => {
-        // 디바운스 처리로 성능 최적화
-        clearTimeout((window as any).resizeTimeout);
-        (window as any).resizeTimeout = setTimeout(() => {
-          setpageActiveNavLink();
-        }, 100);
-      };
-      window.addEventListener("resize", resizeHandler);
-    }
-
     isInitialized = true;
   }
 
@@ -274,11 +133,6 @@ try {
       astroPageLoadHandler = null;
     }
 
-    if (typeof window !== "undefined" && resizeHandler) {
-      window.removeEventListener("resize", resizeHandler);
-      resizeHandler = null;
-    }
-
     isInitialized = false;
   }
 
@@ -292,11 +146,8 @@ try {
   // Astro 페이지 변경 시에도 실행 (기존 리스너 정리 후)
   if (!astroPageLoadHandler) {
     astroPageLoadHandler = () => {
-      // 약간의 지연을 두어 DOM이 완전히 로드된 후 실행
-      setTimeout(() => {
-        cleanup();
-        initializeHeader();
-      }, 10);
+      cleanup();
+      initializeHeader();
     };
     document.addEventListener("astro:page-load", astroPageLoadHandler);
   }
@@ -491,13 +342,13 @@ try {
     color: var(--page-bg) !important;
   }
 
-  /* GitHub 버튼 특별 스타일 */
-  [data-theme="dark"] .page-github-btn {
+  /* 소셜 버튼 특별 스타일 */
+  [data-theme="dark"] .page-btn-primary {
     background: var(--page-accent) !important;
     color: var(--page-bg) !important;
   }
 
-  [data-theme="dark"] .page-github-btn:hover {
+  [data-theme="dark"] .page-btn-primary:hover {
     background: var(--page-neutral-300) !important;
     color: var(--page-bg) !important;
   }
@@ -507,35 +358,8 @@ try {
     height: 20px;
   }
 
-  /* page 스타일 테마 토글 */
-  .page-theme-toggle {
-    width: 40px;
-    height: 40px;
-    border: none;
-    border-radius: var(--page-radius);
-    background: var(--page-accent-light);
-    color: var(--page-text-secondary);
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .page-theme-toggle:hover {
-    background: var(--page-neutral-200);
-    color: var(--page-text);
-    transform: translateY(-1px);
-  }
-
-  [data-theme="dark"] .page-theme-toggle:hover {
-    background: var(--page-neutral-800);
-  }
-
-  .page-theme-toggle svg {
-    width: 18px;
-    height: 18px;
-  }
+  /* page 스타일 테마 토글 (ThemeSelect 컴포넌트로 대체됨) */
+  /* 테마 토글 관련 스타일은 ThemeSelect.astro에서 관리됩니다 */
 
   /* page 스타일 검색 래퍼 */
   .page-search-wrapper {
