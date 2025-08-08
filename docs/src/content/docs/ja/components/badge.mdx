@@ -1,0 +1,166 @@
+---
+title: Badge
+description: 状態、バージョン、カテゴリなどを表示する小さなコンポーネント
+sidebar:
+  order: 5
+  group: components
+---
+
+import Badge from "@pelagornis/page/components/Badge.astro";
+
+Badgeコンポーネントは、状態、バージョン、カテゴリなどを簡潔に表示する小さなコンポーネントです。モダンなガラス効果とグラデーションを提供します。
+
+## 基本的な使用方法
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Badge variant="default">Default</Badge>
+  <Badge variant="primary">Primary</Badge>
+  <Badge variant="success">Success</Badge>
+  <Badge variant="warning">Warning</Badge>
+  <Badge variant="error">Error</Badge>
+</div>
+
+## サイズ例
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Badge variant="primary" size="sm">
+    Small
+  </Badge>
+  <Badge variant="primary" size="md">
+    Medium
+  </Badge>
+  <Badge variant="primary" size="lg">
+    Large
+  </Badge>
+</div>
+
+## アイコン付き
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Badge variant="primary" size="sm" icon="📦">
+    npm
+  </Badge>
+  <Badge variant="success" size="md" icon="🚀">
+    pnpm
+  </Badge>
+  <Badge variant="warning" size="lg" icon="🧶">
+    yarn
+  </Badge>
+  <Badge variant="gradient" size="md" icon="✨">
+    Special
+  </Badge>
+</div>
+
+## Props
+
+| Prop      | Type                                                                        | Default     | Description       |
+| --------- | --------------------------------------------------------------------------- | ----------- | ----------------- |
+| `variant` | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'gradient'` | `'default'` | バッジのスタイル   |
+| `size`    | `'sm' \| 'md' \| 'lg'`                                                      | `'md'`      | バッジのサイズ     |
+| `icon`    | `string`                                                                    | -           | アイコン (オプション) |
+
+## 使用例
+
+### 基本的なバッジ
+
+```mdx
+<Badge variant="primary">New</Badge>
+```
+
+### サイズ調整
+
+```mdx
+<Badge variant="success" size="sm">
+  Small
+</Badge>
+<Badge variant="success" size="md">
+  Medium
+</Badge>
+<Badge variant="success" size="lg">
+  Large
+</Badge>
+```
+
+### アイコン付き
+
+```mdx
+<Badge variant="primary" icon="📦">
+  npm
+</Badge>
+```
+
+### 様々なスタイル
+
+```mdx
+<Badge variant="default">Default</Badge>
+<Badge variant="primary">Primary</Badge>
+<Badge variant="success">Success</Badge>
+<Badge variant="warning">Warning</Badge>
+<Badge variant="error">Error</Badge>
+<Badge variant="gradient">Gradient</Badge>
+```
+
+## 特徴
+
+### ✨ モダンデザイン
+
+- **ガラス効果**: `backdrop-filter: blur(10px)` を適用
+- **グラデーション背景**: 美しいグラデーション効果
+- **ソフトシャドウ**: 多層シャドウで深さを表現
+- **ホバーアニメーション**: `translateY(-1px) scale(1.05)` 変換とアイコンスケール効果
+
+### 🎨 バリアント別特徴
+
+- **Default**: グレーグラデーション、デフォルト状態用
+- **Primary**: 青色グラデーション、主要情報用
+- **Success**: 緑色グラデーション、成功状態用
+- **Warning**: オレンジ色グラデーション、注意事項用
+- **Error**: 赤色グラデーション、エラー状態用
+- **Gradient**: 特別なグラデーション背景 (新機能)
+
+### 🌙 ダークモードサポート
+
+- 自動色調整
+- 一貫したユーザー体験
+- 完璧なテーマ互換性
+
+### 📱 レスポンシブデザイン
+
+- モバイルで最適化されたサイズ
+- 適応型パディングとフォントサイズ
+- タッチフレンドリーなインターフェース
+
+### 💫 アニメーション効果
+
+- **ホバー効果**: マウスオーバー時の自然な変換
+- **アイコンアニメーション**: ホバー時のアイコンスケール効果
+- **パルスアニメーション**: ホバー時の微妙なパルス効果
+- **スムーズトランジション**: すべての状態変化に自然なトランジション
+
+### ♿ アクセシビリティ
+
+- キーボードナビゲーションサポート
+- フォーカスインジケーター
+- スクリーンリーダー互換
+- 適切なコントラスト比
+
+## スタイリング
+
+Badgeコンポーネントは CSS 変数を通じてカスタマイズできます：
+
+```css
+:root {
+  --page-badge-border-radius: 10px;
+  --page-badge-padding: 6px 12px;
+  --page-badge-gap: 6px;
+}
+```
+
+## ブラウザサポート
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+モダンブラウザで最適なパフォーマンスを提供します。

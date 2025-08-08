@@ -1,16 +1,16 @@
 ---
 title: Button
-description: 다양한 스타일의 버튼을 제공하는 컴포넌트
+description: Features and usage of button component
 sidebar:
-  order: 6
+  order: 4
   group: components
 ---
 
 import Button from "@pelagornis/page/components/Button.astro";
 
-Button 컴포넌트는 다양한 스타일과 크기의 버튼을 제공하며, 링크로도 사용할 수 있습니다. 현대적인 글래스 효과와 그라데이션을 제공합니다.
+The Button component provides buttons with various styles and sizes, and can also be used as links. It offers modern glass effects and gradients.
 
-## 기본 사용법
+## Basic Usage
 
 <div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
   <Button variant="default">Default</Button>
@@ -21,7 +21,7 @@ Button 컴포넌트는 다양한 스타일과 크기의 버튼을 제공하며, 
   <Button variant="ghost">Ghost</Button>
 </div>
 
-## 크기별 예시
+## Size Examples
 
 <div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
   <Button variant="primary" size="sm">
@@ -35,7 +35,7 @@ Button 컴포넌트는 다양한 스타일과 크기의 버튼을 제공하며, 
   </Button>
 </div>
 
-## 아이콘과 함께 사용
+## With Icons
 
 <div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
   <Button variant="primary" size="sm" icon="📥">
@@ -52,40 +52,40 @@ Button 컴포넌트는 다양한 스타일과 크기의 버튼을 제공하며, 
   </Button>
 </div>
 
-## 링크 버튼
+## Link Buttons
 
 <Button variant="primary" href="https://github.com" target="_blank" icon="🔗">
-  GitHub 방문
+  Visit GitHub
 </Button>
 
 <Button variant="ghost" href="/guides/getting-started/" icon="📚">
-  시작하기 가이드
+  Getting Started Guide
 </Button>
 
 <Button variant="gradient" href="https://npmjs.com" target="_blank" icon="📦">
-  npm에서 보기
+  View on npm
 </Button>
 
 ## Props
 
-| Prop       | Type                                                                                   | Default     | Description          |
-| ---------- | -------------------------------------------------------------------------------------- | ----------- | -------------------- |
-| `variant`  | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'ghost' \| 'gradient'` | `'default'` | 버튼의 스타일        |
-| `size`     | `'sm' \| 'md' \| 'lg'`                                                                 | `'md'`      | 버튼의 크기          |
-| `icon`     | `string`                                                                               | -           | 아이콘 (선택사항)    |
-| `href`     | `string`                                                                               | -           | 링크 URL (선택사항)  |
-| `target`   | `string`                                                                               | -           | 링크 타겟 (선택사항) |
-| `disabled` | `boolean`                                                                              | `false`     | 비활성화 여부        |
+| Prop       | Type                                                                                   | Default     | Description            |
+| ---------- | -------------------------------------------------------------------------------------- | ----------- | ---------------------- |
+| `variant`  | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'ghost' \| 'gradient'` | `'default'` | Button style           |
+| `size`     | `'sm' \| 'md' \| 'lg'`                                                                 | `'md'`      | Button size            |
+| `icon`     | `string`                                                                               | -           | Icon (optional)        |
+| `href`     | `string`                                                                               | -           | Link URL (optional)    |
+| `target`   | `string`                                                                               | -           | Link target (optional) |
+| `disabled` | `boolean`                                                                              | `false`     | Disabled state         |
 
-## 사용 예시
+## Usage Examples
 
-### 기본 버튼
+### Basic Button
 
 ```mdx
-<Button variant="primary">클릭하세요</Button>
+<Button variant="primary">Click me</Button>
 ```
 
-### 크기 조절
+### Size Adjustment
 
 ```mdx
 <Button variant="success" size="sm">
@@ -99,23 +99,23 @@ Button 컴포넌트는 다양한 스타일과 크기의 버튼을 제공하며, 
 </Button>
 ```
 
-### 아이콘과 함께
+### With Icon
 
 ```mdx
 <Button variant="primary" icon="📥">
-  다운로드
+  Download
 </Button>
 ```
 
-### 링크 버튼
+### Link Button
 
 ```mdx
 <Button variant="primary" href="/docs" icon="📚">
-  문서 보기
+  View Documentation
 </Button>
 ```
 
-### 외부 링크
+### External Link
 
 ```mdx
 <Button variant="ghost" href="https://github.com" target="_blank">
@@ -123,82 +123,82 @@ Button 컴포넌트는 다양한 스타일과 크기의 버튼을 제공하며, 
 </Button>
 ```
 
-### 다양한 스타일의 링크 버튼
+### Various Link Button Styles
 
 ```mdx
 <Button variant="primary" href="/install" icon="📥">
-  설치하기
+  Install
 </Button>
 
 <Button variant="success" href="/docs" icon="📖">
-  문서 읽기
+  Read Docs
 </Button>
 
 <Button variant="warning" href="/migrate" icon="🔄">
-  마이그레이션
+  Migrate
 </Button>
 
 <Button variant="gradient" href="/special" icon="✨">
-  특별한 기능
+  Special Feature
 </Button>
 ```
 
-### 비활성화된 버튼
+### Disabled Button
 
 ```mdx
 <Button variant="primary" disabled>
-  비활성화됨
+  Disabled
 </Button>
 ```
 
-## 특징
+## Features
 
-### ✨ 현대적인 디자인
+### ✨ Modern Design
 
-- **글래스 효과**: `backdrop-filter: blur(15px)` 적용
-- **그라데이션 배경**: 아름다운 그라데이션 효과
-- **부드러운 그림자**: 다층 그림자로 깊이감 표현
-- **호버 애니메이션**: `translateY(-2px)` 변환과 아이콘 스케일 효과
+- **Glass Effect**: Applied `backdrop-filter: blur(15px)`
+- **Gradient Background**: Beautiful gradient effects
+- **Soft Shadows**: Multi-layered shadows for depth
+- **Hover Animation**: `translateY(-2px)` transform and icon scale effect
 
-### 🎨 Variant별 특징
+### 🎨 Variant-specific Features
 
-- **Default**: 기본 스타일, 라이트/다크 테마에 맞춤
-- **Primary**: 주요 액션용, 파란색 그라데이션
-- **Success**: 성공 액션용, 초록색 그라데이션
-- **Warning**: 주의 액션용, 주황색 그라데이션
-- **Error**: 위험 액션용, 빨간색 그라데이션
-- **Ghost**: 투명 배경, 호버 시만 배경 표시
-- **Gradient**: 특별한 그라데이션 배경 (새로운 기능)
+- **Default**: Default style, adapts to light/dark theme
+- **Primary**: For primary actions, blue gradient
+- **Success**: For success actions, green gradient
+- **Warning**: For warning actions, orange gradient
+- **Error**: For dangerous actions, red gradient
+- **Ghost**: Transparent background, shows background on hover only
+- **Gradient**: Special gradient background (new feature)
 
-### 🌙 다크 모드 지원
+### 🌙 Dark Mode Support
 
-- 자동 색상 조정
-- 일관된 사용자 경험
-- 완벽한 테마 호환성
+- Automatic color adjustment
+- Consistent user experience
+- Perfect theme compatibility
 
-### 📱 반응형 디자인
+### 📱 Responsive Design
 
-- 모바일에서 최적화된 크기
-- 터치 친화적 인터페이스
-- 적응형 패딩과 폰트 크기
+- Optimized size on mobile
+- Touch-friendly interface
+- Adaptive padding and font sizes
 
-### 💫 애니메이션 효과
+### 💫 Animation Effects
 
-- **호버 효과**: 마우스 오버 시 자연스러운 변환
-- **아이콘 애니메이션**: 호버 시 아이콘 스케일 효과
-- **클릭 효과**: 클릭 시 펄스 애니메이션
-- **포커스 표시**: 키보드 네비게이션 지원
+- **Hover Effects**: Natural transformation on mouse over
+- **Icon Animation**: Icon scale effect on hover
+- **Click Effect**: Pulse animation on click
+- **Focus Indicators**: Keyboard navigation support
 
-### ♿ 접근성
+### ♿ Accessibility
 
-- 키보드 네비게이션 지원
-- 포커스 표시
-- 스크린 리더 호환
-- 비활성화 상태 지원
+- Keyboard navigation support
+- Focus indicators
+- Screen reader compatibility
+- Disabled state support
 
-## 스타일링
+## Styling
 
-Button 컴포넌트는 CSS 변수를 통해 커스터마이징할 수 있습니다:
+The Button component can be customized through CSS variables:
 
 ```css
 :root {
@@ -208,11 +208,11 @@ Button 컴포넌트는 CSS 변수를 통해 커스터마이징할 수 있습니�
 }
 ```
 
-## 브라우저 지원
+## Browser Support
 
 - Chrome 88+
 - Firefox 85+
 - Safari 14+
 - Edge 88+
 
-모던 브라우저에서 최적의 성능을 제공합니다.
+Provides optimal performance on modern browsers.

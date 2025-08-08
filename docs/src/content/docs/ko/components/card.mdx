@@ -1,0 +1,195 @@
+---
+title: Card
+description: 정보를 카드 형태로 표시하는 컴포넌트
+sidebar:
+  order: 7
+  group: components
+---
+
+import Card from "@pelagornis/page/components/Card.astro";
+
+Card 컴포넌트는 정보를 카드 형태로 표시하며, 링크로도 사용할 수 있습니다. 현대적인 글래스 효과와 그라데이션을 제공합니다.
+
+## 기본 사용법
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 1rem 0;">
+  <Card
+    variant="default"
+    icon="📦"
+    title="Package Manager"
+    subtitle="다양한 패키지 매니저 지원"
+  >
+    npm, pnpm, yarn 등 다양한 패키지 매니저를 지원하여 사용자가 선호하는 도구를
+    선택할 수 있습니다.
+  </Card>
+
+{" "}
+
+<Card
+  variant="elevated"
+  icon="🎨"
+  title="테마 지원"
+  subtitle="다크/라이트 모드"
+>
+  완벽한 다크 모드 지원과 함께 아름다운 그라데이션과 글래스모피즘 효과를
+  제공합니다.
+</Card>
+
+</div>
+
+## 크기별 예시
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0;">
+  <Card variant="default" padding="sm" title="Small Padding">
+    작은 패딩을 가진 카드입니다. 간단한 정보를 표시할 때 적합합니다.
+  </Card>
+
+{" "}
+
+<Card variant="default" padding="md" title="Medium Padding">
+  기본 패딩을 가진 카드입니다. 대부분의 경우에 사용됩니다.
+</Card>
+
+  <Card variant="default" padding="lg" title="Large Padding">
+    큰 패딩을 가진 카드입니다. 중요한 정보나 상세한 내용을 표시할 때 사용합니다.
+  </Card>
+</div>
+
+## 링크 카드
+
+<Card
+  variant="elevated"
+  icon="🚀"
+  title="시작하기"
+  subtitle="빠른 설치 가이드"
+  href="/guides/getting-started/"
+>
+  Page 테마를 설치하고 설정하는 방법을 알아보세요. 단계별 가이드를 통해 쉽게
+  시작할 수 있습니다.
+</Card>
+
+## Props
+
+| Prop       | Type                                                  | Default     | Description          |
+| ---------- | ----------------------------------------------------- | ----------- | -------------------- |
+| `variant`  | `'default' \| 'elevated' \| 'outlined' \| 'gradient'` | `'default'` | 카드의 스타일        |
+| `padding`  | `'sm' \| 'md' \| 'lg'`                                | `'md'`      | 카드의 패딩          |
+| `icon`     | `string`                                              | -           | 아이콘 (선택사항)    |
+| `title`    | `string`                                              | -           | 제목 (선택사항)      |
+| `subtitle` | `string`                                              | -           | 부제목 (선택사항)    |
+| `href`     | `string`                                              | -           | 링크 URL (선택사항)  |
+| `target`   | `string`                                              | -           | 링크 타겟 (선택사항) |
+
+## 사용 예시
+
+### 기본 카드
+
+```mdx
+<Card>이것은 기본 카드입니다. 간단한 정보를 표시할 때 사용합니다.</Card>
+```
+
+### 제목과 아이콘이 있는 카드
+
+```mdx
+<Card icon="🎨" title="디자인" subtitle="아름다운 UI">
+  Page 테마의 디자인 특징을 설명합니다. 현대적이고 직관적인 인터페이스를
+  제공합니다.
+</Card>
+```
+
+### 다양한 스타일
+
+```mdx
+<Card variant="default" title="Default">
+  기본 스타일의 카드입니다.
+</Card>
+
+<Card variant="elevated" title="Elevated">
+  그림자 효과가 강한 카드입니다.
+</Card>
+
+<Card variant="outlined" title="Outlined">
+  테두리만 있는 투명한 카드입니다.
+</Card>
+
+<Card variant="gradient" title="Gradient">
+  그라데이션 배경의 특별한 카드입니다.
+</Card>
+```
+
+### 링크 카드
+
+```mdx
+<Card variant="elevated" icon="📚" title="문서" href="/docs">
+  문서로 이동합니다.
+</Card>
+```
+
+### 외부 링크
+
+```mdx
+<Card
+  variant="outlined"
+  icon="🔗"
+  title="GitHub"
+  href="https://github.com"
+  target="_blank"
+>
+  GitHub 저장소를 방문합니다.
+</Card>
+```
+
+## 특징
+
+### ✨ 현대적인 디자인
+
+- **글래스 효과**: `backdrop-filter: blur(20px)` 적용
+- **그라데이션 배경**: 아름다운 그라데이션 효과
+- **부드러운 그림자**: 다층 그림자로 깊이감 표현
+- **호버 애니메이션**: `translateY(-4px) scale(1.02)` 변환
+
+### 🎨 Variant별 특징
+
+- **Default**: 기본 스타일, 적당한 그림자와 글래스 효과
+- **Elevated**: 더 강한 그림자와 호버 효과
+- **Outlined**: 투명 배경, 테두리만 표시
+- **Gradient**: 아름다운 그라데이션 배경 (새로운 기능)
+
+### 🌙 다크 모드 지원
+
+- 자동 색상 조정
+- 일관된 사용자 경험
+- 완벽한 테마 호환성
+
+### 📱 반응형 디자인
+
+- 모바일에서 최적화된 크기
+- 유연한 그리드 레이아웃
+- 터치 친화적 인터페이스
+
+### 💫 애니메이션 효과
+
+- **카드 페이드인**: 페이지 로드 시 부드러운 등장
+- **호버 효과**: 마우스 오버 시 자연스러운 변환
+- **아이콘 애니메이션**: 호버 시 아이콘 스케일 효과
+
+## 스타일링
+
+Card 컴포넌트는 CSS 변수를 통해 커스터마이징할 수 있습니다:
+
+```css
+:root {
+  --page-card-border-radius: 16px;
+  --page-card-padding: 24px;
+  --page-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+```
+
+## 브라우저 지원
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+모던 브라우저에서 최적의 성능을 제공합니다.

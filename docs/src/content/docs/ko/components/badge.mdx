@@ -1,0 +1,166 @@
+---
+title: Badge
+description: 상태, 버전, 카테고리 등을 표시하는 작은 컴포넌트
+sidebar:
+  order: 5
+  group: components
+---
+
+import Badge from "@pelagornis/page/components/Badge.astro";
+
+Badge 컴포넌트는 상태, 버전, 카테고리 등을 간결하게 표시하는 작은 컴포넌트입니다. 현대적인 글래스 효과와 그라데이션을 제공합니다.
+
+## 기본 사용법
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Badge variant="default">Default</Badge>
+  <Badge variant="primary">Primary</Badge>
+  <Badge variant="success">Success</Badge>
+  <Badge variant="warning">Warning</Badge>
+  <Badge variant="error">Error</Badge>
+</div>
+
+## 크기별 예시
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Badge variant="primary" size="sm">
+    Small
+  </Badge>
+  <Badge variant="primary" size="md">
+    Medium
+  </Badge>
+  <Badge variant="primary" size="lg">
+    Large
+  </Badge>
+</div>
+
+## 아이콘과 함께 사용
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Badge variant="primary" size="sm" icon="📦">
+    npm
+  </Badge>
+  <Badge variant="success" size="md" icon="🚀">
+    pnpm
+  </Badge>
+  <Badge variant="warning" size="lg" icon="🧶">
+    yarn
+  </Badge>
+  <Badge variant="gradient" size="md" icon="✨">
+    Special
+  </Badge>
+</div>
+
+## Props
+
+| Prop      | Type                                                                        | Default     | Description       |
+| --------- | --------------------------------------------------------------------------- | ----------- | ----------------- |
+| `variant` | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'gradient'` | `'default'` | 배지의 스타일     |
+| `size`    | `'sm' \| 'md' \| 'lg'`                                                      | `'md'`      | 배지의 크기       |
+| `icon`    | `string`                                                                    | -           | 아이콘 (선택사항) |
+
+## 사용 예시
+
+### 기본 배지
+
+```mdx
+<Badge variant="primary">New</Badge>
+```
+
+### 크기 조절
+
+```mdx
+<Badge variant="success" size="sm">
+  Small
+</Badge>
+<Badge variant="success" size="md">
+  Medium
+</Badge>
+<Badge variant="success" size="lg">
+  Large
+</Badge>
+```
+
+### 아이콘과 함께
+
+```mdx
+<Badge variant="primary" icon="📦">
+  npm
+</Badge>
+```
+
+### 다양한 스타일
+
+```mdx
+<Badge variant="default">Default</Badge>
+<Badge variant="primary">Primary</Badge>
+<Badge variant="success">Success</Badge>
+<Badge variant="warning">Warning</Badge>
+<Badge variant="error">Error</Badge>
+<Badge variant="gradient">Gradient</Badge>
+```
+
+## 특징
+
+### ✨ 현대적인 디자인
+
+- **글래스 효과**: `backdrop-filter: blur(10px)` 적용
+- **그라데이션 배경**: 아름다운 그라데이션 효과
+- **부드러운 그림자**: 다층 그림자로 깊이감 표현
+- **호버 애니메이션**: `translateY(-1px) scale(1.05)` 변환과 아이콘 스케일 효과
+
+### 🎨 Variant별 특징
+
+- **Default**: 회색 그라데이션, 기본 상태용
+- **Primary**: 파란색 그라데이션, 주요 정보용
+- **Success**: 초록색 그라데이션, 성공 상태용
+- **Warning**: 주황색 그라데이션, 주의사항용
+- **Error**: 빨간색 그라데이션, 오류 상태용
+- **Gradient**: 특별한 그라데이션 배경 (새로운 기능)
+
+### 🌙 다크 모드 지원
+
+- 자동 색상 조정
+- 일관된 사용자 경험
+- 완벽한 테마 호환성
+
+### 📱 반응형 디자인
+
+- 모바일에서 최적화된 크기
+- 적응형 패딩과 폰트 크기
+- 터치 친화적 인터페이스
+
+### 💫 애니메이션 효과
+
+- **호버 효과**: 마우스 오버 시 자연스러운 변환
+- **아이콘 애니메이션**: 호버 시 아이콘 스케일 효과
+- **펄스 애니메이션**: 호버 시 미묘한 펄스 효과
+- **부드러운 전환**: 모든 상태 변화에 자연스러운 전환
+
+### ♿ 접근성
+
+- 키보드 네비게이션 지원
+- 포커스 표시
+- 스크린 리더 호환
+- 적절한 대비 비율
+
+## 스타일링
+
+Badge 컴포넌트는 CSS 변수를 통해 커스터마이징할 수 있습니다:
+
+```css
+:root {
+  --page-badge-border-radius: 10px;
+  --page-badge-padding: 6px 12px;
+  --page-badge-gap: 6px;
+}
+```
+
+## 브라우저 지원
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+모던 브라우저에서 최적의 성능을 제공합니다.

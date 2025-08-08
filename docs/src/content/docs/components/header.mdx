@@ -1,6 +1,6 @@
 ---
 title: Header
-description: 현대적인 헤더 컴포넌트의 특징과 사용법
+description: Features and usage of modern header component
 sidebar:
   order: 1
   group: components
@@ -9,58 +9,58 @@ sidebar:
 import { Card } from "@astrojs/starlight/components";
 import Tabs from "@pelagornis/page/components/Tabs.astro";
 
-현대적인 헤더는 sticky 네비게이션과 글래스 효과를 특징으로 합니다.
+The modern header features sticky navigation and glass effects.
 
-## 주요 기능
+## Key Features
 
-### 🎨 디자인 특징
+### 🎨 Design Features
 
 Sticky Navigation, Glass Effect, Gradient Background, Smooth Animations
 
-### 📱 반응형 디자인
+### 📱 Responsive Design
 
-모든 화면 크기에서 완벽하게 작동하는 반응형 레이아웃
+Responsive layout that works perfectly on all screen sizes
 
-### 🌟 인터랙션
+### 🌟 Interactions
 
-모든 요소에 부드러운 호버 효과와 애니메이션 적용
+Smooth hover effects and animations applied to all elements
 
-### 🌙 다크 모드
+### 🌙 Dark Mode
 
-라이트/다크 테마 완벽 지원
+Perfect support for light/dark themes
 
-### 📱 반응형 디자인
+### 📱 Responsive Design
 
-헤더는 모든 화면 크기에서 완벽하게 작동합니다:
+The header works perfectly on all screen sizes:
 
-| 화면 크기 | 동작                 |
-| --------- | -------------------- |
-| Desktop   | 전체 네비게이션 표시 |
-| Tablet    | 압축된 레이아웃      |
-| Mobile    | 햄버거 메뉴로 전환   |
+| Screen Size | Behavior                   |
+| ----------- | -------------------------- |
+| Desktop     | Full navigation display    |
+| Tablet      | Compressed layout          |
+| Mobile      | Switches to hamburger menu |
 
-### 🌟 인터랙션
+### 🌟 Interactions
 
-헤더의 모든 요소는 호버 시 반응합니다:
+All header elements respond on hover:
 
-1. **로고**: 호버 시 그라데이션과 회전 효과
-2. **네비게이션 링크**: 배경색 변경과 이동 효과
-3. **테마 토글**: 회전 애니메이션
-4. **소셜 링크**: 플랫폼별 색상 변경
+1. **Logo**: Gradient and rotation effects on hover
+2. **Navigation Links**: Background color change and movement effects
+3. **Theme Toggle**: Rotation animation
+4. **Social Links**: Platform-specific color changes
 
-## 코드 예제
+## Code Examples
 
 <Tabs
   tabs={[
-    { id: "basic-usage", label: "기본 사용법", icon: "🚀" },
-    { id: "customization", label: "커스터마이징", icon: "⚙️" },
+    { id: "basic-usage", label: "Basic Usage", icon: "🚀" },
+    { id: "customization", label: "Customization", icon: "⚙️" },
   ]}
   defaultTab="basic-usage"
 >
   <div>
     ```astro
     ---
-    // Header 컴포넌트 사용 예제
+    // Header component usage example
     import Header from '@pelagornis/page/overrides/Header.astro';
     ---
 
@@ -71,13 +71,13 @@ Sticky Navigation, Glass Effect, Gradient Background, Smooth Animations
   <div>
     ```astro
     ---
-    // 커스텀 헤더 설정
+    // Custom header configuration
     import Header from '@pelagornis/page/overrides/Header.astro';
 
     const customNavLinks = [
-      { label: "홈", link: "/" },
-      { label: "문서", link: "/docs/" },
-      { label: "블로그", link: "/blog/" },
+      { label: "Home", link: "/" },
+      { label: "Docs", link: "/docs/" },
+      { label: "Blog", link: "/blog/" },
     ];
     ---
 
@@ -87,11 +87,11 @@ Sticky Navigation, Glass Effect, Gradient Background, Smooth Animations
   </div>
 </Tabs>
 
-> **팁**: 헤더는 자동으로 현재 페이지를 감지하여 활성 상태를 표시합니다.
+> **Tip**: The header automatically detects the current page and displays active states.
 
-## 커스터마이제이션
+## Customization
 
-CSS 변수를 사용하여 헤더의 모양을 변경할 수 있습니다:
+You can change the header appearance using CSS variables:
 
 ```css
 :root {

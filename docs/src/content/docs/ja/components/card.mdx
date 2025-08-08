@@ -1,0 +1,191 @@
+---
+title: Card
+description: 情報をカード形式で表示するコンポーネント
+sidebar:
+  order: 7
+  group: components
+---
+
+import Card from "@pelagornis/page/components/Card.astro";
+
+Card コンポーネントは、情報をカード形式で表示し、リンクとしても使用できます。モダンなガラス効果とグラデーションを提供します。
+
+## 基本的な使用方法
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 1rem 0;">
+  <Card
+    variant="default"
+    icon="📦"
+    title="パッケージマネージャー"
+    subtitle="様々なパッケージマネージャーのサポート"
+  >
+    npm、pnpm、yarn など様々なパッケージマネージャーをサポートし、ユーザーが好むツールを選択できます。
+  </Card>
+
+{" "}
+
+<Card
+  variant="elevated"
+  icon="🎨"
+  title="テーマサポート"
+  subtitle="ダーク/ライトモード"
+>
+  完璧なダークモードサポートと共に美しいグラデーションとガラスモーフィズム効果を提供します。
+</Card>
+
+</div>
+
+## サイズ例
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0;">
+  <Card variant="default" padding="sm" title="Small Padding">
+    小さなパディングを持つカードです。簡単な情報を表示する際に適しています。
+  </Card>
+
+{" "}
+
+<Card variant="default" padding="md" title="Medium Padding">
+  デフォルトパディングを持つカードです。ほとんどの場合に使用されます。
+</Card>
+
+  <Card variant="default" padding="lg" title="Large Padding">
+    大きなパディングを持つカードです。重要な情報や詳細な内容を表示する際に使用します。
+  </Card>
+</div>
+
+## リンクカード
+
+<Card
+  variant="elevated"
+  icon="🚀"
+  title="はじめに"
+  subtitle="クイックインストールガイド"
+  href="/guides/getting-started/"
+>
+  Pageテーマをインストールして設定する方法を学びます。ステップバイステップガイドで簡単に始められます。
+</Card>
+
+## Props
+
+| Prop       | Type                                                  | Default     | Description                   |
+| ---------- | ----------------------------------------------------- | ----------- | ----------------------------- |
+| `variant`  | `'default' \| 'elevated' \| 'outlined' \| 'gradient'` | `'default'` | カードのスタイル              |
+| `padding`  | `'sm' \| 'md' \| 'lg'`                                | `'md'`      | カードのパディング            |
+| `icon`     | `string`                                              | -           | アイコン (オプション)         |
+| `title`    | `string`                                              | -           | タイトル (オプション)         |
+| `subtitle` | `string`                                              | -           | サブタイトル (オプション)     |
+| `href`     | `string`                                              | -           | リンク URL (オプション)       |
+| `target`   | `string`                                              | -           | リンクターゲット (オプション) |
+
+## 使用例
+
+### 基本的なカード
+
+```mdx
+<Card>これは基本的なカードです。簡単な情報を表示する際に使用します。</Card>
+```
+
+### タイトルとアイコン付きカード
+
+```mdx
+<Card icon="🎨" title="デザイン" subtitle="美しいUI">
+  Pageテーマのデザイン特徴を説明します。モダンで直感的なインターフェースを提供します。
+</Card>
+```
+
+### 様々なスタイル
+
+```mdx
+<Card variant="default" title="Default">
+  デフォルトスタイルのカードです。
+</Card>
+
+<Card variant="elevated" title="Elevated">
+  シャドウ効果が強いカードです。
+</Card>
+
+<Card variant="outlined" title="Outlined">
+  ボーダーのみの透明なカードです。
+</Card>
+
+<Card variant="gradient" title="Gradient">
+  グラデーション背景の特別なカードです。
+</Card>
+```
+
+### リンクカード
+
+```mdx
+<Card variant="elevated" icon="📚" title="ドキュメント" href="/docs">
+  ドキュメントに移動します。
+</Card>
+```
+
+### 外部リンク
+
+```mdx
+<Card
+  variant="outlined"
+  icon="🔗"
+  title="GitHub"
+  href="https://github.com"
+  target="_blank"
+>
+  GitHubリポジトリを訪問します。
+</Card>
+```
+
+## 特徴
+
+### ✨ モダンデザイン
+
+- **ガラス効果**: `backdrop-filter: blur(20px)` を適用
+- **グラデーション背景**: 美しいグラデーション効果
+- **ソフトシャドウ**: 多層シャドウで深さを表現
+- **ホバーアニメーション**: `translateY(-4px) scale(1.02)` 変換
+
+### 🎨 バリアント別特徴
+
+- **Default**: デフォルトスタイル、適度なシャドウとガラス効果
+- **Elevated**: より強いシャドウとホバー効果
+- **Outlined**: 透明背景、ボーダーのみ表示
+- **Gradient**: 美しいグラデーション背景 (新機能)
+
+### 🌙 ダークモードサポート
+
+- 自動色調整
+- 一貫したユーザー体験
+- 完璧なテーマ互換性
+
+### 📱 レスポンシブデザイン
+
+- モバイルで最適化されたサイズ
+- 柔軟なグリッドレイアウト
+- タッチフレンドリーなインターフェース
+
+### 💫 アニメーション効果
+
+- **カードフェードイン**: ページ読み込み時のスムーズな登場
+- **ホバー効果**: マウスオーバー時の自然な変換
+- **アイコンアニメーション**: ホバー時のアイコンスケール効果
+
+## スタイリング
+
+Card コンポーネントは CSS 変数を通じてカスタマイズできます：
+
+```css
+:root {
+  --page-card-border-radius: 16px;
+  --page-card-padding: 24px;
+  --page-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+```
+
+## ブラウザサポート
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+モダンブラウザで最適なパフォーマンスを提供します。

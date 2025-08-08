@@ -1,62 +1,64 @@
 ---
 title: Tabs
-description: 현대적이고 세련된 탭 컴포넌트
+description: Features and usage of tabs component
 sidebar:
-  order: 9
+  order: 8
   group: components
 ---
 
 import Tabs from "@pelagornis/page/components/Tabs.astro";
 
-현대적이고 세련된 탭 컴포넌트입니다. 글래스 효과와 부드러운 애니메이션을 제공합니다.
+A modern and sophisticated tab component. It provides glass effects and smooth animations.
 
-## 기본 사용법
+## Basic Usage
 
 <Tabs
   tabs={[
-    { id: "overview", label: "개요", icon: "📋" },
-    { id: "usage", label: "사용법", icon: "💡" },
-    { id: "examples", label: "예시", icon: "🎨" },
+    { id: "overview", label: "Overview", icon: "📋" },
+    { id: "usage", label: "Usage", icon: "💡" },
+    { id: "examples", label: "Examples", icon: "🎨" },
   ]}
   defaultTab="overview"
 >
   <div>
     <p>
-      Tabs 컴포넌트는 콘텐츠를 여러 탭으로 나누어 표시할 때 사용합니다. 각 탭은
-      아이콘과 라벨을 가질 수 있으며, 부드러운 전환 애니메이션을 제공합니다.
+      The Tabs component is used to display content divided into multiple tabs.
+      Each tab can have an icon and label, and provides smooth transition
+      animations.
     </p>
   </div>
   <div>
     <p>
-      탭을 클릭하면 해당 콘텐츠가 부드럽게 나타나며, 호버 시 미묘한 애니메이션
-      효과를 제공합니다.
+      When you click a tab, the corresponding content appears smoothly, and
+      provides subtle animation effects on hover.
     </p>
   </div>
   <div>
     <p>
-      다양한 예시와 사용 사례를 통해 컴포넌트의 활용법을 확인할 수 있습니다.
+      You can check how to utilize the component through various examples and
+      use cases.
     </p>
   </div>
 </Tabs>
 
 ## Props
 
-| Prop         | Type         | Default         | Description         |
-| ------------ | ------------ | --------------- | ------------------- |
-| `tabs`       | `Array<Tab>` | -               | 탭 설정 배열 (필수) |
-| `defaultTab` | `string`     | 첫 번째 탭의 id | 기본 선택 탭        |
+| Prop         | Type         | Default        | Description                        |
+| ------------ | ------------ | -------------- | ---------------------------------- |
+| `tabs`       | `Array<Tab>` | -              | Tab configuration array (required) |
+| `defaultTab` | `string`     | First tab's id | Default selected tab               |
 
-### Tab 객체
+### Tab Object
 
-| Property | Type     | Required | Description                 |
-| -------- | -------- | -------- | --------------------------- |
-| `id`     | `string` | ✅       | 탭의 고유 식별자            |
-| `label`  | `string` | ✅       | 탭에 표시될 라벨            |
-| `icon`   | `string` | ❌       | 탭에 표시될 아이콘 (이모지) |
+| Property | Type     | Required | Description                        |
+| -------- | -------- | -------- | ---------------------------------- |
+| `id`     | `string` | ✅       | Unique identifier for the tab      |
+| `label`  | `string` | ✅       | Label to display on the tab        |
+| `icon`   | `string` | ❌       | Icon to display on the tab (emoji) |
 
-## 예시
+## Examples
 
-### 기본 탭
+### Basic Tabs
 
 ```astro
 ---
@@ -64,23 +66,23 @@ import Tabs from "@pelagornis/page/components/Tabs.astro";
 ---
 
 <Tabs tabs={[
-  { id: "tab1", label: "첫 번째 탭" },
-  { id: "tab2", label: "두 번째 탭" },
-  { id: "tab3", label: "세 번째 탭" }
+  { id: "tab1", label: "First Tab" },
+  { id: "tab2", label: "Second Tab" },
+  { id: "tab3", label: "Third Tab" }
 ]} defaultTab="tab1">
   <div>
-    첫 번째 탭의 콘텐츠입니다.
+    Content for the first tab.
   </div>
   <div>
-    두 번째 탭의 콘텐츠입니다.
+    Content for the second tab.
   </div>
   <div>
-    세 번째 탭의 콘텐츠입니다.
+    Content for the third tab.
   </div>
 </Tabs>
 ```
 
-### 아이콘이 있는 탭
+### Tabs with Icons
 
 ```astro
 ---
@@ -88,89 +90,89 @@ import Tabs from "@pelagornis/page/components/Tabs.astro";
 ---
 
 <Tabs tabs={[
-  { id: "info", label: "정보", icon: "ℹ️" },
-  { id: "settings", label: "설정", icon: "⚙️" },
-  { id: "help", label: "도움말", icon: "❓" }
+  { id: "info", label: "Info", icon: "ℹ️" },
+  { id: "settings", label: "Settings", icon: "⚙️" },
+  { id: "help", label: "Help", icon: "❓" }
 ]} defaultTab="info">
   <div>
-    <h3>정보 탭</h3>
-    <p>여기에 정보 콘텐츠를 배치합니다.</p>
+    <h3>Info Tab</h3>
+    <p>Place information content here.</p>
   </div>
   <div>
-    <h3>설정 탭</h3>
-    <p>여기에 설정 콘텐츠를 배치합니다.</p>
+    <h3>Settings Tab</h3>
+    <p>Place settings content here.</p>
   </div>
   <div>
-    <h3>도움말 탭</h3>
-    <p>여기에 도움말 콘텐츠를 배치합니다.</p>
+    <h3>Help Tab</h3>
+    <p>Place help content here.</p>
   </div>
 </Tabs>
 ```
 
-### 다양한 아이콘 예시
+### Various Icon Examples
 
 <Tabs
   tabs={[
-    { id: "docs", label: "문서", icon: "📚" },
-    { id: "code", label: "코드", icon: "💻" },
-    { id: "design", label: "디자인", icon: "🎨" },
-    { id: "deploy", label: "배포", icon: "🚀" },
+    { id: "docs", label: "Documentation", icon: "📚" },
+    { id: "code", label: "Code", icon: "💻" },
+    { id: "design", label: "Design", icon: "🎨" },
+    { id: "deploy", label: "Deploy", icon: "🚀" },
   ]}
   defaultTab="docs"
 >
   <div>
-    <h3>📚 문서</h3>
-    <p>프로젝트 문서와 가이드를 확인하세요.</p>
+    <h3>📚 Documentation</h3>
+    <p>Check project documentation and guides.</p>
   </div>
   <div>
-    <h3>💻 코드</h3>
-    <p>소스 코드와 예시를 살펴보세요.</p>
+    <h3>💻 Code</h3>
+    <p>Explore source code and examples.</p>
   </div>
   <div>
-    <h3>🎨 디자인</h3>
-    <p>UI/UX 디자인 가이드를 참고하세요.</p>
+    <h3>🎨 Design</h3>
+    <p>Refer to UI/UX design guides.</p>
   </div>
   <div>
-    <h3>🚀 배포</h3>
-    <p>배포 방법과 환경 설정을 확인하세요.</p>
+    <h3>🚀 Deploy</h3>
+    <p>Check deployment methods and environment setup.</p>
   </div>
 </Tabs>
 
-## 특징
+## Features
 
-### ✨ 현대적인 디자인
+### ✨ Modern Design
 
-- 글래스 효과와 그라데이션 배경
-- 부드러운 그림자와 호버 효과
-- 세련된 타이포그래피
+- Glass effects and gradient backgrounds
+- Soft shadows and hover effects
+- Sophisticated typography
 
-### 🎭 부드러운 애니메이션
+### 🎭 Smooth Animations
 
-- 탭 전환 시 자연스러운 페이드인 효과
-- 호버 시 아이콘 스케일 애니메이션
-- 부드러운 전환 효과
+- Natural fade-in effects on tab transitions
+- Icon scale animations on hover
+- Smooth transition effects
 
-### 🌙 다크 모드 지원
+### 🌙 Dark Mode Support
 
-- 라이트/다크 테마 완벽 호환
-- 자동 색상 조정
-- 일관된 사용자 경험
+- Perfect compatibility with light/dark themes
+- Automatic color adjustment
+- Consistent user experience
 
-### 📱 반응형 디자인
+### 📱 Responsive Design
 
-- 모바일에서 가로 스크롤 지원
-- 다양한 화면 크기에 최적화
-- 터치 친화적 인터페이스
+- Horizontal scroll support on mobile
+- Optimized for various screen sizes
+- Touch-friendly interface
 
-### ♿ 접근성
+### ♿ Accessibility
 
-- 키보드 네비게이션 지원
-- 포커스 표시
-- 스크린 리더 호환
+- Keyboard navigation support
+- Focus indicators
+- Screen reader compatibility
 
-## 스타일링
+## Styling
 
-Tabs 컴포넌트는 CSS 변수를 통해 커스터마이징할 수 있습니다:
+The Tabs component can be customized through CSS variables:
 
 ```css
 :root {
@@ -180,11 +182,11 @@ Tabs 컴포넌트는 CSS 변수를 통해 커스터마이징할 수 있습니다
 }
 ```
 
-## 브라우저 지원
+## Browser Support
 
 - Chrome 88+
 - Firefox 85+
 - Safari 14+
 - Edge 88+
 
-모던 브라우저에서 최적의 성능을 제공합니다.
+Provides optimal performance on modern browsers.

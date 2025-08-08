@@ -1,0 +1,166 @@
+---
+title: Badge
+description: 显示状态、版本、类别等的小组件
+sidebar:
+  order: 5
+  group: components
+---
+
+import Badge from "@pelagornis/page/components/Badge.astro";
+
+Badge 组件是用于简洁显示状态、版本、类别等的小组件。提供现代玻璃效果和渐变。
+
+## 基本用法
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Badge variant="default">Default</Badge>
+  <Badge variant="primary">Primary</Badge>
+  <Badge variant="success">Success</Badge>
+  <Badge variant="warning">Warning</Badge>
+  <Badge variant="error">Error</Badge>
+</div>
+
+## 尺寸示例
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Badge variant="primary" size="sm">
+    Small
+  </Badge>
+  <Badge variant="primary" size="md">
+    Medium
+  </Badge>
+  <Badge variant="primary" size="lg">
+    Large
+  </Badge>
+</div>
+
+## 带图标
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Badge variant="primary" size="sm" icon="📦">
+    npm
+  </Badge>
+  <Badge variant="success" size="md" icon="🚀">
+    pnpm
+  </Badge>
+  <Badge variant="warning" size="lg" icon="🧶">
+    yarn
+  </Badge>
+  <Badge variant="gradient" size="md" icon="✨">
+    Special
+  </Badge>
+</div>
+
+## Props
+
+| Prop      | Type                                                                        | Default     | Description       |
+| --------- | --------------------------------------------------------------------------- | ----------- | ----------------- |
+| `variant` | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'gradient'` | `'default'` | 徽章的样式        |
+| `size`    | `'sm' \| 'md' \| 'lg'`                                                      | `'md'`      | 徽章的尺寸        |
+| `icon`    | `string`                                                                    | -           | 图标 (可选)       |
+
+## 使用示例
+
+### 基本徽章
+
+```mdx
+<Badge variant="primary">New</Badge>
+```
+
+### 尺寸调整
+
+```mdx
+<Badge variant="success" size="sm">
+  Small
+</Badge>
+<Badge variant="success" size="md">
+  Medium
+</Badge>
+<Badge variant="success" size="lg">
+  Large
+</Badge>
+```
+
+### 带图标
+
+```mdx
+<Badge variant="primary" icon="📦">
+  npm
+</Badge>
+```
+
+### 各种样式
+
+```mdx
+<Badge variant="default">Default</Badge>
+<Badge variant="primary">Primary</Badge>
+<Badge variant="success">Success</Badge>
+<Badge variant="warning">Warning</Badge>
+<Badge variant="error">Error</Badge>
+<Badge variant="gradient">Gradient</Badge>
+```
+
+## 特性
+
+### ✨ 现代设计
+
+- **玻璃效果**: 应用 `backdrop-filter: blur(10px)`
+- **渐变背景**: 美丽的渐变效果
+- **柔和阴影**: 多层阴影营造深度感
+- **悬停动画**: `translateY(-1px) scale(1.05)` 变换和图标缩放效果
+
+### 🎨 变体特定功能
+
+- **Default**: 灰色渐变，用于默认状态
+- **Primary**: 蓝色渐变，用于主要信息
+- **Success**: 绿色渐变，用于成功状态
+- **Warning**: 橙色渐变，用于警告
+- **Error**: 红色渐变，用于错误状态
+- **Gradient**: 特殊渐变背景 (新功能)
+
+### 🌙 深色模式支持
+
+- 自动颜色调整
+- 一致的用户体验
+- 完美的主题兼容性
+
+### 📱 响应式设计
+
+- 移动端优化尺寸
+- 自适应内边距和字体大小
+- 触摸友好界面
+
+### 💫 动画效果
+
+- **悬停效果**: 鼠标悬停时的自然变换
+- **图标动画**: 悬停时的图标缩放效果
+- **脉冲动画**: 悬停时的微妙脉冲效果
+- **平滑过渡**: 所有状态变化的自然过渡
+
+### ♿ 无障碍性
+
+- 键盘导航支持
+- 焦点指示器
+- 屏幕阅读器兼容
+- 适当的对比度
+
+## 样式
+
+Badge 组件可以通过 CSS 变量进行自定义：
+
+```css
+:root {
+  --page-badge-border-radius: 10px;
+  --page-badge-padding: 6px 12px;
+  --page-badge-gap: 6px;
+}
+```
+
+## 浏览器支持
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+在现代浏览器上提供最佳性能。

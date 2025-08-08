@@ -1,0 +1,208 @@
+---
+title: Navigation
+description: 動的ナビゲーションリンクとインタラクティブ効果
+sidebar:
+  order: 3
+  group: components
+---
+
+import { Card, Steps } from "@astrojs/starlight/components";
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+
+モダンなホバー効果とアクティブ状態インジケーターを備えたナビゲーションシステムです。
+
+## 🎯 主な特徴
+
+### 🎨 動的効果
+
+ホバー時の移動、グラデーション背景、影効果で深さを演出
+
+### 📱 レスポンシブ動作
+
+すべての画面サイズで最適化されたナビゲーション体験
+
+### 🌟 アクティブ状態表示
+
+現在のページを明確に示すアニメーションアンダーライン
+
+### 🏷️ バッジシステム
+
+"New"、"Beta"などのバッジでリンク状態を表示
+
+### 動的効果
+
+- **ホバー時の移動**: translateY(-1px)で少し上に移動
+- **グラデーション背景**: 微妙なグラデーション効果を適用
+- **影効果**: box-shadowで深さを演出
+
+### アクティブ状態表示
+
+現在のページは以下のように表示されます：
+
+- より濃い背景色
+- 太いフォント (font-weight: 600)
+- アニメーションアンダーライン
+
+## 📱 レスポンシブ動作
+
+ナビゲーションは画面サイズに応じて異なる動作をします：
+
+<Tabs
+  tabs={[
+    { id: "desktop", label: "Desktop (1024px+)", icon: "💻" },
+    { id: "tablet", label: "Tablet (768px-1023px)", icon: "📱" },
+    { id: "mobile", label: "Mobile (768px未満)", icon: "📱" },
+  ]}
+  defaultTab="desktop"
+>
+  <div>
+    - すべてのリンクが水平に配置 - 十分な間隔 (gap: 1.5rem) - ホバー効果を最大限活用
+  </div>
+  <div>- 少し縮小された間隔 (gap: 1rem) - まだ水平配置を維持</div>
+  <div>- ハンバーガーメニューに切り替え - 縦ドロップダウンメニュー - タッチフレンドリーなインターフェース</div>
+</Tabs>
+
+## 🎨 スタイル詳細
+
+<Tabs
+  tabs={[
+    { id: "basic-link", label: "基本リンク", icon: "🔗" },
+    { id: "hover-effect", label: "ホバー効果", icon: "✨" },
+    { id: "active-state", label: "アクティブ状態", icon: "🎯" },
+  ]}
+  defaultTab="basic-link"
+>
+  <div>
+    ```css
+    .nav-bar a {
+      position: relative;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius);
+      color: var(--color-muted-foreground);
+      transition: all 0.2s ease-in-out;
+    }
+    ```
+  </div>
+  <div>
+    ```css
+    .nav-bar a:hover {
+      color: var(--color-foreground);
+      background-color: var(--color-accent);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+    ```
+  </div>
+  <div>
+    ```css
+    .nav-bar a.active {
+      color: var(--color-primary-foreground);
+      background-color: var(--color-primary);
+      font-weight: 600;
+      box-shadow: var(--shadow-md);
+    }
+    ```
+  </div>
+</Tabs>
+
+## 🏷️ バッジシステム
+
+ナビゲーションリンクにはバッジを追加できます：
+
+```javascript
+{
+  label: "新機能",
+  link: "/new-feature/",
+  badge: "New"
+}
+```
+
+バッジは以下のようなスタイルを持ちます：
+
+- 成功色 (緑色)
+- 大文字変換
+- ホバー時に 1.05 倍拡大
+
+## ⚡ アニメーション
+
+### アンダーラインアニメーション
+
+アクティブリンクは下部にアニメーションアンダーラインを表示します：
+
+```css
+.nav-bar a.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-accent);
+  animation: slide-in 0.3s ease-out;
+}
+```
+
+### グラデーション背景
+
+すべてのリンクはホバー時に微妙なグラデーション背景を表示します：
+
+```css
+.nav-bar a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-accent);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.nav-bar a:hover::before {
+  opacity: 0.1;
+}
+```
+
+## 🌙 ダークモード
+
+ダークモードでは追加的な効果が適用されます：
+
+- **ガラス効果**: backdrop-filter: blur(8px)
+- **透明背景**: rgba(255, 255, 255, 0.1)
+- **強化されたコントラスト**: より明確な色の区別
+
+## 設定方法
+
+<Steps>
+
+1. Astro設定でナビゲーションリンクを定義します：
+
+   ```javascript
+   pagePlugin({
+     navLinks: [
+       {
+         label: "ホーム",
+         link: "/",
+         attrs: {},
+       },
+       {
+         label: "ドキュメント",
+         link: "/docs/",
+         badge: "New",
+       },
+     ],
+   });
+   ```
+
+2. 各リンクは以下のプロパティを持つことができます：
+
+   - `label`: 表示されるテキスト
+   - `link`: リンクURL
+   - `badge`: オプションのバッジテキスト
+   - `attrs`: 追加のHTML属性
+
+3. バッジは自動的にスタイリングされます：
+
+   - "New": 緑色のバッジ
+   - "Beta": 黄色のバッジ
+   - "Deprecated": 赤色のバッジ
+
+</Steps>

@@ -1,0 +1,91 @@
+---
+import config from "virtual:starlight/user-config";
+
+const { locales } = config;
+const currentLocale = Astro.locals.starlightRoute?.locale;
+const defaultLocale = config.defaultLocale.locale;
+
+// 현재 페이지의 경로 가져오기
+const currentPath = Astro.url.pathname;
+
+// locale을 제거한 경로 생성
+function getPathWithoutLocale(path: string, locale: string): string {
+  if (locale === defaultLocale) return path;
+  const localePrefix = `/${locale}`;
+  return path.startsWith(localePrefix) ? path.slice(localePrefix.length) : path;
+}
+
+const basePath = getPathWithoutLocale(
+  currentPath,
+  currentLocale || defaultLocale || "en"
+);
+---
+
+<div class="page-language-select">
+  <select
+    class="page-language-select-input"
+    data-base-path={basePath}
+    data-default-locale={defaultLocale}
+  >
+    {
+      Object.entries(locales || {}).map(([locale, localeConfig]) => (
+        <option value={locale} selected={locale === currentLocale}>
+          {localeConfig.label}
+        </option>
+      ))
+    }
+  </select>
+</div>
+
+<script>
+  // 언어 선택 기능
+  document.addEventListener("DOMContentLoaded", () => {
+    const select = document.querySelector(
+      ".page-language-select-input"
+    ) as HTMLSelectElement;
+    if (!select) return;
+
+    select.addEventListener("change", (e) => {
+      const target = e.target as HTMLSelectElement;
+      const selectedLocale = target.value;
+      const basePath = target.dataset.basePath || "";
+      const defaultLocale = target.dataset.defaultLocale || "en";
+
+      // locale을 추가한 경로 생성
+      function getPathWithLocale(path: string, locale: string): string {
+        if (locale === defaultLocale) return path;
+        return `/${locale}${path}`;
+      }
+
+      const newPath = getPathWithLocale(basePath, selectedLocale);
+      window.location.href = newPath;
+    });
+  });
+</script>
+
+<style>
+  .page-language-select {
+    position: relative;
+  }
+
+  .page-language-select-input {
+    background: transparent;
+    border: 1px solid var(--page-border);
+    border-radius: var(--page-radius);
+    padding: var(--page-space-2) var(--page-space-3);
+    font-size: 0.875rem;
+    color: var(--page-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .page-language-select-input:hover {
+    border-color: var(--page-accent);
+  }
+
+  .page-language-select-input:focus {
+    outline: none;
+    border-color: var(--page-accent);
+    box-shadow: 0 0 0 2px var(--page-accent-light);
+  }
+</style>

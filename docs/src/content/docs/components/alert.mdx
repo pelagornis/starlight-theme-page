@@ -1,118 +1,118 @@
 ---
 title: Alert
-description: 알림, 경고, 성공, 오류 메시지를 표시하는 컴포넌트
+description: Features and usage of alert component
 sidebar:
-  order: 4
+  order: 7
   group: components
 ---
 
 import Alert from "@pelagornis/page/components/Alert.astro";
 
-Alert 컴포넌트는 사용자에게 중요한 정보를 전달할 때 사용하는 알림 컴포넌트입니다. 현대적인 글래스 효과와 부드러운 애니메이션을 제공합니다.
+The Alert component is used to convey important information to users. It provides modern glass effects and smooth animations.
 
-## 기본 사용법
+## Basic Usage
 
-<Alert type="info" title="정보" icon="💡">
-  이것은 정보 알림입니다. 중요한 정보를 전달할 때 사용합니다.
+<Alert type="info" title="Information" icon="💡">
+  This is an information alert. Use it to convey important information.
 </Alert>
 
-<Alert type="success" title="성공" icon="✅">
-  작업이 성공적으로 완료되었습니다!
+<Alert type="success" title="Success" icon="✅">
+  The operation completed successfully!
 </Alert>
 
-<Alert type="warning" title="주의" icon="⚠️">
-  이 작업은 되돌릴 수 없습니다. 신중하게 진행해주세요.
+<Alert type="warning" title="Warning" icon="⚠️">
+  This action cannot be undone. Please proceed with caution.
 </Alert>
 
-<Alert type="error" title="오류" icon="❌">
-  오류가 발생했습니다. 다시 시도해주세요.
+<Alert type="error" title="Error" icon="❌">
+  An error occurred. Please try again.
 </Alert>
 
 ## Props
 
-| Prop    | Type                                          | Default  | Description              |
-| ------- | --------------------------------------------- | -------- | ------------------------ |
-| `type`  | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | 알림의 타입              |
-| `title` | `string`                                      | -        | 알림의 제목 (선택사항)   |
-| `icon`  | `string`                                      | -        | 커스텀 아이콘 (선택사항) |
+| Prop    | Type                                          | Default  | Description            |
+| ------- | --------------------------------------------- | -------- | ---------------------- |
+| `type`  | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | Type of alert          |
+| `title` | `string`                                      | -        | Alert title (optional) |
+| `icon`  | `string`                                      | -        | Custom icon (optional) |
 
-## 사용 예시
+## Usage Examples
 
-### 기본 알림
+### Basic Alert
 
 ```mdx
-<Alert type="info">이것은 기본 정보 알림입니다.</Alert>
+<Alert type="info">This is a basic information alert.</Alert>
 ```
 
-### 제목이 있는 알림
+### Alert with Title
 
 ```mdx
-<Alert type="success" title="설치 완료">
-  패키지가 성공적으로 설치되었습니다.
+<Alert type="success" title="Installation Complete">
+  The package has been successfully installed.
 </Alert>
 ```
 
-### 커스텀 아이콘
+### Custom Icon
 
 ```mdx
-<Alert type="warning" title="주의" icon="🚨">
-  이 작업은 되돌릴 수 없습니다.
+<Alert type="warning" title="Warning" icon="🚨">
+  This action cannot be undone.
 </Alert>
 ```
 
-### 오류 메시지
+### Error Message
 
 ```mdx
-<Alert type="error" title="오류 발생" icon="💥">
-  네트워크 연결에 실패했습니다. 인터넷 연결을 확인해주세요.
+<Alert type="error" title="Error Occurred" icon="💥">
+  Network connection failed. Please check your internet connection.
 </Alert>
 ```
 
-## 특징
+## Features
 
-### ✨ 현대적인 디자인
+### ✨ Modern Design
 
-- **글래스 효과**: `backdrop-filter: blur(20px)` 적용
-- **그라데이션 배경**: 각 타입별 아름다운 그라데이션 효과
-- **부드러운 그림자**: 다층 그림자로 깊이감 표현
-- **호버 애니메이션**: `translateY(-2px)` 변환과 아이콘 바운스 효과
+- **Glass Effect**: Applied `backdrop-filter: blur(20px)`
+- **Gradient Background**: Beautiful gradient effects for each type
+- **Soft Shadows**: Multi-layered shadows for depth
+- **Hover Animation**: `translateY(-2px)` transform and icon bounce effect
 
-### 🎨 타입별 특징
+### 🎨 Type-specific Features
 
-- **Info**: 파란색 그라데이션, 정보 전달용
-- **Success**: 초록색 그라데이션, 성공 메시지용
-- **Warning**: 주황색 그라데이션, 주의사항용
-- **Error**: 빨간색 그라데이션, 오류 메시지용
+- **Info**: Blue gradient, for information delivery
+- **Success**: Green gradient, for success messages
+- **Warning**: Orange gradient, for warnings
+- **Error**: Red gradient, for error messages
 
-### 🌙 다크 모드 지원
+### 🌙 Dark Mode Support
 
-- 자동 색상 조정
-- 일관된 사용자 경험
-- 완벽한 테마 호환성
+- Automatic color adjustment
+- Consistent user experience
+- Perfect theme compatibility
 
-### 📱 반응형 디자인
+### 📱 Responsive Design
 
-- 모바일에서 최적화된 크기
-- 적응형 패딩과 폰트 크기
-- 터치 친화적 인터페이스
+- Optimized size on mobile
+- Adaptive padding and font sizes
+- Touch-friendly interface
 
-### 💫 애니메이션 효과
+### 💫 Animation Effects
 
-- **알림 페이드인**: 페이지 로드 시 부드러운 등장
-- **호버 효과**: 마우스 오버 시 자연스러운 변환
-- **아이콘 바운스**: 호버 시 아이콘 바운스 애니메이션
-- **부드러운 전환**: 모든 상태 변화에 자연스러운 전환
+- **Alert Fade-in**: Smooth appearance on page load
+- **Hover Effects**: Natural transformation on mouse over
+- **Icon Bounce**: Icon bounce animation on hover
+- **Smooth Transitions**: Natural transitions for all state changes
 
-### 🎯 접근성
+### 🎯 Accessibility
 
-- 명확한 색상 구분
-- 적절한 대비 비율
-- 스크린 리더 호환
-- 키보드 네비게이션 지원
+- Clear color distinction
+- Appropriate contrast ratios
+- Screen reader compatibility
+- Keyboard navigation support
 
-## 스타일링
+## Styling
 
-Alert 컴포넌트는 CSS 변수를 통해 커스터마이징할 수 있습니다:
+The Alert component can be customized through CSS variables:
 
 ```css
 :root {
@@ -122,11 +122,11 @@ Alert 컴포넌트는 CSS 변수를 통해 커스터마이징할 수 있습니�
 }
 ```
 
-## 브라우저 지원
+## Browser Support
 
 - Chrome 88+
 - Firefox 85+
 - Safari 14+
 - Edge 88+
 
-모던 브라우저에서 최적의 성능을 제공합니다.
+Provides optimal performance on modern browsers.

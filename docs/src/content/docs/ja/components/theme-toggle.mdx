@@ -1,0 +1,106 @@
+---
+title: Theme Toggle
+description: ライト/ダークモードを切り替えるテーマトグルボタン
+sidebar:
+  order: 2
+  group: components
+---
+
+import { Card } from "@astrojs/starlight/components";
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+
+スムーズなアニメーションと共にライト/ダークモードを切り替えることができるモダンなトグルボタンです。
+
+## ✨ アニメーション効果
+
+### 🔄 回転アニメーション
+
+テーマ切り替え時にアイコンが 360 度回転してスムーズに変更されます。
+
+### 🎯 ホバー効果
+
+マウスホバー時に 1.05 倍拡大、背景色と影の変更
+
+### 👆 クリックフィードバック
+
+クリック時に 0.95 倍縮小後復元で即座のフィードバック
+
+### ♿ アクセシビリティ
+
+スクリーンリーダー、キーボードナビゲーション、フォーカスインジケーター完璧サポート
+
+## 🎨 デザイン特徴
+
+<Tabs
+  tabs={[
+    { id: "basic-style", label: "基本スタイル", icon: "🎨" },
+    { id: "hover-effect", label: "ホバー効果", icon: "✨" },
+    { id: "dark-mode", label: "ダークモード", icon: "🌙" },
+  ]}
+  defaultTab="basic-style"
+>
+  <div>
+    ```css
+    /* 主なスタイル特徴 */
+    .theme-toggle-button {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: var(--radius);
+      transition: all 0.2s ease-in-out;
+    }
+    ```
+  </div>
+  <div>
+    ```css
+    .theme-toggle-button:hover {
+      transform: scale(1.05);
+      background-color: var(--color-accent);
+      box-shadow: var(--shadow-md);
+    }
+    ```
+  </div>
+  <div>
+    ```css
+    [data-theme="dark"] .theme-toggle-button:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+    }
+    ```
+  </div>
+</Tabs>
+
+## 🌙 アイコン切り替え
+
+| テーマ | アイコン | 状態               |
+| ------ | -------- | ------------------ |
+| Light  | 🌙 Moon  | 表示               |
+| Dark   | ☀️ Sun   | 表示               |
+| Auto   | 🌙/☀️    | システム設定に従う |
+
+## アクセシビリティ
+
+テーマトグルは完全なアクセシビリティをサポートしています：
+
+- **aria-label**: スクリーンリーダーサポート
+- **キーボードナビゲーション**: Tab でフォーカス可能
+- **フォーカスインジケーター**: 明確なフォーカスリング
+- **状態通知**: aria-live で変更通知
+
+## 使用方法
+
+テーマトグルはヘッダーに自動的に含まれており、追加設定なしで即座に使用できます。
+
+### 手動テーマ設定
+
+JavaScript で手動にテーマを変更することもできます：
+
+```javascript
+// ダークモードに変更
+document.documentElement.dataset.theme = "dark";
+
+// ライトモードに変更
+document.documentElement.dataset.theme = "light";
+
+// システム設定に従う
+document.documentElement.dataset.theme = "auto";
+```

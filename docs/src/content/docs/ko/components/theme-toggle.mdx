@@ -1,0 +1,106 @@
+---
+title: Theme Toggle
+description: 라이트/다크 모드를 전환하는 테마 토글 버튼
+sidebar:
+  order: 2
+  group: components
+---
+
+import { Card } from "@astrojs/starlight/components";
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+
+부드러운 애니메이션과 함께 라이트/다크 모드를 전환할 수 있는 현대적인 토글 버튼입니다.
+
+## ✨ 애니메이션 효과
+
+### 🔄 회전 애니메이션
+
+테마 전환 시 아이콘이 360도 회전하며 부드럽게 변경됩니다.
+
+### 🎯 호버 효과
+
+마우스 호버 시 1.05배 확대, 배경색과 그림자 변경
+
+### 👆 클릭 피드백
+
+클릭 시 0.95배 축소 후 복원으로 즉각적인 피드백
+
+### ♿ 접근성
+
+스크린 리더, 키보드 탐색, 포커스 표시기 완벽 지원
+
+## 🎨 디자인 특징
+
+<Tabs
+  tabs={[
+    { id: "basic-style", label: "기본 스타일", icon: "🎨" },
+    { id: "hover-effect", label: "호버 효과", icon: "✨" },
+    { id: "dark-mode", label: "다크 모드", icon: "🌙" },
+  ]}
+  defaultTab="basic-style"
+>
+  <div>
+    ```css
+    /* 주요 스타일 특징 */
+    .theme-toggle-button {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: var(--radius);
+      transition: all 0.2s ease-in-out;
+    }
+    ```
+  </div>
+  <div>
+    ```css
+    .theme-toggle-button:hover {
+      transform: scale(1.05);
+      background-color: var(--color-accent);
+      box-shadow: var(--shadow-md);
+    }
+    ```
+  </div>
+  <div>
+    ```css
+    [data-theme="dark"] .theme-toggle-button:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+    }
+    ```
+  </div>
+</Tabs>
+
+## 🌙 아이콘 전환
+
+| 테마  | 아이콘  | 상태               |
+| ----- | ------- | ------------------ |
+| Light | 🌙 Moon | 표시               |
+| Dark  | ☀️ Sun  | 표시               |
+| Auto  | 🌙/☀️   | 시스템 설정에 따라 |
+
+## 접근성
+
+테마 토글은 완전한 접근성을 지원합니다:
+
+- **aria-label**: 스크린 리더 지원
+- **키보드 탐색**: Tab으로 포커스 가능
+- **포커스 표시기**: 명확한 포커스 링
+- **상태 알림**: aria-live로 변경 알림
+
+## 사용법
+
+테마 토글은 헤더에 자동으로 포함되며, 별도 설정 없이 바로 사용할 수 있습니다.
+
+### 수동 테마 설정
+
+JavaScript로 수동으로 테마를 변경할 수도 있습니다:
+
+```javascript
+// 다크 모드로 변경
+document.documentElement.dataset.theme = "dark";
+
+// 라이트 모드로 변경
+document.documentElement.dataset.theme = "light";
+
+// 시스템 설정 따르기
+document.documentElement.dataset.theme = "auto";
+```

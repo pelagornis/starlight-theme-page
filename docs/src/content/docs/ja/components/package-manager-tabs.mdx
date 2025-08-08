@@ -1,0 +1,126 @@
+---
+title: PackageManagerTabs
+description: パッケージインストールコマンドをタブで表示するコンポーネント
+sidebar:
+  order: 8
+  group: components
+---
+
+import PackageManagerTabs from "@pelagornis/page/components/PackageManagerTabs.astro";
+
+PackageManagerTabs コンポーネントは、npm、pnpm、yarn など様々なパッケージマネージャーのインストールコマンドをタブ形式で表示します。モダンなガラス効果とスムーズなアニメーションを提供します。
+
+## 基本的な使用方法
+
+<PackageManagerTabs id="basic-example" />
+
+## 異なるパッケージの使用
+
+<PackageManagerTabs
+  packageName="my-awesome-package"
+  id="custom-package-example"
+/>
+
+## Props
+
+| Prop          | Type     | Default              | Description   |
+| ------------- | -------- | -------------------- | ------------- |
+| `packageName` | `string` | `"@pelagornis/page"` | パッケージ名  |
+| `npmCommand`  | `string` | 自動生成             | npm コマンド  |
+| `pnpmCommand` | `string` | 自動生成             | pnpm コマンド |
+| `yarnCommand` | `string` | 自動生成             | yarn コマンド |
+| `id`          | `string` | 自動生成             | 一意識別子    |
+
+## 使用例
+
+### 基本的な使用
+
+```mdx
+<PackageManagerTabs />
+```
+
+### 異なるパッケージ
+
+```mdx
+<PackageManagerTabs packageName="my-package" />
+```
+
+### カスタムコマンド
+
+```mdx
+<PackageManagerTabs
+  packageName="my-package"
+  npmCommand="npm install my-package@latest"
+  pnpmCommand="pnpm add my-package@latest"
+  yarnCommand="yarn add my-package@latest"
+/>
+```
+
+## 特徴
+
+### ✨ モダンデザイン
+
+- **ガラス効果**: `backdrop-filter: blur(20px)` を適用
+- **グラデーション背景**: 美しいグラデーション効果
+- **ソフトシャドウ**: 多層シャドウで深さを表現
+- **ホバーアニメーション**: `translateY(-4px) scale(1.05)` 変換
+
+### 🎭 タブインタラクション
+
+- **スムーズトランジション**: タブクリック時の自然なフェードイン効果
+- **アイコンアニメーション**: ホバー時のアイコンスケール効果
+- **アクティブタブハイライト**: 選択されたタブの視覚的強調
+- **パッケージ別色**: 各パッケージマネージャー別のユニークな色
+
+### 📦 パッケージマネージャー別特徴
+
+- **npm**: 赤色アイコン、📦 絵文字
+- **pnpm**: オレンジ色アイコン、🚀 絵文字
+- **yarn**: 青色アイコン、🧶 絵文字
+
+### 🌙 ダークモードサポート
+
+- 自動色調整
+- 一貫したユーザー体験
+- 完璧なテーマ互換性
+
+### 📱 レスポンシブデザイン
+
+- モバイルで最適化されたサイズ
+- 適応型パディングとフォントサイズ
+- タッチフレンドリーなインターフェース
+
+### 💫 アニメーション効果
+
+- **タブトランジション**: スムーズなフェードイン/アウト効果
+- **ホバー効果**: マウスオーバー時の自然な変換
+- **アイコンバウンス**: ホバー時のアイコンスケール効果
+- **コマンドエリア**: ホバー時の全エリアアニメーション
+
+### ♿ アクセシビリティ
+
+- キーボードナビゲーションサポート
+- フォーカスインジケーター
+- スクリーンリーダー互換
+- 明確な色の区別
+
+## スタイリング
+
+PackageManagerTabs コンポーネントは CSS 変数を通じてカスタマイズできます：
+
+```css
+:root {
+  --page-tab-border-radius: 14px;
+  --page-tab-padding: 16px 28px;
+  --page-tab-gap: 16px;
+}
+```
+
+## ブラウザサポート
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+モダンブラウザで最適なパフォーマンスを提供します。

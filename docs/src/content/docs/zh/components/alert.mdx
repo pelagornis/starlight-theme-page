@@ -1,0 +1,132 @@
+---
+title: Alert
+description: 显示通知、警告、成功、错误消息的组件
+sidebar:
+  order: 4
+  group: components
+---
+
+import Alert from "@pelagornis/page/components/Alert.astro";
+
+Alert 组件用于向用户传达重要信息时使用的通知组件。提供现代玻璃效果和平滑动画。
+
+## 基本用法
+
+<Alert type="info" title="信息" icon="💡">
+  这是一个信息提醒。用于传达重要信息时使用。
+</Alert>
+
+<Alert type="success" title="成功" icon="✅">
+  操作成功完成！
+</Alert>
+
+<Alert type="warning" title="警告" icon="⚠️">
+  此操作无法撤销。请谨慎进行。
+</Alert>
+
+<Alert type="error" title="错误" icon="❌">
+  发生错误。请重试。
+</Alert>
+
+## Props
+
+| Prop    | Type                                          | Default  | Description              |
+| ------- | --------------------------------------------- | -------- | ------------------------ |
+| `type`  | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | 提醒的类型              |
+| `title` | `string`                                      | -        | 提醒的标题 (可选)        |
+| `icon`  | `string`                                      | -        | 自定义图标 (可选)        |
+
+## 使用示例
+
+### 基本提醒
+
+```mdx
+<Alert type="info">这是一个基本的信息提醒。</Alert>
+```
+
+### 带标题的提醒
+
+```mdx
+<Alert type="success" title="安装完成">
+  包已成功安装。
+</Alert>
+```
+
+### 自定义图标
+
+```mdx
+<Alert type="warning" title="警告" icon="🚨">
+  此操作无法撤销。
+</Alert>
+```
+
+### 错误消息
+
+```mdx
+<Alert type="error" title="发生错误" icon="💥">
+  网络连接失败。请检查您的互联网连接。
+</Alert>
+```
+
+## 特性
+
+### ✨ 现代设计
+
+- **玻璃效果**: 应用 `backdrop-filter: blur(20px)`
+- **渐变背景**: 每种类型的美丽渐变效果
+- **柔和阴影**: 多层阴影营造深度感
+- **悬停动画**: `translateY(-2px)` 变换和图标弹跳效果
+
+### 🎨 类型特定功能
+
+- **Info**: 蓝色渐变，用于信息传达
+- **Success**: 绿色渐变，用于成功消息
+- **Warning**: 橙色渐变，用于警告
+- **Error**: 红色渐变，用于错误消息
+
+### 🌙 深色模式支持
+
+- 自动颜色调整
+- 一致的用户体验
+- 完美的主题兼容性
+
+### 📱 响应式设计
+
+- 移动端优化尺寸
+- 自适应内边距和字体大小
+- 触摸友好界面
+
+### 💫 动画效果
+
+- **提醒淡入**: 页面加载时的平滑出现
+- **悬停效果**: 鼠标悬停时的自然变换
+- **图标弹跳**: 悬停时的图标弹跳动画
+- **平滑过渡**: 所有状态变化的自然过渡
+
+### 🎯 无障碍性
+
+- 清晰的颜色区分
+- 适当的对比度
+- 屏幕阅读器兼容
+- 键盘导航支持
+
+## 样式
+
+Alert 组件可以通过 CSS 变量进行自定义：
+
+```css
+:root {
+  --page-alert-border-radius: 16px;
+  --page-alert-padding: 20px 24px;
+  --page-alert-gap: 16px;
+}
+```
+
+## 浏览器支持
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+在现代浏览器上提供最佳性能。

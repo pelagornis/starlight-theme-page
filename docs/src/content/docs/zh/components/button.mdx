@@ -1,0 +1,218 @@
+---
+title: Button
+description: 提供各种样式按钮的组件
+sidebar:
+  order: 6
+  group: components
+---
+
+import Button from "@pelagornis/page/components/Button.astro";
+
+Button 组件提供各种样式和尺寸的按钮，也可以用作链接。提供现代玻璃效果和渐变。
+
+## 基本用法
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Button variant="default">Default</Button>
+  <Button variant="primary">Primary</Button>
+  <Button variant="success">Success</Button>
+  <Button variant="warning">Warning</Button>
+  <Button variant="error">Error</Button>
+  <Button variant="ghost">Ghost</Button>
+</div>
+
+## 尺寸示例
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Button variant="primary" size="sm">
+    Small
+  </Button>
+  <Button variant="primary" size="md">
+    Medium
+  </Button>
+  <Button variant="primary" size="lg">
+    Large
+  </Button>
+</div>
+
+## 带图标
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Button variant="primary" size="sm" icon="📥">
+    Download
+  </Button>
+  <Button variant="success" size="md" icon="✅">
+    Install
+  </Button>
+  <Button variant="warning" size="lg" icon="⚠️">
+    Delete
+  </Button>
+  <Button variant="gradient" size="md" icon="✨">
+    Special
+  </Button>
+</div>
+
+## 链接按钮
+
+<Button variant="primary" href="https://github.com" target="_blank" icon="🔗">
+  访问 GitHub
+</Button>
+
+<Button variant="ghost" href="/guides/getting-started/" icon="📚">
+  入门指南
+</Button>
+
+<Button variant="gradient" href="https://npmjs.com" target="_blank" icon="📦">
+  在 npm 上查看
+</Button>
+
+## Props
+
+| Prop       | Type                                                                                   | Default     | Description          |
+| ---------- | -------------------------------------------------------------------------------------- | ----------- | -------------------- |
+| `variant`  | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'ghost' \| 'gradient'` | `'default'` | 按钮的样式          |
+| `size`     | `'sm' \| 'md' \| 'lg'`                                                                 | `'md'`      | 按钮的尺寸          |
+| `icon`     | `string`                                                                               | -           | 图标 (可选)         |
+| `href`     | `string`                                                                               | -           | 链接 URL (可选)     |
+| `target`   | `string`                                                                               | -           | 链接目标 (可选)     |
+| `disabled` | `boolean`                                                                              | `false`     | 禁用状态            |
+
+## 使用示例
+
+### 基本按钮
+
+```mdx
+<Button variant="primary">点击我</Button>
+```
+
+### 尺寸调整
+
+```mdx
+<Button variant="success" size="sm">
+  Small
+</Button>
+<Button variant="success" size="md">
+  Medium
+</Button>
+<Button variant="success" size="lg">
+  Large
+</Button>
+```
+
+### 带图标
+
+```mdx
+<Button variant="primary" icon="📥">
+  下载
+</Button>
+```
+
+### 链接按钮
+
+```mdx
+<Button variant="primary" href="/docs" icon="📚">
+  查看文档
+</Button>
+```
+
+### 外部链接
+
+```mdx
+<Button variant="ghost" href="https://github.com" target="_blank">
+  GitHub
+</Button>
+```
+
+### 各种样式的链接按钮
+
+```mdx
+<Button variant="primary" href="/install" icon="📥">
+  安装
+</Button>
+
+<Button variant="success" href="/docs" icon="📖">
+  阅读文档
+</Button>
+
+<Button variant="warning" href="/migrate" icon="🔄">
+  迁移
+</Button>
+
+<Button variant="gradient" href="/special" icon="✨">
+  特殊功能
+</Button>
+```
+
+### 禁用按钮
+
+```mdx
+<Button variant="primary" disabled>
+  已禁用
+</Button>
+```
+
+## 特性
+
+### ✨ 现代设计
+
+- **玻璃效果**: 应用 `backdrop-filter: blur(15px)`
+- **渐变背景**: 美丽的渐变效果
+- **柔和阴影**: 多层阴影营造深度感
+- **悬停动画**: `translateY(-2px)` 变换和图标缩放效果
+
+### 🎨 变体特定功能
+
+- **Default**: 默认样式，适应浅色/深色主题
+- **Primary**: 主要操作用，蓝色渐变
+- **Success**: 成功操作用，绿色渐变
+- **Warning**: 警告操作用，橙色渐变
+- **Error**: 危险操作用，红色渐变
+- **Ghost**: 透明背景，悬停时仅显示背景
+- **Gradient**: 特殊渐变背景 (新功能)
+
+### 🌙 深色模式支持
+
+- 自动颜色调整
+- 一致的用户体验
+- 完美的主题兼容性
+
+### 📱 响应式设计
+
+- 移动端优化尺寸
+- 触摸友好界面
+- 自适应内边距和字体大小
+
+### 💫 动画效果
+
+- **悬停效果**: 鼠标悬停时的自然变换
+- **图标动画**: 悬停时的图标缩放效果
+- **点击效果**: 点击时的脉冲动画
+- **焦点指示器**: 键盘导航支持
+
+### ♿ 无障碍性
+
+- 键盘导航支持
+- 焦点指示器
+- 屏幕阅读器兼容
+- 禁用状态支持
+
+## 样式
+
+Button 组件可以通过 CSS 变量进行自定义：
+
+```css
+:root {
+  --page-button-border-radius: 12px;
+  --page-button-padding: 12px 20px;
+  --page-button-font-weight: 600;
+}
+```
+
+## 浏览器支持
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+在现代浏览器上提供最佳性能。

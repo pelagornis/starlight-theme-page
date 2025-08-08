@@ -1,0 +1,188 @@
+---
+title: Tabs
+description: モダンで洗練されたタブコンポーネント
+sidebar:
+  order: 9
+  group: components
+---
+
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+
+モダンで洗練されたタブコンポーネントです。ガラス効果とスムーズなアニメーションを提供します。
+
+## 基本的な使用方法
+
+<Tabs
+  tabs={[
+    { id: "overview", label: "概要", icon: "📋" },
+    { id: "usage", label: "使用方法", icon: "💡" },
+    { id: "examples", label: "例", icon: "🎨" },
+  ]}
+  defaultTab="overview"
+>
+  <div>
+    <p>
+      Tabsコンポーネントは、コンテンツを複数のタブに分けて表示する際に使用します。各タブはアイコンとラベルを持つことができ、スムーズなトランジションアニメーションを提供します。
+    </p>
+  </div>
+  <div>
+    <p>
+      タブをクリックすると、対応するコンテンツがスムーズに表示され、ホバー時に微妙なアニメーション効果を提供します。
+    </p>
+  </div>
+  <div>
+    <p>
+      様々な例とユースケースを通じて、コンポーネントの活用方法を確認できます。
+    </p>
+  </div>
+</Tabs>
+
+## Props
+
+| Prop         | Type         | Default         | Description         |
+| ------------ | ------------ | --------------- | ------------------- |
+| `tabs`       | `Array<Tab>` | -               | タブ設定配列 (必須) |
+| `defaultTab` | `string`     | 最初のタブの id | デフォルト選択タブ  |
+
+### Tab オブジェクト
+
+| Property | Type     | Required | Description                       |
+| -------- | -------- | -------- | --------------------------------- |
+| `id`     | `string` | ✅       | タブの一意識別子                  |
+| `label`  | `string` | ✅       | タブに表示されるラベル            |
+| `icon`   | `string` | ❌       | タブに表示されるアイコン (絵文字) |
+
+## 例
+
+### 基本的なタブ
+
+```astro
+---
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+---
+
+<Tabs tabs={[
+  { id: "tab1", label: "最初のタブ" },
+  { id: "tab2", label: "二番目のタブ" },
+  { id: "tab3", label: "三番目のタブ" }
+]} defaultTab="tab1">
+  <div>
+    最初のタブのコンテンツです。
+  </div>
+  <div>
+    二番目のタブのコンテンツです。
+  </div>
+  <div>
+    三番目のタブのコンテンツです。
+  </div>
+</Tabs>
+```
+
+### アイコン付きタブ
+
+```astro
+---
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+---
+
+<Tabs tabs={[
+  { id: "info", label: "情報", icon: "ℹ️" },
+  { id: "settings", label: "設定", icon: "⚙️" },
+  { id: "help", label: "ヘルプ", icon: "❓" }
+]} defaultTab="info">
+  <div>
+    <h3>情報タブ</h3>
+    <p>ここに情報コンテンツを配置します。</p>
+  </div>
+  <div>
+    <h3>設定タブ</h3>
+    <p>ここに設定コンテンツを配置します。</p>
+  </div>
+  <div>
+    <h3>ヘルプタブ</h3>
+    <p>ここにヘルプコンテンツを配置します。</p>
+  </div>
+</Tabs>
+```
+
+### 様々なアイコン例
+
+<Tabs
+  tabs={[
+    { id: "docs", label: "ドキュメント", icon: "📚" },
+    { id: "code", label: "コード", icon: "💻" },
+    { id: "design", label: "デザイン", icon: "🎨" },
+    { id: "deploy", label: "デプロイ", icon: "🚀" },
+  ]}
+  defaultTab="docs"
+>
+  <div>
+    <h3>📚 ドキュメント</h3>
+    <p>プロジェクトドキュメントとガイドを確認してください。</p>
+  </div>
+  <div>
+    <h3>💻 コード</h3>
+    <p>ソースコードと例を調べてください。</p>
+  </div>
+  <div>
+    <h3>🎨 デザイン</h3>
+    <p>UI/UXデザインガイドを参照してください。</p>
+  </div>
+  <div>
+    <h3>🚀 デプロイ</h3>
+    <p>デプロイ方法と環境設定を確認してください。</p>
+  </div>
+</Tabs>
+
+## 特徴
+
+### ✨ モダンデザイン
+
+- ガラス効果とグラデーション背景
+- ソフトシャドウとホバー効果
+- 洗練されたタイポグラフィ
+
+### 🎭 スムーズアニメーション
+
+- タブ切り替え時の自然なフェードイン効果
+- ホバー時のアイコンスケールアニメーション
+- スムーズなトランジション効果
+
+### 🌙 ダークモードサポート
+
+- ライト/ダークテーマの完璧な互換性
+- 自動色調整
+- 一貫したユーザー体験
+
+### 📱 レスポンシブデザイン
+
+- モバイルでの水平スクロールサポート
+- 様々な画面サイズに最適化
+- タッチフレンドリーなインターフェース
+
+### ♿ アクセシビリティ
+
+- キーボードナビゲーションサポート
+- フォーカスインジケーター
+- スクリーンリーダー互換
+
+## スタイリング
+
+Tabs コンポーネントは CSS 変数を通じてカスタマイズできます：
+
+```css
+:root {
+  --page-tab-border-radius: 12px;
+  --page-tab-padding: 14px 24px;
+  --page-tab-gap: 12px;
+}
+```
+
+## ブラウザサポート
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+モダンブラウザで最適なパフォーマンスを提供します。

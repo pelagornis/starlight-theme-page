@@ -1,6 +1,6 @@
 ---
 title: Navigation
-description: 동적 네비게이션 링크와 인터랙티브 효과
+description: Features and usage of navigation component
 sidebar:
   order: 3
   group: components
@@ -9,67 +9,72 @@ sidebar:
 import { Card, Steps } from "@astrojs/starlight/components";
 import Tabs from "@pelagornis/page/components/Tabs.astro";
 
-현대적인 호버 효과와 활성 상태 표시기를 갖춘 네비게이션 시스템입니다.
+A navigation system with modern hover effects and active state indicators.
 
-## 🎯 주요 특징
+## 🎯 Key Features
 
-### 🎨 동적 효과
+### 🎨 Dynamic Effects
 
-호버 시 이동, 그라데이션 배경, 그림자 효과로 깊이감 연출
+Depth through hover movement, gradient backgrounds, and shadow effects
 
-### 📱 반응형 동작
+### 📱 Responsive Behavior
 
-모든 화면 크기에서 최적화된 네비게이션 경험
+Optimized navigation experience on all screen sizes
 
-### 🌟 활성 상태 표시
+### 🌟 Active State Display
 
-현재 페이지를 명확하게 표시하는 애니메이션 언더라인
+Animated underline that clearly indicates the current page
 
-### 🏷️ 배지 시스템
+### 🏷️ Badge System
 
-"New", "Beta" 등의 배지로 링크 상태 표시
+Link status indication with badges like "New", "Beta"
 
-### 동적 효과
+### Dynamic Effects
 
-- **호버 시 이동**: translateY(-1px)로 살짝 위로 이동
-- **그라데이션 배경**: 미묘한 그라데이션 효과 적용
-- **그림자 효과**: box-shadow로 깊이감 연출
+- **Hover Movement**: Slight upward movement with translateY(-1px)
+- **Gradient Background**: Subtle gradient effects applied
+- **Shadow Effects**: Depth created with box-shadow
 
-### 활성 상태 표시
+### Active State Display
 
-현재 페이지는 다음과 같이 표시됩니다:
+The current page is displayed as follows:
 
-- 더 진한 배경색
-- 굵은 폰트 (font-weight: 600)
-- 애니메이션 언더라인
+- Darker background color
+- Bold font (font-weight: 600)
+- Animated underline
 
-## 📱 반응형 동작
+## 📱 Responsive Behavior
 
-네비게이션은 화면 크기에 따라 다르게 동작합니다:
+Navigation behaves differently based on screen size:
 
 <Tabs
   tabs={[
     { id: "desktop", label: "Desktop (1024px+)", icon: "💻" },
     { id: "tablet", label: "Tablet (768px-1023px)", icon: "📱" },
-    { id: "mobile", label: "Mobile (768px 미만)", icon: "📱" },
+    { id: "mobile", label: "Mobile (under 768px)", icon: "📱" },
   ]}
   defaultTab="desktop"
 >
   <div>
-    - 모든 링크가 수평으로 배치 - 충분한 간격 (gap: 1.5rem) - 호버 효과 최대한
-    활용
+    - All links arranged horizontally - Sufficient spacing (gap: 1.5rem) -
+    Maximum hover effect utilization
   </div>
-  <div>- 약간 줄어든 간격 (gap: 1rem) - 여전히 수평 배치 유지</div>
-  <div>- 햄버거 메뉴로 전환 - 세로 드롭다운 메뉴 - 터치 친화적 인터페이스</div>
+  <div>
+    - Slightly reduced spacing (gap: 1rem) - Still maintains horizontal layout
+  </div>
+  <div>
+    - Switches to hamburger menu - Vertical dropdown menu - Touch-friendly
+    interface
+  </div>
 </Tabs>
 
-## 🎨 스타일 상세
+## 🎨 Style Details
 
 <Tabs
   tabs={[
-    { id: "basic-link", label: "기본 링크", icon: "🔗" },
-    { id: "hover-effect", label: "호버 효과", icon: "✨" },
-    { id: "active-state", label: "활성 상태", icon: "🎯" },
+    { id: "basic-link", label: "Basic Link", icon: "🔗" },
+    { id: "hover-effect", label: "Hover Effect", icon: "✨" },
+    { id: "active-state", label: "Active State", icon: "🎯" },
   ]}
   defaultTab="basic-link"
 >
@@ -106,29 +111,29 @@ import Tabs from "@pelagornis/page/components/Tabs.astro";
   </div>
 </Tabs>
 
-## 🏷️ 배지 시스템
+## 🏷️ Badge System
 
-네비게이션 링크에는 배지를 추가할 수 있습니다:
+Badges can be added to navigation links:
 
 ```javascript
 {
-  label: "새 기능",
+  label: "New Feature",
   link: "/new-feature/",
   badge: "New"
 }
 ```
 
-배지는 다음과 같은 스타일을 갖습니다:
+Badges have the following styles:
 
-- 성공 색상 (초록색)
-- 대문자 변환
-- 호버 시 1.05배 확대
+- Success color (green)
+- Uppercase transformation
+- 1.05x scale on hover
 
-## ⚡ 애니메이션
+## ⚡ Animations
 
-### 언더라인 애니메이션
+### Underline Animation
 
-활성 링크는 하단에 애니메이션 언더라인을 표시합니다:
+Active links display an animated underline at the bottom:
 
 ```css
 .nav-bar a.active::after {
@@ -143,9 +148,9 @@ import Tabs from "@pelagornis/page/components/Tabs.astro";
 }
 ```
 
-### 그라데이션 배경
+### Gradient Background
 
-모든 링크는 호버 시 미묘한 그라데이션 배경을 표시합니다:
+All links display a subtle gradient background on hover:
 
 ```css
 .nav-bar a::before {
@@ -162,30 +167,30 @@ import Tabs from "@pelagornis/page/components/Tabs.astro";
 }
 ```
 
-## 🌙 다크 모드
+## 🌙 Dark Mode
 
-다크 모드에서는 추가적인 효과가 적용됩니다:
+Additional effects are applied in dark mode:
 
 - **Glass Effect**: backdrop-filter: blur(8px)
-- **투명 배경**: rgba(255, 255, 255, 0.1)
-- **향상된 대비**: 더 명확한 색상 구분
+- **Transparent Background**: rgba(255, 255, 255, 0.1)
+- **Enhanced Contrast**: Clearer color distinction
 
-## 설정 방법
+## Setup Method
 
 <Steps>
 
-1. Astro 설정에서 네비게이션 링크를 정의합니다:
+1. Define navigation links in Astro configuration:
 
    ```javascript
    pagePlugin({
      navLinks: [
        {
-         label: "홈",
+         label: "Home",
          link: "/",
          attrs: {},
        },
        {
-         label: "문서",
+         label: "Documentation",
          link: "/docs/",
          badge: "New",
        },
@@ -193,17 +198,17 @@ import Tabs from "@pelagornis/page/components/Tabs.astro";
    });
    ```
 
-2. 각 링크는 다음 속성을 가질 수 있습니다:
+2. Each link can have the following properties:
 
-   - `label`: 표시될 텍스트
-   - `link`: 링크 URL
-   - `badge`: 선택적 배지 텍스트
-   - `attrs`: 추가 HTML 속성
+   - `label`: Text to display
+   - `link`: Link URL
+   - `badge`: Optional badge text
+   - `attrs`: Additional HTML attributes
 
-3. 배지는 자동으로 스타일링됩니다:
+3. Badges are automatically styled:
 
-   - "New": 초록색 배지
-   - "Beta": 노란색 배지
-   - "Deprecated": 빨간색 배지
+   - "New": Green badge
+   - "Beta": Yellow badge
+   - "Deprecated": Red badge
 
 </Steps>

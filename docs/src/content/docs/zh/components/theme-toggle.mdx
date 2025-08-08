@@ -1,0 +1,106 @@
+---
+title: Theme Toggle
+description: 在浅色/深色模式之间切换的主题切换按钮
+sidebar:
+  order: 2
+  group: components
+---
+
+import { Card } from "@astrojs/starlight/components";
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+
+一个现代切换按钮，可以在浅色/深色模式之间切换，并具有流畅的动画效果。
+
+## ✨ 动画效果
+
+### 🔄 旋转动画
+
+切换主题时图标会 360 度旋转并平滑变化。
+
+### 🎯 悬停效果
+
+鼠标悬停时 1.05 倍放大、背景色和阴影变化
+
+### 👆 点击反馈
+
+点击时 0.95 倍缩小后恢复，提供即时反馈
+
+### ♿ 无障碍性
+
+完美支持屏幕阅读器、键盘导航、焦点指示器
+
+## 🎨 设计特点
+
+<Tabs
+  tabs={[
+    { id: "basic-style", label: "基本样式", icon: "🎨" },
+    { id: "hover-effect", label: "悬停效果", icon: "✨" },
+    { id: "dark-mode", label: "深色模式", icon: "🌙" },
+  ]}
+  defaultTab="basic-style"
+>
+  <div>
+    ```css
+    /* 主要样式特点 */
+    .theme-toggle-button {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: var(--radius);
+      transition: all 0.2s ease-in-out;
+    }
+    ```
+  </div>
+  <div>
+    ```css
+    .theme-toggle-button:hover {
+      transform: scale(1.05);
+      background-color: var(--color-accent);
+      box-shadow: var(--shadow-md);
+    }
+    ```
+  </div>
+  <div>
+    ```css
+    [data-theme="dark"] .theme-toggle-button:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+    }
+    ```
+  </div>
+</Tabs>
+
+## 🌙 图标切换
+
+| 主题  | 图标    | 状态         |
+| ----- | ------- | ------------ |
+| Light | 🌙 Moon | 显示         |
+| Dark  | ☀️ Sun  | 显示         |
+| Auto  | 🌙/☀️   | 根据系统设置 |
+
+## 无障碍性
+
+主题切换支持完整的无障碍性：
+
+- **aria-label**: 屏幕阅读器支持
+- **键盘导航**: 可通过 Tab 键聚焦
+- **焦点指示器**: 清晰的焦点环
+- **状态通知**: 通过 aria-live 通知变化
+
+## 使用方法
+
+主题切换会自动包含在头部中，无需额外设置即可立即使用。
+
+### 手动主题设置
+
+您也可以使用 JavaScript 手动更改主题：
+
+```javascript
+// 切换到深色模式
+document.documentElement.dataset.theme = "dark";
+
+// 切换到浅色模式
+document.documentElement.dataset.theme = "light";
+
+// 跟随系统设置
+document.documentElement.dataset.theme = "auto";
+```

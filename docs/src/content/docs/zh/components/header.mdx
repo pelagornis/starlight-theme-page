@@ -1,0 +1,109 @@
+---
+title: Header
+description: 现代头部组件的特性和使用方法
+sidebar:
+  order: 1
+  group: components
+---
+
+import { Card } from "@astrojs/starlight/components";
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+
+现代头部具有粘性导航和玻璃效果的特点。
+
+## 主要功能
+
+### 🎨 设计特点
+
+粘性导航、玻璃效果、渐变背景、流畅动画
+
+### 📱 响应式设计
+
+在所有屏幕尺寸上完美工作的响应式布局
+
+### 🌟 交互效果
+
+为所有元素应用流畅的悬停效果和动画
+
+### 🌙 深色模式
+
+完美支持浅色/深色主题
+
+### 📱 响应式设计
+
+头部在所有屏幕尺寸上完美工作：
+
+| 屏幕尺寸 | 行为           |
+| -------- | -------------- |
+| Desktop  | 完整导航显示   |
+| Tablet   | 压缩布局       |
+| Mobile   | 切换到汉堡菜单 |
+
+### 🌟 交互效果
+
+头部的所有元素在悬停时都会响应：
+
+1. **Logo**: 悬停时的渐变和旋转效果
+2. **导航链接**: 背景色变化和移动效果
+3. **主题切换**: 旋转动画
+4. **社交链接**: 平台特定的颜色变化
+
+## 代码示例
+
+<Tabs
+  tabs={[
+    { id: "basic-usage", label: "基本用法", icon: "🚀" },
+    { id: "customization", label: "自定义", icon: "⚙️" },
+  ]}
+  defaultTab="basic-usage"
+>
+  <div>
+    ```astro
+    ---
+    // 头部组件使用示例
+    import Header from '@pelagornis/page/overrides/Header.astro';
+    ---
+
+    <Header />
+    ```
+
+  </div>
+  <div>
+    ```astro
+    ---
+    // 自定义头部配置
+    import Header from '@pelagornis/page/overrides/Header.astro';
+
+    const customNavLinks = [
+      { label: "首页", link: "/" },
+      { label: "文档", link: "/docs/" },
+      { label: "博客", link: "/blog/" },
+    ];
+    ---
+
+    <Header navLinks={customNavLinks} />
+    ```
+
+  </div>
+</Tabs>
+
+> **提示**: 头部会自动检测当前页面并显示活动状态。
+
+## 自定义
+
+您可以使用 CSS 变量更改头部的外观：
+
+```css
+:root {
+  --header-height: 4rem;
+  --header-blur: 16px;
+  --header-opacity: 0.8;
+  --header-bg: rgba(255, 255, 255, 0.8);
+  --header-border: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+  --header-bg: rgba(0, 0, 0, 0.8);
+  --header-border: rgba(255, 255, 255, 0.1);
+}
+```

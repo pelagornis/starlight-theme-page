@@ -1,0 +1,126 @@
+---
+title: PackageManagerTabs
+description: 以标签页形式显示包安装命令的组件
+sidebar:
+  order: 8
+  group: components
+---
+
+import PackageManagerTabs from "@pelagornis/page/components/PackageManagerTabs.astro";
+
+PackageManagerTabs 组件以标签页形式显示 npm、pnpm、yarn 等各种包管理器的安装命令。提供现代玻璃效果和平滑动画。
+
+## 基本用法
+
+<PackageManagerTabs id="basic-example" />
+
+## 不同包的使用
+
+<PackageManagerTabs
+  packageName="my-awesome-package"
+  id="custom-package-example"
+/>
+
+## Props
+
+| Prop          | Type     | Default              | Description |
+| ------------- | -------- | -------------------- | ----------- |
+| `packageName` | `string` | `"@pelagornis/page"` | 包名        |
+| `npmCommand`  | `string` | 自动生成             | npm 命令    |
+| `pnpmCommand` | `string` | 自动生成             | pnpm 命令   |
+| `yarnCommand` | `string` | 自动生成             | yarn 命令   |
+| `id`          | `string` | 自动生成             | 唯一标识符  |
+
+## 使用示例
+
+### 基本使用
+
+```mdx
+<PackageManagerTabs />
+```
+
+### 不同包
+
+```mdx
+<PackageManagerTabs packageName="my-package" />
+```
+
+### 自定义命令
+
+```mdx
+<PackageManagerTabs
+  packageName="my-package"
+  npmCommand="npm install my-package@latest"
+  pnpmCommand="pnpm add my-package@latest"
+  yarnCommand="yarn add my-package@latest"
+/>
+```
+
+## 特性
+
+### ✨ 现代设计
+
+- **玻璃效果**: 应用 `backdrop-filter: blur(20px)`
+- **渐变背景**: 美丽的渐变效果
+- **柔和阴影**: 多层阴影营造深度感
+- **悬停动画**: `translateY(-4px) scale(1.05)` 变换
+
+### 🎭 标签页交互
+
+- **平滑过渡**: 标签页点击时的自然淡入效果
+- **图标动画**: 悬停时的图标缩放效果
+- **活动标签页高亮**: 选中标签页的视觉强调
+- **包特定颜色**: 每个包管理器的独特颜色
+
+### 📦 包管理器特定功能
+
+- **npm**: 红色图标，📦 表情符号
+- **pnpm**: 橙色图标，🚀 表情符号
+- **yarn**: 蓝色图标，🧶 表情符号
+
+### 🌙 深色模式支持
+
+- 自动颜色调整
+- 一致的用户体验
+- 完美的主题兼容性
+
+### 📱 响应式设计
+
+- 移动端优化尺寸
+- 自适应内边距和字体大小
+- 触摸友好界面
+
+### 💫 动画效果
+
+- **标签页过渡**: 平滑的淡入/淡出效果
+- **悬停效果**: 鼠标悬停时的自然变换
+- **图标弹跳**: 悬停时的图标缩放效果
+- **命令区域**: 悬停时的全区域动画
+
+### ♿ 无障碍性
+
+- 键盘导航支持
+- 焦点指示器
+- 屏幕阅读器兼容
+- 清晰的颜色区分
+
+## 样式
+
+PackageManagerTabs 组件可以通过 CSS 变量进行自定义：
+
+```css
+:root {
+  --page-tab-border-radius: 14px;
+  --page-tab-padding: 16px 28px;
+  --page-tab-gap: 16px;
+}
+```
+
+## 浏览器支持
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+在现代浏览器上提供最佳性能。

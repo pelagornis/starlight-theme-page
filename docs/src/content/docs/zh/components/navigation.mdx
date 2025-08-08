@@ -1,0 +1,208 @@
+---
+title: Navigation
+description: 动态导航链接与交互效果
+sidebar:
+  order: 3
+  group: components
+---
+
+import { Card, Steps } from "@astrojs/starlight/components";
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+
+具有现代悬停效果和活动状态指示器的导航系统。
+
+## 🎯 主要功能
+
+### 🎨 动态效果
+
+悬停时的移动、渐变背景、阴影效果营造深度感
+
+### 📱 响应式行为
+
+在所有屏幕尺寸上优化的导航体验
+
+### 🌟 活动状态显示
+
+清晰指示当前页面的动画下划线
+
+### 🏷️ 徽章系统
+
+使用"New"、"Beta"等徽章显示链接状态
+
+### 动态效果
+
+- **悬停移动**: translateY(-1px)轻微向上移动
+- **渐变背景**: 应用微妙的渐变效果
+- **阴影效果**: 通过box-shadow营造深度感
+
+### 活动状态显示
+
+当前页面显示如下：
+
+- 更深的背景色
+- 粗体字体 (font-weight: 600)
+- 动画下划线
+
+## 📱 响应式行为
+
+导航根据屏幕尺寸表现不同：
+
+<Tabs
+  tabs={[
+    { id: "desktop", label: "Desktop (1024px+)", icon: "💻" },
+    { id: "tablet", label: "Tablet (768px-1023px)", icon: "📱" },
+    { id: "mobile", label: "Mobile (768px以下)", icon: "📱" },
+  ]}
+  defaultTab="desktop"
+>
+  <div>
+    - 所有链接水平排列 - 充足间距 (gap: 1.5rem) - 最大化悬停效果利用
+  </div>
+  <div>- 稍微缩小的间距 (gap: 1rem) - 仍保持水平布局</div>
+  <div>- 切换到汉堡菜单 - 垂直下拉菜单 - 触摸友好界面</div>
+</Tabs>
+
+## 🎨 样式详情
+
+<Tabs
+  tabs={[
+    { id: "basic-link", label: "基本链接", icon: "🔗" },
+    { id: "hover-effect", label: "悬停效果", icon: "✨" },
+    { id: "active-state", label: "活动状态", icon: "🎯" },
+  ]}
+  defaultTab="basic-link"
+>
+  <div>
+    ```css
+    .nav-bar a {
+      position: relative;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius);
+      color: var(--color-muted-foreground);
+      transition: all 0.2s ease-in-out;
+    }
+    ```
+  </div>
+  <div>
+    ```css
+    .nav-bar a:hover {
+      color: var(--color-foreground);
+      background-color: var(--color-accent);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+    ```
+  </div>
+  <div>
+    ```css
+    .nav-bar a.active {
+      color: var(--color-primary-foreground);
+      background-color: var(--color-primary);
+      font-weight: 600;
+      box-shadow: var(--shadow-md);
+    }
+    ```
+  </div>
+</Tabs>
+
+## 🏷️ 徽章系统
+
+可以为导航链接添加徽章：
+
+```javascript
+{
+  label: "新功能",
+  link: "/new-feature/",
+  badge: "New"
+}
+```
+
+徽章具有以下样式：
+
+- 成功颜色 (绿色)
+- 大写转换
+- 悬停时 1.05 倍放大
+
+## ⚡ 动画
+
+### 下划线动画
+
+活动链接在底部显示动画下划线：
+
+```css
+.nav-bar a.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-accent);
+  animation: slide-in 0.3s ease-out;
+}
+```
+
+### 渐变背景
+
+所有链接在悬停时显示微妙的渐变背景：
+
+```css
+.nav-bar a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-accent);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.nav-bar a:hover::before {
+  opacity: 0.1;
+}
+```
+
+## 🌙 深色模式
+
+深色模式下应用额外效果：
+
+- **玻璃效果**: backdrop-filter: blur(8px)
+- **透明背景**: rgba(255, 255, 255, 0.1)
+- **增强对比度**: 更清晰的颜色区分
+
+## 设置方法
+
+<Steps>
+
+1. 在 Astro 配置中定义导航链接：
+
+   ```javascript
+   pagePlugin({
+     navLinks: [
+       {
+         label: "首页",
+         link: "/",
+         attrs: {},
+       },
+       {
+         label: "文档",
+         link: "/docs/",
+         badge: "New",
+       },
+     ],
+   });
+   ```
+
+2. 每个链接可以具有以下属性：
+
+   - `label`: 显示的文本
+   - `link`: 链接 URL
+   - `badge`: 可选的徽章文本
+   - `attrs`: 额外的 HTML 属性
+
+3. 徽章会自动样式化：
+
+   - "New": 绿色徽章
+   - "Beta": 黄色徽章
+   - "Deprecated": 红色徽章
+
+</Steps>

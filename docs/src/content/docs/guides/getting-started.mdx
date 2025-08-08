@@ -1,6 +1,6 @@
 ---
-title: 시작하기
-description: Starlight Theme Page를 설치하고 사용하는 방법을 배워보세요.
+title: Getting Started
+description: Learn how to install and use Starlight Theme Page.
 sidebar:
   order: 2
   group: getting-started
@@ -10,15 +10,15 @@ import { Steps, Card } from "@astrojs/starlight/components";
 import Tabs from "@pelagornis/page/components/Tabs.astro";
 import PackageManagerTabs from "@pelagornis/page/components/PackageManagerTabs.astro";
 
-Starlight Theme Page는 [starlight-theme-black](https://github.com/adrian-ub/starlight-theme-black)에서 영감을 받아 만든 현대적인 Starlight 테마입니다.
+Starlight Theme Page is a modern Starlight theme inspired by [starlight-theme-black](https://github.com/adrian-ub/starlight-theme-black).
 
 ## Quick Start
 
 <PackageManagerTabs />
 
-### 2. Astro 설정
+### 2. Astro Configuration
 
-`astro.config.mjs` 파일에 플러그인을 추가하세요:
+Add the plugin to your `astro.config.mjs` file:
 
 ```js
 import { defineConfig } from "astro/config";
@@ -34,33 +34,33 @@ export default defineConfig({
 });
 ```
 
-### 3. 스타일 추가
+### 3. Add Styles
 
-`src/styles/global.css` 파일에 스타일을 추가하세요:
+Add styles to your `src/styles/global.css` file:
 
 ```css
 @import "@pelagornis/page/styles";
 ```
 
-## 주요 특징
+## Key Features
 
-### 🎨 현대적인 디자인
+### 🎨 Modern Design
 
-깔끔하고 직관적인 인터페이스로 최고의 사용자 경험 제공
+Clean and intuitive interface providing the best user experience
 
-### 🌙 다크 모드 지원
+### 🌙 Dark Mode Support
 
-자동 테마 전환과 완벽한 다크 모드 지원
+Automatic theme switching and perfect dark mode support
 
-### 📱 반응형
+### 📱 Responsive
 
-모바일부터 데스크톱까지 모든 기기에서 완벽한 사용자 경험
+Perfect user experience across all devices from mobile to desktop
 
-## 커스터마이제이션
+## Customization
 
-### 색상 변경
+### Color Changes
 
-CSS 변수를 사용하여 테마 색상을 쉽게 변경할 수 있습니다:
+You can easily change theme colors using CSS variables:
 
 ```css
 :root {
@@ -71,9 +71,9 @@ CSS 변수를 사용하여 테마 색상을 쉽게 변경할 수 있습니다:
 }
 ```
 
-### 네비게이션 링크
+### Navigation Links
 
-플러그인 설정에서 네비게이션 링크를 설정할 수 있습니다:
+You can configure navigation links in the plugin settings:
 
 ```js
 pagePlugin({
@@ -87,21 +87,14 @@ pagePlugin({
 });
 ```
 
-## 컴포넌트 예제
+## Component Examples
 
-### 코드 블록
+### Code Blocks
 
 ```bash
 npm install @pelagornis/page
 ```
 
-## 다음 단계
+## Next Steps
 
-이제 테마가 설정되었습니다! 헤더의 테마 토글 버튼을 클릭해보거나, 로고에 마우스를 올려보세요.
-모든 인터랙션이 부드러운 애니메이션과 함께 작동합니다.
-
-다음 문서들을 확인해보세요:
-
-- **[컴포넌트 가이드](/components/header/)** - 각 컴포넌트의 사용법
-- **[기본 예제](/examples/basic/)** - 간단한 설정 예제
-- **[고급 예제](/examples/advanced/)** - 복잡한 커스터마이제이션
+Your theme is now set up! Try clicking the theme toggle button in the header or hover over the logo.

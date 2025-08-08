@@ -1,0 +1,188 @@
+---
+title: Tabs
+description: 现代精致的标签页组件
+sidebar:
+  order: 9
+  group: components
+---
+
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+
+现代精致的标签页组件。提供玻璃效果和平滑动画。
+
+## 基本用法
+
+<Tabs
+  tabs={[
+    { id: "overview", label: "概述", icon: "📋" },
+    { id: "usage", label: "用法", icon: "💡" },
+    { id: "examples", label: "示例", icon: "🎨" },
+  ]}
+  defaultTab="overview"
+>
+  <div>
+    <p>
+      Tabs 组件用于将内容分成多个标签页显示。每个标签页可以有图标和标签，并提供平滑的过渡动画。
+    </p>
+  </div>
+  <div>
+    <p>
+      点击标签页时，相应内容会平滑出现，并在悬停时提供微妙的动画效果。
+    </p>
+  </div>
+  <div>
+    <p>
+      通过各种示例和用例，您可以了解组件的使用方法。
+    </p>
+  </div>
+</Tabs>
+
+## Props
+
+| Prop         | Type         | Default         | Description         |
+| ------------ | ------------ | --------------- | ------------------- |
+| `tabs`       | `Array<Tab>` | -               | 标签页配置数组 (必需) |
+| `defaultTab` | `string`     | 第一个标签页的 id | 默认选中的标签页    |
+
+### Tab 对象
+
+| Property | Type     | Required | Description                 |
+| -------- | -------- | -------- | --------------------------- |
+| `id`     | `string` | ✅       | 标签页的唯一标识符          |
+| `label`  | `string` | ✅       | 标签页上显示的标签          |
+| `icon`   | `string` | ❌       | 标签页上显示的图标 (表情符号) |
+
+## 示例
+
+### 基本标签页
+
+```astro
+---
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+---
+
+<Tabs tabs={[
+  { id: "tab1", label: "第一个标签页" },
+  { id: "tab2", label: "第二个标签页" },
+  { id: "tab3", label: "第三个标签页" }
+]} defaultTab="tab1">
+  <div>
+    第一个标签页的内容。
+  </div>
+  <div>
+    第二个标签页的内容。
+  </div>
+  <div>
+    第三个标签页的内容。
+  </div>
+</Tabs>
+```
+
+### 带图标的标签页
+
+```astro
+---
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+---
+
+<Tabs tabs={[
+  { id: "info", label: "信息", icon: "ℹ️" },
+  { id: "settings", label: "设置", icon: "⚙️" },
+  { id: "help", label: "帮助", icon: "❓" }
+]} defaultTab="info">
+  <div>
+    <h3>信息标签页</h3>
+    <p>在此放置信息内容。</p>
+  </div>
+  <div>
+    <h3>设置标签页</h3>
+    <p>在此放置设置内容。</p>
+  </div>
+  <div>
+    <h3>帮助标签页</h3>
+    <p>在此放置帮助内容。</p>
+  </div>
+</Tabs>
+```
+
+### 各种图标示例
+
+<Tabs
+  tabs={[
+    { id: "docs", label: "文档", icon: "📚" },
+    { id: "code", label: "代码", icon: "💻" },
+    { id: "design", label: "设计", icon: "🎨" },
+    { id: "deploy", label: "部署", icon: "🚀" },
+  ]}
+  defaultTab="docs"
+>
+  <div>
+    <h3>📚 文档</h3>
+    <p>查看项目文档和指南。</p>
+  </div>
+  <div>
+    <h3>💻 代码</h3>
+    <p>探索源代码和示例。</p>
+  </div>
+  <div>
+    <h3>🎨 设计</h3>
+    <p>参考 UI/UX 设计指南。</p>
+  </div>
+  <div>
+    <h3>🚀 部署</h3>
+    <p>检查部署方法和环境设置。</p>
+  </div>
+</Tabs>
+
+## 特性
+
+### ✨ 现代设计
+
+- 玻璃效果和渐变背景
+- 柔和阴影和悬停效果
+- 精致的排版
+
+### 🎭 平滑动画
+
+- 标签页切换时的自然淡入效果
+- 悬停时的图标缩放动画
+- 平滑的过渡效果
+
+### 🌙 深色模式支持
+
+- 浅色/深色主题的完美兼容性
+- 自动颜色调整
+- 一致的用户体验
+
+### 📱 响应式设计
+
+- 移动端的水平滚动支持
+- 各种屏幕尺寸的优化
+- 触摸友好界面
+
+### ♿ 无障碍性
+
+- 键盘导航支持
+- 焦点指示器
+- 屏幕阅读器兼容
+
+## 样式
+
+Tabs 组件可以通过 CSS 变量进行自定义：
+
+```css
+:root {
+  --page-tab-border-radius: 12px;
+  --page-tab-padding: 14px 24px;
+  --page-tab-gap: 12px;
+}
+```
+
+## 浏览器支持
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+在现代浏览器上提供最佳性能。

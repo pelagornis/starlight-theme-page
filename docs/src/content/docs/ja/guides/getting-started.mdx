@@ -1,0 +1,100 @@
+---
+title: はじめる
+description: Starlight Theme Pageのインストールと使用方法を学びましょう。
+sidebar:
+  order: 2
+  group: getting-started
+---
+
+import { Steps, Card } from "@astrojs/starlight/components";
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+import PackageManagerTabs from "@pelagornis/page/components/PackageManagerTabs.astro";
+
+Starlight Theme Page は[starlight-theme-black](https://github.com/adrian-ub/starlight-theme-black)からインスピレーションを受けて作られた現代的な Starlight テーマです。
+
+## クイックスタート
+
+<PackageManagerTabs />
+
+### 2. Astro 設定
+
+`astro.config.mjs`ファイルにプラグインを追加してください：
+
+```js
+import { defineConfig } from "astro/config";
+import starlight from "@astrojs/starlight";
+import pagePlugin from "@pelagornis/page";
+
+export default defineConfig({
+  integrations: [
+    starlight({
+      plugins: [pagePlugin()],
+    }),
+  ],
+});
+```
+
+### 3. スタイル追加
+
+`src/styles/global.css`ファイルにスタイルを追加してください：
+
+```css
+@import "@pelagornis/page/styles";
+```
+
+## 主な特徴
+
+### 🎨 現代的なデザイン
+
+クリーンで直感的なインターフェースで最高のユーザー体験を提供
+
+### 🌙 ダークモードサポート
+
+自動テーマ切り替えと完璧なダークモードサポート
+
+### 📱 レスポンシブ
+
+モバイルからデスクトップまで、すべてのデバイスで完璧なユーザー体験
+
+## カスタマイゼーション
+
+### 色の変更
+
+CSS 変数を使用してテーマの色を簡単に変更できます：
+
+```css
+:root {
+  --page-accent: hsl(220, 100%, 50%);
+  --page-accent-hover: hsl(220, 100%, 40%);
+  --page-bg: hsl(0, 0%, 100%);
+  --page-text: hsl(0, 0%, 10%);
+}
+```
+
+### ナビゲーションリンク
+
+プラグイン設定でナビゲーションリンクを設定できます：
+
+```js
+pagePlugin({
+  navLinks: [
+    {
+      label: "Blog",
+      link: "/blog/",
+      badge: "New",
+    },
+  ],
+});
+```
+
+## コンポーネント例
+
+### コードブロック
+
+```bash
+npm install @pelagornis/page
+```
+
+## 次のステップ
+
+テーマの設定が完了しました！ヘッダーのテーマトグルボタンをクリックしたり、ロゴにマウスを乗せてみてください。

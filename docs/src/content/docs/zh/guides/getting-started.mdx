@@ -1,0 +1,100 @@
+---
+title: 开始使用
+description: 学习如何安装和使用 Starlight Theme Page。
+sidebar:
+  order: 2
+  group: getting-started
+---
+
+import { Steps, Card } from "@astrojs/starlight/components";
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+import PackageManagerTabs from "@pelagornis/page/components/PackageManagerTabs.astro";
+
+Starlight Theme Page 是受 [starlight-theme-black](https://github.com/adrian-ub/starlight-theme-black) 启发的现代 Starlight 主题。
+
+## 快速开始
+
+<PackageManagerTabs />
+
+### 2. Astro 配置
+
+在您的 `astro.config.mjs` 文件中添加插件：
+
+```js
+import { defineConfig } from "astro/config";
+import starlight from "@astrojs/starlight";
+import pagePlugin from "@pelagornis/page";
+
+export default defineConfig({
+  integrations: [
+    starlight({
+      plugins: [pagePlugin()],
+    }),
+  ],
+});
+```
+
+### 3. 添加样式
+
+在您的 `src/styles/global.css` 文件中添加样式：
+
+```css
+@import "@pelagornis/page/styles";
+```
+
+## 主要特性
+
+### 🎨 现代设计
+
+干净直观的界面提供最佳用户体验
+
+### 🌙 深色模式支持
+
+自动主题切换和完美的深色模式支持
+
+### 📱 响应式
+
+从移动设备到桌面设备，在所有设备上提供完美的用户体验
+
+## 自定义
+
+### 颜色更改
+
+您可以使用 CSS 变量轻松更改主题颜色：
+
+```css
+:root {
+  --page-accent: hsl(220, 100%, 50%);
+  --page-accent-hover: hsl(220, 100%, 40%);
+  --page-bg: hsl(0, 0%, 100%);
+  --page-text: hsl(0, 0%, 10%);
+}
+```
+
+### 导航链接
+
+您可以在插件设置中配置导航链接：
+
+```js
+pagePlugin({
+  navLinks: [
+    {
+      label: "Blog",
+      link: "/blog/",
+      badge: "New",
+    },
+  ],
+});
+```
+
+## 组件示例
+
+### 代码块
+
+```bash
+npm install @pelagornis/page
+```
+
+## 下一步
+
+您的主题现已设置完成！试试点击标题中的主题切换按钮，或将鼠标悬停在徽标上。

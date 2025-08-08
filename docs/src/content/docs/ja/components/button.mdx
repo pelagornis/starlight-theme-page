@@ -1,0 +1,218 @@
+---
+title: Button
+description: 様々なスタイルのボタンを提供するコンポーネント
+sidebar:
+  order: 6
+  group: components
+---
+
+import Button from "@pelagornis/page/components/Button.astro";
+
+Button コンポーネントは、様々なスタイルとサイズのボタンを提供し、リンクとしても使用できます。モダンなガラス効果とグラデーションを提供します。
+
+## 基本的な使用方法
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Button variant="default">Default</Button>
+  <Button variant="primary">Primary</Button>
+  <Button variant="success">Success</Button>
+  <Button variant="warning">Warning</Button>
+  <Button variant="error">Error</Button>
+  <Button variant="ghost">Ghost</Button>
+</div>
+
+## サイズ例
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Button variant="primary" size="sm">
+    Small
+  </Button>
+  <Button variant="primary" size="md">
+    Medium
+  </Button>
+  <Button variant="primary" size="lg">
+    Large
+  </Button>
+</div>
+
+## アイコン付き
+
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
+  <Button variant="primary" size="sm" icon="📥">
+    Download
+  </Button>
+  <Button variant="success" size="md" icon="✅">
+    Install
+  </Button>
+  <Button variant="warning" size="lg" icon="⚠️">
+    Delete
+  </Button>
+  <Button variant="gradient" size="md" icon="✨">
+    Special
+  </Button>
+</div>
+
+## リンクボタン
+
+<Button variant="primary" href="https://github.com" target="_blank" icon="🔗">
+  GitHub を訪問
+</Button>
+
+<Button variant="ghost" href="/guides/getting-started/" icon="📚">
+  はじめにガイド
+</Button>
+
+<Button variant="gradient" href="https://npmjs.com" target="_blank" icon="📦">
+  npm で見る
+</Button>
+
+## Props
+
+| Prop       | Type                                                                                   | Default     | Description                   |
+| ---------- | -------------------------------------------------------------------------------------- | ----------- | ----------------------------- |
+| `variant`  | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'ghost' \| 'gradient'` | `'default'` | ボタンのスタイル              |
+| `size`     | `'sm' \| 'md' \| 'lg'`                                                                 | `'md'`      | ボタンのサイズ                |
+| `icon`     | `string`                                                                               | -           | アイコン (オプション)         |
+| `href`     | `string`                                                                               | -           | リンク URL (オプション)       |
+| `target`   | `string`                                                                               | -           | リンクターゲット (オプション) |
+| `disabled` | `boolean`                                                                              | `false`     | 無効化状態                    |
+
+## 使用例
+
+### 基本的なボタン
+
+```mdx
+<Button variant="primary">クリックしてください</Button>
+```
+
+### サイズ調整
+
+```mdx
+<Button variant="success" size="sm">
+  Small
+</Button>
+<Button variant="success" size="md">
+  Medium
+</Button>
+<Button variant="success" size="lg">
+  Large
+</Button>
+```
+
+### アイコン付き
+
+```mdx
+<Button variant="primary" icon="📥">
+  ダウンロード
+</Button>
+```
+
+### リンクボタン
+
+```mdx
+<Button variant="primary" href="/docs" icon="📚">
+  ドキュメントを見る
+</Button>
+```
+
+### 外部リンク
+
+```mdx
+<Button variant="ghost" href="https://github.com" target="_blank">
+  GitHub
+</Button>
+```
+
+### 様々なスタイルのリンクボタン
+
+```mdx
+<Button variant="primary" href="/install" icon="📥">
+  インストール
+</Button>
+
+<Button variant="success" href="/docs" icon="📖">
+  ドキュメントを読む
+</Button>
+
+<Button variant="warning" href="/migrate" icon="🔄">
+  マイグレーション
+</Button>
+
+<Button variant="gradient" href="/special" icon="✨">
+  特別な機能
+</Button>
+```
+
+### 無効化されたボタン
+
+```mdx
+<Button variant="primary" disabled>
+  無効化
+</Button>
+```
+
+## 特徴
+
+### ✨ モダンデザイン
+
+- **ガラス効果**: `backdrop-filter: blur(15px)` を適用
+- **グラデーション背景**: 美しいグラデーション効果
+- **ソフトシャドウ**: 多層シャドウで深さを表現
+- **ホバーアニメーション**: `translateY(-2px)` 変換とアイコンスケール効果
+
+### 🎨 バリアント別特徴
+
+- **Default**: デフォルトスタイル、ライト/ダークテーマに適応
+- **Primary**: 主要アクション用、青色グラデーション
+- **Success**: 成功アクション用、緑色グラデーション
+- **Warning**: 注意アクション用、オレンジ色グラデーション
+- **Error**: 危険アクション用、赤色グラデーション
+- **Ghost**: 透明背景、ホバー時のみ背景表示
+- **Gradient**: 特別なグラデーション背景 (新機能)
+
+### 🌙 ダークモードサポート
+
+- 自動色調整
+- 一貫したユーザー体験
+- 完璧なテーマ互換性
+
+### 📱 レスポンシブデザイン
+
+- モバイルで最適化されたサイズ
+- タッチフレンドリーなインターフェース
+- 適応型パディングとフォントサイズ
+
+### 💫 アニメーション効果
+
+- **ホバー効果**: マウスオーバー時の自然な変換
+- **アイコンアニメーション**: ホバー時のアイコンスケール効果
+- **クリック効果**: クリック時のパルスアニメーション
+- **フォーカスインジケーター**: キーボードナビゲーションサポート
+
+### ♿ アクセシビリティ
+
+- キーボードナビゲーションサポート
+- フォーカスインジケーター
+- スクリーンリーダー互換
+- 無効化状態サポート
+
+## スタイリング
+
+Button コンポーネントは CSS 変数を通じてカスタマイズできます：
+
+```css
+:root {
+  --page-button-border-radius: 12px;
+  --page-button-padding: 12px 20px;
+  --page-button-font-weight: 600;
+}
+```
+
+## ブラウザサポート
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+モダンブラウザで最適なパフォーマンスを提供します。

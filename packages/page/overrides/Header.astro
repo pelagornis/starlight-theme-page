@@ -1,24 +1,54 @@
 ---
 // page 스타일 헤더 구성
-import Search from "@astrojs/starlight/components/Search.astro";
+import Search from "./Search.astro";
 import MobileMenuToggle from "./MobileMenuToggle.astro";
+import LanguageSelect from "./LanguageSelect.astro";
+import config from "virtual:starlight/user-config";
+
+// locale을 고려한 경로 생성 함수
+function localizedPath(path: string): string {
+  const currentLocale = Astro.locals.starlightRoute?.locale;
+
+  // currentLocale이 없거나 'en'이면 locale 없이 반환
+  if (!currentLocale || currentLocale === config.defaultLocale.locale) {
+    return path;
+  }
+
+  // 다른 locale인 경우 locale을 포함한 경로 반환
+  return `/${currentLocale}${path}`;
+}
+
+// 환경 변수에서 navigation 가져오기
+let navigation: { href: string; label: string }[] | undefined;
+try {
+  const navigationEnv = process.env.PAGE_NAVIGATION;
+  navigation = navigationEnv ? JSON.parse(navigationEnv) : undefined;
+} catch {
+  navigation = undefined;
+}
 ---
 
 <div class="page-header">
   <div class="page-header-container">
     <div class="page-header-left">
       <!-- page 스타일 사이트 타이틀 -->
-      <a href="/" class="page-site-title">
+      <a href={localizedPath("/")} class="page-site-title">
         <img src="/favicon.svg" alt="Logo" class="page-logo" />
         <span class="page-title-text">page Docs</span>
       </a>
 
       <!-- page 스타일 네비게이션 -->
-      <nav class="page-nav">
-        <a href="/guides/getting-started/" class="page-nav-link">가이드</a>
-        <a href="/components/header/" class="page-nav-link">컴포넌트</a>
-        <a href="/examples/basic/" class="page-nav-link">예제</a>
-      </nav>
+      {
+        navigation && (
+          <nav class="page-nav">
+            {navigation.map((item: { href: string; label: string }) => (
+              <a href={localizedPath(item.href)} class="page-nav-link">
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        )
+      }
     </div>
 
     <div class="page-header-right">
@@ -68,6 +98,9 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
       </button>
+
+      <!-- page 스타일 언어 선택 -->
+      <LanguageSelect />
 
       <!-- page 스타일 GitHub 링크 -->
       <a
@@ -490,95 +523,7 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
     position: relative;
   }
 
-  /* 검색 래퍼 내부 스타일 개선 */
-  .page-search-wrapper :global(.sl-search-button) {
-    background: var(--page-bg-secondary) !important;
-    border: 1px solid var(--page-border) !important;
-    border-radius: var(--page-radius) !important;
-    color: var(--page-text-secondary) !important;
-    transition: all 0.2s ease !important;
-    font-family: var(--page-font-family) !important;
-    padding: 8px 12px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 8px !important;
-    min-width: 120px !important;
-    height: 40px !important;
-    will-change: transform;
-    /* Starlight 기본 변수 강제 오버라이드 */
-    --sl-color-gray-1: var(--page-bg-secondary) !important;
-    --sl-color-gray-2: var(--page-border) !important;
-    --sl-color-gray-3: var(--page-border-strong) !important;
-    --sl-color-gray-4: var(--page-text-secondary) !important;
-    --sl-color-gray-5: var(--page-text) !important;
-    --sl-color-gray-6: var(--page-text) !important;
-    --sl-color-white: var(--page-bg) !important;
-    --sl-color-black: var(--page-text) !important;
-  }
-
-  .page-search-wrapper :global(.sl-search-button:hover) {
-    background: var(--page-bg-elevated) !important;
-    border-color: var(--page-border-strong) !important;
-    color: var(--page-text) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: var(--page-shadow-sm) !important;
-    /* 호버 상태에서도 Starlight 변수 오버라이드 */
-    --sl-color-gray-1: var(--page-bg-elevated) !important;
-    --sl-color-gray-2: var(--page-border-strong) !important;
-    --sl-color-gray-3: var(--page-border-strong) !important;
-    --sl-color-gray-4: var(--page-text) !important;
-    --sl-color-gray-5: var(--page-text) !important;
-    --sl-color-gray-6: var(--page-text) !important;
-  }
-
-  [data-theme="dark"] .page-search-wrapper :global(.sl-search-button) {
-    background: var(--page-bg-secondary) !important;
-    border-color: var(--page-border) !important;
-    color: var(--page-text-secondary) !important;
-    /* 다크 모드에서 Starlight 변수 오버라이드 */
-    --sl-color-gray-1: var(--page-bg-secondary) !important;
-    --sl-color-gray-2: var(--page-border) !important;
-    --sl-color-gray-3: var(--page-border-strong) !important;
-    --sl-color-gray-4: var(--page-text-secondary) !important;
-    --sl-color-gray-5: var(--page-text) !important;
-    --sl-color-gray-6: var(--page-text) !important;
-    --sl-color-white: var(--page-bg) !important;
-    --sl-color-black: var(--page-text) !important;
-  }
-
-  [data-theme="dark"] .page-search-wrapper :global(.sl-search-button:hover) {
-    background: var(--page-bg-elevated) !important;
-    border-color: var(--page-border-strong) !important;
-    color: var(--page-text) !important;
-    /* 다크 모드 호버 상태에서도 Starlight 변수 오버라이드 */
-    --sl-color-gray-1: var(--page-bg-elevated) !important;
-    --sl-color-gray-2: var(--page-border-strong) !important;
-    --sl-color-gray-3: var(--page-border-strong) !important;
-    --sl-color-gray-4: var(--page-text) !important;
-    --sl-color-gray-5: var(--page-text) !important;
-    --sl-color-gray-6: var(--page-text) !important;
-  }
-
-  /* 검색 버튼 포커스 효과 */
-  .page-search-wrapper :global(.sl-search-button:focus-visible) {
-    outline: 2px solid var(--page-accent) !important;
-    outline-offset: 2px !important;
-  }
-
-  /* 검색 버튼 내부 아이콘 */
-  .page-search-wrapper :global(.sl-search-button svg) {
-    width: 16px !important;
-    height: 16px !important;
-    color: inherit !important;
-  }
-
-  /* 검색 버튼 내부 텍스트 */
-  .page-search-wrapper :global(.sl-search-button span) {
-    color: inherit !important;
-    font-weight: 500 !important;
-    font-size: 14px !important;
-  }
+  /* 검색 래퍼 - Search.astro에서 스타일 관리 */
 
   /* 모바일 대응 */
   @media (max-width: 768px) {

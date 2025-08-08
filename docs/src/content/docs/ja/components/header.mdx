@@ -1,0 +1,109 @@
+---
+title: Header
+description: モダンなヘッダーコンポーネントの特徴と使用方法
+sidebar:
+  order: 1
+  group: components
+---
+
+import { Card } from "@astrojs/starlight/components";
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+
+モダンなヘッダーは、スティッキーナビゲーションとガラス効果を特徴としています。
+
+## 主な機能
+
+### 🎨 デザイン特徴
+
+スティッキーナビゲーション、ガラス効果、グラデーション背景、スムーズアニメーション
+
+### 📱 レスポンシブデザイン
+
+すべての画面サイズで完璧に動作するレスポンシブレイアウト
+
+### 🌟 インタラクション
+
+すべての要素にスムーズなホバー効果とアニメーションを適用
+
+### 🌙 ダークモード
+
+ライト/ダークテーマの完璧なサポート
+
+### 📱 レスポンシブデザイン
+
+ヘッダーはすべての画面サイズで完璧に動作します：
+
+| 画面サイズ | 動作                           |
+| ---------- | ------------------------------ |
+| Desktop    | フルナビゲーション表示         |
+| Tablet     | 圧縮されたレイアウト           |
+| Mobile     | ハンバーガーメニューに切り替え |
+
+### 🌟 インタラクション
+
+ヘッダーのすべての要素はホバー時に反応します：
+
+1. **ロゴ**: ホバー時にグラデーションと回転効果
+2. **ナビゲーションリンク**: 背景色変更と移動効果
+3. **テーマ切り替え**: 回転アニメーション
+4. **ソーシャルリンク**: プラットフォーム別の色変更
+
+## コード例
+
+<Tabs
+  tabs={[
+    { id: "basic-usage", label: "基本的な使用方法", icon: "🚀" },
+    { id: "customization", label: "カスタマイズ", icon: "⚙️" },
+  ]}
+  defaultTab="basic-usage"
+>
+  <div>
+    ```astro
+    ---
+    // ヘッダーコンポーネントの使用例
+    import Header from '@pelagornis/page/overrides/Header.astro';
+    ---
+
+    <Header />
+    ```
+
+  </div>
+  <div>
+    ```astro
+    ---
+    // カスタムヘッダー設定
+    import Header from '@pelagornis/page/overrides/Header.astro';
+
+    const customNavLinks = [
+      { label: "ホーム", link: "/" },
+      { label: "ドキュメント", link: "/docs/" },
+      { label: "ブログ", link: "/blog/" },
+    ];
+    ---
+
+    <Header navLinks={customNavLinks} />
+    ```
+
+  </div>
+</Tabs>
+
+> **ヒント**: ヘッダーは現在のページを自動的に検出してアクティブ状態を表示します。
+
+## カスタマイズ
+
+CSS 変数を使用してヘッダーの外観を変更できます：
+
+```css
+:root {
+  --header-height: 4rem;
+  --header-blur: 16px;
+  --header-opacity: 0.8;
+  --header-bg: rgba(255, 255, 255, 0.8);
+  --header-border: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+  --header-bg: rgba(0, 0, 0, 0.8);
+  --header-border: rgba(255, 255, 255, 0.1);
+}
+```

@@ -1,0 +1,191 @@
+---
+title: Card
+description: 以卡片形式显示信息的组件
+sidebar:
+  order: 7
+  group: components
+---
+
+import Card from "@pelagornis/page/components/Card.astro";
+
+Card 组件以卡片形式显示信息，也可以用作链接。提供现代玻璃效果和渐变。
+
+## 基本用法
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 1rem 0;">
+  <Card
+    variant="default"
+    icon="📦"
+    title="包管理器"
+    subtitle="支持各种包管理器"
+  >
+    支持 npm、pnpm、yarn 等各种包管理器，让用户选择他们偏好的工具。
+  </Card>
+
+{" "}
+
+<Card
+  variant="elevated"
+  icon="🎨"
+  title="主题支持"
+  subtitle="深色/浅色模式"
+>
+  提供美丽的渐变和玻璃拟态效果，完美支持深色模式。
+</Card>
+
+</div>
+
+## 尺寸示例
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0;">
+  <Card variant="default" padding="sm" title="小内边距">
+    具有小内边距的卡片。适合显示简单信息。
+  </Card>
+
+{" "}
+
+<Card variant="default" padding="md" title="中等内边距">
+    具有默认内边距的卡片。在大多数情况下使用。
+</Card>
+
+  <Card variant="default" padding="lg" title="大内边距">
+    具有大内边距的卡片。用于显示重要信息或详细内容。
+  </Card>
+</div>
+
+## 链接卡片
+
+<Card
+  variant="elevated"
+  icon="🚀"
+  title="开始使用"
+  subtitle="快速安装指南"
+  href="/guides/getting-started/"
+>
+  学习如何安装和配置 Page 主题。通过分步指南轻松开始。
+</Card>
+
+## Props
+
+| Prop       | Type                                                  | Default     | Description          |
+| ---------- | ----------------------------------------------------- | ----------- | -------------------- |
+| `variant`  | `'default' \| 'elevated' \| 'outlined' \| 'gradient'` | `'default'` | 卡片的样式          |
+| `padding`  | `'sm' \| 'md' \| 'lg'`                                | `'md'`      | 卡片的内边距        |
+| `icon`     | `string`                                              | -           | 图标 (可选)         |
+| `title`    | `string`                                              | -           | 标题 (可选)         |
+| `subtitle` | `string`                                              | -           | 副标题 (可选)       |
+| `href`     | `string`                                              | -           | 链接 URL (可选)     |
+| `target`   | `string`                                              | -           | 链接目标 (可选)     |
+
+## 使用示例
+
+### 基本卡片
+
+```mdx
+<Card>这是一个基本卡片。用于显示简单信息时使用。</Card>
+```
+
+### 带标题和图标的卡片
+
+```mdx
+<Card icon="🎨" title="设计" subtitle="美丽的 UI">
+  解释 Page 主题的设计特点。提供现代直观的界面。
+</Card>
+```
+
+### 各种样式
+
+```mdx
+<Card variant="default" title="Default">
+  默认样式的卡片。
+</Card>
+
+<Card variant="elevated" title="Elevated">
+  具有强烈阴影效果的卡片。
+</Card>
+
+<Card variant="outlined" title="Outlined">
+  仅带边框的透明卡片。
+</Card>
+
+<Card variant="gradient" title="Gradient">
+  具有渐变背景的特殊卡片。
+</Card>
+```
+
+### 链接卡片
+
+```mdx
+<Card variant="elevated" icon="📚" title="文档" href="/docs">
+  导航到文档。
+</Card>
+```
+
+### 外部链接
+
+```mdx
+<Card
+  variant="outlined"
+  icon="🔗"
+  title="GitHub"
+  href="https://github.com"
+  target="_blank"
+>
+  访问 GitHub 仓库。
+</Card>
+```
+
+## 特性
+
+### ✨ 现代设计
+
+- **玻璃效果**: 应用 `backdrop-filter: blur(20px)`
+- **渐变背景**: 美丽的渐变效果
+- **柔和阴影**: 多层阴影营造深度感
+- **悬停动画**: `translateY(-4px) scale(1.02)` 变换
+
+### 🎨 变体特定功能
+
+- **Default**: 默认样式，适度的阴影和玻璃效果
+- **Elevated**: 更强的阴影和悬停效果
+- **Outlined**: 透明背景，仅显示边框
+- **Gradient**: 美丽的渐变背景 (新功能)
+
+### 🌙 深色模式支持
+
+- 自动颜色调整
+- 一致的用户体验
+- 完美的主题兼容性
+
+### 📱 响应式设计
+
+- 移动端优化尺寸
+- 灵活的网格布局
+- 触摸友好界面
+
+### 💫 动画效果
+
+- **卡片淡入**: 页面加载时的平滑出现
+- **悬停效果**: 鼠标悬停时的自然变换
+- **图标动画**: 悬停时的图标缩放效果
+
+## 样式
+
+Card 组件可以通过 CSS 变量进行自定义：
+
+```css
+:root {
+  --page-card-border-radius: 16px;
+  --page-card-padding: 24px;
+  --page-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+```
+
+## 浏览器支持
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+在现代浏览器上提供最佳性能。

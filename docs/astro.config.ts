@@ -16,12 +16,42 @@ export default defineConfig({
         baseUrl: 'https://github.com/pelagornis/starlight-theme-page/edit/main/docs/',
       },
       plugins: [
-        pagePlugin()
+        pagePlugin({
+          navigation: [
+            { href: '/guides/getting-started/', label: 'Guide' },
+            { href: '/components/header/', label: 'Components' },
+          ],
+        })
+      ],
+      sidebar: [
+        {
+          label: 'Getting Started',
+          autogenerate: { directory: 'guides' },
+        },
+        {
+          label: 'Components',
+          autogenerate: { directory: 'components' },
+        },
       ],
       social: {
         github: 'https://github.com/pelagornis/starlight-theme-page',
       },
-      title: 'starlight/page'
+      title: 'starlight/page',
+      locales: {
+        ko: {
+          label: '한국어',
+        },
+        en: {
+          label: 'English',
+        },
+        ja: {
+          label: '日本語',
+        },
+        zh: {
+          label: '中文',
+        },
+      },
+      defaultLocale: 'en',
     }),
   ],
 })
