@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/starlight": "^0.32.4",
+    "@astrojs/starlight": "^0.35.2",
     "@pelagornis/page": "workspace:*",
-    "astro": "^5.5.4",
+    "astro": "^5.12.8",
     "sharp": "^0.32.5",
     "typescript": "^5.9.2"
   }

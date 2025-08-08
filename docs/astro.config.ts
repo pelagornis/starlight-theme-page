@@ -15,6 +15,7 @@ export default defineConfig({
       editLink: {
         baseUrl: 'https://github.com/pelagornis/starlight-theme-page/edit/main/docs/',
       },
+
       plugins: [
         pagePlugin({
           navigation: [
@@ -33,9 +34,13 @@ export default defineConfig({
           autogenerate: { directory: 'components' },
         },
       ],
-      social: {
-        github: 'https://github.com/pelagornis/starlight-theme-page',
-      },
+      social: [
+        {
+          icon: 'github',
+          label: 'GitHub',
+          href: 'https://github.com/pelagornis/starlight-theme-page'
+        }
+      ],
       title: 'starlight/page',
       locales: {
         ko: {
