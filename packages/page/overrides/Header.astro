@@ -128,6 +128,7 @@ try {
   let isInitialized = false;
   let themeToggleHandler: (() => void) | null = null;
   let astroPageLoadHandler: (() => void) | null = null;
+  let resizeHandler: (() => void) | null = null;
 
   // page 스타일 테마 토글
   function initpageThemeToggle() {
@@ -242,6 +243,18 @@ try {
     initpageThemeToggle();
     setpageActiveNavLink();
 
+    // resize 이벤트 리스너 추가 (중복 등록 방지)
+    if (typeof window !== "undefined" && !resizeHandler) {
+      resizeHandler = () => {
+        // 디바운스 처리로 성능 최적화
+        clearTimeout((window as any).resizeTimeout);
+        (window as any).resizeTimeout = setTimeout(() => {
+          setpageActiveNavLink();
+        }, 100);
+      };
+      window.addEventListener("resize", resizeHandler);
+    }
+
     isInitialized = true;
   }
 
@@ -261,6 +274,11 @@ try {
       astroPageLoadHandler = null;
     }
 
+    if (typeof window !== "undefined" && resizeHandler) {
+      window.removeEventListener("resize", resizeHandler);
+      resizeHandler = null;
+    }
+
     isInitialized = false;
   }
 
@@ -274,8 +292,11 @@ try {
   // Astro 페이지 변경 시에도 실행 (기존 리스너 정리 후)
   if (!astroPageLoadHandler) {
     astroPageLoadHandler = () => {
-      cleanup();
-      initializeHeader();
+      // 약간의 지연을 두어 DOM이 완전히 로드된 후 실행
+      setTimeout(() => {
+        cleanup();
+        initializeHeader();
+      }, 10);
     };
     document.addEventListener("astro:page-load", astroPageLoadHandler);
   }
