@@ -1,0 +1,256 @@
+
+  /* 반응형 브레이크포인트 */
+  @media (max-width: 640px) {
+    :root {
+      --page-header-height: 3.5rem;
+      --sl-nav-pad-x: var(--page-space-4);
+      --sl-content-pad-x: var(--page-space-4);
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    :root {
+      --sl-nav-pad-x: var(--page-space-5);
+      --sl-content-pad-x: var(--page-space-5);
+    }
+  }
+
+  @media (min-width: 1025px) {
+    :root {
+      --sl-nav-pad-x: var(--page-space-6);
+      --sl-content-pad-x: var(--page-space-6);
+    }
+  }
+
+  /* 모바일 대응 */
+  @media (max-width: 768px) {
+    .page-header-container {
+      padding: 0 var(--page-space-4);
+    }
+
+    .page-header-left {
+      gap: var(--page-space-4);
+    }
+
+    .page-nav {
+      display: none;
+    }
+
+    .page-title-text {
+      display: none;
+    }
+
+    .page-mobile-menu-toggle {
+      display: flex !important;
+    }
+
+    /* 모바일에서 성능 최적화 */
+    .page-header {
+      background: rgba(255, 255, 255, 0.98) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      -moz-backdrop-filter: none !important;
+    }
+
+    [data-theme="dark"] .page-header {
+      background: rgba(0, 0, 0, 0.95) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      -moz-backdrop-filter: none !important;
+    }
+
+    /* 모바일에서 애니메이션 최적화 */
+    .page-btn,
+    .page-theme-toggle,
+    .page-mobile-menu-toggle {
+      transition: none !important;
+      will-change: auto !important;
+    }
+
+    .page-btn:hover,
+    .page-theme-toggle:hover,
+    .page-mobile-menu-toggle:hover {
+      transform: none !important;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .page-mobile-menu-toggle {
+      display: none !important;
+    }
+  }
+
+  /* 매우 작은 화면에서 추가 최적화 */
+  @media (max-width: 480px) {
+    .page-header-container {
+      padding: 0 var(--page-space-3);
+    }
+
+    .page-header-left {
+      gap: var(--page-space-3);
+    }
+
+    .page-site-title {
+      font-size: 1rem;
+    }
+
+    .page-logo {
+      width: 28px;
+      height: 28px;
+    }
+
+    /* 매우 작은 화면에서 모든 애니메이션 비활성화 */
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    .page-header {
+      background: rgba(255, 255, 255, 0.99) !important;
+    }
+
+    [data-theme="dark"] .page-header {
+      background: rgba(0, 0, 0, 0.98) !important;
+    }
+  }
+
+  /* 다크 테마 강제 적용 */
+  [data-theme="dark"] :global(.sl-container),
+  [data-theme="dark"] :global(.sl-content),
+  [data-theme="dark"] :global(.sl-content-panel) {
+    background-color: var(--page-bg) !important;
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-sidebar) {
+    background-color: var(--page-bg) !important;
+    color: var(--page-text) !important;
+    border-right-color: var(--page-border) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-nav) {
+    background-color: var(--page-bg) !important;
+    color: var(--page-text) !important;
+    border-bottom-color: var(--page-border) !important;
+  }
+
+  /* 다크 테마 추가 스타일 */
+  [data-theme="dark"] {
+    background-color: var(--page-bg) !important;
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] body {
+    background-color: var(--page-bg) !important;
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] html {
+    background-color: var(--page-bg) !important;
+  }
+
+  /* 다크 테마에서 링크 스타일 */
+  [data-theme="dark"] a {
+    color: var(--page-accent) !important;
+  }
+
+  [data-theme="dark"] a:hover {
+    color: var(--page-accent-hover) !important;
+  }
+
+  /* 다크 테마에서 코드 블록 스타일 */
+  [data-theme="dark"] code {
+    background-color: var(--page-bg-secondary) !important;
+    color: var(--page-text) !important;
+    border-color: var(--page-border) !important;
+  }
+
+  [data-theme="dark"] pre {
+    background-color: var(--page-bg-secondary) !important;
+    color: var(--page-text) !important;
+    border-color: var(--page-border) !important;
+  }
+
+  /* 다크 테마에서 테이블 스타일 */
+  [data-theme="dark"] table {
+    background-color: var(--page-bg) !important;
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] th,
+  [data-theme="dark"] td {
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] th {
+    background-color: var(--page-bg-secondary) !important;
+  }
+
+  /* 다크 테마에서 특정 요소들 강제 스타일 */
+  [data-theme="dark"] h1,
+  [data-theme="dark"] h2,
+  [data-theme="dark"] h3,
+  [data-theme="dark"] h4,
+  [data-theme="dark"] h5,
+  [data-theme="dark"] h6 {
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] p {
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] li {
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] blockquote {
+    background-color: var(--page-bg-secondary) !important;
+    color: var(--page-text) !important;
+    border-left-color: var(--page-accent) !important;
+  }
+
+  [data-theme="dark"] hr {
+    border-color: var(--page-border) !important;
+  }
+
+  /* 다크 테마에서 스크롤바 */
+  [data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--page-bg-secondary) !important;
+  }
+
+  [data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--page-border) !important;
+  }
+
+  [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--page-accent) !important;
+  }
+
+  /* 다크 테마에서 모든 링크 스타일 */
+  [data-theme="dark"] a:not(.page-btn):not(.page-btn-primary):not(.page-github-btn) {
+    color: var(--page-accent) !important;
+  }
+
+  [data-theme="dark"] a:not(.page-btn):not(.page-btn-primary):not(.page-github-btn):hover {
+    color: var(--page-accent-hover) !important;
+  }
+
+  /* 다크 테마에서 link-title 스타일 */
+  [data-theme="dark"] :global(.link-title) {
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] :global(.astro-63niyltp) {
+    color: var(--page-text) !important;
+  }
+
+  /* 다크 테마에서 모든 link-title 관련 요소들 */
+  [data-theme="dark"] :global([class*="link-title"]) {
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] :global([class*="astro-"][class*="link"]) {
+    color: var(--page-text) !important;
+  }

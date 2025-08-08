@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--page-font-family);
+  }
+
+  body {
+    background-color: var(--page-bg);
+    color: var(--page-text);
+    font-family: var(--page-font-family);
+    font-size: var(--page-font-size-base);
+    font-weight: var(--page-font-weight-normal);
+    line-height: var(--page-line-height-normal);
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* 포커스 스타일 */
+  :focus-visible {
+    outline: 2px solid var(--page-accent);
+    outline-offset: 2px;
+    border-radius: var(--page-radius-sm);
+  }
+
+  /* 선택 텍스트 스타일 */
+  ::selection {
+    background-color: var(--page-accent);
+    color: var(--page-bg);
+  }
+
+  /* 스크롤바 스타일 */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--page-bg-secondary);
+    border-radius: var(--page-radius-full);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--page-border);
+    border-radius: var(--page-radius-full);
+    transition: background-color 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--page-accent);
+  }
+
+  /* 접근성 */
+  .page-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }

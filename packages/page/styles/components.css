@@ -1,0 +1,272 @@
+
+  /* ThemeSelect 아이콘 보호 */
+  .page-theme-toggle-button .moon {
+    opacity: 0 !important;
+    transform: rotate(90deg) scale(0.8) !important;
+    transition: all 0.2s ease !important;
+  }
+
+  [data-theme="dark"] .page-theme-toggle-button .moon {
+    opacity: 1 !important;
+    transform: rotate(0deg) scale(1) !important;
+  }
+
+  .page-theme-toggle-button .sun {
+    opacity: 1 !important;
+    transform: rotate(0deg) scale(1) !important;
+    transition: all 0.2s ease !important;
+  }
+
+  [data-theme="dark"] .page-theme-toggle-button .sun {
+    opacity: 0 !important;
+    transform: rotate(-90deg) scale(0.8) !important;
+  }
+
+  /* 모바일 메뉴 토글 버튼 스타일 */
+  .page-mobile-menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: var(--page-radius);
+    background: var(--page-accent-light);
+    color: var(--page-text-secondary);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-mobile-menu-toggle::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: left 0.6s ease;
+  }
+
+  .page-mobile-menu-toggle:hover::before {
+    left: 100%;
+  }
+
+  .page-mobile-menu-toggle:hover {
+    background: var(--page-neutral-200);
+    color: var(--page-text);
+    transform: translateY(-1px);
+    box-shadow: var(--page-shadow-sm);
+  }
+
+  .page-mobile-menu-toggle:active {
+    transform: translateY(0) scale(0.95);
+    transition: all 0.1s ease;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-toggle {
+    background: var(--page-accent-light);
+    color: var(--page-text-secondary);
+  }
+
+  [data-theme="dark"] .page-mobile-menu-toggle:hover {
+    background: var(--page-neutral-800);
+    color: var(--page-text);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .page-mobile-menu-toggle svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-origin: center;
+  }
+
+  .page-mobile-menu-toggle:hover svg {
+    transform: scale(1.1);
+  }
+
+  /* 햄버거 메뉴 아이콘 애니메이션 */
+  .page-menu-icon {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-origin: center;
+  }
+
+  .page-close-icon {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-origin: center;
+  }
+
+  /* 버튼 클릭 시 리플 효과 */
+  .page-mobile-menu-toggle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+  }
+
+  .page-mobile-menu-toggle:active::after {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Starlight Card 컴포넌트 스타일 */
+  :global(.sl-card) {
+    background: var(--page-bg-elevated) !important;
+    border: 1px solid var(--page-border) !important;
+    border-radius: var(--page-radius-lg) !important;
+    box-shadow: var(--page-shadow-sm) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    overflow: hidden !important;
+  }
+
+  :global(.sl-card:hover) {
+    transform: translateY(-2px) !important;
+    box-shadow: var(--page-shadow-lg) !important;
+    border-color: var(--page-accent) !important;
+  }
+
+  :global(.sl-card-header) {
+    padding: var(--page-space-6) var(--page-space-6) 0 !important;
+    border-bottom: none !important;
+  }
+
+  :global(.sl-card-title) {
+    color: var(--page-text) !important;
+    font-weight: var(--page-font-weight-semibold) !important;
+    font-size: var(--page-font-size-lg) !important;
+    margin: 0 0 var(--page-space-2) 0 !important;
+    line-height: 1.3 !important;
+  }
+
+  :global(.sl-card-body) {
+    padding: var(--page-space-6) !important;
+    color: var(--page-text-secondary) !important;
+    line-height: 1.6 !important;
+  }
+
+  :global(.sl-card-icon) {
+    color: var(--page-accent) !important;
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    margin-bottom: var(--page-space-3) !important;
+  }
+
+  /* 다크 테마에서 Card 스타일 */
+  [data-theme="dark"] :global(.sl-card) {
+    background: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    box-shadow: var(--page-shadow-sm) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-card:hover) {
+    background: var(--page-bg-elevated) !important;
+    border-color: var(--page-accent) !important;
+    box-shadow: var(--page-shadow-lg) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-card-title) {
+    color: var(--page-text) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-card-body) {
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] :global(.sl-card-icon) {
+    color: var(--page-accent) !important;
+  }
+
+  /* CardGrid 스타일 */
+  :global(.sl-card-grid) {
+    display: grid !important;
+    gap: var(--page-space-6) !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    margin: var(--page-space-8) 0 !important;
+  }
+
+  /* CardGrid stagger 애니메이션 */
+  :global(.sl-card-grid[data-stagger]) {
+    animation: pageCardStagger 0.6s ease-out !important;
+  }
+
+  @keyframes pageCardStagger {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* 검색 버튼 키보드 단축키 스타일 */
+  :global(button > kbd) {
+    border-radius: var(--page-radius) !important;
+    font-size: var(--sl-text-2xs) !important;
+    gap: 0.25em !important;
+    padding-inline: 0.375rem !important;
+    background-color: var(--page-bg-secondary) !important;
+    border: 1px solid var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] :global(button > kbd) {
+    background-color: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  /* 동적 클래스명에 대한 강제 스타일 */
+  :global(button:where([class*="astro-"]) > kbd:where([class*="astro-"])) {
+    background-color: var(--page-bg-secondary) !important;
+    border: 1px solid var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] :global(button:where([class*="astro-"]) > kbd:where([class*="astro-"])) {
+    background-color: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  /* 더 강력한 선택자 */
+  :global(button kbd) {
+    background-color: var(--page-bg-secondary) !important;
+    border: 1px solid var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] :global(button kbd) {
+    background-color: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  /* 모든 kbd 요소에 대한 최종 강제 스타일 */
+  :global(kbd) {
+    background-color: var(--page-bg-secondary) !important;
+    border: 1px solid var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] :global(kbd) {
+    background-color: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }

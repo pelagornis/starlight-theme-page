@@ -1,0 +1,396 @@
+
+  /* page 스타일 헤더 */
+  .page-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--page-header-height);
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    isolation: isolate;
+    transform: translateZ(0);
+  }
+
+  /* 성능 최적화: backdrop-filter를 조건부로 적용 */
+  @media (min-resolution: 1.5dppx) and (min-width: 768px) {
+    .page-header {
+      backdrop-filter: blur(30px) saturate(180%);
+      -webkit-backdrop-filter: blur(30px) saturate(180%);
+      -moz-backdrop-filter: blur(30px) saturate(180%);
+      will-change: backdrop-filter;
+    }
+  }
+
+  /* 다크 테마에서 헤더 강제 스타일 */
+  [data-theme="dark"] .page-header {
+    background: rgba(0, 0, 0, 0.8) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* 성능 최적화: 다크모드 backdrop-filter를 조건부로 적용 */
+  @media (min-resolution: 1.5dppx) and (min-width: 768px) {
+    [data-theme="dark"] .page-header {
+      backdrop-filter: blur(30px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+      -moz-backdrop-filter: blur(30px) saturate(180%) !important;
+    }
+  }
+
+  /* backdrop-filter를 지원하지 않는 브라우저를 위한 폴백 */
+  @supports not (backdrop-filter: blur(1px)) {
+    .page-header {
+      background: rgba(255, 255, 255, 0.98);
+    }
+
+    [data-theme="dark"] .page-header {
+      background: rgba(0, 0, 0, 0.95);
+    }
+  }
+
+  .page-header-container {
+    max-width: 1440px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--page-space-8);
+  }
+
+  .page-header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--page-space-10);
+  }
+
+  .page-header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--page-space-3);
+  }
+
+  /* page 스타일 사이트 타이틀 */
+  .page-site-title {
+    display: flex;
+    align-items: center;
+    gap: var(--page-space-3);
+    text-decoration: none;
+    color: var(--page-text);
+    font-weight: 700;
+    font-size: 1.125rem;
+    transition: opacity 0.2s ease;
+  }
+
+  .page-site-title:hover {
+    opacity: 0.7;
+  }
+
+  .page-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--page-radius-sm);
+  }
+
+  .page-title-text {
+    font-family: var(--page-font-family);
+    letter-spacing: -0.02em;
+  }
+
+  /* page 스타일 네비게이션 */
+  .page-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--page-space-6);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .page-nav-link {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--page-space-2) var(--page-space-4);
+    border-radius: var(--page-radius);
+    text-decoration: none;
+    color: var(--page-text-secondary);
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+
+  .page-nav-link:hover {
+    color: var(--page-text);
+    background: var(--page-accent-light);
+  }
+
+  .page-nav-link.active {
+    color: var(--page-accent);
+    background: var(--page-accent-light);
+    font-weight: 600;
+  }
+
+  [data-theme="dark"] .page-nav-link.active {
+    background: var(--page-accent-light);
+    color: var(--page-accent);
+  }
+
+  /* page 스타일 버튼 */
+  .page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--page-space-3);
+    border: none;
+    border-radius: var(--page-radius);
+    background: var(--page-accent-light);
+    color: var(--page-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .page-btn:hover {
+    background: var(--page-neutral-200);
+    color: var(--page-text);
+    transform: translateY(-1px);
+  }
+
+  [data-theme="dark"] .page-btn:hover {
+    background: var(--page-neutral-800);
+  }
+
+  .page-btn-primary {
+    background: var(--page-accent);
+    color: var(--page-bg);
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page-btn-primary:hover {
+    background: var(--page-accent-hover);
+    transform: translateY(-1px);
+  }
+
+  [data-theme="dark"] .page-btn-primary {
+    background: var(--page-accent) !important;
+    color: var(--page-bg) !important;
+  }
+
+  [data-theme="dark"] .page-btn-primary:hover {
+    background: var(--page-neutral-300) !important;
+    color: var(--page-bg) !important;
+  }
+
+  /* GitHub 버튼 특별 스타일 */
+  [data-theme="dark"] .page-github-btn {
+    background: var(--page-accent) !important;
+    color: var(--page-bg) !important;
+  }
+
+  [data-theme="dark"] .page-github-btn:hover {
+    background: var(--page-neutral-300) !important;
+    color: var(--page-bg) !important;
+  }
+
+  .page-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* page 스타일 테마 토글 */
+  .page-theme-toggle {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: var(--page-radius);
+    background: var(--page-accent-light);
+    color: var(--page-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page-theme-toggle:hover {
+    background: var(--page-neutral-200);
+    color: var(--page-text);
+    transform: translateY(-1px);
+  }
+
+  [data-theme="dark"] .page-theme-toggle:hover {
+    background: var(--page-neutral-800);
+  }
+
+  .page-theme-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* page 스타일 검색 래퍼 */
+  .page-search-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  /* 검색 래퍼 내부 스타일 개선 */
+  .page-search-wrapper :global(.sl-search-button) {
+    background: var(--page-bg-secondary) !important;
+    border: 1px solid var(--page-border) !important;
+    border-radius: var(--page-radius) !important;
+    color: var(--page-text-secondary) !important;
+    transition: all 0.2s ease !important;
+    font-family: var(--page-font-family) !important;
+    padding: 8px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    min-width: 120px !important;
+    height: 40px !important;
+  }
+
+  .page-search-wrapper :global(.sl-search-button:hover) {
+    background: var(--page-bg-elevated) !important;
+    border-color: var(--page-border-strong) !important;
+    color: var(--page-text) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--page-shadow-sm) !important;
+  }
+
+  [data-theme="dark"] .page-search-wrapper :global(.sl-search-button) {
+    background: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] .page-search-wrapper :global(.sl-search-button:hover) {
+    background: var(--page-bg-elevated) !important;
+    border-color: var(--page-border-strong) !important;
+    color: var(--page-text) !important;
+  }
+
+  /* 검색 버튼 포커스 효과 */
+  .page-search-wrapper :global(.sl-search-button:focus-visible) {
+    outline: 2px solid var(--page-accent) !important;
+    outline-offset: 2px !important;
+  }
+
+  /* 검색 버튼 내부 아이콘 */
+  .page-search-wrapper :global(.sl-search-button svg) {
+    width: 16px !important;
+    height: 16px !important;
+    color: inherit !important;
+  }
+
+  /* 검색 버튼 내부 텍스트 */
+  .page-search-wrapper :global(.sl-search-button span) {
+    color: inherit !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+  }
+
+  /* 본문 여백 */
+  :global(body) {
+    padding-top: var(--page-header-height) !important;
+  }
+
+  /* Starlight 기본 요소 숨기기 */
+  :global(.sl-nav) {
+    display: none !important;
+  }
+
+  :global(.sl-footer) {
+    display: none !important;
+  }
+
+  /* Starlight 기본 레이아웃 요소들 완전 숨기기 */
+  :global(main[data-pagefind-body]) {
+    display: none !important;
+  }
+
+  :global(.sl-container) {
+    display: none !important;
+  }
+
+  :global(.sl-layout) {
+    display: none !important;
+  }
+
+  :global(.sl-content) {
+    display: none !important;
+  }
+
+  /* page-content-panel 숨기기 */
+  :global(.page-content-panel) {
+    display: none !important;
+  }
+
+  /* 모든 astro-oex62vco 클래스 숨기기 */
+  :global(.astro-oex62vco) {
+    display: none !important;
+  }
+
+  /* Starlight TOC 요소들은 표시 */
+  :global(.sl-toc) {
+    display: block !important;
+  }
+
+  :global(.sl-toc-mobile) {
+    display: block !important;
+  }
+
+  :global(nav[aria-labelledby="starlight__on-this-page--mobile"]) {
+    display: block !important;
+  }
+
+  :global(#starlight__mobile-toc) {
+    display: block !important;
+  }
+
+  :global(#starlight__on-this-page--mobile) {
+    display: flex !important;
+  }
+
+  /* Starlight 기본 사이드바 완전 제거 */
+  :global(.sl-sidebar),
+  :global(.sidebar),
+  :global(.sidebar-pane),
+  :global(.page-sidebar),
+  :global(#starlight__sidebar),
+  :global(.sidebar-content),
+  :global(nav[aria-label="Main"]) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    position: fixed !important;
+    left: -100% !important;
+    pointer-events: none !important;
+  }
+
+  /* 모든 화면 크기에서 컨텐츠가 전체 너비 사용 */
+  :global(.sl-content),
+  :global(.sl-content-panel) {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    padding-left: var(--sl-content-pad-x) !important;
+    padding-right: var(--sl-content-pad-x) !important;
+  }

@@ -47,8 +47,8 @@ const attrs = href ? { href, target } : {};
   .page-card {
     display: block;
     margin-top: 0 !important;
-    background: var(--neutralWhite);
-    border: 1px solid var(--neutral300);
+    background: var(--neutral-white);
+    border: 1px solid var(--neutral-300);
     border-radius: 12px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
@@ -58,25 +58,25 @@ const attrs = href ? { href, target } : {};
   }
 
   .page-card:hover {
-    border-color: var(--neutral400);
+    border-color: var(--neutral-400);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   [data-theme="dark"] .page-card {
-    background: var(--neutral900) !important;
-    border-color: var(--neutral600) !important;
-    color: var(--neutral200) !important;
+    background: var(--neutral-900) !important;
+    border-color: var(--neutral-600) !important;
+    color: var(--neutral-200) !important;
   }
 
   /* 더 강력한 다크모드 선택자 */
   :global([data-theme="dark"]) .page-card {
-    background: var(--neutral900) !important;
-    border-color: var(--neutral600) !important;
-    color: var(--neutral200) !important;
+    background: var(--neutral-900) !important;
+    border-color: var(--neutral-600) !important;
+    color: var(--neutral-200) !important;
   }
 
   [data-theme="dark"] .page-card:hover {
-    border-color: var(--neutral500) !important;
+    border-color: var(--neutral-500) !important;
   }
 
   /* Variants */
@@ -247,10 +247,11 @@ const attrs = href ? { href, target } : {};
     cursor: pointer;
     text-decoration: none !important;
     color: inherit !important;
+    margin-top: 1rem !important;
   }
 
   .page-card[href]:hover {
-    border-color: var(--blue500);
+    border-color: var(--blue-500);
     text-decoration: none !important;
     color: inherit !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -261,25 +262,25 @@ const attrs = href ? { href, target } : {};
   }
 
   [data-theme="dark"] .page-card[href] {
-    background: var(--neutral850) !important;
-    border-color: var(--neutral600) !important;
-    color: var(--neutral200) !important;
+    background: var(--neutral-850) !important;
+    border-color: var(--neutral-600) !important;
+    color: var(--neutral-200) !important;
   }
 
   [data-theme="dark"] .page-card[href]:hover {
-    border-color: var(--blue400) !important;
+    border-color: var(--blue-400) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
   }
 
   /* 더 강력한 다크모드 링크 카드 선택자 */
   :global([data-theme="dark"]) .page-card[href] {
-    background: var(--neutral850) !important;
-    border-color: var(--neutral600) !important;
-    color: var(--neutral200) !important;
+    background: var(--neutral-850) !important;
+    border-color: var(--neutral-600) !important;
+    color: var(--neutral-200) !important;
   }
 
   :global([data-theme="dark"]) .page-card[href]:hover {
-    border-color: var(--blue400) !important;
+    border-color: var(--blue-400) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
   }
 
