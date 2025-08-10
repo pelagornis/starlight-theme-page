@@ -1,4 +1,4 @@
-name: Publish to npm on Release
+name: Publish Packages to npm on Release
 
 on:
   release:
@@ -28,7 +28,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Publish to npm
+      - name: Publish @pelagornis/page to npm
+        working-directory: packages/page
         run: pnpm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}
