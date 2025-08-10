@@ -4,8 +4,6 @@ import config from "virtual:starlight/user-config";
 const { locales } = config;
 const currentLocale = Astro.locals.starlightRoute?.locale;
 const defaultLocale = config.defaultLocale.locale;
-
-// 현재 페이지의 경로 가져오기
 const currentPath = Astro.url.pathname;
 
 // locale을 제거한 경로 생성
@@ -17,7 +15,7 @@ function getPathWithoutLocale(path: string, locale: string): string {
 
 const basePath = getPathWithoutLocale(
   currentPath,
-  currentLocale || defaultLocale || "en"
+  currentLocale || defaultLocale || "root"
 );
 ---
 
@@ -49,13 +47,13 @@ const basePath = getPathWithoutLocale(
       const target = e.target as HTMLSelectElement;
       const selectedLocale = target.value;
       const basePath = target.dataset.basePath || "";
-      const defaultLocale = target.dataset.defaultLocale || "en";
+      const defaultLocale = target.dataset.defaultLocale || "root";
 
       // locale을 추가한 경로 생성
-      function getPathWithLocale(path: string, locale: string): string {
+      const getPathWithLocale = (path: string, locale: string): string => {
         if (locale === defaultLocale) return path;
         return `/${locale}${path}`;
-      }
+      };
 
       const newPath = getPathWithLocale(basePath, selectedLocale);
       window.location.href = newPath;
@@ -72,7 +70,7 @@ const basePath = getPathWithoutLocale(
     background: transparent;
     border: 1px solid var(--page-border);
     border-radius: var(--page-radius);
-    padding: var(--page-space-3) var(--page-space-3);
+    padding: var(--page-space-3);
     padding-right: calc(var(--page-space-3) + 1.5rem);
     font-size: 0.875rem;
     color: var(--page-text);
