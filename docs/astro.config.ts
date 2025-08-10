@@ -2,6 +2,25 @@ import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
 import pagePlugin from '@pelagornis/page';
 
+export const locales = {
+  root: {
+    label: 'English',
+    lang: 'en'
+  },
+  ko: {
+    label: '한국어',
+    lang: 'ko'
+  },
+  ja: {
+    label: '日本語',
+    lang: 'ja'
+  },
+  zh: {
+    label: '中文',
+    lang: 'zh'
+  },
+};
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://starlight-theme-page.vercel.app/',
@@ -47,21 +66,7 @@ export default defineConfig({
         },
       ],
       title: 'starlight/page',
-      locales: {
-        ko: {
-          label: '한국어',
-        },
-        en: {
-          label: 'English',
-        },
-        ja: {
-          label: '日本語',
-        },
-        zh: {
-          label: '中文',
-        },
-      },
-      defaultLocale: 'en',
-    }),
+      locales
+    })
   ],
 })
