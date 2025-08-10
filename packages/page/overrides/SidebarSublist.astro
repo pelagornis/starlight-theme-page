@@ -10,28 +10,36 @@ const { sublist, nested } = Astro.props;
 ---
 
 {
-  sublist.map((entry) =>
-    entry.type === "link" ? (
-      <a
-        href={entry.href}
-        aria-current={entry.isCurrent && "page"}
-        class:list={["page-sidebar-link", entry.attrs.class]}
-        {...entry.attrs}
-      >
-        {entry.label}
-        {entry.badge && (
-          <span class="page-sidebar-badge">{entry.badge.text}</span>
-        )}
-      </a>
-    ) : (
-      <div class="page-sidebar-group">
-        <h4 class="page-sidebar-group-title">{entry.label}</h4>
-        <div class="page-sidebar-group-links">
-          <Astro.self sublist={entry.entries} nested />
+  sublist?.map((entry) => {
+    if (entry.type === "link") {
+      return (
+        <a
+          href={entry.href}
+          aria-current={entry.isCurrent && "page"}
+          class:list={["page-sidebar-link", entry.attrs?.class]}
+          {...entry.attrs}
+        >
+          {entry.label}
+          {entry.badge && (
+            <span class="page-sidebar-badge">{entry.badge.text}</span>
+          )}
+        </a>
+      );
+    } else if (entry.type === "group") {
+      return (
+        <div class="page-sidebar-group">
+          <h4 class="page-sidebar-group-title">{entry.label}</h4>
+          <div class="page-sidebar-group-links">
+            {entry.entries && entry.entries.length > 0 && (
+              <Astro.self sublist={entry.entries} nested />
+            )}
+          </div>
         </div>
-      </div>
-    )
-  )
+      );
+    }
+
+    return null;
+  })
 }
 
 <style>
