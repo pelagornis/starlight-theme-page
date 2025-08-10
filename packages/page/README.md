@@ -4,7 +4,6 @@
 
 ![Official](https://badge.pelagornis.com/official.svg)
 [![npm version](https://img.shields.io/npm/v/@pelagornis/page.svg)](https://www.npmjs.com/package/@pelagornis/page)
-[![license](https://img.shields.io/npm/l/@pelagornis/page.svg)](https://github.com/pelagornis/starlight-theme-page/blob/main/LICENSE)
 [![stars](https://img.shields.io/github/stars/pelagornis/starlight-theme-page.svg)](https://github.com/pelagornis/starlight-theme-page)
 
 ### Installation
