@@ -30,7 +30,16 @@
         "./components/Card.astro": "./components/Card.astro",
         "./components/CodeCopy.astro": "./components/CodeCopy.astro",
         "./components/Tabs.astro": "./components/Tabs.astro"
-  },
+    },
+    "files": [
+        "index.ts",
+        "styles.css",
+        "styles/*.css",
+        "components/*.astro",
+        "overrides/*.astro",
+        "assets/*.svg",
+        "README.md"
+    ],
     "keywords": [
         "pelagornis",
         "styles",
