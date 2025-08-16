@@ -11,7 +11,6 @@
 
 ### 🎨 Modern Design System
 
-- **shadcn/ui Inspired**: Clean, modern components following latest design trends
 - **Light/Dark Mode**: Seamless theme switching with smooth transitions
 - **Gradient Effects**: Subtle gradients and visual depth throughout
 - **Glass Morphism**: Beautiful glass effects and blur backgrounds
