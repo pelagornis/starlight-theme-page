@@ -20,34 +20,82 @@ const basePath = getPathWithoutLocale(
 ---
 
 <div class="page-language-select">
-  <select
-    class="page-language-select-input"
+  <button
+    class="page-language-select-button"
+    data-base-path={basePath}
+    data-default-locale={defaultLocale}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M11.6745 6.43085C11.9312 6.43085 12.1638 6.58299 12.2681 6.81758L15.9438 15.0854C16.0896 15.4134 15.9417 15.798 15.6139 15.9438C15.2859 16.0896 14.9015 15.9418 14.7557 15.6137L14.0635 14.0551H9.28553L8.59334 15.6137C8.44759 15.9417 8.06401 16.0894 7.73615 15.9438C7.40833 15.7979 7.26039 15.4134 7.40616 15.0854L11.0809 6.81758C11.1852 6.58304 11.4179 6.43098 11.6745 6.43085ZM9.86349 12.7553H13.4855L11.6745 8.67994L9.86349 12.7553Z"
+        fill="currentColor"></path>
+      <path
+        d="M6.16236 0C6.52108 0.000198182 6.81258 0.291536 6.81258 0.65041V1.75982H11.6755C12.0341 1.76021 12.3248 2.05147 12.3247 2.41023C12.3245 2.76898 12.0332 3.06054 11.6745 3.06064L10.2277 3.05966C9.70119 4.3638 8.7984 6.17985 7.59849 7.87328C7.55458 7.93525 7.50861 7.99603 7.46376 8.05786C7.68914 8.1566 7.91303 8.23447 8.13448 8.28149C8.48539 8.35611 8.70975 8.70095 8.63532 9.05203C8.56083 9.4031 8.21599 9.62736 7.86502 9.55302C7.44477 9.46381 7.03544 9.3072 6.64368 9.10867C5.47113 10.5006 4.05563 11.7225 2.43976 12.2884C2.1012 12.407 1.7306 12.2285 1.61186 11.89C1.49332 11.5513 1.67169 11.1806 2.01019 11.0619C3.28411 10.6157 4.47736 9.63136 5.53266 8.40845C5.27066 8.21233 5.02145 8.00677 4.79067 7.79808C3.93544 7.02467 3.24742 6.17019 2.86737 5.60563C2.66699 5.30792 2.7456 4.90382 3.04311 4.70326C3.34072 4.50292 3.74474 4.58149 3.9452 4.87905C4.27196 5.36448 4.8916 6.13792 5.66153 6.83419C5.88181 7.03339 6.11062 7.21949 6.342 7.39084C6.40775 7.30143 6.47391 7.21209 6.53824 7.1213C7.52952 5.72228 8.30793 4.22854 8.81788 3.05966L0.650211 3.06064C0.291426 3.06064 0.000164151 2.76908 0 2.41023C0 2.05123 0.291325 1.75982 0.650211 1.75982H5.51313V0.65041C5.51313 0.291518 5.80362 0.000168393 6.16236 0Z"
+        fill="currentColor"></path>
+    </svg>
+  </button>
+
+  <div
+    class="page-language-dropdown"
     data-base-path={basePath}
     data-default-locale={defaultLocale}
   >
     {
       Object.entries(locales || {}).map(([locale, localeConfig]) => (
-        <option value={locale} selected={locale === currentLocale}>
-          {localeConfig.label}
-        </option>
+        <button
+          class={`page-language-option ${locale === currentLocale ? "active" : ""}`}
+          data-locale={locale}
+          title={localeConfig.label}
+        >
+          <span class="page-language-option-label">{localeConfig.label}</span>
+        </button>
       ))
     }
-  </select>
+  </div>
 </div>
 
 <script>
   // 언어 선택 기능
   document.addEventListener("DOMContentLoaded", () => {
-    const select = document.querySelector(
-      ".page-language-select-input"
-    ) as HTMLSelectElement;
-    if (!select) return;
+    const languageButton = document.querySelector(
+      ".page-language-select-button"
+    );
+    const languageDropdown = document.querySelector(".page-language-dropdown");
 
-    select.addEventListener("change", (e) => {
-      const target = e.target as HTMLSelectElement;
-      const selectedLocale = target.value;
-      const basePath = target.dataset.basePath || "";
-      const defaultLocale = target.dataset.defaultLocale || "root";
+    if (!languageButton || !languageDropdown) return;
+
+    // 드롭다운 토글
+    languageButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      languageDropdown.classList.toggle("open");
+    });
+
+    // 드롭다운 외부 클릭 시 닫기
+    document.addEventListener("click", () => {
+      languageDropdown.classList.remove("open");
+    });
+
+    // 언어 옵션 클릭
+    languageDropdown.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      const option = target.closest(".page-language-option") as HTMLElement;
+
+      if (!option) return;
+
+      const selectedLocale = (option as HTMLElement).dataset.locale;
+      const basePath = (languageDropdown as HTMLElement).dataset.basePath || "";
+      const defaultLocale =
+        (languageDropdown as HTMLElement).dataset.defaultLocale || "root";
+
+      if (!selectedLocale) return;
 
       // locale을 추가한 경로 생성
       const getPathWithLocale = (path: string, locale: string): string => {
@@ -66,30 +114,136 @@ const basePath = getPathWithoutLocale(
     position: relative;
   }
 
-  .page-language-select-input {
-    background: transparent;
+  .page-language-select-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: var(--page-space-3) !important;
+    border: none !important;
+    border-radius: var(--page-radius) !important;
+    background: var(--page-accent-light) !important;
+    color: var(--page-text-secondary) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    overflow: hidden !important;
+    z-index: 2 !important;
+    isolation: isolate !important;
+  }
+
+  .page-language-select-button:hover {
+    background: var(--page-text-reverse) !important;
+    color: var(--page-text) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--page-shadow-sm) !important;
+    z-index: 3 !important;
+  }
+
+  .page-language-select-button:focus-visible {
+    outline: 2px solid var(--page-accent) !important;
+    outline-offset: 2px !important;
+    z-index: 4 !important;
+  }
+
+  .page-language-select-button:active {
+    transform: translateY(0) !important;
+    transition: transform 0.1s ease !important;
+  }
+
+  /* 드롭다운 */
+  .page-language-dropdown {
+    position: absolute;
+    top: 100%;
+    right: -3.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--page-space-2);
+    margin-top: var(--page-space-2);
+    background: var(--page-bg);
     border: 1px solid var(--page-border);
-    border-radius: var(--page-radius);
-    padding: var(--page-space-3);
-    padding-right: calc(var(--page-space-3) + 1.5rem);
-    font-size: 0.875rem;
-    color: var(--page-text);
+    border-radius: var(--page-radius-lg);
+    box-shadow: var(--page-shadow-lg);
+    padding: var(--page-space-2);
+    min-width: 160px;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: all 0.2s ease;
+  }
+
+  .page-language-dropdown.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .page-language-dropdown.open {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+  }
+
+  .page-language-option {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--page-space-2);
+    border: none;
+    background: transparent;
+    color: var(--page-text-secondary);
     cursor: pointer;
     transition: all 0.2s ease;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 0.5rem center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
+    border-radius: var(--page-radius-lg);
+    font-size: 0.875rem;
+    text-align: left;
   }
 
-  .page-language-select-input:hover {
-    border-color: var(--page-accent);
+  .page-language-option:hover {
+    background: var(--page-accent-light);
+    color: var(--page-text);
   }
 
-  .page-language-select-input:focus {
-    outline: none;
-    border-color: var(--page-accent);
-    box-shadow: 0 0 0 2px var(--page-accent-light);
+  .page-language-option.active {
+    background: var(--page-accent-light);
+    color: var(--page-accent);
+    font-weight: 600;
+  }
+
+  .page-language-option-label {
+    font-weight: 500;
+  }
+
+  /* 다크모드 스타일 */
+  [data-theme="dark"] .page-language-dropdown {
+    background: var(--page-bg);
+    border-color: var(--page-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  /* 모바일 반응형 */
+  @media (max-width: 768px) {
+    .page-language-select-button {
+      width: 36px !important;
+      height: 36px !important;
+      min-width: 36px !important;
+      min-height: 36px !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-language-select-button {
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      min-height: 32px !important;
+    }
   }
 </style>

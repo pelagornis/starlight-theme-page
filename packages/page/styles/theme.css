@@ -104,6 +104,7 @@
     --page-text-muted: var(--page-neutral-500);
     --page-text-disabled: var(--page-neutral-400);
     --page-text-dark: var(--page-primary-black);
+    --page-text-reverse: var(--page-neutral-300);
     --page-border: var(--page-neutral-250);
     --page-border-light: var(--page-neutral-200);
     --page-border-strong: var(--page-neutral-300);
@@ -194,6 +195,7 @@
     --page-text-muted: var(--page-neutral-400);
     --page-text-disabled: var(--page-neutral-600);
     --page-text-dark: var(--page-neutral-white);
+    --page-text-reverse: var(--page-neutral-700);
     --page-border: var(--page-neutral-800);
     --page-border-light: var(--page-neutral-750);
     --page-border-strong: var(--page-neutral-700);

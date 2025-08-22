@@ -7,6 +7,7 @@ export interface NavigationItem {
 
 export interface pageConfig {
   navigation?: NavigationItem[];
+  siteTitle?: string;
 }
 
 export type pageUserConfig = pageConfig;
@@ -18,6 +19,10 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
       setup({ config, updateConfig }) {
         if (userConfig?.navigation) {
           process.env.PAGE_NAVIGATION = JSON.stringify(userConfig.navigation);
+        }
+        
+        if (userConfig?.siteTitle) {
+          process.env.PAGE_SITE_TITLE = userConfig.siteTitle;
         }
 
         updateConfig({

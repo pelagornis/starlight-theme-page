@@ -28,6 +28,9 @@ try {
 } catch {
   navigation = undefined;
 }
+
+// 환경 변수에서 siteTitle 가져오기
+const siteTitle = process.env.PAGE_SITE_TITLE || "";
 ---
 
 <div class="page-header">
@@ -36,7 +39,7 @@ try {
       <!-- page 스타일 사이트 타이틀 -->
       <a href={localizedPath("/")} class="page-site-title">
         <img src="/favicon.svg" alt="Logo" class="page-logo" />
-        <span class="page-title-text">page Docs</span>
+        <span class="page-title-text">{siteTitle}</span>
       </a>
 
       <!-- page 스타일 네비게이션 -->
@@ -182,12 +185,12 @@ try {
 
   /* 다크 테마에서 헤더 강제 스타일 */
   [data-theme="dark"] .page-header {
-    background: rgba(0, 0, 0, 0.8) !important;
-    backdrop-filter: blur(30px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
-    -moz-backdrop-filter: blur(30px) saturate(180%) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    background: rgba(0, 0, 0, 0.9) !important;
+    backdrop-filter: blur(40px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
+    -moz-backdrop-filter: blur(40px) saturate(200%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
   }
 
   /* backdrop-filter를 지원하지 않는 브라우저를 위한 폴백 */
@@ -197,7 +200,7 @@ try {
     }
 
     [data-theme="dark"] .page-header {
-      background: rgba(0, 0, 0, 0.95);
+      background: rgba(0, 0, 0, 0.98);
     }
   }
 
@@ -265,7 +268,7 @@ try {
     display: inline-flex;
     align-items: center;
     padding: var(--page-space-2) var(--page-space-4);
-    border-radius: var(--page-radius);
+    border-radius: var(--page-radius-xl);
     text-decoration: none;
     color: var(--page-text-secondary);
     font-weight: 500;
@@ -357,18 +360,6 @@ try {
     width: 20px;
     height: 20px;
   }
-
-  /* page 스타일 테마 토글 (ThemeSelect 컴포넌트로 대체됨) */
-  /* 테마 토글 관련 스타일은 ThemeSelect.astro에서 관리됩니다 */
-
-  /* page 스타일 검색 래퍼 */
-  .page-search-wrapper {
-    display: flex;
-    align-items: center;
-    position: relative;
-  }
-
-  /* 검색 래퍼 - Search.astro에서 스타일 관리 */
 
   /* 모바일 대응 */
   @media (max-width: 768px) {

@@ -1,19 +1,26 @@
 ---
-const { toc } = Astro.locals.starlightRoute;
+const { toc, entry } = Astro.locals.starlightRoute;
 import Sidebar from "./Sidebar.astro";
 import MobileMenuToggle from "./MobileMenuToggle.astro";
 import MobileMenuOverlay from "./MobileMenuOverlay.astro";
+
+// index 페이지인지 확인 (template이 splash이거나 slug가 없는 경우)
+const isIndexPage = entry?.data?.template === "splash" || !entry?.slug;
 ---
 
 {
   !toc && (
     <div class="page-layout-wrapper">
       <main class="page-main-container">
-        <aside class="page-sidebar-nav">
-          <MobileMenuToggle />
-          <Sidebar />
-        </aside>
-        <div class="page-content-wrapper">
+        {!isIndexPage && (
+          <aside class="page-sidebar-nav">
+            <MobileMenuToggle />
+            <Sidebar />
+          </aside>
+        )}
+        <div
+          class={`page-content-wrapper ${isIndexPage ? "page-content-wrapper-full" : ""}`}
+        >
           <slot />
         </div>
       </main>
@@ -25,12 +32,16 @@ import MobileMenuOverlay from "./MobileMenuOverlay.astro";
 {
   toc && (
     <main class="page-main-container">
-      <aside class="page-sidebar-nav">
-        <MobileMenuToggle />
-        <Sidebar />
-      </aside>
+      {!isIndexPage && (
+        <aside class="page-sidebar-nav">
+          <MobileMenuToggle />
+          <Sidebar />
+        </aside>
+      )}
 
-      <div class="page-content-wrapper">
+      <div
+        class={`page-content-wrapper ${isIndexPage ? "page-content-wrapper-full" : ""}`}
+      >
         <slot />
       </div>
 
@@ -177,6 +188,28 @@ import MobileMenuOverlay from "./MobileMenuOverlay.astro";
     min-width: 0;
   }
 
+  /* index 페이지일 때 전체 너비 사용 */
+  .page-content-wrapper-full {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 var(--page-space-8) !important;
+  }
+
+  /* 반응형 max-width 조정 */
+  @media (min-width: 1400px) {
+    .page-content-wrapper-full {
+      max-width: 1400px !important;
+    }
+  }
+
+  @media (min-width: 1600px) {
+    .page-content-wrapper-full {
+      max-width: 1600px !important;
+    }
+  }
+
   .page-single-column {
     max-width: 1200px;
     margin: 0 auto;
@@ -285,7 +318,7 @@ import MobileMenuOverlay from "./MobileMenuOverlay.astro";
       top: var(--page-toc-top-position);
       width: var(--page-toc-width);
       height: var(--page-toc-height);
-      z-index: 999;
+      z-index: 99;
     }
   }
 
@@ -329,7 +362,7 @@ import MobileMenuOverlay from "./MobileMenuOverlay.astro";
     padding: var(--page-space-6);
     background: var(--page-bg);
     border: 1px solid var(--page-border);
-    border-radius: 12px;
+    border-radius: 24px;
   }
 
   [data-theme="dark"] .page-toc-sticky {
@@ -367,7 +400,7 @@ import MobileMenuOverlay from "./MobileMenuOverlay.astro";
     font-size: 0.875rem;
     line-height: 1.4;
     transition: all 0.2s ease;
-    border-radius: 6px;
+    border-radius: var(--page-radius-xl);
     margin: 2px 0;
   }
 
@@ -419,7 +452,7 @@ import MobileMenuOverlay from "./MobileMenuOverlay.astro";
     text-decoration: none !important;
     display: block !important;
     padding: var(--page-space-2) 0 !important;
-    border-radius: 6px !important;
+    border-radius: var(--page-radius-xl) !important;
     transition: all 0.2s ease !important;
     margin: 2px 0 !important;
   }
@@ -560,7 +593,7 @@ import MobileMenuOverlay from "./MobileMenuOverlay.astro";
 
     /* 컨텐츠에 상단 여백 추가 */
     .page-content-wrapper {
-      padding-top: calc(var(--page-header-height) + 80px);
+      padding-top: calc(var(--page-header-height));
     }
   }
 
@@ -577,7 +610,7 @@ import MobileMenuOverlay from "./MobileMenuOverlay.astro";
 
     /* 중간 화면에서 컨텐츠 여백 추가 */
     .page-content-wrapper {
-      padding-top: calc(var(--page-header-height) + 80px);
+      padding-top: calc(var(--page-header-height));
     }
   }
 

@@ -241,68 +241,11 @@
   }
 
   /* page 스타일 검색 래퍼 */
-  .page-search-wrapper {
+  /* .page-search-wrapper {
     display: flex;
     align-items: center;
     position: relative;
-  }
-
-  /* 검색 래퍼 내부 스타일 개선 */
-  .page-search-wrapper :global(.sl-search-button) {
-    background: var(--page-bg-secondary) !important;
-    border: 1px solid var(--page-border) !important;
-    border-radius: var(--page-radius) !important;
-    color: var(--page-text-secondary) !important;
-    transition: all 0.2s ease !important;
-    font-family: var(--page-font-family) !important;
-    padding: 8px 12px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 8px !important;
-    min-width: 120px !important;
-    height: 40px !important;
-  }
-
-  .page-search-wrapper :global(.sl-search-button:hover) {
-    background: var(--page-bg-elevated) !important;
-    border-color: var(--page-border-strong) !important;
-    color: var(--page-text) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: var(--page-shadow-sm) !important;
-  }
-
-  [data-theme="dark"] .page-search-wrapper :global(.sl-search-button) {
-    background: var(--page-bg-secondary) !important;
-    border-color: var(--page-border) !important;
-    color: var(--page-text-secondary) !important;
-  }
-
-  [data-theme="dark"] .page-search-wrapper :global(.sl-search-button:hover) {
-    background: var(--page-bg-elevated) !important;
-    border-color: var(--page-border-strong) !important;
-    color: var(--page-text) !important;
-  }
-
-  /* 검색 버튼 포커스 효과 */
-  .page-search-wrapper :global(.sl-search-button:focus-visible) {
-    outline: 2px solid var(--page-accent) !important;
-    outline-offset: 2px !important;
-  }
-
-  /* 검색 버튼 내부 아이콘 */
-  .page-search-wrapper :global(.sl-search-button svg) {
-    width: 16px !important;
-    height: 16px !important;
-    color: inherit !important;
-  }
-
-  /* 검색 버튼 내부 텍스트 */
-  .page-search-wrapper :global(.sl-search-button span) {
-    color: inherit !important;
-    font-weight: 500 !important;
-    font-size: 14px !important;
-  }
+  } */
 
   /* 본문 여백 */
   :global(body) {

@@ -80,7 +80,7 @@ const { sublist, nested } = Astro.props;
     color: var(--page-text-secondary);
     font-weight: 500;
     padding: var(--page-space-3) var(--page-space-4);
-    border-radius: var(--page-radius);
+    border-radius: var(--page-radius-xl);
     align-items: center;
     width: 100%;
     min-height: 40px;
@@ -118,7 +118,6 @@ const { sublist, nested } = Astro.props;
   .page-sidebar-link:hover {
     color: var(--page-text);
     background: var(--page-accent-light);
-    transform: translateX(2px);
   }
 
   [data-theme="dark"] .page-sidebar-link:hover {
