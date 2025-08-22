@@ -41,6 +41,7 @@ export default defineConfig({
             { href: '/guides/getting-started/', label: 'Guide' },
             { href: '/components/header/', label: 'Components' },
           ],
+          siteTitle: 'Page',
         })
       ],
       sidebar: [
