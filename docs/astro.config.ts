@@ -23,7 +23,7 @@ export const locales = {
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://starlight-theme-page.vercel.app/',
+  site: 'https://pelagornis-page.netlify.app/',
   integrations: [
     starlight({
       logo: {
@@ -55,9 +55,9 @@ export default defineConfig({
       ],
       social: [
         {
-            icon: 'discord',
-            label: 'Discord',
-            href: 'https://github.com/pelagornis/starlight-theme-page',
+            icon: 'slack',
+            label: 'Slack',
+            href: 'https://pelagornis.slack.com/',
         },
         {
           icon: 'github',
