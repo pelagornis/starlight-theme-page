@@ -1,7 +1,6 @@
 ---
 const { toc, entry } = Astro.locals.starlightRoute;
 import Sidebar from "./Sidebar.astro";
-import MobileMenuToggle from "./MobileMenuToggle.astro";
 import MobileMenuOverlay from "./MobileMenuOverlay.astro";
 
 // index 페이지인지 확인 (template이 splash이거나 slug가 없는 경우)
@@ -14,7 +13,6 @@ const isIndexPage = entry?.data?.template === "splash" || !entry?.slug;
       <main class="page-main-container">
         {!isIndexPage && (
           <aside class="page-sidebar-nav">
-            <MobileMenuToggle />
             <Sidebar />
           </aside>
         )}
@@ -34,7 +32,6 @@ const isIndexPage = entry?.data?.template === "splash" || !entry?.slug;
     <main class="page-main-container">
       {!isIndexPage && (
         <aside class="page-sidebar-nav">
-          <MobileMenuToggle />
           <Sidebar />
         </aside>
       )}
@@ -163,19 +160,6 @@ const isIndexPage = entry?.data?.template === "splash" || !entry?.slug;
       margin-left: 0;
       min-width: 0;
       max-width: 100%;
-    }
-
-    /* 모바일 메뉴 토글을 사이드바 상단에 고정 */
-    .page-sidebar-nav :global(.page-mobile-menu-toggle) {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: var(--page-bg);
-      border-bottom: 1px solid var(--page-border);
-      padding: var(--page-space-4);
-      margin: 0;
-      width: 100%;
-      display: flex !important;
     }
   }
 

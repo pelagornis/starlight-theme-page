@@ -62,13 +62,11 @@
     // 클릭 이벤트 리스너 (중복 등록 방지)
     if (!clickHandler) {
       clickHandler = (event: Event) => {
-        console.log("모바일 메뉴 버튼 클릭됨!");
         event.preventDefault();
         event.stopPropagation();
 
         // 사이드바 토글
-        const isOpen = toggleSidebar();
-        console.log("토글 결과:", isOpen);
+        toggleSidebar();
       };
       button.addEventListener("click", clickHandler);
     }
@@ -88,54 +86,34 @@
   }
 
   function toggleSidebar(): boolean {
-    console.log("toggleSidebar 함수 호출됨");
-
-    // 전역 toggleMobileMenu 함수 사용 (안전한 체크)
-    if (
-      typeof window !== "undefined" &&
-      typeof (window as any).toggleMobileMenu === "function"
-    ) {
-      try {
-        return (window as any).toggleMobileMenu();
-      } catch (error) {
-        console.warn("전역 toggleMobileMenu 함수 실행 실패:", error);
-      }
-    }
-
-    // 폴백: 직접 구현
+    // 모바일 메뉴 오버레이 찾기
     const mobileMenu = document.querySelector(
       "#page-mobile-menu-overlay"
     ) as HTMLElement;
 
     if (!mobileMenu) {
-      console.error("모바일 메뉴 오버레이를 찾을 수 없습니다.");
       return false;
     }
 
     try {
       const isOpen = mobileMenu.classList.contains("page-mobile-menu-open");
-      console.log("현재 메뉴 상태:", isOpen ? "열림" : "닫힘");
 
       if (isOpen) {
         mobileMenu.classList.remove("page-mobile-menu-open");
+        mobileMenu.style.display = "none";
         if (document.body) {
           document.body.style.overflow = "";
         }
-        console.log("모바일 메뉴 닫힘");
         return false;
       } else {
+        mobileMenu.style.display = "flex";
         mobileMenu.classList.add("page-mobile-menu-open");
         if (document.body) {
           document.body.style.overflow = "hidden";
         }
-        console.log(
-          "모바일 메뉴 열림, 클래스 추가됨:",
-          mobileMenu.classList.toString()
-        );
         return true;
       }
     } catch (error) {
-      console.error("모바일 메뉴 토글 중 에러:", error);
       return false;
     }
   }
@@ -187,8 +165,8 @@
 <style>
   .page-mobile-menu-toggle {
     display: none;
-    background: transparent;
-    border: 1px solid var(--page-border);
+    background: var(--page-accent-light) !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
     border-radius: var(--page-radius);
     padding: var(--page-space-3);
     font-size: 0.875rem;
@@ -204,14 +182,11 @@
   }
 
   .page-mobile-menu-toggle:hover {
-    border-color: var(--page-accent);
-    background: var(--page-bg-secondary);
-  }
-
-  .page-mobile-menu-toggle:focus {
-    outline: none;
-    border-color: var(--page-accent);
-    box-shadow: 0 0 0 2px var(--page-accent-light);
+    background: var(--page-text-reverse) !important;
+    color: var(--page-text) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--page-shadow-sm) !important;
+    z-index: 3 !important;
   }
 
   .page-menu-icon {
@@ -224,18 +199,6 @@
     stroke: currentColor;
   }
 
-  /* 다크모드 스타일 */
-  [data-theme="dark"] .page-mobile-menu-toggle {
-    background: transparent;
-    border-color: var(--page-border);
-    color: var(--page-text);
-  }
-
-  [data-theme="dark"] .page-mobile-menu-toggle:hover {
-    border-color: var(--page-accent);
-    background: var(--page-bg-secondary);
-  }
-
   /* 모바일에서만 표시 */
   @media (max-width: 768px) {
     .page-mobile-menu-toggle {
@@ -243,21 +206,31 @@
       align-items: center;
       justify-content: center;
     }
+
+    .page-mobile-menu-toggle {
+      width: 40px;
+      height: 40px;
+    }
+
+    .page-mobile-menu-toggle svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 
   @media (max-width: 480px) {
     .page-mobile-menu-toggle {
-      width: 36px;
-      height: 36px;
-      min-width: 36px;
-      min-height: 36px;
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      min-height: 32px;
     }
 
     .page-menu-icon {
-      width: 18px;
-      height: 18px;
-      min-width: 18px;
-      min-height: 18px;
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      min-height: 16px;
     }
   }
 </style>

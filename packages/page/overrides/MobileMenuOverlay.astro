@@ -11,20 +11,14 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    display: flex;
+    z-index: 9999;
+    display: none;
     align-items: flex-start;
     justify-content: flex-start;
-    transition:
-      opacity 0.3s ease,
-      visibility 0.3s ease;
   }
 
   .page-mobile-menu-overlay.page-mobile-menu-open {
-    opacity: 1;
-    visibility: visible;
+    display: flex;
   }
 
   .page-mobile-menu-content {
@@ -34,13 +28,7 @@
     border-right: 1px solid var(--page-border);
     display: flex;
     flex-direction: column;
-    transform: translateX(-100%);
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
-  }
-
-  .page-mobile-menu-overlay.page-mobile-menu-open .page-mobile-menu-content {
-    transform: translateX(0);
   }
 
   .page-mobile-menu-header {
@@ -334,7 +322,6 @@
     const closeButton = mobileMenu.querySelector(".page-mobile-menu-close");
     if (closeButton && !closeButtonHandler) {
       closeButtonHandler = () => {
-        console.log("닫기 버튼 클릭됨");
         toggleMobileMenu();
       };
       closeButton.addEventListener("click", closeButtonHandler);
@@ -344,7 +331,6 @@
     if (!overlayClickHandler) {
       overlayClickHandler = (event: Event) => {
         if (event.target === mobileMenu) {
-          console.log("오버레이 클릭됨 - 메뉴 닫기");
           toggleMobileMenu();
         }
       };
@@ -368,33 +354,26 @@
   }
 
   function toggleMobileMenu(): boolean {
-    console.log("toggleMobileMenu 함수 호출됨");
-
     // 모바일 메뉴 오버레이 찾기
     const mobileMenu = document.querySelector(
       "#page-mobile-menu-overlay"
     ) as HTMLElement;
 
     if (!mobileMenu) {
-      console.error("모바일 메뉴 오버레이를 찾을 수 없습니다.");
       return false;
     }
 
     const isOpen = mobileMenu.classList.contains("page-mobile-menu-open");
-    console.log("현재 메뉴 상태:", isOpen ? "열림" : "닫힘");
 
     if (isOpen) {
       mobileMenu.classList.remove("page-mobile-menu-open");
+      mobileMenu.style.display = "none";
       document.body.style.overflow = "";
-      console.log("모바일 메뉴 닫힘");
       return false;
     } else {
+      mobileMenu.style.display = "flex";
       mobileMenu.classList.add("page-mobile-menu-open");
       document.body.style.overflow = "hidden";
-      console.log(
-        "모바일 메뉴 열림, 클래스 추가됨:",
-        mobileMenu.classList.toString()
-      );
       return true;
     }
   }
@@ -439,7 +418,4 @@
 
   // 페이지 언로드 시 정리
   window.addEventListener("beforeunload", cleanup);
-
-  // 전역 함수로 노출 (MobileMenuToggle에서 사용)
-  (window as any).toggleMobileMenu = toggleMobileMenu;
 </script>
