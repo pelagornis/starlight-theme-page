@@ -6,6 +6,7 @@ import MobileMenuToggle from "./MobileMenuToggle.astro";
 import LanguageSelect from "./LanguageSelect.astro";
 import ThemeSelect from "./ThemeSelect.astro";
 import config from "virtual:starlight/user-config";
+import { logos } from "virtual:starlight/user-images";
 
 // locale을 고려한 경로 생성 함수
 function localizedPath(path: string): string {
@@ -29,16 +30,40 @@ try {
   navigation = undefined;
 }
 
-// 환경 변수에서 siteTitle 가져오기
-const siteTitle = process.env.PAGE_SITE_TITLE || "";
+const { siteTitle, siteTitleHref } = Astro.locals.starlightRoute;
 ---
 
 <div class="page-header">
   <div class="page-header-container">
     <div class="page-header-left">
       <!-- page 스타일 사이트 타이틀 -->
-      <a href={localizedPath("/")} class="page-site-title">
-        <img src="/favicon.svg" alt="Logo" class="page-logo" />
+      <a href={siteTitleHref} class="page-site-title">
+        {
+          config.logo && logos.dark && (
+            <>
+              <img
+                class:list={[
+                  { "light:sl-hidden": !("src" in config.logo) },
+                  "logo-size",
+                ]}
+                alt={config.logo.alt}
+                src={logos.dark.src}
+                width={logos.dark.width}
+                height={logos.dark.height}
+              />
+              {/* Show light alternate if a user configure both light and dark logos. */}
+              {!("src" in config.logo) && (
+                <img
+                  class="dark:sl-hidden logo-size"
+                  alt={config.logo.alt}
+                  src={logos.light?.src}
+                  width={logos.light?.width}
+                  height={logos.light?.height}
+                />
+              )}
+            </>
+          )
+        }
         <span class="page-title-text">{siteTitle}</span>
       </a>
 
@@ -107,6 +132,23 @@ const siteTitle = process.env.PAGE_SITE_TITLE || "";
     });
   }
 
+  // 로고 테마 변경
+  function updateLogo() {
+    const logo = document.querySelector(".page-logo") as HTMLImageElement;
+    if (!logo) return;
+
+    const isDark =
+      document.documentElement.getAttribute("data-theme") === "dark";
+    const logoLight = logo.dataset.logoLight;
+    const logoDark = logo.dataset.logoDark;
+
+    if (logoDark && isDark) {
+      logo.src = logoDark;
+    } else if (logoLight && !isDark) {
+      logo.src = logoLight;
+    }
+  }
+
   // 초기화 함수
   function initializeHeader() {
     // 이미 초기화되었다면 중복 실행 방지
@@ -116,6 +158,24 @@ const siteTitle = process.env.PAGE_SITE_TITLE || "";
 
     initpageThemeToggle();
     setpageActiveNavLink();
+    updateLogo();
+
+    // 테마 변경 감지
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "data-theme"
+        ) {
+          updateLogo();
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
 
     isInitialized = true;
   }
@@ -244,6 +304,13 @@ const siteTitle = process.env.PAGE_SITE_TITLE || "";
   }
 
   .page-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--page-radius-sm);
+  }
+
+  /* Starlight logo-size 클래스 스타일 */
+  .logo-size {
     width: 32px;
     height: 32px;
     border-radius: var(--page-radius-sm);

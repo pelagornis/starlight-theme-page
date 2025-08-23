@@ -27,8 +27,8 @@ export default defineConfig({
   integrations: [
     starlight({
       logo: {
-        dark: './src/assets/logo-dark.svg',
-        light: './src/assets/logo-light.svg',
+        dark: './src/assets/page-dark.svg',
+        light: './src/assets/page-light.svg',
         alt: 'Starlight Page',
       },
       editLink: {
@@ -41,7 +41,6 @@ export default defineConfig({
             { href: '/guides/getting-started/', label: 'Guide' },
             { href: '/components/header/', label: 'Components' },
           ],
-          siteTitle: 'Page',
         })
       ],
       sidebar: [
@@ -66,7 +65,7 @@ export default defineConfig({
           href: 'https://github.com/pelagornis/starlight-theme-page',
         },
       ],
-      title: 'starlight/page',
+      title: 'page',
       locales
     })
   ],

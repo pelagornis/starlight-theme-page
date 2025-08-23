@@ -240,13 +240,6 @@
     height: 18px;
   }
 
-  /* page 스타일 검색 래퍼 */
-  /* .page-search-wrapper {
-    display: flex;
-    align-items: center;
-    position: relative;
-  } */
-
   /* 본문 여백 */
   :global(body) {
     padding-top: var(--page-header-height) !important;
