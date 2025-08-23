@@ -1,56 +1,41 @@
 ---
-const { toc, entry } = Astro.locals.starlightRoute;
+const { toc, entry, sidebar } = Astro.locals.starlightRoute;
 import Sidebar from "./Sidebar.astro";
 import MobileMenuOverlay from "./MobileMenuOverlay.astro";
 
-// index 페이지인지 확인 (template이 splash이거나 slug가 없는 경우)
-const isIndexPage = entry?.data?.template === "splash" || !entry?.slug;
+// 사이드바가 있는지 확인
+const hasSidebar = sidebar && sidebar.length > 0;
 ---
 
-{
-  !toc && (
-    <div class="page-layout-wrapper">
-      <main class="page-main-container">
-        {!isIndexPage && (
-          <aside class="page-sidebar-nav">
-            <Sidebar />
-          </aside>
-        )}
-        <div
-          class={`page-content-wrapper ${isIndexPage ? "page-content-wrapper-full" : ""}`}
-        >
-          <slot />
-        </div>
-      </main>
-      <MobileMenuOverlay />
-    </div>
-  )
-}
+<main
+  class={`page-main-container ${hasSidebar ? "with-sidebar" : "no-sidebar"} ${toc ? "with-toc" : "no-toc"}`}
+>
+  {
+    hasSidebar && (
+      <aside class="page-sidebar-nav">
+        <Sidebar />
+      </aside>
+    )
+  }
 
-{
-  toc && (
-    <main class="page-main-container">
-      {!isIndexPage && (
-        <aside class="page-sidebar-nav">
-          <Sidebar />
-        </aside>
-      )}
+  <div
+    class={`page-content-wrapper ${!hasSidebar ? "page-content-wrapper-full" : ""}`}
+  >
+    <slot />
+  </div>
 
-      <div
-        class={`page-content-wrapper ${isIndexPage ? "page-content-wrapper-full" : ""}`}
-      >
-        <slot />
-      </div>
-
+  {
+    toc && (
       <aside class="page-toc-sidebar">
         <div class="page-toc-sticky">
           <slot name="right-sidebar" />
         </div>
       </aside>
-      <MobileMenuOverlay />
-    </main>
-  )
-}
+    )
+  }
+
+  <MobileMenuOverlay />
+</main>
 
 <style>
   /* CSS 변수 정의 */
@@ -96,6 +81,26 @@ const isIndexPage = entry?.data?.template === "splash" || !entry?.slug;
     display: flex;
     min-height: calc(100vh - var(--page-header-height));
     position: relative;
+  }
+
+  /* 사이드바가 있는 경우 */
+  .page-main-container.with-sidebar {
+    gap: var(--page-content-gap);
+  }
+
+  /* 사이드바가 없는 경우 */
+  .page-main-container.no-sidebar {
+    gap: 0;
+  }
+
+  /* TOC가 있는 경우 */
+  .page-main-container.with-toc {
+    gap: var(--page-content-gap);
+  }
+
+  /* TOC가 없는 경우 */
+  .page-main-container.no-toc {
+    gap: var(--page-content-gap);
   }
 
   /* 왼쪽 사이드바 (축소된 크기) */

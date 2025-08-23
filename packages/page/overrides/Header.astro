@@ -30,12 +30,10 @@ try {
   navigation = undefined;
 }
 
-const { siteTitle, siteTitleHref } = Astro.locals.starlightRoute;
+const { siteTitle, siteTitleHref, sidebar } = Astro.locals.starlightRoute;
 
-// index 페이지인지 확인
-const isIndexPage =
-  Astro.locals.starlightRoute?.entry?.data?.template === "splash" ||
-  !Astro.locals.starlightRoute?.slug;
+// 사이드바가 있는지 확인
+const hasSidebar = sidebar && sidebar.length > 0;
 ---
 
 <div class="page-header">
@@ -102,7 +100,7 @@ const isIndexPage =
       <SocialIcons />
 
       <!-- page 스타일 모바일 메뉴 토글 -->
-      {!isIndexPage && <MobileMenuToggle />}
+      {hasSidebar && <MobileMenuToggle />}
     </div>
   </div>
 </div>
@@ -242,7 +240,6 @@ const isIndexPage =
     align-items: center;
     justify-content: center;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     isolation: isolate;
     transform: translateZ(0);
     will-change: backdrop-filter;
@@ -255,7 +252,6 @@ const isIndexPage =
     -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
     -moz-backdrop-filter: blur(40px) saturate(200%) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
   }
 
   /* backdrop-filter를 지원하지 않는 브라우저를 위한 폴백 */

@@ -50,12 +50,3 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
     },
   };
 }
-
-export const getPageNavigation = (): NavigationItem[] | undefined => {
-  try {
-    const navigation = process.env.PAGE_NAVIGATION;
-    return navigation ? JSON.parse(navigation) : undefined;
-  } catch {
-    return undefined;
-  }
-};
