@@ -31,6 +31,11 @@ try {
 }
 
 const { siteTitle, siteTitleHref } = Astro.locals.starlightRoute;
+
+// index 페이지인지 확인
+const isIndexPage =
+  Astro.locals.starlightRoute?.entry?.data?.template === "splash" ||
+  !Astro.locals.starlightRoute?.slug;
 ---
 
 <div class="page-header">
@@ -97,7 +102,7 @@ const { siteTitle, siteTitleHref } = Astro.locals.starlightRoute;
       <SocialIcons />
 
       <!-- page 스타일 모바일 메뉴 토글 -->
-      <MobileMenuToggle />
+      {!isIndexPage && <MobileMenuToggle />}
     </div>
   </div>
 </div>
