@@ -1,6 +1,6 @@
 # <img src="/assets/page-dark.svg" alt="" align="left" width="40" height="40"> Starlight Theme Page
 
-> A modern, elegant Starlight theme inspired by starlight-theme-black with enhanced UX and beautiful animations
+> A modern, elegant Starlight theme with enhanced UX and beautiful animations
 
 ![Official](https://badge.pelagornis.com/official.svg)
 [![npm version](https://img.shields.io/npm/v/@pelagornis/page.svg)](https://www.npmjs.com/package/@pelagornis/page)
