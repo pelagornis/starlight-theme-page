@@ -136,6 +136,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
   @media (max-width: 768px) {
     .page-main-container {
       flex-direction: column;
+      padding: 0;
     }
 
     .page-sidebar-nav {
@@ -161,7 +162,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
 
     .page-content-wrapper {
       width: 100%;
-      padding: 0 4rem;
+      padding: 0 var(--page-space-4);
       margin-left: 0;
       min-width: 0;
       max-width: 100%;
@@ -184,6 +185,13 @@ const hasSidebar = sidebar && sidebar.length > 0;
     max-width: 1200px !important;
     margin: 0 auto !important;
     padding: 0 var(--page-space-8) !important;
+  }
+
+  /* 모바일에서 index 페이지 패딩 조정 */
+  @media (max-width: 768px) {
+    .page-content-wrapper-full {
+      padding: 0 var(--page-space-4) !important;
+    }
   }
 
   /* 반응형 max-width 조정 */
@@ -245,7 +253,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
       width: 100%;
       max-width: 100%;
       margin: 0;
-      padding: var(--page-space-8);
+      padding: var(--page-space-6);
     }
 
     .page-content-wrapper {
@@ -471,15 +479,6 @@ const hasSidebar = sidebar && sidebar.length > 0;
     letter-spacing: 0.05em !important;
   }
 
-  /* "On This Page" 타이틀 숨기기 */
-  :global(.page-toc-sticky .sl-toc > summary::before) {
-    content: "" !important;
-  }
-
-  :global(.page-toc-sticky .sl-toc > summary) {
-    display: none !important;
-  }
-
   /* page 스타일 중첩 TOC */
   :global(.page-toc-sticky .sl-toc ul) {
     list-style: none !important;
@@ -490,17 +489,6 @@ const hasSidebar = sidebar && sidebar.length > 0;
 
   :global(.page-toc-sticky .sl-toc ul a) {
     font-size: 0.8125rem !important;
-  }
-
-  /* Starlight 기본 TOC 복구 및 스타일링 */
-  :global(.sl-toc) {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-
-  :global(.sl-toc-mobile) {
-    display: block !important;
   }
 
   /* Starlight 기본 TOC를 header 아래에 fixed로 표시 */
@@ -575,14 +563,14 @@ const hasSidebar = sidebar && sidebar.length > 0;
       display: none !important;
     }
 
+    /* 모바일에서 TOC 완전히 숨기기 */
     :global(.sl-toc:not(.sl-toc-mobile)) {
-      left: var(--page-space-4) !important;
-      right: var(--page-space-4) !important;
+      display: none !important;
     }
 
     /* 컨텐츠에 상단 여백 추가 */
     .page-content-wrapper {
-      padding-top: calc(var(--page-header-height));
+      padding-top: calc(var(--page-header-height) + var(--page-space-8));
     }
   }
 
@@ -592,9 +580,9 @@ const hasSidebar = sidebar && sidebar.length > 0;
       display: none !important;
     }
 
+    /* 중간 화면에서도 TOC 숨기기 */
     :global(.sl-toc:not(.sl-toc-mobile)) {
-      left: var(--page-sidebar-width) !important;
-      right: var(--page-space-4) !important;
+      display: none !important;
     }
 
     /* 중간 화면에서 컨텐츠 여백 추가 */
@@ -620,7 +608,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
   @media (max-width: 768px) {
     .page-single-column,
     .page-two-column-layout {
-      padding: var(--page-space-8) var(--page-space-6);
+      padding: var(--page-space-6) var(--page-space-4);
     }
   }
 
