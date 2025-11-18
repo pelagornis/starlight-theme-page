@@ -22,97 +22,6 @@
     }
   }
 
-  /* 모바일 대응 */
-  @media (max-width: 768px) {
-    .page-header-container {
-      padding: 0 var(--page-space-4);
-    }
-
-    .page-header-left {
-      gap: var(--page-space-4);
-    }
-
-    .page-nav {
-      display: none;
-    }
-
-    .page-title-text {
-      display: none;
-    }
-
-    .page-mobile-menu-toggle {
-      display: flex !important;
-    }
-
-    /* 모바일에서 성능 최적화 */
-    .page-header {
-      background: rgba(255, 255, 255, 0.98) !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      -moz-backdrop-filter: none !important;
-    }
-
-    [data-theme="dark"] .page-header {
-      background: rgba(0, 0, 0, 0.95) !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      -moz-backdrop-filter: none !important;
-    }
-
-    /* 모바일에서 애니메이션 최적화 */
-    .page-btn,
-    .page-theme-toggle,
-    .page-mobile-menu-toggle {
-      transition: none !important;
-      will-change: auto !important;
-    }
-
-    .page-btn:hover,
-    .page-theme-toggle:hover,
-    .page-mobile-menu-toggle:hover {
-      transform: none !important;
-    }
-  }
-
-  @media (min-width: 769px) {
-    .page-mobile-menu-toggle {
-      display: none !important;
-    }
-  }
-
-  /* 매우 작은 화면에서 추가 최적화 */
-  @media (max-width: 480px) {
-    .page-header-container {
-      padding: 0 var(--page-space-3);
-    }
-
-    .page-header-left {
-      gap: var(--page-space-3);
-    }
-
-    .page-site-title {
-      font-size: 1rem;
-    }
-
-    .page-logo {
-      width: 28px;
-      height: 28px;
-    }
-
-    /* 매우 작은 화면에서 모든 애니메이션 비활성화 */
-    * {
-      animation: none !important;
-      transition: none !important;
-    }
-
-    .page-header {
-      background: rgba(255, 255, 255, 0.99) !important;
-    }
-
-    [data-theme="dark"] .page-header {
-      background: rgba(0, 0, 0, 0.98) !important;
-    }
-  }
 
   /* 다크 테마 강제 적용 */
   [data-theme="dark"] :global(.sl-container),
@@ -135,11 +44,6 @@
   }
 
   /* 다크 테마 추가 스타일 */
-  [data-theme="dark"] {
-    background-color: var(--page-bg) !important;
-    color: var(--page-text) !important;
-  }
-
   [data-theme="dark"] body {
     background-color: var(--page-bg) !important;
     color: var(--page-text) !important;
@@ -230,11 +134,11 @@
 
   /* 다크 테마에서 모든 링크 스타일 */
   [data-theme="dark"] a:not(.page-btn):not(.page-btn-primary):not(.page-github-btn) {
-    color: var(--page-accent) !important;
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] a:not(.page-btn):not(.page-btn-primary):not(.page-github-btn):hover {
-    color: var(--page-accent-hover) !important;
+    color: var(--page-text-secondary) !important;
   }
 
   /* 다크 테마에서 link-title 스타일 */
@@ -253,4 +157,60 @@
 
   [data-theme="dark"] :global([class*="astro-"][class*="link"]) {
     color: var(--page-text) !important;
+  }
+
+  /* 검색 버튼 키보드 단축키 스타일 */
+  :global(button > kbd) {
+    border-radius: var(--page-radius) !important;
+    font-size: var(--sl-text-2xs) !important;
+    gap: 0.25em !important;
+    padding-inline: 0.375rem !important;
+    background-color: var(--page-bg-secondary) !important;
+    border: 1px solid var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] :global(button > kbd) {
+    background-color: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  /* 동적 클래스명에 대한 강제 스타일 */
+  :global(button:where([class*="astro-"]) > kbd:where([class*="astro-"])) {
+    background-color: var(--page-bg-secondary) !important;
+    border: 1px solid var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] :global(button:where([class*="astro-"]) > kbd:where([class*="astro-"])) {
+    background-color: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  /* 더 강력한 선택자 */
+  :global(button kbd) {
+    background-color: var(--page-bg-secondary) !important;
+    border: 1px solid var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] :global(button kbd) {
+    background-color: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  /* 모든 kbd 요소에 대한 최종 강제 스타일 */
+  :global(kbd) {
+    background-color: var(--page-bg-secondary) !important;
+    border: 1px solid var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
+  }
+
+  [data-theme="dark"] :global(kbd) {
+    background-color: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
   }

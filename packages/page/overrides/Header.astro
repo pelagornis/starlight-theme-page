@@ -230,10 +230,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     left: 0;
     right: 0;
     height: var(--page-header-height);
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(30px) saturate(180%);
-    -webkit-backdrop-filter: blur(30px) saturate(180%);
-    -moz-backdrop-filter: blur(30px) saturate(180%);
+    background: rgba(255, 255, 255, 0.6);
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     z-index: 1000;
     display: flex;
@@ -242,16 +239,32 @@ const hasSidebar = sidebar && sidebar.length > 0;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     isolation: isolate;
     transform: translateZ(0);
-    will-change: backdrop-filter;
+  }
+
+  /* 성능 최적화: backdrop-filter를 조건부로 적용 */
+  @media (min-resolution: 1.5dppx) and (min-width: 768px) {
+    .page-header {
+      backdrop-filter: blur(30px) saturate(180%);
+      -webkit-backdrop-filter: blur(30px) saturate(180%);
+      -moz-backdrop-filter: blur(30px) saturate(180%);
+      will-change: backdrop-filter;
+    }
   }
 
   /* 다크 테마에서 헤더 강제 스타일 */
-  [data-theme="dark"] .page-header {
-    background: rgba(0, 0, 0, 0.9) !important;
-    backdrop-filter: blur(40px) saturate(200%) !important;
-    -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
-    -moz-backdrop-filter: blur(40px) saturate(200%) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  :global([data-theme="dark"]) .page-header {
+    background: rgba(0, 0, 0, 0.3) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* 성능 최적화: 다크모드 backdrop-filter를 조건부로 적용 */
+  @media (min-resolution: 1.5dppx) and (min-width: 768px) {
+    :global([data-theme="dark"]) .page-header {
+      backdrop-filter: blur(30px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+      -moz-backdrop-filter: blur(30px) saturate(180%) !important;
+    }
   }
 
   /* backdrop-filter를 지원하지 않는 브라우저를 위한 폴백 */
@@ -260,12 +273,10 @@ const hasSidebar = sidebar && sidebar.length > 0;
       background: rgba(255, 255, 255, 0.98);
     }
 
-    [data-theme="dark"] .page-header {
-      background: rgba(0, 0, 0, 0.98);
+    :global([data-theme="dark"]) .page-header {
+      background: rgba(0, 0, 0, 0.95);
     }
   }
-
-  /* 기존 다크 테마 스타일 제거 - 위에서 강제 스타일로 대체 */
 
   .page-header-container {
     max-width: 1440px;
@@ -413,13 +424,13 @@ const hasSidebar = sidebar && sidebar.length > 0;
     color: var(--page-bg) !important;
   }
 
-  /* 소셜 버튼 특별 스타일 */
-  [data-theme="dark"] .page-btn-primary {
+  /* GitHub 버튼 특별 스타일 */
+  [data-theme="dark"] .page-github-btn {
     background: var(--page-accent) !important;
     color: var(--page-bg) !important;
   }
 
-  [data-theme="dark"] .page-btn-primary:hover {
+  [data-theme="dark"] .page-github-btn:hover {
     background: var(--page-neutral-300) !important;
     color: var(--page-bg) !important;
   }
@@ -427,6 +438,41 @@ const hasSidebar = sidebar && sidebar.length > 0;
   .page-btn svg {
     width: 20px;
     height: 20px;
+  }
+
+  /* page 스타일 테마 토글 */
+  .page-theme-toggle {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: var(--page-radius);
+    background: var(--page-accent-light);
+    color: var(--page-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page-theme-toggle:hover {
+    background: var(--page-neutral-200);
+    color: var(--page-text);
+    transform: translateY(-1px);
+  }
+
+  [data-theme="dark"] .page-theme-toggle:hover {
+    background: var(--page-neutral-800);
+  }
+
+  .page-theme-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* 본문 여백 */
+  :global(body) {
+    padding-top: var(--page-header-height) !important;
   }
 
   /* 모바일 대응 */
@@ -450,6 +496,35 @@ const hasSidebar = sidebar && sidebar.length > 0;
     .page-mobile-menu-toggle {
       display: flex !important;
     }
+
+    /* 모바일에서 성능 최적화 */
+    .page-header {
+      background: rgba(255, 255, 255, 0.98) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      -moz-backdrop-filter: none !important;
+    }
+
+    :global([data-theme="dark"]) .page-header {
+      background: rgba(0, 0, 0, 0.95) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      -moz-backdrop-filter: none !important;
+    }
+
+    /* 모바일에서 애니메이션 최적화 */
+    .page-btn,
+    .page-theme-toggle,
+    .page-mobile-menu-toggle {
+      transition: none !important;
+      will-change: auto !important;
+    }
+
+    .page-btn:hover,
+    .page-theme-toggle:hover,
+    .page-mobile-menu-toggle:hover {
+      transform: none !important;
+    }
   }
 
   @media (min-width: 769px) {
@@ -458,8 +533,31 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* 본문 여백 */
-  :global(body) {
-    padding-top: var(--page-header-height) !important;
+  /* 매우 작은 화면에서 추가 최적화 */
+  @media (max-width: 480px) {
+    .page-header-container {
+      padding: 0 var(--page-space-3);
+    }
+
+    .page-header-left {
+      gap: var(--page-space-3);
+    }
+
+    .page-site-title {
+      font-size: 1rem;
+    }
+
+    .page-logo {
+      width: 28px;
+      height: 28px;
+    }
+
+    .page-header {
+      background: rgba(255, 255, 255, 0.99) !important;
+    }
+
+    :global([data-theme="dark"]) .page-header {
+      background: rgba(0, 0, 0, 0.98) !important;
+    }
   }
 </style>

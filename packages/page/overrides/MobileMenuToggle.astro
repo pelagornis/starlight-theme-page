@@ -163,40 +163,86 @@
 </script>
 
 <style>
+  /* 모바일 메뉴 토글 버튼 스타일 */
   .page-mobile-menu-toggle {
     display: none;
-    background: var(--page-accent-light) !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
     border-radius: var(--page-radius);
-    padding: var(--page-space-3);
-    font-size: 0.875rem;
-    color: var(--page-text);
+    background: var(--page-accent-light);
+    color: var(--page-text-secondary);
     cursor: pointer;
-    transition: all 0.2s ease;
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    min-height: 40px;
-    box-sizing: border-box;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    padding: 0;
     position: relative;
+    overflow: hidden;
   }
 
   .page-mobile-menu-toggle:hover {
-    background: var(--page-text-reverse) !important;
-    color: var(--page-text) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: var(--page-shadow-sm) !important;
-    z-index: 3 !important;
+    background: var(--page-neutral-200);
+    color: var(--page-text);
+    transform: translateY(-1px);
+    box-shadow: var(--page-shadow-sm);
   }
 
-  .page-menu-icon {
+  .page-mobile-menu-toggle:active {
+    transform: translateY(0) scale(0.95);
+    transition: all 0.1s ease;
+  }
+
+  [data-theme="dark"] .page-mobile-menu-toggle {
+    background: var(--page-accent-light);
+    color: var(--page-text-secondary);
+  }
+
+  [data-theme="dark"] .page-mobile-menu-toggle:hover {
+    background: var(--page-neutral-800);
+    color: var(--page-text);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .page-mobile-menu-toggle svg {
     width: 20px;
     height: 20px;
-    min-width: 20px;
-    min-height: 20px;
-    fill: currentColor;
-    color: inherit;
-    stroke: currentColor;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-origin: center;
+  }
+
+  .page-mobile-menu-toggle:hover svg {
+    transform: scale(1.1);
+  }
+
+  /* 햄버거 메뉴 아이콘 애니메이션 */
+  .page-menu-icon {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-origin: center;
+  }
+
+  .page-close-icon {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-origin: center;
+  }
+
+  /* 버튼 클릭 시 리플 효과 */
+  .page-mobile-menu-toggle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+  }
+
+  .page-mobile-menu-toggle:active::after {
+    width: 80px;
+    height: 80px;
   }
 
   /* 모바일에서만 표시 */
@@ -205,9 +251,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .page-mobile-menu-toggle {
       width: 40px;
       height: 40px;
     }
