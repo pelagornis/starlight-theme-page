@@ -19,5 +19,8 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/pelagornis/starlight-theme-page.git"
+    },
+    "dependencies": {
+        "zod": "^4.1.12"
     }
 }

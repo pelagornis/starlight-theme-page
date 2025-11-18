@@ -16,8 +16,9 @@ if (!heroData) {
 
 // hero.title이 있으면 사용, 없으면 페이지 제목 사용
 const title = heroData.title ?? entry?.data?.title;
+
+// tagline 읽기 (Starlight 기본 schema가 지원함)
 const tagline = heroData.tagline;
-const description = heroData.description;
 const actions = heroData.actions || [];
 const imageFile = heroData.image?.file;
 ---
@@ -28,11 +29,8 @@ const imageFile = heroData.image?.file;
       <!-- 메인 타이틀 -->
       <h1 class="page-hero-title">{title || "Starlight Page"}</h1>
 
-      <!-- 서브타이틀 -->
-      {tagline && <p class="page-hero-tagline">{tagline}</p>}
-
       <!-- 설명 -->
-      {description ? <p class="page-hero-description">{description}</p> : null}
+      {tagline && <p class="page-hero-tagline">{tagline}</p>}
 
       <!-- 액션 버튼들 -->
       {
@@ -146,9 +144,8 @@ const imageFile = heroData.image?.file;
   }
 
   .page-hero-container {
-    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 var(--page-space-8);
+    padding: 0 var(--page-space-16);
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--page-space-10);
@@ -185,16 +182,6 @@ const imageFile = heroData.image?.file;
     margin: 0 0 var(--page-space-4) 0;
     font-weight: 400;
     opacity: 0.75;
-  }
-
-  .page-hero-description {
-    font-size: 1rem;
-    line-height: 1.8;
-    color: var(--page-text-secondary);
-    margin: 0 0 var(--page-space-6) 0;
-    font-weight: 400;
-    opacity: 0.7;
-    max-width: 600px;
   }
 
   .page-hero-actions {
@@ -255,10 +242,6 @@ const imageFile = heroData.image?.file;
 
     .page-hero-tagline {
       font-size: 1rem;
-    }
-
-    .page-hero-description {
-      font-size: 0.9375rem;
     }
 
     .page-hero-visual {

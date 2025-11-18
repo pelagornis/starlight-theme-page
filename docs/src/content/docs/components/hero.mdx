@@ -5,8 +5,7 @@ sidebar:
   order: 2
   group: components
 hero:
-  tagline: Create stunning hero sections with customizable title, tagline, and action buttons
-  description: Build beautiful hero sections that capture attention and guide users to key actions. Supports gradient backgrounds, custom images, and multiple button styles.
+  tagline: An intuitive, modern Starlight theme with smooth, float-in animations.
   actions:
     - text: Get Started
       link: /guides/getting-started/
@@ -20,7 +19,7 @@ hero:
 
 import Tabs from "@pelagornis/page/components/Tabs.astro";
 
-The Hero component displays a prominent hero section at the top of your documentation site with customizable title, tagline, description, and action buttons.
+The Hero component displays a prominent hero section at the top of your documentation site with customizable title, description, and action buttons.
 
 ## Key Features
 
@@ -89,8 +88,7 @@ The Hero component is configured through the frontmatter `hero` section in your 
     title: Starlight Page
     description: Starlight theme inspired by Shadcn docs
     hero:
-      tagline: A modern documentation site theme with shadcn/ui style
-      description: Elevate your documentation experience with beautiful gradients, smooth animations, and a clean Notion-like design. Perfect for modern developer documentation.
+      tagline: An intuitive, modern Starlight theme with smooth, float-in animations.
       actions:
         - text: Get Started
           link: /guides/getting-started/
@@ -111,12 +109,11 @@ The Hero component is configured through the frontmatter `hero` section in your 
 
 ## Configuration Options
 
-| Option        | Type       | Default | Description                                |
-| ------------- | ---------- | ------- | ------------------------------------------ |
-| `title`       | `string`   | -       | Hero title (uses page title if not set)    |
-| `tagline`     | `string`   | -       | Hero tagline/subtitle                      |
-| `description` | `string`   | -       | Hero description (displayed below tagline) |
-| `actions`     | `Action[]` | `[]`    | Array of action buttons                    |
+| Option    | Type       | Default | Description                             |
+| --------- | ---------- | ------- | --------------------------------------- |
+| `title`   | `string`   | -       | Hero title (uses page title if not set) |
+| `tagline` | `string`   | -       | Hero tagline/subtitle                   |
+| `actions` | `Action[]` | `[]`    | Array of action buttons                 |
 
 ### Action Object
 
@@ -138,8 +135,7 @@ The Hero component is configured through the frontmatter `hero` section in your 
 ### 🎨 Visual Elements
 
 - **Hero Title**: Large, gradient text with underline accent
-- **Tagline**: Descriptive subtitle text (one-line summary)
-- **Description**: Detailed explanation text (displayed below tagline)
+- **Tagline**: Descriptive subtitle text
 - **Action Buttons**: Primary and secondary button styles with hover animations
 - **Card Visual**: Decorative animated card with code-like lines
 
@@ -186,10 +182,9 @@ The Hero component can be customized through CSS variables:
 ## Best Practices
 
 1. **Keep taglines concise**: Aim for one to two sentences for the tagline
-2. **Use description for details**: Add a description for more detailed explanations (displayed below tagline)
-3. **Limit actions**: Use 2-3 action buttons maximum
-4. **Primary action first**: Place the most important action as primary
-5. **External links**: Use `variant: secondary` for external links like GitHub
+2. **Limit actions**: Use 2-3 action buttons maximum
+3. **Primary action first**: Place the most important action as primary
+4. **External links**: Use `variant: secondary` for external links like GitHub
 
 ## Examples
 
@@ -199,7 +194,7 @@ The Hero component can be customized through CSS variables:
 ---
 title: My Docs
 hero:
-  tagline: Welcome to my documentation
+  description: Welcome to my documentation
 ---
 ```
 
@@ -209,7 +204,7 @@ hero:
 ---
 title: My Docs
 hero:
-  tagline: Get started in minutes
+  description: Get started in minutes
   actions:
     - text: Start Building
       link: /guides/getting-started/
@@ -223,7 +218,7 @@ hero:
 ---
 title: My Docs
 hero:
-  tagline: Modern documentation made easy
+  description: Modern documentation made easy
   description: Learn how to build beautiful documentation sites with our comprehensive guide. Get started in minutes and create professional-looking docs.
   actions:
     - text: Get Started
@@ -238,7 +233,7 @@ hero:
 ---
 title: My Docs
 hero:
-  tagline: Modern documentation made easy
+  description: Modern documentation made easy
   description: Learn how to build beautiful documentation sites with our comprehensive guide.
   actions:
     - text: Quick Start

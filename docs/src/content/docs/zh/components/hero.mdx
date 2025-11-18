@@ -5,7 +5,7 @@ sidebar:
   order: 2
   group: components
 hero:
-  tagline: 使用可自定义的标题、标语和操作按钮创建令人惊叹的英雄区域
+  tagline: 直观现代的Starlight主题，提供流畅的动画效果。
   actions:
     - text: 开始使用
       link: /zh/guides/getting-started/
@@ -19,7 +19,7 @@ hero:
 
 import Tabs from "@pelagornis/page/components/Tabs.astro";
 
-Hero组件在文档网站顶部显示一个突出的英雄区域，带有可自定义的标题、标语和操作按钮。
+Hero 组件在文档网站顶部显示一个突出的英雄区域，带有可自定义的标题、标语和操作按钮。
 
 ## 主要功能
 
@@ -41,7 +41,7 @@ Hero组件在文档网站顶部显示一个突出的英雄区域，带有可自�
 
 ## 基本用法
 
-Hero组件通过MDX文件frontmatter中的`hero`部分进行配置：
+Hero 组件通过 MDX 文件 frontmatter 中的`hero`部分进行配置：
 
 <Tabs
   tabs={[
@@ -88,7 +88,7 @@ Hero组件通过MDX文件frontmatter中的`hero`部分进行配置：
     title: Starlight Page
     description: 受Shadcn启发的Starlight主题
     hero:
-      tagline: 具有shadcn/ui风格的现代文档网站主题
+      tagline: 直观现代的Starlight主题，提供流畅的动画效果。
       actions:
         - text: 开始使用
           link: /guides/getting-started/
@@ -109,19 +109,19 @@ Hero组件通过MDX文件frontmatter中的`hero`部分进行配置：
 
 ## 配置选项
 
-| 选项     | 类型                      | 默认值 | 说明                              |
-| -------- | ------------------------- | ------ | --------------------------------- |
-| `title`  | `string`                  | -      | 英雄标题（如果未设置则使用页面标题） |
-| `tagline`| `string`                  | -      | 英雄标语/副标题                    |
-| `actions`| `Action[]`                | `[]`   | 操作按钮数组                       |
+| 选项      | 类型       | 默认值 | 说明                                 |
+| --------- | ---------- | ------ | ------------------------------------ |
+| `title`   | `string`   | -      | 英雄标题（如果未设置则使用页面标题） |
+| `tagline` | `string`   | -      | 英雄标语/副标题                      |
+| `actions` | `Action[]` | `[]`   | 操作按钮数组                         |
 
-### Action对象
+### Action 对象
 
-| 属性     | 类型                      | 默认值      | 说明            |
-| -------- | ------------------------- | ----------- | --------------- |
-| `text`   | `string`                  | -           | 按钮文本（必需）   |
-| `link`   | `string`                  | -           | 按钮链接URL（必需） |
-| `variant`| `'primary' \| 'secondary'` | `'secondary'` | 按钮样式变体     |
+| 属性      | 类型                       | 默认值        | 说明                 |
+| --------- | -------------------------- | ------------- | -------------------- |
+| `text`    | `string`                   | -             | 按钮文本（必需）     |
+| `link`    | `string`                   | -             | 按钮链接 URL（必需） |
+| `variant` | `'primary' \| 'secondary'` | `'secondary'` | 按钮样式变体         |
 
 ## 功能
 
@@ -149,11 +149,11 @@ Hero组件通过MDX文件frontmatter中的`hero`部分进行配置：
 
 英雄区域完美适应不同的屏幕尺寸：
 
-| 屏幕尺寸 | 行为                    |
-| -------- | ----------------------- |
-| Desktop  | 带卡片的双列布局         |
-| Tablet   | 堆叠布局                 |
-| Mobile   | 单列，卡片在顶部          |
+| 屏幕尺寸 | 行为             |
+| -------- | ---------------- |
+| Desktop  | 带卡片的双列布局 |
+| Tablet   | 堆叠布局         |
+| Mobile   | 单列，卡片在顶部 |
 
 ### 💫 动画效果
 
@@ -164,7 +164,7 @@ Hero组件通过MDX文件frontmatter中的`hero`部分进行配置：
 
 ## 样式设置
 
-Hero组件可以通过CSS变量进行自定义：
+Hero 组件可以通过 CSS 变量进行自定义：
 
 ```css
 :root {
@@ -182,9 +182,9 @@ Hero组件可以通过CSS变量进行自定义：
 ## 最佳实践
 
 1. **保持标语简洁**: 目标是一到两句话
-2. **限制操作**: 最多使用2-3个操作按钮
+2. **限制操作**: 最多使用 2-3 个操作按钮
 3. **主要操作优先**: 将最重要的操作设置为主要样式
-4. **外部链接**: 对于像GitHub这样的外部链接使用 `variant: secondary`
+4. **外部链接**: 对于像 GitHub 这样的外部链接使用 `variant: secondary`
 
 ## 示例
 
@@ -194,7 +194,7 @@ Hero组件可以通过CSS变量进行自定义：
 ---
 title: 我的文档
 hero:
-  tagline: 欢迎来到我的文档
+  description: 欢迎来到我的文档
 ---
 ```
 
@@ -204,7 +204,7 @@ hero:
 ---
 title: 我的文档
 hero:
-  tagline: 几分钟内开始使用
+  description: 几分钟内开始使用
   actions:
     - text: 开始构建
       link: /guides/getting-started/
@@ -218,7 +218,7 @@ hero:
 ---
 title: 我的文档
 hero:
-  tagline: 轻松创建现代文档
+  description: 轻松创建现代文档
   actions:
     - text: 快速开始
       link: /guides/quick-start/
@@ -240,4 +240,3 @@ hero:
 - Edge 88+
 
 在现代浏览器上提供最佳性能。
-
