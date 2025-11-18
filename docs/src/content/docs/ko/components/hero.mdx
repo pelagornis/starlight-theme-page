@@ -1,0 +1,232 @@
+---
+title: Hero
+description: 현대적인 히어로 컴포넌트의 특징과 사용법
+sidebar:
+  order: 2
+  group: components
+---
+
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+
+Hero 컴포넌트는 문서 사이트 상단에 커스터마이징 가능한 제목, 태그라인, 액션 버튼을 가진 눈에 띄는 히어로 섹션을 표시합니다.
+
+## 주요 기능
+
+### 🎨 디자인 특징
+
+그라데이션 배경, 애니메이션 카드 시각화, 부드러운 애니메이션, 현대적인 글래스 효과
+
+### 📱 반응형 디자인
+
+모든 화면 크기에서 완벽하게 작동하는 반응형 레이아웃
+
+### 🌟 인터랙션
+
+모든 요소에 부드러운 호버 효과와 애니메이션 적용
+
+### 🌙 다크 모드
+
+라이트/다크 테마 완벽 지원
+
+## 기본 사용법
+
+Hero 컴포넌트는 MDX 파일의 frontmatter `hero` 섹션을 통해 설정됩니다:
+
+<Tabs
+  tabs={[
+    { id: "basic-usage", label: "기본 사용법", icon: "🚀" },
+    { id: "with-actions", label: "액션 포함", icon: "⚙️" },
+    { id: "full-example", label: "전체 예제", icon: "✨" },
+  ]}
+  defaultTab="basic-usage"
+>
+  <div>
+    ```mdx
+    ---
+    title: 내 문서
+    hero:
+      tagline: 현대적인 문서 사이트 테마
+    ---
+
+    # 환영합니다
+    ```
+
+  </div>
+  <div>
+    ```mdx
+    ---
+    title: 내 문서
+    hero:
+      tagline: 현대적인 문서 사이트 테마
+      actions:
+        - text: 시작하기
+          link: /guides/getting-started/
+          variant: primary
+        - text: GitHub에서 보기
+          link: https://github.com
+          variant: secondary
+    ---
+
+    # 환영합니다
+    ```
+
+  </div>
+  <div>
+    ```mdx
+    ---
+    title: Starlight Page
+    description: Shadcn에서 영감을 받은 Starlight 테마
+    hero:
+      tagline: shadcn/ui 스타일의 현대적인 문서 사이트 테마
+      actions:
+        - text: 시작하기
+          link: /guides/getting-started/
+          variant: primary
+        - text: 컴포넌트 보기
+          link: /components/header/
+          variant: secondary
+        - text: GitHub에서 보기
+          link: https://github.com/pelagornis/starlight-theme-page
+          variant: secondary
+    ---
+
+    # Starlight Page에 오신 것을 환영합니다
+    ```
+
+  </div>
+</Tabs>
+
+## 설정 옵션
+
+| 옵션     | 타입                      | 기본값 | 설명                              |
+| -------- | ------------------------- | ------ | --------------------------------- |
+| `title`  | `string`                  | -      | 히어로 제목 (설정하지 않으면 페이지 제목 사용) |
+| `tagline`| `string`                  | -      | 히어로 태그라인/부제목              |
+| `actions`| `Action[]`                | `[]`   | 액션 버튼 배열                     |
+
+### Action 객체
+
+| 속성     | 타입                      | 기본값      | 설명            |
+| -------- | ------------------------- | ----------- | --------------- |
+| `text`   | `string`                  | -           | 버튼 텍스트 (필수) |
+| `link`   | `string`                  | -           | 버튼 링크 URL (필수) |
+| `variant`| `'primary' \| 'secondary'` | `'secondary'` | 버튼 스타일 변형 |
+
+## 기능
+
+### ✨ 현대적인 디자인
+
+- **그라데이션 배경**: 방사형 오버레이가 있는 아름다운 그라데이션 효과
+- **애니메이션 카드**: 호버 효과가 있는 인터랙티브 카드 시각화
+- **글래스 효과**: 백드롭 블러 및 투명도 효과
+- **부드러운 애니메이션**: 모든 인터랙션을 위한 자연스러운 전환
+
+### 🎨 시각적 요소
+
+- **히어로 제목**: 밑줄 액센트가 있는 큰 그라데이션 텍스트
+- **태그라인**: 설명적인 부제목 텍스트
+- **액션 버튼**: 호버 애니메이션이 있는 기본 및 보조 버튼 스타일
+- **카드 시각화**: 코드 같은 라인이 있는 장식용 애니메이션 카드
+
+### 🌙 다크 모드 지원
+
+- 자동 색상 조정
+- 테마 전반에 걸친 일관된 사용자 경험
+- 완벽한 테마 호환성
+
+### 📱 반응형 디자인
+
+히어로 섹션은 다양한 화면 크기에 완벽하게 적응합니다:
+
+| 화면 크기 | 동작                    |
+| --------- | ----------------------- |
+| Desktop   | 카드가 있는 2열 레이아웃 |
+| Tablet    | 스택 레이아웃            |
+| Mobile    | 단일 열, 상단에 카드     |
+
+### 💫 애니메이션 효과
+
+- **카드 호버**: 호버 시 회전 및 확대 효과
+- **버튼 호버**: 부드러운 들기 및 그림자 효과
+- **배경**: 방사형 그라데이션 애니메이션
+- **반짝임 효과**: 카드 헤더의 미묘한 반짝임 애니메이션
+
+## 스타일링
+
+Hero 컴포넌트는 CSS 변수를 통해 커스터마이징할 수 있습니다:
+
+```css
+:root {
+  --page-hero-padding: 6rem 0 4rem;
+  --page-hero-radius: var(--page-radius-lg);
+  --page-hero-title-size: 4rem;
+  --page-hero-tagline-size: 1.25rem;
+}
+
+[data-theme="dark"] {
+  /* 다크 테마 전용 오버라이드 */
+}
+```
+
+## 모범 사례
+
+1. **태그라인을 간결하게**: 1-2 문장을 목표로 하세요
+2. **액션 제한**: 최대 2-3개의 액션 버튼 사용
+3. **주요 액션 우선**: 가장 중요한 액션을 primary로 배치
+4. **외부 링크**: GitHub와 같은 외부 링크에는 `variant: secondary` 사용
+
+## 예제
+
+### 최소한의 히어로
+
+```mdx
+---
+title: 내 문서
+hero:
+  tagline: 내 문서에 오신 것을 환영합니다
+---
+```
+
+### 단일 액션이 있는 히어로
+
+```mdx
+---
+title: 내 문서
+hero:
+  tagline: 몇 분 안에 시작하세요
+  actions:
+    - text: 빌드 시작
+      link: /guides/getting-started/
+      variant: primary
+---
+```
+
+### 여러 액션이 있는 히어로
+
+```mdx
+---
+title: 내 문서
+hero:
+  tagline: 현대적인 문서를 쉽게 만들어보세요
+  actions:
+    - text: 빠른 시작
+      link: /guides/quick-start/
+      variant: primary
+    - text: 예제 보기
+      link: /examples/
+      variant: secondary
+    - text: GitHub
+      link: https://github.com
+      variant: secondary
+---
+```
+
+## 브라우저 지원
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+최신 브라우저에서 최적의 성능을 제공합니다.
+

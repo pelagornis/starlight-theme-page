@@ -1,0 +1,232 @@
+---
+title: Hero
+description: モダンなヒーローコンポーネントの特徴と使用方法
+sidebar:
+  order: 2
+  group: components
+---
+
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+
+Heroコンポーネントは、カスタマイズ可能なタイトル、タグライン、アクションボタンを備えた、ドキュメントサイトの上部に目立つヒーローセクションを表示します。
+
+## 主な機能
+
+### 🎨 デザイン特徴
+
+グラデーション背景、アニメーションカード視覚化、スムーズなアニメーション、モダンなガラス効果
+
+### 📱 レスポンシブデザイン
+
+すべての画面サイズで完璧に動作するレスポンシブレイアウト
+
+### 🌟 インタラクション
+
+すべての要素にスムーズなホバー効果とアニメーションを適用
+
+### 🌙 ダークモード
+
+ライト/ダークテーマの完璧なサポート
+
+## 基本的な使用方法
+
+Heroコンポーネントは、MDXファイルのfrontmatter `hero`セクションで設定されます：
+
+<Tabs
+  tabs={[
+    { id: "basic-usage", label: "基本的な使用方法", icon: "🚀" },
+    { id: "with-actions", label: "アクション付き", icon: "⚙️" },
+    { id: "full-example", label: "完全な例", icon: "✨" },
+  ]}
+  defaultTab="basic-usage"
+>
+  <div>
+    ```mdx
+    ---
+    title: 私のドキュメント
+    hero:
+      tagline: モダンなドキュメントサイトテーマ
+    ---
+
+    # ようこそ
+    ```
+
+  </div>
+  <div>
+    ```mdx
+    ---
+    title: 私のドキュメント
+    hero:
+      tagline: モダンなドキュメントサイトテーマ
+      actions:
+        - text: はじめに
+          link: /guides/getting-started/
+          variant: primary
+        - text: GitHubで見る
+          link: https://github.com
+          variant: secondary
+    ---
+
+    # ようこそ
+    ```
+
+  </div>
+  <div>
+    ```mdx
+    ---
+    title: Starlight Page
+    description: Shadcnからインスピレーションを受けたStarlightテーマ
+    hero:
+      tagline: shadcn/uiスタイルのモダンなドキュメントサイトテーマ
+      actions:
+        - text: はじめに
+          link: /guides/getting-started/
+          variant: primary
+        - text: コンポーネントを見る
+          link: /components/header/
+          variant: secondary
+        - text: GitHubで見る
+          link: https://github.com/pelagornis/starlight-theme-page
+          variant: secondary
+    ---
+
+    # Starlight Pageへようこそ
+    ```
+
+  </div>
+</Tabs>
+
+## 設定オプション
+
+| オプション  | 型                       | デフォルト | 説明                              |
+| ---------- | ------------------------ | --------- | --------------------------------- |
+| `title`    | `string`                 | -         | ヒーロータイトル（設定しない場合はページタイトルを使用） |
+| `tagline`  | `string`                 | -         | ヒーロータグライン/サブタイトル     |
+| `actions`  | `Action[]`               | `[]`      | アクションボタンの配列             |
+
+### Actionオブジェクト
+
+| プロパティ  | 型                       | デフォルト    | 説明            |
+| ---------- | ------------------------ | ------------- | --------------- |
+| `text`     | `string`                 | -             | ボタンテキスト（必須） |
+| `link`     | `string`                 | -             | ボタンリンクURL（必須） |
+| `variant`   | `'primary' \| 'secondary'` | `'secondary'` | ボタンスタイルバリアント |
+
+## 機能
+
+### ✨ モダンなデザイン
+
+- **グラデーション背景**: 放射状オーバーレイを備えた美しいグラデーション効果
+- **アニメーションカード**: ホバー効果を備えたインタラクティブなカード視覚化
+- **ガラス効果**: バックドロップブラーと透明度効果
+- **スムーズなアニメーション**: すべてのインタラクションのための自然なトランジション
+
+### 🎨 視覚的要素
+
+- **ヒーロータイトル**: 下線アクセントを備えた大きなグラデーションテキスト
+- **タグライン**: 説明的なサブタイトルテキスト
+- **アクションボタン**: ホバーアニメーションを備えたプライマリとセカンダリのボタンスタイル
+- **カード視覚化**: コードのような行を備えた装飾的なアニメーションカード
+
+### 🌙 ダークモードサポート
+
+- 自動色調整
+- テーマ全体での一貫したユーザーエクスペリエンス
+- 完璧なテーマ互換性
+
+### 📱 レスポンシブデザイン
+
+ヒーローセクションは、異なる画面サイズに完璧に適応します：
+
+| 画面サイズ | 動作                    |
+| ---------- | ----------------------- |
+| Desktop    | カード付き2列レイアウト  |
+| Tablet     | スタックレイアウト       |
+| Mobile     | 単一列、上部にカード      |
+
+### 💫 アニメーション効果
+
+- **カードホバー**: ホバー時の回転とスケール効果
+- **ボタンホバー**: スムーズなリフトとシャドウ効果
+- **背景**: 放射状グラデーションアニメーション
+- **シャイン効果**: カードヘッダーの微妙なシャインアニメーション
+
+## スタイリング
+
+Heroコンポーネントは、CSS変数を通じてカスタマイズできます：
+
+```css
+:root {
+  --page-hero-padding: 6rem 0 4rem;
+  --page-hero-radius: var(--page-radius-lg);
+  --page-hero-title-size: 4rem;
+  --page-hero-tagline-size: 1.25rem;
+}
+
+[data-theme="dark"] {
+  /* ダークテーマ専用のオーバーライド */
+}
+```
+
+## ベストプラクティス
+
+1. **タグラインを簡潔に**: 1-2文を目標にしてください
+2. **アクションを制限**: 最大2-3個のアクションボタンを使用
+3. **プライマリアクションを最初に**: 最も重要なアクションをprimaryとして配置
+4. **外部リンク**: GitHubなどの外部リンクには `variant: secondary` を使用
+
+## 例
+
+### 最小限のヒーロー
+
+```mdx
+---
+title: 私のドキュメント
+hero:
+  tagline: 私のドキュメントへようこそ
+---
+```
+
+### 単一アクション付きヒーロー
+
+```mdx
+---
+title: 私のドキュメント
+hero:
+  tagline: 数分で始められます
+  actions:
+    - text: ビルドを開始
+      link: /guides/getting-started/
+      variant: primary
+---
+```
+
+### 複数アクション付きヒーロー
+
+```mdx
+---
+title: 私のドキュメント
+hero:
+  tagline: モダンなドキュメントを簡単に作成
+  actions:
+    - text: クイックスタート
+      link: /guides/quick-start/
+      variant: primary
+    - text: 例を見る
+      link: /examples/
+      variant: secondary
+    - text: GitHub
+      link: https://github.com
+      variant: secondary
+---
+```
+
+## ブラウザサポート
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+最新のブラウザで最適なパフォーマンスを提供します。
+
