@@ -4,6 +4,17 @@ description: 현대적인 히어로 컴포넌트의 특징과 사용법
 sidebar:
   order: 2
   group: components
+hero:
+  tagline: 커스터마이징 가능한 제목, 태그라인, 액션 버튼으로 멋진 히어로 섹션을 만드세요
+  actions:
+    - text: 시작하기
+      link: /ko/guides/getting-started/
+      variant: primary
+      icon: right-arrow
+    - text: GitHub 보기
+      link: https://github.com/pelagornis/starlight-theme-page
+      variant: secondary
+      icon: external
 ---
 
 import Tabs from "@pelagornis/page/components/Tabs.astro";
@@ -98,19 +109,19 @@ Hero 컴포넌트는 MDX 파일의 frontmatter `hero` 섹션을 통해 설정됩
 
 ## 설정 옵션
 
-| 옵션     | 타입                      | 기본값 | 설명                              |
-| -------- | ------------------------- | ------ | --------------------------------- |
-| `title`  | `string`                  | -      | 히어로 제목 (설정하지 않으면 페이지 제목 사용) |
-| `tagline`| `string`                  | -      | 히어로 태그라인/부제목              |
-| `actions`| `Action[]`                | `[]`   | 액션 버튼 배열                     |
+| 옵션      | 타입       | 기본값 | 설명                                           |
+| --------- | ---------- | ------ | ---------------------------------------------- |
+| `title`   | `string`   | -      | 히어로 제목 (설정하지 않으면 페이지 제목 사용) |
+| `tagline` | `string`   | -      | 히어로 태그라인/부제목                         |
+| `actions` | `Action[]` | `[]`   | 액션 버튼 배열                                 |
 
 ### Action 객체
 
-| 속성     | 타입                      | 기본값      | 설명            |
-| -------- | ------------------------- | ----------- | --------------- |
-| `text`   | `string`                  | -           | 버튼 텍스트 (필수) |
-| `link`   | `string`                  | -           | 버튼 링크 URL (필수) |
-| `variant`| `'primary' \| 'secondary'` | `'secondary'` | 버튼 스타일 변형 |
+| 속성      | 타입                       | 기본값        | 설명                 |
+| --------- | -------------------------- | ------------- | -------------------- |
+| `text`    | `string`                   | -             | 버튼 텍스트 (필수)   |
+| `link`    | `string`                   | -             | 버튼 링크 URL (필수) |
+| `variant` | `'primary' \| 'secondary'` | `'secondary'` | 버튼 스타일 변형     |
 
 ## 기능
 
@@ -138,8 +149,8 @@ Hero 컴포넌트는 MDX 파일의 frontmatter `hero` 섹션을 통해 설정됩
 
 히어로 섹션은 다양한 화면 크기에 완벽하게 적응합니다:
 
-| 화면 크기 | 동작                    |
-| --------- | ----------------------- |
+| 화면 크기 | 동작                     |
+| --------- | ------------------------ |
 | Desktop   | 카드가 있는 2열 레이아웃 |
 | Tablet    | 스택 레이아웃            |
 | Mobile    | 단일 열, 상단에 카드     |
@@ -229,4 +240,3 @@ hero:
 - Edge 88+
 
 최신 브라우저에서 최적의 성능을 제공합니다.
-
