@@ -16,7 +16,6 @@
     "@pelagornis/page": "workspace:*",
     "astro": "^5.15.9",
     "sharp": "^0.34.5",
-    "typescript": "^5.9.3",
-    "zod": "^4.1.12"
+    "typescript": "^5.9.3"
   }
 }
