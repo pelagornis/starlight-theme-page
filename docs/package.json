@@ -11,11 +11,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/starlight": "^0.35.2",
+    "@astrojs/check": "^0.9.5",
+    "@astrojs/starlight": "^0.36.2",
     "@pelagornis/page": "workspace:*",
-    "astro": "^5.12.8",
-    "sharp": "^0.32.5",
-    "typescript": "^5.9.2"
+    "astro": "^5.15.9",
+    "sharp": "^0.34.5",
+    "typescript": "^5.9.3"
   }
 }

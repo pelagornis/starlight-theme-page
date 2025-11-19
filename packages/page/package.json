@@ -6,6 +6,7 @@
     "type": "module",
     "exports": {
         ".": "./index.ts",
+        "./styles": "./styles.css",
         "./styles.css": "./styles.css",
         "./overrides/Header.astro": "./overrides/Header.astro",
         "./overrides/PageFrame.astro": "./overrides/PageFrame.astro",

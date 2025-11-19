@@ -1,66 +1,91 @@
 ---
 // page 스타일 히어로 섹션
-const { data } = Astro.props.entry || {};
-const { title = Astro.props.title, tagline, actions = [] } = data || {};
+import { Image } from "astro:assets";
+import Button from "@pelagornis/page/components/Button.astro";
+
+// Starlight에서 entry는 locals.starlightRoute 또는 props.entry로 전달됨
+const entry = Astro.locals.starlightRoute?.entry || Astro.props.entry;
+
+// entry.data에서 hero 필드 직접 읽기
+const heroData = entry?.data?.hero;
+
+// hero 섹션이 없으면 Hero 컴포넌트를 렌더링하지 않음
+if (!heroData) {
+  return null;
+}
+
+// hero.title이 있으면 사용, 없으면 페이지 제목 사용
+const title = heroData.title ?? entry?.data?.title;
+
+// tagline 읽기 (Starlight 기본 schema가 지원함)
+const tagline = heroData.tagline;
+const actions = heroData.actions || [];
+const imageFile = heroData.image?.file;
 ---
 
 <div class="page-hero">
-  <div class="page-hero-container">
+  <div class={`page-hero-container ${imageFile ? "has-image" : ""}`}>
     <div class="page-hero-content">
-      <!-- page 스타일 메인 타이틀 -->
-      <h1 class="page-hero-title">Starlight Page</h1>
+      <!-- 메인 타이틀 -->
+      <h1 class="page-hero-title">{title || "Starlight Page"}</h1>
 
-      <!-- page 스타일 서브타이틀 -->
+      <!-- 설명 -->
       {tagline && <p class="page-hero-tagline">{tagline}</p>}
 
-      <!-- page 스타일 액션 버튼들 -->
+      <!-- 액션 버튼들 -->
       {
         actions && actions.length > 0 && (
           <div class="page-hero-actions">
             {actions.map(
-              (action: { link: string; text: string; variant?: string }) => (
-                <a
-                  href={action.link}
-                  class={`page-hero-btn ${action.variant === "primary" ? "page-hero-btn-primary" : "page-hero-btn-secondary"}`}
-                >
-                  {action.text}
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    class="page-hero-btn-icon"
+              (action: {
+                link: string;
+                text: string;
+                variant?: string;
+                icon?: string;
+              }) => {
+                const variant = action.variant || "default";
+                const buttonVariant =
+                  variant === "primary"
+                    ? "primary"
+                    : variant === "minimal"
+                      ? "ghost"
+                      : "default";
+
+                const isExternal = action.link.startsWith("http");
+                const iconType = action.icon || "right-arrow";
+
+                return (
+                  <Button
+                    href={action.link}
+                    variant={buttonVariant as any}
+                    {...(isExternal
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
                   >
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
-                </a>
-              )
+                    {action.text}
+                  </Button>
+                );
+              }
             )}
           </div>
         )
       }
     </div>
 
-    <!-- page 스타일 시각적 요소 -->
-    <div class="page-hero-visual">
-      <div class="page-hero-card">
-        <div class="page-hero-card-header">
-          <div class="page-hero-card-dots">
-            <span class="page-dot"></span>
-            <span class="page-dot"></span>
-            <span class="page-dot"></span>
+    <!-- 이미지가 있을 때만 표시 -->
+    {
+      imageFile && (
+        <div class="page-hero-visual">
+          <div class="page-hero-image">
+            <img
+              src={imageFile}
+              alt={title || "Hero image"}
+              class="page-hero-img"
+            />
           </div>
         </div>
-        <div class="page-hero-card-content">
-          <div class="page-code-line"></div>
-          <div class="page-code-line short"></div>
-          <div class="page-code-line"></div>
-          <div class="page-code-line medium"></div>
-        </div>
-      </div>
-    </div>
+      )
+    }
   </div>
 </div>
 
@@ -69,21 +94,16 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
     background: linear-gradient(
       135deg,
       var(--page-bg-secondary) 0%,
-      var(--page-bg) 100%
+      var(--page-bg) 50%,
+      var(--page-bg-secondary) 100%
     );
-    padding: 6rem 0 4rem;
-    margin-top: calc(-1 * var(--page-header-height) + 3rem);
-    margin-bottom: 5rem;
-    padding-top: calc(6rem + var(--page-header-height));
+    border-radius: 1.5em;
+    padding: 4rem 0 3rem;
+    margin-top: calc(-1 * var(--page-header-height) + 1rem);
+    margin-bottom: 3rem;
+    padding-top: calc(4rem + var(--page-header-height));
     position: relative;
     overflow: hidden;
-    border-radius: var(--page-radius-lg);
-    transition: background 0.3s ease !important;
-  }
-
-  [data-theme="dark"] .page-hero {
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-    transition: background 0.3s ease !important;
   }
 
   .page-hero::before {
@@ -94,420 +114,166 @@ const { title = Astro.props.title, tagline, actions = [] } = data || {};
     right: 0;
     bottom: 0;
     background: radial-gradient(
-      circle at 30% 20%,
-      rgba(45, 55, 72, 0.05) 0%,
-      transparent 50%
-    );
-    pointer-events: none;
-  }
-
-  [data-theme="dark"] .page-hero::before {
-    background: radial-gradient(
-      circle at 30% 20%,
-      rgba(45, 55, 72, 0.1) 0%,
-      transparent 50%
-    );
-  }
-
-  .page-hero::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(
-        circle at 20% 80%,
-        rgba(120, 119, 198, 0.1) 0%,
+        circle at 30% 20%,
+        rgba(120, 119, 198, 0.08) 0%,
         transparent 50%
       ),
       radial-gradient(
-        circle at 80% 20%,
-        rgba(255, 119, 198, 0.1) 0%,
+        circle at 70% 80%,
+        rgba(255, 119, 198, 0.06) 0%,
         transparent 50%
       );
     pointer-events: none;
   }
 
-  [data-theme="dark"] .page-hero::after {
+  [data-theme="dark"] .page-hero {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+  }
+
+  [data-theme="dark"] .page-hero::before {
     background: radial-gradient(
-        circle at 20% 80%,
-        rgba(120, 119, 198, 0.15) 0%,
+        circle at 30% 20%,
+        rgba(120, 119, 198, 0.12) 0%,
         transparent 50%
       ),
       radial-gradient(
-        circle at 80% 20%,
-        rgba(255, 119, 198, 0.15) 0%,
+        circle at 70% 80%,
+        rgba(255, 119, 198, 0.1) 0%,
         transparent 50%
       );
   }
 
   .page-hero-container {
-    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 var(--page-space-8);
+    padding: 0 var(--page-space-16);
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--page-space-8);
-    align-items: center;
+    grid-template-columns: 1fr;
+    gap: var(--page-space-10);
+    align-items: start;
+  }
+
+  .page-hero-container.has-image {
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--page-space-12);
   }
 
   .page-hero-content {
-    max-width: 500px;
+    width: 100%;
+    margin: 0;
+    text-align: left;
+    position: relative;
+    z-index: 1;
   }
 
   .page-hero-title {
-    font-weight: 800;
+    font-weight: 700;
     color: var(--page-text);
-    margin: 0 0 var(--page-space-6) 0;
+    margin: 0 0 var(--page-space-4) 0;
     letter-spacing: -0.02em;
     font-family: var(--page-font-family);
-    background: linear-gradient(
-      135deg,
-      var(--page-text) 0%,
-      var(--page-accent) 100%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    position: relative;
-  }
-
-  .page-hero-title::after {
-    content: "";
-    position: absolute;
-    bottom: -8px;
-    left: 0;
-    width: 60px;
-    height: 4px;
-    background: var(--page-accent);
-    border-radius: 2px;
+    font-size: 3rem;
+    line-height: 1.2;
   }
 
   .page-hero-tagline {
-    font-size: 1.25rem;
-    line-height: 1.6;
+    font-size: 1.125rem;
+    line-height: 1.7;
     color: var(--page-text-secondary);
-    margin: 0 0 var(--page-space-8) 0;
+    margin: 0 0 var(--page-space-4) 0;
     font-weight: 400;
-    max-width: 600px;
-    opacity: 0.9;
+    opacity: 0.75;
   }
 
   .page-hero-actions {
     display: flex;
-    gap: var(--page-space-4);
+    gap: var(--page-space-3);
     flex-wrap: wrap;
   }
 
-  .page-hero-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--page-space-2);
-    padding: var(--page-space-6) var(--page-space-8);
-    border-radius: var(--page-radius);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
+  /* Hero 액션 버튼은 Button 컴포넌트의 스타일을 재사용 */
+  .page-hero-actions :global(.page-button) {
+    margin-top: 0;
   }
 
-  .page-hero-btn::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    transition: left 0.5s;
-  }
-
-  .page-hero-btn:hover::before {
-    left: 100%;
-  }
-
-  .page-hero-btn-primary {
-    background: linear-gradient(
-      135deg,
-      var(--page-accent) 0%,
-      var(--page-accent-hover) 100%
-    );
-    color: var(--page-bg);
-    box-shadow: var(--page-shadow-lg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .page-hero-btn-primary:hover {
-    background: linear-gradient(
-      135deg,
-      var(--page-accent-hover) 0%,
-      var(--page-accent) 100%
-    );
-    transform: translateY(-3px);
-    box-shadow: var(--page-shadow-xl);
-  }
-
-  [data-theme="dark"] .page-hero-btn-primary {
-    background: linear-gradient(
-      135deg,
-      var(--page-accent) 0%,
-      var(--page-accent-hover) 100%
-    );
-    color: var(--page-bg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  [data-theme="dark"] .page-hero-btn-primary:hover {
-    background: linear-gradient(
-      135deg,
-      var(--page-accent-hover) 0%,
-      var(--page-accent) 100%
-    );
-    transform: translateY(-3px);
-  }
-
-  .page-hero-btn-secondary {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--page-text);
-    border: 1px solid var(--page-border);
-    box-shadow: var(--page-shadow-sm);
-    backdrop-filter: blur(10px);
-  }
-
-  .page-hero-btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    box-shadow: var(--page-shadow-md);
-    border-color: var(--page-accent);
-  }
-
-  [data-theme="dark"] .page-hero-btn-secondary {
-    background: rgba(0, 0, 0, 0.3);
-    color: var(--page-text);
-    border: 1px solid var(--page-border);
-  }
-
-  [data-theme="dark"] .page-hero-btn-secondary:hover {
-    background: rgba(0, 0, 0, 0.5);
-    border-color: var(--page-accent);
-  }
-
-  .page-hero-btn-icon {
-    transition: transform 0.2s ease;
-  }
-
-  .page-hero-btn:hover .page-hero-btn-icon {
-    transform: translateX(2px);
-  }
-
-  /* page 스타일 시각적 요소 */
+  /* 이미지가 있을 때만 표시 */
   .page-hero-visual {
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+    z-index: 1;
   }
 
-  .page-hero-card {
-    background: var(--page-bg);
-    border: 1px solid var(--page-border);
-    border-radius: var(--page-radius-lg);
-    box-shadow: var(--page-shadow-xl);
-    width: 320px;
-    overflow: hidden;
-    transform: rotate(3deg);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    backdrop-filter: blur(10px);
-  }
-
-  .page-hero-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.1) 0%,
-      transparent 100%
-    );
-    pointer-events: none;
-  }
-
-  .page-hero-card:hover {
-    transform: rotate(0deg) scale(1.05);
-    box-shadow: var(--page-shadow-2xl);
-  }
-
-  .page-hero-card-header {
-    padding: var(--page-space-6);
-    border-bottom: 1px solid var(--page-border);
-    background: var(--page-bg-secondary);
-    position: relative;
-  }
-
-  .page-hero-card-header::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.05),
-      transparent
-    );
-    animation: pageCardShine 3s ease-in-out infinite;
-  }
-
-  @keyframes pageCardShine {
-    0%,
-    100% {
-      transform: translateX(-100%);
-    }
-    50% {
-      transform: translateX(100%);
-    }
-  }
-
-  .page-hero-card-dots {
+  .page-hero-image {
     display: flex;
-    gap: var(--page-space-2);
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
   }
 
-  .page-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--page-neutral-300);
-  }
-
-  .page-dot:nth-child(1) {
-    background: #ff6969;
-  }
-  .page-dot:nth-child(2) {
-    background: #ffcb2f;
-  }
-  .page-dot:nth-child(3) {
-    background: #2fdc37;
-  }
-
-  .page-hero-card-content {
-    padding: var(--page-space-8);
-    display: flex;
-    flex-direction: column;
-    gap: var(--page-space-4);
-  }
-
-  .page-code-line {
-    height: 16px;
-    background: linear-gradient(
-      90deg,
-      var(--page-accent) 0%,
-      var(--page-accent-light) 100%
-    );
-    border-radius: 8px;
-  }
-
-  [data-theme="dark"] .page-code-line {
-    background: linear-gradient(
-      90deg,
-      var(--page-accent) 0%,
-      var(--page-accent-light) 100%
-    );
-  }
-
-  .page-code-line.short {
-    width: 60%;
-  }
-
-  .page-code-line.medium {
-    width: 80%;
+  .page-hero-img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--page-radius);
+    object-fit: contain;
   }
 
   /* 모바일 대응 */
   @media (max-width: 768px) {
     .page-hero {
-      padding: 4rem 0 3rem;
-      padding-top: calc(4rem + var(--page-header-height));
+      padding: 3rem 0 2rem;
+      padding-top: calc(3rem + var(--page-header-height));
     }
 
     .page-hero-container {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr !important;
+      padding: 0 var(--page-space-4);
       gap: var(--page-space-8);
-      text-align: center;
+    }
+
+    .page-hero-content {
+      max-width: 100%;
     }
 
     .page-hero-title {
-      font-size: 2.5rem;
+      font-size: 2rem;
     }
 
     .page-hero-tagline {
-      font-size: 1.125rem;
-    }
-
-    .page-hero-actions {
-      justify-content: center;
-    }
-
-    .page-hero-card {
-      width: 280px;
-      transform: rotate(0deg);
+      font-size: 1rem;
     }
 
     .page-hero-visual {
       order: -1;
+      margin-bottom: var(--page-space-6);
     }
   }
 
   @media (max-width: 480px) {
     .page-hero-title {
-      font-size: 2rem;
+      font-size: 1.75rem;
     }
 
     .page-hero-btn {
-      padding: var(--page-space-4) var(--page-space-6);
+      padding: var(--page-space-3) var(--page-space-4);
       font-size: 0.875rem;
     }
-
-    .page-hero-card {
-      width: 240px;
-    }
   }
 
-  /* 반응형 폰트 */
+  /* 큰 화면 */
   @media (min-width: 1200px) {
-    .page-hero-title {
-      font-size: 4rem;
+    .page-hero {
+      padding: 5rem 0 4rem;
+      padding-top: calc(5rem + var(--page-header-height));
     }
-  }
 
-  [data-theme="dark"] .page-hero-title {
-    color: var(--page-neutral-white);
-    background: linear-gradient(
-      135deg,
-      var(--page-neutral-white) 0%,
-      var(--page-accent) 100%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+    .page-hero-title {
+      font-size: 3.5rem;
+    }
 
-  [data-theme="dark"] .page-hero-tagline {
-    color: var(--page-neutral-300);
+    .page-hero-tagline {
+      font-size: 1.25rem;
+    }
   }
 </style>

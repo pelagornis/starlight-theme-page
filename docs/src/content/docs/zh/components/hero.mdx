@@ -1,0 +1,242 @@
+---
+title: Hero
+description: 现代英雄组件的特性和使用方法
+sidebar:
+  order: 2
+  group: components
+hero:
+  tagline: 直观现代的Starlight主题，提供流畅的动画效果。
+  actions:
+    - text: 开始使用
+      link: /zh/guides/getting-started/
+      variant: primary
+      icon: right-arrow
+    - text: 在GitHub上查看
+      link: https://github.com/pelagornis/starlight-theme-page
+      variant: secondary
+      icon: external
+---
+
+import Tabs from "@pelagornis/page/components/Tabs.astro";
+
+Hero 组件在文档网站顶部显示一个突出的英雄区域，带有可自定义的标题、标语和操作按钮。
+
+## 主要功能
+
+### 🎨 设计特点
+
+渐变背景、动画卡片可视化、流畅动画、现代玻璃效果
+
+### 📱 响应式设计
+
+在所有屏幕尺寸上完美工作的响应式布局
+
+### 🌟 交互效果
+
+为所有元素应用流畅的悬停效果和动画
+
+### 🌙 深色模式
+
+完美支持浅色/深色主题
+
+## 基本用法
+
+Hero 组件通过 MDX 文件 frontmatter 中的`hero`部分进行配置：
+
+<Tabs
+  tabs={[
+    { id: "basic-usage", label: "基本用法", icon: "🚀" },
+    { id: "with-actions", label: "带操作", icon: "⚙️" },
+    { id: "full-example", label: "完整示例", icon: "✨" },
+  ]}
+  defaultTab="basic-usage"
+>
+  <div>
+    ```mdx
+    ---
+    title: 我的文档
+    hero:
+      tagline: 现代文档网站主题
+    ---
+
+    # 欢迎
+    ```
+
+  </div>
+  <div>
+    ```mdx
+    ---
+    title: 我的文档
+    hero:
+      tagline: 现代文档网站主题
+      actions:
+        - text: 开始使用
+          link: /guides/getting-started/
+          variant: primary
+        - text: 在GitHub上查看
+          link: https://github.com
+          variant: secondary
+    ---
+
+    # 欢迎
+    ```
+
+  </div>
+  <div>
+    ```mdx
+    ---
+    title: Starlight Page
+    description: 受Shadcn启发的Starlight主题
+    hero:
+      tagline: 直观现代的Starlight主题，提供流畅的动画效果。
+      actions:
+        - text: 开始使用
+          link: /guides/getting-started/
+          variant: primary
+        - text: 查看组件
+          link: /components/header/
+          variant: secondary
+        - text: 在GitHub上查看
+          link: https://github.com/pelagornis/starlight-theme-page
+          variant: secondary
+    ---
+
+    # 欢迎使用Starlight Page
+    ```
+
+  </div>
+</Tabs>
+
+## 配置选项
+
+| 选项      | 类型       | 默认值 | 说明                                 |
+| --------- | ---------- | ------ | ------------------------------------ |
+| `title`   | `string`   | -      | 英雄标题（如果未设置则使用页面标题） |
+| `tagline` | `string`   | -      | 英雄标语/副标题                      |
+| `actions` | `Action[]` | `[]`   | 操作按钮数组                         |
+
+### Action 对象
+
+| 属性      | 类型                       | 默认值        | 说明                 |
+| --------- | -------------------------- | ------------- | -------------------- |
+| `text`    | `string`                   | -             | 按钮文本（必需）     |
+| `link`    | `string`                   | -             | 按钮链接 URL（必需） |
+| `variant` | `'primary' \| 'secondary'` | `'secondary'` | 按钮样式变体         |
+
+## 功能
+
+### ✨ 现代设计
+
+- **渐变背景**: 带有径向叠加的美丽渐变效果
+- **动画卡片**: 带有悬停效果的交互式卡片可视化
+- **玻璃效果**: 背景模糊和透明度效果
+- **流畅动画**: 所有交互的自然过渡
+
+### 🎨 视觉元素
+
+- **英雄标题**: 带有下划线强调的大渐变文本
+- **标语**: 描述性副标题文本
+- **操作按钮**: 带有悬停动画的主要和次要按钮样式
+- **卡片可视化**: 带有类似代码线条的装饰性动画卡片
+
+### 🌙 深色模式支持
+
+- 自动颜色调整
+- 跨主题的一致用户体验
+- 完美的主题兼容性
+
+### 📱 响应式设计
+
+英雄区域完美适应不同的屏幕尺寸：
+
+| 屏幕尺寸 | 行为             |
+| -------- | ---------------- |
+| Desktop  | 带卡片的双列布局 |
+| Tablet   | 堆叠布局         |
+| Mobile   | 单列，卡片在顶部 |
+
+### 💫 动画效果
+
+- **卡片悬停**: 悬停时的旋转和缩放效果
+- **按钮悬停**: 流畅的提升和阴影效果
+- **背景**: 径向渐变动画
+- **闪光效果**: 卡片标题上的微妙闪光动画
+
+## 样式设置
+
+Hero 组件可以通过 CSS 变量进行自定义：
+
+```css
+:root {
+  --page-hero-padding: 6rem 0 4rem;
+  --page-hero-radius: var(--page-radius-lg);
+  --page-hero-title-size: 4rem;
+  --page-hero-tagline-size: 1.25rem;
+}
+
+[data-theme="dark"] {
+  /* 深色主题特定覆盖 */
+}
+```
+
+## 最佳实践
+
+1. **保持标语简洁**: 目标是一到两句话
+2. **限制操作**: 最多使用 2-3 个操作按钮
+3. **主要操作优先**: 将最重要的操作设置为主要样式
+4. **外部链接**: 对于像 GitHub 这样的外部链接使用 `variant: secondary`
+
+## 示例
+
+### 最小英雄
+
+```mdx
+---
+title: 我的文档
+hero:
+  description: 欢迎来到我的文档
+---
+```
+
+### 带单个操作的英雄
+
+```mdx
+---
+title: 我的文档
+hero:
+  description: 几分钟内开始使用
+  actions:
+    - text: 开始构建
+      link: /guides/getting-started/
+      variant: primary
+---
+```
+
+### 带多个操作的英雄
+
+```mdx
+---
+title: 我的文档
+hero:
+  description: 轻松创建现代文档
+  actions:
+    - text: 快速开始
+      link: /guides/quick-start/
+      variant: primary
+    - text: 查看示例
+      link: /examples/
+      variant: secondary
+    - text: GitHub
+      link: https://github.com
+      variant: secondary
+---
+```
+
+## 浏览器支持
+
+- Chrome 88+
+- Firefox 85+
+- Safari 14+
+- Edge 88+
+
+在现代浏览器上提供最佳性能。

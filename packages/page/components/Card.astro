@@ -54,45 +54,39 @@ const attrs = href ? { href, target } : {};
     overflow: hidden;
     text-decoration: none;
     color: inherit;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 
   .page-card:hover {
     border-color: var(--neutral-400);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   [data-theme="dark"] .page-card {
     background: var(--neutral-900) !important;
-    border-color: var(--neutral-600) !important;
+    border-color: var(--page-border) !important;
     color: var(--neutral-200) !important;
+    box-shadow: none !important;
   }
 
   /* 더 강력한 다크모드 선택자 */
   :global([data-theme="dark"]) .page-card {
     background: var(--neutral-900) !important;
-    border-color: var(--neutral-600) !important;
+    border-color: var(--page-border) !important;
     color: var(--neutral-200) !important;
+    box-shadow: none !important;
   }
 
   [data-theme="dark"] .page-card:hover {
-    border-color: var(--neutral-500) !important;
+    border-color: var(--page-neutral-850) !important;
+    box-shadow: none !important;
+  }
+
+  /* 더 강력한 다크모드 hover 선택자 */
+  :global([data-theme="dark"]) .page-card:hover {
+    border-color: var(--page-neutral-850) !important;
+    box-shadow: none !important;
   }
 
   /* Variants */
-  .page-card-default {
-    box-shadow:
-      0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  }
-
-  .page-card-elevated {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-
-  .page-card-elevated:hover {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  }
 
   .page-card-outlined {
     background: transparent;
@@ -263,25 +257,27 @@ const attrs = href ? { href, target } : {};
 
   [data-theme="dark"] .page-card[href] {
     background: var(--neutral-850) !important;
-    border-color: var(--neutral-600) !important;
+    border-color: var(--page-border) !important;
     color: var(--neutral-200) !important;
+    box-shadow: none !important;
   }
 
   [data-theme="dark"] .page-card[href]:hover {
-    border-color: var(--blue-400) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    border-color: var(--page-neutral-850) !important;
+    box-shadow: none !important;
   }
 
   /* 더 강력한 다크모드 링크 카드 선택자 */
   :global([data-theme="dark"]) .page-card[href] {
     background: var(--neutral-850) !important;
-    border-color: var(--neutral-600) !important;
+    border-color: var(--page-border) !important;
     color: var(--neutral-200) !important;
+    box-shadow: none !important;
   }
 
   :global([data-theme="dark"]) .page-card[href]:hover {
-    border-color: var(--blue-400) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    border-color: var(--page-neutral-850) !important;
+    box-shadow: none !important;
   }
 
   /* 반응형 */

@@ -14,10 +14,13 @@
         "start": "pnpm --filter docs dev"
     },
     "devDependencies": {
-        "astro": "^5.12.8"
+        "astro": "^5.15.9"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com/pelagornis/starlight-theme-page.git"
+    },
+    "dependencies": {
+        "zod": "^3.25.76"
     }
 }

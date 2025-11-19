@@ -1,4 +1,5 @@
 ---
+// @ts-expect-error - Starlight internal component, type definitions may not be available
 import Default from "@astrojs/starlight/components/MarkdownContent.astro";
 ---
 
@@ -29,12 +30,65 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     font-weight: 700;
     line-height: 1.3;
     margin-bottom: 1rem;
+    margin-top: 2rem;
     color: var(--page-text);
     scroll-margin-top: 5rem;
     letter-spacing: -0.02em;
   }
 
+  /* 첫 번째 헤딩은 위쪽 마진 제거 */
+  .page-content .sl-markdown-content > h1:first-child,
+  .page-content .sl-markdown-content > h2:first-child,
+  .page-content .sl-markdown-content > h3:first-child,
+  .page-content .sl-markdown-content > h4:first-child,
+  .page-content .sl-markdown-content > h5:first-child,
+  .page-content .sl-markdown-content > h6:first-child {
+    margin-top: 0;
+  }
+
+  /* 헤딩 앞에 오는 요소들(문단, 리스트 등)과의 간격 */
+  .page-content .sl-markdown-content p + h1,
+  .page-content .sl-markdown-content p + h2,
+  .page-content .sl-markdown-content p + h3,
+  .page-content .sl-markdown-content p + h4,
+  .page-content .sl-markdown-content p + h5,
+  .page-content .sl-markdown-content p + h6,
+  .page-content .sl-markdown-content ul + h1,
+  .page-content .sl-markdown-content ul + h2,
+  .page-content .sl-markdown-content ul + h3,
+  .page-content .sl-markdown-content ul + h4,
+  .page-content .sl-markdown-content ul + h5,
+  .page-content .sl-markdown-content ul + h6,
+  .page-content .sl-markdown-content ol + h1,
+  .page-content .sl-markdown-content ol + h2,
+  .page-content .sl-markdown-content ol + h3,
+  .page-content .sl-markdown-content ol + h4,
+  .page-content .sl-markdown-content ol + h5,
+  .page-content .sl-markdown-content ol + h6,
+  .page-content .sl-markdown-content blockquote + h1,
+  .page-content .sl-markdown-content blockquote + h2,
+  .page-content .sl-markdown-content blockquote + h3,
+  .page-content .sl-markdown-content blockquote + h4,
+  .page-content .sl-markdown-content blockquote + h5,
+  .page-content .sl-markdown-content blockquote + h6,
+  .page-content .sl-markdown-content pre + h1,
+  .page-content .sl-markdown-content pre + h2,
+  .page-content .sl-markdown-content pre + h3,
+  .page-content .sl-markdown-content pre + h4,
+  .page-content .sl-markdown-content pre + h5,
+  .page-content .sl-markdown-content pre + h6,
+  .page-content .sl-markdown-content table + h1,
+  .page-content .sl-markdown-content table + h2,
+  .page-content .sl-markdown-content table + h3,
+  .page-content .sl-markdown-content table + h4,
+  .page-content .sl-markdown-content table + h5,
+  .page-content .sl-markdown-content table + h6 {
+    margin-top: 2.5rem;
+  }
+
+  /* 헤딩 레벨별 간격 및 스타일 조정 */
   .page-content .sl-markdown-content h1 {
+    margin-top: 3rem;
     font-size: 2.25rem;
     color: var(--page-accent);
     font-weight: 800;
@@ -49,10 +103,24 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
   }
 
   .page-content .sl-markdown-content h2 {
+    margin-top: 2.5rem;
     font-size: 1.875rem;
     border-bottom: 1px solid var(--page-border);
     padding-bottom: 0.5rem;
     position: relative;
+  }
+
+  .page-content .sl-markdown-content h3 {
+    margin-top: 2rem;
+  }
+
+  /* 헤딩 다음에 오는 헤딩의 간격 조정 */
+  .page-content .sl-markdown-content h1 + h2,
+  .page-content .sl-markdown-content h2 + h3,
+  .page-content .sl-markdown-content h3 + h4,
+  .page-content .sl-markdown-content h4 + h5,
+  .page-content .sl-markdown-content h5 + h6 {
+    margin-top: 1.5rem;
   }
 
   .page-content .sl-markdown-content h2::after {
