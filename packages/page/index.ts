@@ -54,7 +54,7 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
         // skipComponents에 포함된 컴포넌트나 사용자가 이미 설정한 컴포넌트는 제외
         const components: Record<string, string> = {};
         for (const [key, value] of Object.entries(defaultComponents)) {
-          if (!skipComponents.includes(key) && !existingComponents[key]) {
+          if (!skipComponents.includes(key) && !(key in existingComponents)) {
             components[key] = value;
           }
         }
