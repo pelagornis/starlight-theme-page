@@ -1,5 +1,8 @@
 ---
 // PageFrame.astro
+const footerText =
+  process.env.PAGE_FOOTER_TEXT ||
+  `© ${new Date().getFullYear()} Pelagornis Inc. All rights reserved.`;
 ---
 
 <div class="page sl-flex">
@@ -15,7 +18,7 @@
     <div class="page-footer-content">
       <div class="page-footer-left">
         <p class="page-footer-copyright">
-          © {new Date().getFullYear()} Pelagornis Inc. All rights reserved.
+          {footerText}
         </p>
       </div>
     </div>

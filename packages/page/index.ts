@@ -25,6 +25,10 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
           process.env.PAGE_SITE_TITLE = userConfig.siteTitle;
         }
 
+        if (userConfig?.footerText) {
+          process.env.PAGE_FOOTER_TEXT = userConfig.footerText;
+        }
+
         updateConfig({
           components: {
             Header: '@pelagornis/page/overrides/Header.astro',

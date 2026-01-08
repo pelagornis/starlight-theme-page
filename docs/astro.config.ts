@@ -41,6 +41,7 @@ export default defineConfig({
             { href: '/guides/getting-started/', label: 'Guide' },
             { href: '/components/header/', label: 'Components' },
           ],
+          footerText: `© ${new Date().getFullYear()} Pelagornis Inc. All rights reserved.`,
         })
       ],
       sidebar: [
@@ -65,7 +66,7 @@ export default defineConfig({
           href: 'https://github.com/pelagornis/starlight-theme-page',
         },
       ],
-      title: 'page',
+      title: 'Page',
       locales
     })
   ],
