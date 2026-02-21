@@ -255,7 +255,7 @@
 <div class="page-mobile-menu-overlay" id="page-mobile-menu-overlay">
   <div class="page-mobile-menu-content">
     <div class="page-mobile-menu-header">
-      <button class="page-mobile-menu-close" aria-label="메뉴 닫기">×</button>
+      <button class="page-mobile-menu-close" aria-label="Close menu">×</button>
     </div>
     <nav class="page-mobile-menu-nav"></nav>
   </div>
@@ -279,7 +279,7 @@
     ) as HTMLElement;
 
     if (!mobileMenu) {
-      console.error("모바일 메뉴 오버레이를 찾을 수 없습니다.");
+      console.error("Mobile menu overlay not found.");
       return;
     }
 

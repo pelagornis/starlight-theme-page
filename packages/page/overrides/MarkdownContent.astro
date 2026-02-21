@@ -11,13 +11,19 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
 <style is:global>
   .page-content {
     animation: pageFadeIn 0.3s ease-out;
+    min-width: 0;
+    max-width: 100%;
   }
 
-  /* page 스타일 타이포그래피 */
+  /* page 스타일 타이포그래피 - 좁은 영역(채팅 패널 열림)에서도 텍스트/레이아웃 깨짐 방지 */
   .page-content .sl-markdown-content {
     line-height: 1.7;
     color: var(--page-text);
     font-family: var(--page-font-family);
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   /* page 스타일 헤딩 */
@@ -273,16 +279,18 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     color: var(--page-accent);
   }
 
-  /* page 스타일 테이블 */
+  /* page 스타일 테이블 - 좁은 영역에서 가로 스크롤 허용 */
   .page-content .sl-markdown-content table {
     display: inline-table;
     width: 100%;
+    min-width: 0;
     border-collapse: collapse;
     margin: 2rem 0;
     background: var(--page-bg);
     border: 1px solid var(--page-border);
     border-radius: var(--page-radius);
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     box-shadow: var(--page-shadow-sm);
   }
 

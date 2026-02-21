@@ -11,7 +11,9 @@
     "packageManager": "pnpm@9.6.0",
     "homepage": "https://github.com/pelagornis/starlight-theme-page",
     "scripts": {
-        "start": "pnpm --filter docs dev"
+        "start": "pnpm --filter docs dev",
+        "dev": "pnpm run start",
+        "crawl": "pnpm --filter doc-crawler crawl"
     },
     "devDependencies": {
         "astro": "^5.15.9"
@@ -19,8 +21,5 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/pelagornis/starlight-theme-page.git"
-    },
-    "dependencies": {
-        "zod": "^3.25.76"
     }
 }

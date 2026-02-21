@@ -76,10 +76,11 @@ const hasSidebar = sidebar && sidebar.length > 0;
     background: var(--page-bg);
   }
 
-  /* 메인 컨테이너 */
+  /* 메인 컨테이너 - min-width: 0으로 채팅 패널 열렸을 때 좁은 영역에서도 줄어들 수 있게 */
   .page-main-container {
     display: flex;
     min-height: calc(100vh - var(--page-header-height));
+    min-width: 0;
     position: relative;
   }
 
@@ -271,6 +272,45 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
 
     .page-toc-sticky {
+      position: relative;
+      top: auto;
+      max-height: none;
+      margin: 0;
+      width: 100%;
+    }
+  }
+
+  /* 채팅 패널 열렸을 때: 본문 영역이 좁아지므로 1640px 이하에서는 컬럼 레이아웃 사용 (텍스트/레이아웃 깨짐 방지) */
+  :global(body.page-chat-open) .page-main-container {
+    min-width: 0;
+  }
+
+  @media (min-width: 768px) and (max-width: 1639px) {
+    :global(body.page-chat-open) .page-main-container {
+      flex-direction: column;
+      gap: var(--page-space-8);
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      padding: var(--page-space-6);
+    }
+
+    :global(body.page-chat-open) .page-content-wrapper {
+      margin-left: var(--page-sidebar-width);
+      width: calc(100% - var(--page-sidebar-width));
+      min-width: 0;
+      max-width: 100%;
+      order: 2;
+    }
+
+    :global(body.page-chat-open) .page-toc-sidebar {
+      order: 1;
+      margin-bottom: var(--page-space-8);
+      width: 100%;
+      display: none !important;
+    }
+
+    :global(body.page-chat-open) .page-toc-sticky {
       position: relative;
       top: auto;
       max-height: none;

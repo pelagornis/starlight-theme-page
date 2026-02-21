@@ -1,0 +1,221 @@
+---
+import * as pkg from "@refineui/web-icons";
+const createIconHTML = (pkg as { createIconHTML?: (name: string, style: 'regular' | 'filled') => (size?: number, color?: string, className?: string) => string }).createIconHTML;
+const arrowUpIcon = typeof createIconHTML === 'function' ? createIconHTML("Send", "regular") : () => '';
+interface Props {
+  basePath?: string;
+  provider?: 'openai' | 'claude' | 'gemini';
+}
+const { basePath = '', provider = 'openai' } = Astro.props;
+const apiChatBase = (basePath ? basePath.replace(/\/$/, '') : '') + '/api/chat';
+---
+
+<div class="page-chat-view">
+  <div class="page-chat-view-messages" id="page-chat-view-messages">
+    <p class="page-chat-view-empty" id="page-chat-view-empty">Ask questions based on the documentation.</p>
+  </div>
+  <form class="page-chat-view-form" id="page-chat-view-form">
+    <input class="page-chat-view-input" id="page-chat-view-input" type="text" placeholder="Ask a question..." autocomplete="off" />
+    <button type="submit" class="page-chat-view-send" id="page-chat-view-send" aria-label="Send">
+      <Fragment set:html={arrowUpIcon(20, "currentColor", "refineui-icon")} />
+    </button>
+  </form>
+</div>
+
+<style>
+  .page-chat-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    background: var(--page-neutral-50);
+  }
+  :global([data-theme="dark"]) .page-chat-view {
+    background: var(--page-neutral-950);
+  }
+  .page-chat-view-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    min-height: 0;
+  }
+  .page-chat-view-empty {
+    margin: auto;
+    font-size: 1rem;
+    color: var(--page-text-secondary);
+    text-align: center;
+    padding: 3rem 2rem;
+    line-height: 1.6;
+  }
+  .page-chat-view-msg {
+    padding: 1.125rem 1.5rem;
+    border-radius: 16px;
+    max-width: 85%;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+  .page-chat-view-msg.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, var(--blue-500) 0%, var(--blue-600) 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    border-radius: 16px 16px 4px 16px;
+  }
+  .page-chat-view-msg.assistant {
+    align-self: flex-start;
+    background: var(--page-bg);
+    color: var(--page-text);
+    border: 1px solid var(--page-neutral-200);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    border-radius: 16px 16px 16px 4px;
+  }
+  :global([data-theme="dark"]) .page-chat-view-msg.assistant {
+    background: var(--page-neutral-900);
+    border-color: var(--page-neutral-700);
+  }
+  .page-chat-view-msg .page-chat-view-sources {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--page-neutral-100);
+    font-size: 0.8125rem;
+    color: var(--page-text-secondary);
+  }
+  :global([data-theme="dark"]) .page-chat-view-msg .page-chat-view-sources {
+    border-top-color: var(--page-neutral-700);
+  }
+  .page-chat-view-msg .page-chat-view-sources a {
+    color: var(--blue-600);
+    text-decoration: none;
+  }
+  :global([data-theme="dark"]) .page-chat-view-msg .page-chat-view-sources a {
+    color: var(--blue-400);
+  }
+  .page-chat-view-msg .page-chat-view-sources a:hover { text-decoration: underline; }
+  .page-chat-view-form {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem 1.5rem;
+    flex-shrink: 0;
+    background: var(--page-bg);
+    border-top: 1px solid var(--page-neutral-100);
+  }
+  :global([data-theme="dark"]) .page-chat-view-form {
+    border-top-color: var(--page-neutral-800);
+  }
+  .page-chat-view-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 1rem 1.375rem;
+    border-radius: 14px;
+    border: 1px solid var(--page-neutral-200);
+    background: var(--page-neutral-50);
+    color: var(--page-text);
+    font-size: 0.9375rem;
+  }
+  .page-chat-view-input:focus {
+    outline: none;
+    border-color: var(--blue-500);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  }
+  :global([data-theme="dark"]) .page-chat-view-input {
+    background: var(--page-neutral-900);
+    border-color: var(--page-neutral-700);
+  }
+  .page-chat-view-send {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    padding: 0;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(135deg, var(--blue-500) 0%, var(--blue-600) 100%);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+  }
+  .page-chat-view-send:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+  }
+  .page-chat-view-send:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  /* RefineUI 아이콘: 가운데 정렬. 글리프가 em 박스에서 위로 올라가 있어 translateY로 보정 */
+  .page-chat-view-send .refineui-icon {
+    box-sizing: border-box !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    font-size: 20px !important;
+    line-height: 20px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: currentColor;
+    text-align: center !important;
+    vertical-align: middle !important;
+    transform: translateY(1px);
+  }
+</style>
+
+<script define:vars={{ apiChatBase, provider }}>
+  (function() {
+    const messagesEl = document.getElementById('page-chat-view-messages');
+    const form = document.getElementById('page-chat-view-form');
+    const input = document.getElementById('page-chat-view-input');
+    const sendBtn = document.getElementById('page-chat-view-send');
+
+    function addMsg(role, text, sources) {
+      if (!messagesEl) return;
+      const emptyEl = document.getElementById('page-chat-view-empty');
+      if (emptyEl) emptyEl.style.display = 'none';
+      const div = document.createElement('div');
+      div.className = `page-chat-view-msg ${role}`;
+      let html = text.replace(/\n/g, '<br>');
+      if (sources && sources.length) {
+        html += '<div class="page-chat-view-sources">Sources: ' + sources.map(s => `<a href="${s.path}" target="_blank" rel="noopener">${s.title}</a>`).join(', ') + '</div>';
+      }
+      div.innerHTML = html;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = input?.value?.trim();
+      if (!message) return;
+      addMsg('user', message);
+      if (input) input.value = '';
+      if (sendBtn) sendBtn.disabled = true;
+      try {
+        const res = await fetch(`${apiChatBase}/${provider}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message,
+            provider: provider,
+            locale: document.documentElement.lang || 'ko',
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Request failed');
+        addMsg('assistant', data.answer, data.sources);
+      } catch (err) {
+        addMsg('assistant', 'Error: ' + (err.message || String(err)), []);
+      } finally {
+        if (sendBtn) sendBtn.disabled = false;
+      }
+    });
+  })();
+</script>

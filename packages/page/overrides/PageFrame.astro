@@ -1,60 +1,167 @@
 ---
 // PageFrame.astro
+import ChatPane from "../components/ChatPane.astro";
+
 const footerText =
   process.env.PAGE_FOOTER_TEXT ||
   `© ${new Date().getFullYear()} Pelagornis Inc. All rights reserved.`;
+
+// Use PUBLIC_* from .env loaded by Astro (same in SSR/workers)
+const chatProvider = import.meta.env.PUBLIC_DOC_CHAT_PROVIDER as
+  | "openai"
+  | "claude"
+  | "gemini";
+const chatModel = import.meta.env.PUBLIC_DOC_CHAT_MODEL;
+const showChat = process.env.PAGE_DOC_CHAT_ENABLED === "1";
+const chatBase = (process.env.PAGE_BASE ?? "").replace(/\/$/, "") || "";
+const locale =
+  (Astro.locals.starlightRoute as { locale?: string } | undefined)?.locale ??
+  "en";
 ---
 
-<div class="page sl-flex">
-  <header class="header">
-    <slot name="header" />
-  </header>
-
-  <main class="main-frame">
-    <slot />
-  </main>
-
-  <footer class="page-footer">
-    <div class="page-footer-content">
-      <div class="page-footer-left">
-        <p class="page-footer-copyright">
-          {footerText}
-        </p>
+{
+  showChat ? (
+    <div class="page page-has-chat sl-flex">
+      {/* Header + Content + Footer 한 묶음 → 채팅 열렸을 때 함께 반응(줄어듦) */}
+      <div class="page-nav-wrap">
+        <header class="header">
+          <slot name="header" />
+        </header>
+        <div class="page-scroll-wrap">
+          <main class="main-frame">
+            <slot />
+          </main>
+          <footer class="page-footer">
+            <div class="page-footer-content">
+              <div class="page-footer-left">
+                <p class="page-footer-copyright">{footerText}</p>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </div>
+      {/* 채팅은 별도 래퍼로 분리 */}
+      <ChatPane
+        basePath={chatBase}
+        provider={chatProvider}
+        model={chatModel}
+        locale={locale}
+      />
+    </div>
+  ) : (
+    <div class="page sl-flex">
+      <header class="header">
+        <slot name="header" />
+      </header>
+      <div class="page-scroll-wrap">
+        <main class="main-frame">
+          <slot />
+        </main>
+        <footer class="page-footer">
+          <div class="page-footer-content">
+            <div class="page-footer-left">
+              <p class="page-footer-copyright">{footerText}</p>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
-  </footer>
-</div>
+  )
+}
 
 <style>
-  /* 페이지 레이아웃 조정 */
+  /* Page layout: 뷰포트 높이 고정, 내부 main+footer만 스크롤 */
   .page {
-    min-height: 100vh;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* 채팅 있을 때: [ Header+Content+Footer | Chat ] 가로 배치, 헤더도 함께 반응 */
+  .page-has-chat {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: hidden;
+  }
+
+  /* Navigation 쪽 = Header + (스크롤 영역: main + footer) */
+  .page-nav-wrap {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  /* 채팅 열렸을 때: 데스크톱(1025px+)에서 왼쪽 영역만 쓰게 강제 (헤더·사이드바·본문이 채팅 옆에서 끝나도록) */
+  :global(body.page-chat-open) .page-nav-wrap {
+    overflow-x: auto;
+    min-width: 0;
+  }
+  @media (min-width: 1025px) {
+    :global(body.page-chat-open) .page-nav-wrap {
+      width: calc(100% - var(--page-chat-pane-width, 360px)) !important;
+      max-width: calc(100% - var(--page-chat-pane-width, 360px)) !important;
+      flex: 0 0 auto;
+    }
+  }
+
+  /* main + footer가 함께 스크롤되는 영역 */
+  .page-scroll-wrap {
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
   }
 
-  /* 메인 프레임 - 전체 너비 사용 */
   .main-frame {
     width: 100% !important;
     margin-left: 0 !important;
     padding-left: 0 !important;
-    flex: 1;
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
-  /* 헤더 스타일 유지 */
+  /* 모바일·좁은 화면: 채팅이 하단 시트로 열릴 때 본문 하단 패딩(70%) */
+  @media (max-width: 1024px) {
+    :global(body.page-chat-open) .page-nav-wrap {
+      padding-bottom: 70vh;
+    }
+  }
+
   .header {
-    position: sticky;
+    position: relative;
     top: 0;
+    left: 0;
     z-index: 100;
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  /* 채팅 열린 데스크톱: fixed 헤더가 뷰포트 전체를 쓰지 않고, 오른쪽 채팅 영역만 비워 둠 */
+  @media (min-width: 1025px) {
+    :global(body.page-chat-open) .header {
+      width: calc(100vw - var(--page-chat-pane-width, 360px));
+      max-width: calc(100vw - var(--page-chat-pane-width, 360px));
+    }
   }
 
-  /* Footer 스타일 */
+  /* Footer: main 스크롤하면 같이 내려감 */
   .page-footer {
+    margin-top: auto;
     background: var(--page-bg);
     border-top: 1px solid var(--page-border);
     z-index: 10;
     padding: var(--page-space-6) var(--page-space-8);
-    margin-top: auto;
   }
 
   .page-footer-content {
@@ -77,7 +184,7 @@ const footerText =
     font-weight: var(--page-font-weight-medium);
   }
 
-  /* 다크 테마에서 Footer 스타일 */
+  /* Footer in dark theme */
   [data-theme="dark"] .page-footer {
     background: var(--page-bg-secondary);
     border-top-color: var(--page-border);
@@ -87,7 +194,7 @@ const footerText =
     color: var(--page-text-secondary);
   }
 
-  /* 반응형 Footer */
+  /* Responsive footer */
   @media (max-width: 768px) {
     .page-footer {
       padding: var(--page-space-4) var(--page-space-6);

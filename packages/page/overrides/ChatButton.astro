@@ -1,0 +1,160 @@
+---
+import * as pkg from "@refineui/web-icons";
+const createIconHTML = (
+  pkg as {
+    createIconHTML?: (
+      name: string,
+      style: "regular" | "filled",
+    ) => (size?: number, color?: string, className?: string) => string;
+  }
+).createIconHTML;
+const chatIcon =
+  typeof createIconHTML === "function"
+    ? createIconHTML("Chat", "regular")
+    : () => "";
+---
+
+<button
+  type="button"
+  class="page-chat-button"
+  aria-label="Documentation chat"
+  title="Documentation chat"
+  id="page-chat-trigger"
+  aria-expanded="false"
+  aria-controls="page-chat-pane"
+>
+  <Fragment set:html={chatIcon(24, "currentColor", "refineui-icon")} />
+  <span class="sr-only">Chat</span>
+</button>
+
+<style>
+  /* 검색 버튼과 동일한 스타일 */
+  .page-chat-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--page-radius);
+    background: var(--page-accent-light);
+    border: none;
+    color: var(--page-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+  .page-chat-button:hover {
+    background: var(--page-text-reverse);
+    color: var(--page-text);
+    transform: translateY(-1px);
+    box-shadow: var(--page-shadow-sm);
+  }
+  .page-chat-button[aria-expanded="true"] {
+    background: var(--page-text-reverse);
+    color: var(--page-text);
+  }
+  .page-chat-button:focus-visible {
+    outline: 2px solid var(--page-accent);
+    outline-offset: 2px;
+  }
+  .page-chat-button:active {
+    transform: scale(0.95);
+  }
+  .page-chat-button svg,
+  .page-chat-button .refineui-icon,
+  .page-chat-button span:not(.sr-only) {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    font-size: 24px !important;
+    box-sizing: border-box;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  :global([data-theme="dark"]) .page-chat-button:hover,
+  :global([data-theme="dark"]) .page-chat-button[aria-expanded="true"] {
+    background: var(--page-text-reverse) !important;
+    color: var(--page-text) !important;
+  }
+  @media (max-width: 768px) {
+    .page-chat-button {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      min-height: 32px;
+    }
+    .page-chat-button svg,
+    .page-chat-button .refineui-icon,
+    .page-chat-button span:not(.sr-only) {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+      font-size: 20px !important;
+    }
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+
+<script>
+  (function () {
+    const btn = document.getElementById("page-chat-trigger");
+    if (!btn) return;
+    function updateAria() {
+      const open = document.body.classList.contains("page-chat-open");
+      if (btn) btn.setAttribute("aria-expanded", String(open));
+    }
+    btn.addEventListener("click", () => {
+      document.body.classList.toggle("page-chat-open");
+      updateAria();
+      try {
+        sessionStorage.setItem(
+          "page-chat-open",
+          document.body.classList.contains("page-chat-open") ? "1" : "0",
+        );
+      } catch (_) {}
+      document.body.dispatchEvent(new CustomEvent("page-chat-toggle"));
+    });
+    document.body.addEventListener("page-chat-toggle", updateAria);
+    function initOpen() {
+      try {
+        if (sessionStorage.getItem("page-chat-open") === "1") {
+          document.body.classList.add("page-chat-open");
+          updateAria();
+          return;
+        }
+      } catch (_) {}
+      const q = new URL(window.location.href).searchParams.get("chat");
+      if (q === "1") {
+        document.body.classList.add("page-chat-open");
+        updateAria();
+        try {
+          sessionStorage.setItem("page-chat-open", "1");
+        } catch (_) {}
+        if (window.history.replaceState) {
+          const u = new URL(window.location.href);
+          u.searchParams.delete("chat");
+          window.history.replaceState({}, "", u.pathname + u.search + u.hash);
+        }
+        document.body.dispatchEvent(new CustomEvent("page-chat-toggle"));
+      }
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initOpen);
+    } else {
+      initOpen();
+    }
+  })();
+</script>

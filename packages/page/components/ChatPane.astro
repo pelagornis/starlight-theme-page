@@ -1,0 +1,677 @@
+---
+import * as pkg from "@refineui/web-icons";
+const createIconHTML = (
+  pkg as {
+    createIconHTML?: (
+      name: string,
+      style: "regular" | "filled",
+    ) => (size?: number, color?: string, className?: string) => string;
+  }
+).createIconHTML;
+const closeIcon =
+  typeof createIconHTML === "function"
+    ? createIconHTML("Dismiss", "regular")
+    : () => "";
+const arrowRightIcon =
+  typeof createIconHTML === "function"
+    ? createIconHTML("Next", "regular")
+    : () => "";
+interface Props {
+  basePath?: string;
+  provider?: "openai" | "claude" | "gemini";
+  model?: string;
+  locale?: string;
+}
+const {
+  basePath = "",
+  provider,
+  model,
+  locale: localeProp = "en",
+} = Astro.props;
+const apiChatBase = (basePath ? basePath.replace(/\/$/, "") : "") + "/api/chat";
+
+const chatStrings: Record<
+  string,
+  {
+    empty: string;
+    placeholder: string;
+    title: string;
+    close: string;
+    send: string;
+    you: string;
+    assistant: string;
+    disclaimer: string;
+  }
+> = {
+  en: {
+    empty: "Ask about the documentation.",
+    placeholder: "Ask a question...",
+    title: "Doc chat",
+    close: "Close chat",
+    send: "Send",
+    you: "You",
+    assistant: "Assistant",
+    disclaimer: "Answers are generated using AI and may contain errors.",
+  },
+  ko: {
+    empty: "문서에 대해 질문하세요.",
+    placeholder: "질문해 보세요...",
+    title: "문서 채팅",
+    close: "채팅 닫기",
+    send: "보내기",
+    you: "나",
+    assistant: "어시스턴트",
+    disclaimer:
+      "답변은 인공지능을 사용하여 생성되었으며 오류가 포함될 수 있습니다.",
+  },
+  ja: {
+    empty: "ドキュメントについて質問してください。",
+    placeholder: "質問を入力...",
+    title: "ドキュメントチャット",
+    close: "チャットを閉じる",
+    send: "送信",
+    you: "あなた",
+    assistant: "アシスタント",
+    disclaimer: "回答はAIにより生成され、誤りが含まれる場合があります。",
+  },
+  zh: {
+    empty: "询问文档相关内容。",
+    placeholder: "输入您的问题...",
+    title: "文档对话",
+    close: "关闭对话",
+    send: "发送",
+    you: "我",
+    assistant: "助手",
+    disclaimer: "回答由AI生成，可能包含错误。",
+  },
+};
+const localeKey = localeProp === "root" ? "en" : localeProp;
+const t = chatStrings[localeKey] ?? chatStrings.en;
+---
+
+<div class="page-chat-wrapper">
+  <div class="page-chat-backdrop" id="page-chat-backdrop" aria-hidden="true">
+  </div>
+  <aside
+    class="page-chat-pane"
+    id="page-chat-pane"
+    aria-label={t.title}
+    aria-hidden="true"
+  >
+    <div
+      class="page-chat-pane-resize"
+      id="page-chat-pane-resize"
+      role="separator"
+      aria-label="Resize chat panel"
+    >
+    </div>
+    <div class="page-chat-pane-inner">
+      <header class="page-chat-pane-header">
+        <span class="page-chat-pane-title">{t.title}</span>
+        <button
+          type="button"
+          class="page-chat-pane-close"
+          id="page-chat-pane-close"
+          aria-label={t.close}
+        >
+          <Fragment set:html={closeIcon(20, "currentColor", "refineui-icon")} />
+        </button>
+      </header>
+      <p class="page-chat-pane-disclaimer">{t.disclaimer}</p>
+      <div class="page-chat-pane-messages" id="page-chat-pane-messages">
+        <p class="page-chat-pane-empty" id="page-chat-pane-empty">{t.empty}</p>
+      </div>
+      <form class="page-chat-pane-form" id="page-chat-pane-form">
+        <div class="page-chat-pane-input-bar">
+          <input
+            class="page-chat-pane-input"
+            id="page-chat-pane-input"
+            type="text"
+            placeholder={t.placeholder}
+            autocomplete="off"
+            disabled={!provider}
+          />
+          <button
+            type="submit"
+            class="page-chat-pane-send"
+            id="page-chat-pane-send"
+            aria-label={t.send}
+            disabled={!provider}
+          >
+            <Fragment
+              set:html={arrowRightIcon(20, "currentColor", "refineui-icon")}
+            />
+          </button>
+        </div>
+      </form>
+    </div>
+  </aside>
+</div>
+
+<style>
+  .page-chat-wrapper {
+    flex: 0 0 auto;
+    min-width: 0;
+    width: 0;
+    transition: width 0.22s ease;
+  }
+  body.page-chat-open .page-chat-wrapper {
+    width: var(--page-chat-pane-width, 360px);
+  }
+  body.page-chat-open.page-chat-pane-resizing .page-chat-wrapper {
+    transition: none;
+  }
+
+  @media (min-width: 1025px) {
+    .page-chat-wrapper {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 0;
+      overflow: hidden;
+      z-index: 50;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+    }
+    body.page-chat-open .page-chat-wrapper {
+      width: var(--page-chat-pane-width, 360px);
+      pointer-events: auto;
+    }
+    .page-chat-pane {
+      position: relative;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 100% !important;
+      height: 100%;
+      min-width: 0;
+      overflow: hidden;
+      opacity: 1;
+      pointer-events: auto;
+      display: flex;
+      flex-direction: column;
+      background: var(--page-bg);
+      border-left: 1px solid var(--page-border);
+      box-shadow: -2px 0 12px rgba(0, 0, 0, 0.06);
+    }
+    [data-theme="dark"] .page-chat-pane {
+      border-left-color: var(--page-border);
+      box-shadow: -2px 0 16px rgba(0, 0, 0, 0.15);
+    }
+    .page-chat-backdrop {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .page-chat-wrapper {
+      position: fixed;
+      inset: 0;
+      width: auto !important;
+      pointer-events: none;
+      z-index: 50;
+    }
+    body.page-chat-open .page-chat-wrapper {
+      width: auto !important;
+      pointer-events: auto;
+    }
+    .page-chat-pane {
+      position: fixed;
+      right: 0;
+      top: auto;
+      bottom: 0;
+      left: 0;
+      width: 0 !important;
+      min-width: 0;
+      height: 0;
+      max-height: 0;
+      opacity: 0;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      background: var(--page-bg);
+      border-left: none;
+      border-radius: var(--page-radius-lg) var(--page-radius-lg) 0 0;
+      transition:
+        height 0.28s ease,
+        max-height 0.28s ease,
+        box-shadow 0.28s ease;
+    }
+  }
+
+  body.page-chat-pane-resizing {
+    user-select: none;
+    cursor: col-resize;
+  }
+
+  .page-chat-pane-resize {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    cursor: col-resize;
+    z-index: 2;
+    flex-shrink: 0;
+  }
+  .page-chat-pane-resize:hover,
+  .page-chat-pane-resize:active {
+    background: var(--page-accent);
+    opacity: 0.2;
+  }
+  .page-chat-pane-resize::after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 40px;
+    border-radius: 1px;
+    background: var(--page-border);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  .page-chat-pane-resize:hover::after {
+    opacity: 1;
+  }
+
+  @media (max-width: 1024px) {
+    .page-chat-pane-resize {
+      display: none;
+    }
+  }
+
+  .page-chat-pane-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    width: 100%;
+  }
+
+  body.page-chat-open :global(.page-toc-sidebar),
+  body.page-chat-open :global(.sl-toc:not(.sl-toc-mobile)) {
+    display: none !important;
+  }
+
+  .page-chat-pane-messages {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: var(--page-space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--page-space-4);
+    background: var(--page-bg-secondary);
+  }
+  [data-theme="dark"] .page-chat-pane-messages {
+    background: var(--page-bg);
+  }
+  .page-chat-pane-empty {
+    margin: auto;
+    font-size: var(--page-font-size-sm);
+    color: var(--page-text-secondary);
+    text-align: center;
+    padding: var(--page-space-8) var(--page-space-4);
+    line-height: var(--page-line-height-normal);
+  }
+
+  .page-chat-pane-msg {
+    padding: var(--page-space-3) var(--page-space-4);
+    border-radius: var(--page-radius-lg);
+    max-width: 85%;
+    font-size: var(--page-font-size-sm);
+    line-height: 1.5;
+  }
+  .page-chat-pane-msg.user {
+    align-self: flex-end;
+    background: var(--page-accent);
+    color: var(--page-text-reverse);
+  }
+  .page-chat-pane-msg.assistant {
+    align-self: flex-start;
+    background: var(--page-bg);
+    color: var(--page-text);
+    border: 1px solid var(--page-border);
+  }
+  [data-theme="dark"] .page-chat-pane-msg.assistant {
+    background: var(--page-bg-secondary);
+    border-color: var(--page-border);
+  }
+  .page-chat-pane-msg .page-chat-pane-sources {
+    margin-top: var(--page-space-2);
+    padding-top: var(--page-space-2);
+    border-top: 1px solid var(--page-border);
+    font-size: var(--page-font-size-xs);
+    color: var(--page-text-secondary);
+  }
+  .page-chat-pane-msg .page-chat-pane-sources a {
+    color: var(--page-accent);
+    text-decoration: none;
+  }
+  .page-chat-pane-msg .page-chat-pane-sources a:hover {
+    text-decoration: underline;
+  }
+
+  .page-chat-pane-form {
+    flex-shrink: 0;
+    padding: var(--page-space-4);
+    background: var(--page-bg);
+    border-top: 1px solid var(--page-border);
+  }
+  .page-chat-pane-input-bar {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0;
+    border: 1px solid var(--page-border);
+    border-radius: var(--page-radius-lg);
+    background: var(--page-bg);
+    overflow: hidden;
+  }
+  .page-chat-pane-input-bar:focus-within {
+    border-color: var(--page-accent);
+    outline: 2px solid var(--page-accent);
+    outline-offset: 2px;
+  }
+  [data-theme="dark"] .page-chat-pane-input-bar {
+    background: var(--page-bg);
+    border-color: var(--page-border);
+  }
+  .page-chat-pane-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: var(--page-space-3) var(--page-space-4);
+    border: none;
+    background: transparent;
+    color: var(--page-text);
+    font-size: var(--page-font-size-base);
+  }
+  .page-chat-pane-input:focus {
+    outline: none;
+  }
+  .page-chat-pane-input::placeholder {
+    color: var(--page-text-muted);
+  }
+
+  .page-chat-pane-send {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    border: none;
+    border-left: 1px solid var(--page-border);
+    border-radius: 0;
+    background: transparent;
+    color: var(--page-accent);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    font-size: 0;
+  }
+  .page-chat-pane-send:hover:not(:disabled) {
+    background: var(--page-bg);
+    color: var(--page-accent);
+  }
+  .page-chat-pane-send:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  [data-theme="dark"] .page-chat-pane-send {
+    border-left-color: var(--page-border);
+  }
+  [data-theme="dark"] .page-chat-pane-send:hover:not(:disabled) {
+    background: var(--page-bg-secondary);
+  }
+
+  .page-chat-pane-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    padding: var(--page-space-3) var(--page-space-5);
+    background: var(--page-bg);
+    border-bottom: 1px solid var(--page-border);
+  }
+  .page-chat-pane-title {
+    font-size: var(--page-font-size-base);
+    font-weight: var(--page-font-weight-semibold);
+    color: var(--page-text);
+  }
+  .page-chat-pane-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin: 0 0 0 auto;
+    border: none;
+    border-radius: var(--page-radius);
+    background: transparent;
+    color: var(--page-text-secondary);
+    cursor: pointer;
+  }
+  .page-chat-pane-close:hover {
+    background: var(--page-bg-secondary);
+    color: var(--page-text);
+  }
+  .page-chat-pane-disclaimer {
+    flex-shrink: 0;
+    margin: 0;
+    padding: var(--page-space-2) var(--page-space-5);
+    font-size: var(--page-font-size-xs);
+    color: var(--page-text-secondary);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 1024px) {
+    .page-chat-pane {
+      top: auto;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100vw;
+      height: 0;
+      max-height: 0;
+      border-left: none;
+      border-radius: var(--page-radius-lg) var(--page-radius-lg) 0 0;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+      transition:
+        height 0.28s ease,
+        max-height 0.28s ease,
+        box-shadow 0.28s ease;
+      box-sizing: border-box;
+    }
+    body.page-chat-open .page-chat-pane {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100vw;
+      height: 70vh;
+      max-height: 70vh;
+      opacity: 1;
+      pointer-events: auto;
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.12);
+    }
+    [data-theme="dark"] body.page-chat-open .page-chat-pane {
+      box-shadow: 0 -4px 28px rgba(0, 0, 0, 0.25);
+    }
+    .page-chat-pane-inner,
+    .page-chat-pane-form,
+    .page-chat-pane-messages,
+    .page-chat-pane-input-bar {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+  }
+</style>
+
+<script
+  define:vars={{
+    apiChatBase,
+    provider,
+    model,
+    chatLabelYou: t.you,
+    chatLabelAssistant: t.assistant,
+  }}
+>
+  (function () {
+    const messagesEl = document.getElementById("page-chat-pane-messages");
+    const form = document.getElementById("page-chat-pane-form");
+    const input = document.getElementById("page-chat-pane-input");
+    const sendBtn = document.getElementById("page-chat-pane-send");
+    const pane = document.getElementById("page-chat-pane");
+    const backdrop = document.getElementById("page-chat-backdrop");
+    const closeBtn = document.getElementById("page-chat-pane-close");
+    const resizeHandle = document.getElementById("page-chat-pane-resize");
+
+    const CHAT_PANE_MIN_WIDTH = 280;
+    const CHAT_PANE_MAX_WIDTH = 600;
+    const CHAT_PANE_STORAGE_KEY = "page-chat-pane-width";
+
+    function getChatPaneWidth() {
+      const v = document.body.style.getPropertyValue("--page-chat-pane-width");
+      if (v && v.endsWith("px")) return parseInt(v, 10);
+      return 360;
+    }
+    function applySavedChatWidth() {
+      try {
+        const saved = localStorage.getItem(CHAT_PANE_STORAGE_KEY);
+        if (saved) {
+          const w = Math.max(
+            CHAT_PANE_MIN_WIDTH,
+            Math.min(CHAT_PANE_MAX_WIDTH, parseInt(saved, 10)),
+          );
+          document.body.style.setProperty("--page-chat-pane-width", w + "px");
+        }
+      } catch (_) {}
+    }
+
+    function closeChat() {
+      document.body.classList.remove("page-chat-open");
+      document.body.dispatchEvent(new CustomEvent("page-chat-toggle"));
+      try {
+        sessionStorage.setItem("page-chat-open", "0");
+      } catch (_) {}
+    }
+
+    function setAriaHidden(open) {
+      if (pane) pane.setAttribute("aria-hidden", open ? "false" : "true");
+      if (backdrop)
+        backdrop.setAttribute("aria-hidden", open ? "false" : "true");
+    }
+
+    document.body.addEventListener("page-chat-toggle", () => {
+      const open = document.body.classList.contains("page-chat-open");
+      setAriaHidden(open);
+      if (open) applySavedChatWidth();
+    });
+    setAriaHidden(document.body.classList.contains("page-chat-open"));
+    if (document.body.classList.contains("page-chat-open"))
+      applySavedChatWidth();
+
+    backdrop?.addEventListener("click", closeChat);
+    closeBtn?.addEventListener("click", closeChat);
+
+    if (resizeHandle) {
+      let startX = 0;
+      let startWidth = 360;
+      function onMove(e) {
+        const dx = startX - e.clientX;
+        const w = Math.round(
+          Math.max(
+            CHAT_PANE_MIN_WIDTH,
+            Math.min(CHAT_PANE_MAX_WIDTH, startWidth + dx),
+          ),
+        );
+        document.body.style.setProperty("--page-chat-pane-width", w + "px");
+        resizeHandle.setAttribute("aria-valuenow", String(w));
+      }
+      function onUp() {
+        document.body.classList.remove("page-chat-pane-resizing");
+        const w = getChatPaneWidth();
+        try {
+          localStorage.setItem(CHAT_PANE_STORAGE_KEY, String(w));
+        } catch (_) {}
+        document.removeEventListener("pointermove", onMove);
+        document.removeEventListener("pointerup", onUp);
+        document.removeEventListener("pointercancel", onUp);
+      }
+      resizeHandle.addEventListener("pointerdown", function (e) {
+        if (e.button !== 0) return;
+        e.preventDefault();
+        startX = e.clientX;
+        startWidth = getChatPaneWidth();
+        document.body.classList.add("page-chat-pane-resizing");
+        document.addEventListener("pointermove", onMove);
+        document.addEventListener("pointerup", onUp);
+        document.addEventListener("pointercancel", onUp);
+      });
+    }
+
+    const emptyEl = document.getElementById("page-chat-pane-empty");
+    function addMessage(role, text, sources) {
+      if (!messagesEl) return;
+      if (emptyEl) emptyEl.style.display = "none";
+      const div = document.createElement("div");
+      div.className = "page-chat-pane-msg " + role;
+      let html =
+        "<strong>" +
+        (role === "user" ? chatLabelYou : chatLabelAssistant) +
+        "</strong><br>" +
+        text.replace(/\n/g, "<br>");
+      if (sources && sources.length) {
+        html +=
+          '<div class="page-chat-pane-sources">Sources: ' +
+          sources
+            .map(
+              (s) =>
+                `<a href="${s.path}" target="_blank" rel="noopener">${s.title}</a>`,
+            )
+            .join(", ") +
+          "</div>";
+      }
+      div.innerHTML = html;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const message = input?.value?.trim();
+      if (!message || !provider) return;
+      addMessage("user", message);
+      if (input) input.value = "";
+      if (sendBtn) sendBtn.disabled = true;
+      try {
+        const res = await fetch(`${apiChatBase}/${provider}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message,
+            provider,
+            locale: document.documentElement.lang || "en",
+            model: model || undefined,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Request failed");
+        addMessage("assistant", data.answer, data.sources);
+      } catch (err) {
+        addMessage("assistant", "Error: " + (err?.message || String(err)), []);
+      } finally {
+        if (sendBtn) sendBtn.disabled = false;
+      }
+    });
+  })();
+</script>

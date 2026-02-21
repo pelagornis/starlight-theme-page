@@ -1,6 +1,9 @@
 ---
-// @ts-expect-error - Starlight internal component, type definitions may not be available
+/// <reference path="../virtual.d.ts" />
 import Default from "@astrojs/starlight/components/Search.astro";
+import * as pkg from "@refineui/web-icons";
+const createIconHTML = (pkg as { createIconHTML?: (name: string, style: 'regular' | 'filled') => (size?: number, color?: string, className?: string) => string }).createIconHTML;
+const searchIcon = typeof createIconHTML === 'function' ? createIconHTML("Search", "regular") : () => '';
 ---
 
 <!-- 검색 버튼 -->
@@ -11,20 +14,7 @@ import Default from "@astrojs/starlight/components/Search.astro";
   type="button"
   id="page-search-trigger"
 >
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <circle cx="11" cy="11" r="8"></circle>
-    <path d="m21 21-4.35-4.35"></path>
-  </svg>
+  <Fragment set:html={searchIcon(24, "currentColor", "refineui-icon")} />
   <span class="sr-only">Search</span>
 </button>
 
@@ -78,9 +68,10 @@ import Default from "@astrojs/starlight/components/Search.astro";
   }
 
   .page-search-button:hover {
-    background: var(--page-neutral-200);
+    background: var(--page-text-reverse);
     color: var(--page-text);
     transform: translateY(-1px);
+    box-shadow: var(--page-shadow-sm);
   }
 
   .page-search-button:focus-visible {
@@ -92,13 +83,22 @@ import Default from "@astrojs/starlight/components/Search.astro";
     transform: scale(0.95);
   }
 
-  .page-search-button svg {
-    width: 18px;
-    height: 18px;
+  .page-search-button svg,
+  .page-search-button .refineui-icon,
+  .page-search-button span:not(.sr-only) {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    font-size: 24px !important;
+    box-sizing: border-box;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   :global([data-theme="dark"]) .page-search-button:hover {
-    background: var(--page-neutral-800) !important;
+    background: var(--page-text-reverse) !important;
     color: var(--page-text) !important;
   }
 
@@ -115,20 +115,8 @@ import Default from "@astrojs/starlight/components/Search.astro";
     border: 0;
   }
 
-  /* 모바일 최적화 */
+  /* 모바일: 터치 영역 32px, RefineUI 아이콘 20px */
   @media (max-width: 768px) {
-    .page-search-button {
-      width: 40px;
-      height: 40px;
-    }
-
-    .page-search-button svg {
-      width: 18px;
-      height: 18px;
-    }
-  }
-
-  @media (max-width: 480px) {
     .page-search-button {
       width: 32px !important;
       height: 32px !important;
@@ -136,11 +124,31 @@ import Default from "@astrojs/starlight/components/Search.astro";
       min-height: 32px !important;
     }
 
-    .page-search-button svg {
-      width: 16px !important;
-      height: 16px !important;
-      min-width: 16px !important;
-      min-height: 16px !important;
+    .page-search-button svg,
+    .page-search-button .refineui-icon,
+    .page-search-button span:not(.sr-only) {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+      font-size: 20px !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-search-button {
+      width: 32px !important;
+      height: 32px !important;
+    }
+
+    .page-search-button svg,
+    .page-search-button .refineui-icon,
+    .page-search-button span:not(.sr-only) {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+      font-size: 20px !important;
     }
   }
 </style>
@@ -149,7 +157,7 @@ import Default from "@astrojs/starlight/components/Search.astro";
   // 검색 버튼 클릭 시 Starlight 검색 모달 열기
   function initSearchButton() {
     const searchButton = document.querySelector(
-      ".page-search-button"
+      ".page-search-button",
     ) as HTMLButtonElement;
     if (!searchButton) return;
 
@@ -191,17 +199,17 @@ import Default from "@astrojs/starlight/components/Search.astro";
           if (import.meta.env.DEV) {
             console.log(
               "[Search Debug] Found search button:",
-              defaultSearchButton
+              defaultSearchButton,
             );
             console.log(
               "[Search Debug] Button classes:",
-              defaultSearchButton.className
+              defaultSearchButton.className,
             );
             console.log(
               "[Search Debug] Button type:",
               defaultSearchButton instanceof HTMLButtonElement
                 ? "HTMLButtonElement"
-                : "HTMLElement"
+                : "HTMLElement",
             );
           }
 
@@ -231,7 +239,7 @@ import Default from "@astrojs/starlight/components/Search.astro";
 
         // 2. Starlight 검색 모달 직접 열기 (dialog 요소)
         const dialog = document.querySelector(
-          'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]'
+          'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
         ) as HTMLDialogElement;
         if (dialog && typeof dialog.showModal === "function") {
           try {
@@ -268,12 +276,12 @@ import Default from "@astrojs/starlight/components/Search.astro";
       // DOM이 아직 준비되지 않았을 수 있으므로 여러 번 재시도
       let attempts = 0;
       const maxAttempts = 5;
-      const retryInterval = setInterval(() => {
+      const retryIntervalId = setInterval(() => {
         attempts++;
         if (triggerSearch() || attempts >= maxAttempts) {
-          clearInterval(retryInterval);
+          clearInterval(retryIntervalId);
         }
-      }, 100);
+      }, 100) as unknown as number;
     });
 
     // MutationObserver로 기본 검색 버튼이 DOM에 추가될 때까지 감지
@@ -297,7 +305,7 @@ import Default from "@astrojs/starlight/components/Search.astro";
     const closeDocSearch = () => {
       // Starlight 검색 모달 닫기 (dialog 요소)
       const dialog = document.querySelector(
-        'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]'
+        'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
       ) as HTMLDialogElement;
 
       if (dialog && typeof dialog.close === "function") {
@@ -317,7 +325,7 @@ import Default from "@astrojs/starlight/components/Search.astro";
 
       // fallback: close-modal 버튼 클릭
       const closeButton = document.querySelector(
-        "button[data-close-modal]"
+        "button[data-close-modal]",
       ) as HTMLButtonElement;
       if (closeButton) {
         closeButton.click();
@@ -339,7 +347,7 @@ import Default from "@astrojs/starlight/components/Search.astro";
       // 모달 바깥 클릭 감지 (Starlight dialog)
       clickHandler = (e: MouseEvent) => {
         const dialog = document.querySelector(
-          'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]'
+          'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
         ) as HTMLDialogElement;
 
         if (!dialog || !dialog.open) {
@@ -369,7 +377,7 @@ import Default from "@astrojs/starlight/components/Search.astro";
       escapeHandler = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
           const dialog = document.querySelector(
-            'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]'
+            'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
           ) as HTMLDialogElement;
           if (dialog && dialog.open) {
             e.preventDefault();
@@ -388,7 +396,7 @@ import Default from "@astrojs/starlight/components/Search.astro";
           // 하지만 안전하게 닫기 시도
           setTimeout(() => {
             const dialog = document.querySelector(
-              'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]'
+              'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
             ) as HTMLDialogElement;
             if (dialog && dialog.open) {
               closeDocSearch();
@@ -453,7 +461,7 @@ import Default from "@astrojs/starlight/components/Search.astro";
         e.preventDefault();
         // 이미 검색 모달이 열려있는지 확인
         const dialog = document.querySelector(
-          'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]'
+          'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
         ) as HTMLDialogElement;
         if (dialog && dialog.open) {
           // 모달이 열려있으면 닫기

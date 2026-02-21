@@ -13,8 +13,10 @@ yarn-error.log*
 pnpm-debug.log*
 
 
-# environment variables
+# environment variables (API keys, secrets — do not commit)
 .env
+.env.*
+!.env.example
 .env.production
 
 # macOS-specific files

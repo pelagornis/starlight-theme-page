@@ -1,0 +1,44 @@
+/* 헤더 네비 아이콘(RefineUI 폰트) 크기·정렬 강제 - Slack/GitHub SVG와 동일 24px
+   createIconHTML 인라인 스타일(display:inline-block, vertical-align:middle) 덮어써서
+   박스 안에서 글리프가 시각적으로 가운데 오도록 함 */
+.page-header-right .refineui-icon,
+.page-header-right .page-theme-toggle-button .refineui-icon,
+.page-header-right .page-search-button .refineui-icon,
+.page-header-right .page-chat-button .refineui-icon,
+.page-header-right .page-language-select-button .refineui-icon,
+.page-header-right .page-mobile-menu-toggle .refineui-icon,
+.page-header-right .page-mobile-menu-toggle .page-menu-icon {
+  box-sizing: border-box !important;
+  font-size: 24px !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  /* 인라인 inline-block 덮어쓰기 → flex로 세로 중앙만 (justify-content는 제거 시 글리프가 가운데 옴) */
+  display: inline-flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 24px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  flex-shrink: 0;
+}
+
+/* 모바일: 버튼 터치 영역은 32px 유지, RefineUI 아이콘만 20px로 축소 */
+@media (max-width: 768px) {
+  .page-header-right .refineui-icon,
+  .page-header-right .page-theme-toggle-button .refineui-icon,
+  .page-header-right .page-search-button .refineui-icon,
+  .page-header-right .page-chat-button .refineui-icon,
+  .page-header-right .page-language-select-button .refineui-icon,
+  .page-header-right .page-mobile-menu-toggle .refineui-icon,
+  .page-header-right .page-mobile-menu-toggle .page-menu-icon {
+    font-size: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    line-height: 20px !important;
+  }
+}

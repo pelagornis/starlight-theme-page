@@ -1,14 +1,29 @@
 import type { StarlightPlugin, StarlightUserConfig } from '@astrojs/starlight/types';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export interface NavigationItem {
   href: string;
   label: string;
 }
 
+export type DocChatProvider = 'openai' | 'claude' | 'gemini';
+
+export interface DocChatConfig {
+  /** LLM to use (openai | claude | gemini). API keys are set in the site .env */
+  provider?: DocChatProvider;
+  /** Model ID (optional; uses provider default when not set) */
+  model?: string;
+}
+
 export interface pageConfig {
   navigation?: NavigationItem[];
   siteTitle?: string;
   footerText?: string;
+  /** Doc-based chat: choose provider (default openai). /api/chat is injected by page */
+  docChat?: DocChatConfig;
   skipComponents?: string[];
 }
 
@@ -18,7 +33,7 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
   return {
     name: 'page-plugin',
     hooks: {
-      setup({ config, updateConfig }) {
+      setup({ config, astroConfig, updateConfig, addIntegration }) {
         if (userConfig?.navigation) {
           process.env.PAGE_NAVIGATION = JSON.stringify(userConfig.navigation);
         }
@@ -31,7 +46,31 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
           process.env.PAGE_FOOTER_TEXT = userConfig.footerText;
         }
 
-        // 사용자가 이미 설정한 컴포넌트가 있으면 덮어쓰지 않음
+        if (userConfig?.docChat != null) {
+          process.env.PAGE_DOC_CHAT_ENABLED = '1';
+          if (userConfig.docChat.provider != null) {
+            process.env.PAGE_DOC_CHAT_PROVIDER = userConfig.docChat.provider;
+          }
+          if (userConfig.docChat.model != null) {
+            process.env.PAGE_DOC_CHAT_MODEL = userConfig.docChat.model;
+          }
+          addIntegration({
+            name: 'page-doc-chat-api',
+            hooks: {
+              'astro:config:setup': async ({ injectRoute }) => {
+                injectRoute({
+                  pattern: '/api/chat/[provider]',
+                  entrypoint: path.join(__dirname, 'api', 'chat-[provider].ts'),
+                  prerender: false,
+                });
+              },
+            },
+          });
+        }
+
+        process.env.PAGE_BASE = astroConfig?.base ?? '';
+
+        // Do not override components already set by the user
         const existingComponents = config.components || {};
         const skipComponents = userConfig?.skipComponents || [];
         
@@ -51,7 +90,7 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
           MobileMenuToggle: '@pelagornis/page/overrides/MobileMenuToggle.astro',
         };
 
-        // skipComponents에 포함된 컴포넌트나 사용자가 이미 설정한 컴포넌트는 제외
+        // Exclude components in skipComponents or already set by the user
         const components: Record<string, string> = {};
         for (const [key, value] of Object.entries(defaultComponents)) {
           if (!skipComponents.includes(key) && !(key in existingComponents)) {
@@ -59,15 +98,17 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
           }
         }
 
+        const customCss = [
+          ...(config.customCss ?? []),
+          '@pelagornis/page/styles.css',
+          '@refineui/web-icons/dist/fonts/refineui-system-icons.css',
+        ];
         updateConfig({
           components: {
             ...components,
-            ...existingComponents, // 사용자가 설정한 컴포넌트가 최우선
+            ...existingComponents, // User-set components take precedence
           },
-          customCss: [
-            ...(config.customCss ?? []),
-            '@pelagornis/page/styles.css',
-          ],
+          customCss,
         });
       },
     },

@@ -1,7 +1,10 @@
 ---
 // page 스타일 헤더 구성
 import Search from "./Search.astro";
+import ChatButton from "./ChatButton.astro";
 import SocialIcons from "./SocialIcons.astro";
+
+const showChat = process.env.PAGE_DOC_CHAT_ENABLED === "1";
 import MobileMenuToggle from "./MobileMenuToggle.astro";
 import LanguageSelect from "./LanguageSelect.astro";
 import ThemeSelect from "./ThemeSelect.astro";
@@ -89,6 +92,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
       <div class="page-search-wrapper">
         <Search />
       </div>
+      {showChat && <ChatButton />}
 
       <!-- page 스타일 테마 토글 -->
       <ThemeSelect />
@@ -186,7 +190,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
   // 정리 함수
   function cleanup() {
     const toggleButton = document.getElementById(
-      "page-theme-toggle"
+      "page-theme-toggle",
     ) as HTMLButtonElement;
 
     if (toggleButton && themeToggleHandler) {
@@ -225,7 +229,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
 <style>
   /* page 스타일 헤더 */
   .page-header {
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     right: 0;
@@ -294,7 +298,97 @@ const hasSidebar = sidebar && sidebar.length > 0;
   .page-header-right {
     display: flex;
     align-items: center;
-    gap: var(--page-space-3);
+    gap: var(--page-space-2);
+  }
+
+  /* 네비 아이콘 버튼 통일: SocialIcons(Slack 등)와 동일 40x40, 아이콘 20px */
+  .page-header-right .page-search-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page-header-right page-select,
+  .page-header-right .page-language-select {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page-header-right .page-theme-toggle-button,
+  .page-header-right .page-search-button,
+  .page-header-right .page-chat-button,
+  .page-header-right .page-language-select-button,
+  .page-header-right .page-mobile-menu-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    padding: var(--page-space-3) !important;
+    border: none !important;
+    border-radius: var(--page-radius) !important;
+    background: var(--page-accent-light) !important;
+    color: var(--page-text-secondary) !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-header-right .page-theme-toggle-button:hover,
+  .page-header-right .page-search-button:hover,
+  .page-header-right .page-chat-button:hover,
+  .page-header-right .page-language-select-button:hover,
+  .page-header-right .page-mobile-menu-toggle:hover {
+    background: var(--page-text-reverse) !important;
+    color: var(--page-text) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--page-shadow-sm) !important;
+  }
+
+  /* RefineUI(폰트 아이콘)은 글리프가 작게 보이므로 24px로 키워 Slack(SVG)과 비슷하게 */
+  .page-header-right .page-theme-toggle-button span,
+  .page-header-right .page-theme-toggle-button .refineui-icon,
+  .page-header-right .page-search-button span,
+  .page-header-right .page-search-button .refineui-icon,
+  .page-header-right .page-chat-button span,
+  .page-header-right .page-chat-button .refineui-icon,
+  .page-header-right .page-language-select-button span,
+  .page-header-right .page-language-select-button .refineui-icon,
+  .page-header-right .page-mobile-menu-toggle span,
+  .page-header-right .page-mobile-menu-toggle .refineui-icon {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    flex-shrink: 0;
+    font-size: 24px !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .page-header-right .page-search-button svg,
+  .page-header-right .page-chat-button svg,
+  .page-header-right .page-theme-toggle-button svg,
+  .page-header-right .page-language-select-button svg,
+  .page-header-right .page-mobile-menu-toggle svg {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    flex-shrink: 0;
+  }
+
+  /* SocialIcons(Slack, GitHub) SVG도 24px로 통일 */
+  .page-header-right a svg {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
   }
 
   /* page 스타일 사이트 타이틀 */
@@ -468,11 +562,6 @@ const hasSidebar = sidebar && sidebar.length > 0;
     height: 18px;
   }
 
-  /* 본문 여백 */
-  :global(body) {
-    padding-top: var(--page-header-height) !important;
-  }
-
   /* 모바일 대응 */
   @media (max-width: 768px) {
     .page-header-container {
@@ -493,6 +582,56 @@ const hasSidebar = sidebar && sidebar.length > 0;
 
     .page-mobile-menu-toggle {
       display: flex !important;
+    }
+
+    /* 모바일: 네비·메뉴 버튼 터치 영역 32px */
+    .page-header-right .page-theme-toggle-button,
+    .page-header-right .page-search-button,
+    .page-header-right .page-chat-button,
+    .page-header-right .page-language-select-button,
+    .page-header-right .page-mobile-menu-toggle {
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      min-height: 32px !important;
+      padding: var(--page-space-2) !important;
+    }
+
+    /* 모바일: RefineUI 아이콘만 20px (버튼 터치 영역은 32px 유지) */
+    .page-header-right .page-theme-toggle-button span,
+    .page-header-right .page-theme-toggle-button .refineui-icon,
+    .page-header-right .page-search-button span,
+    .page-header-right .page-search-button .refineui-icon,
+    .page-header-right .page-chat-button span,
+    .page-header-right .page-chat-button .refineui-icon,
+    .page-header-right .page-language-select-button span,
+    .page-header-right .page-language-select-button .refineui-icon,
+    .page-header-right .page-mobile-menu-toggle span,
+    .page-header-right .page-mobile-menu-toggle .refineui-icon,
+    .page-header-right .page-mobile-menu-toggle .page-menu-icon {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+      font-size: 20px !important;
+    }
+
+    .page-header-right .page-search-button svg,
+    .page-header-right .page-chat-button svg,
+    .page-header-right .page-theme-toggle-button svg,
+    .page-header-right .page-language-select-button svg,
+    .page-header-right .page-mobile-menu-toggle svg {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+    }
+
+    .page-header-right a svg {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
     }
 
     /* 모바일에서 성능 최적화 */

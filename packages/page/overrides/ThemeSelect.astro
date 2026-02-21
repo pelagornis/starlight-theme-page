@@ -1,3 +1,19 @@
+---
+import * as pkg from "@refineui/web-icons";
+const createIconHTML = (
+  pkg as {
+    createIconHTML?: (
+      name: string,
+      style: "regular" | "filled",
+    ) => (size?: number, color?: string, className?: string) => string;
+  }
+).createIconHTML;
+if (typeof createIconHTML !== "function")
+  throw new Error("@refineui/web-icons: createIconHTML not found");
+const sunIcon = createIconHTML("Lightbulb", "regular");
+const moonIcon = createIconHTML("Moon", "regular");
+---
+
 <page-select>
   <button
     aria-label={Astro.locals.t("themeSelect.accessibleLabel")}
@@ -6,50 +22,14 @@
     title={Astro.locals.t("themeSelect.accessibleLabel")}
     data-variant="ghost"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="sun"
-    >
-      <circle cx="12" cy="12" r="4"></circle>
-      <path d="M12 2v2"></path>
-      <path d="M12 20v2"></path>
-      <path d="m4.93 4.93 1.41 1.41"></path>
-      <path d="m17.66 17.66 1.41 1.41"></path>
-      <path d="M2 12h2"></path>
-      <path d="M20 12h2"></path>
-      <path d="m6.34 17.66-1.41 1.41"></path>
-      <path d="m19.07 4.93-1.41 1.41"></path>
-    </svg>
-
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="moon"
-    >
-      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-    </svg>
-
+    <Fragment set:html={sunIcon(24, "currentColor", "refineui-icon sun")} />
+    <Fragment set:html={moonIcon(24, "currentColor", "refineui-icon moon")} />
     <span class="sr-only">Toggle theme</span>
   </button>
 </page-select>
 
 <style>
-  /* page 스타일 테마 토글 버튼 - 다른 버튼들과 동일 */
+  /* page 스타일 테마 토글 - SocialIcons와 동일 40x40 */
   .page-theme-toggle-button {
     display: inline-flex;
     align-items: center;
@@ -66,9 +46,10 @@
   }
 
   .page-theme-toggle-button:hover {
-    background: var(--page-text-reverse);
-    color: var(--page-text);
-    transform: translateY(-1px);
+    background: var(--page-text-reverse) !important;
+    color: var(--page-text) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--page-shadow-sm) !important;
   }
 
   .page-theme-toggle-button:focus-visible {
@@ -80,47 +61,65 @@
     transform: scale(0.95);
   }
 
-  /* page 스타일 아이콘 애니메이션 */
-  .page-theme-toggle-button svg {
-    position: absolute;
-    transition: all 0.2s ease;
+  /* 아이콘 가운데 정렬 (두 개 겹쳐서 하나만 보이게), 크기 24px로 Slack과 통일
+     인라인 inline-block 덮어써서 글리프가 24x24 박스 안에서 시각적 중앙 */
+  .page-theme-toggle-button .sun,
+  .page-theme-toggle-button .moon {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    margin: 0 !important;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    font-size: 24px !important;
+    line-height: 24px !important;
+    text-align: center !important;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    display: inline-flex !important;
+    align-items: center !important;
+    pointer-events: none;
   }
 
   .page-theme-toggle-button .sun {
     opacity: 1;
-    transform: rotate(0deg) scale(1);
   }
 
   .page-theme-toggle-button .moon {
-    opacity: 0 !important;
-    transform: rotate(90deg) scale(0.8) !important;
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(90deg) scale(0.8);
   }
 
+  page-select[data-theme="dark"] .page-theme-toggle-button .sun,
   [data-theme="dark"] .page-theme-toggle-button .sun {
-    opacity: 0 !important;
-    transform: rotate(-90deg) scale(0.8) !important;
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(-90deg) scale(0.8);
   }
 
+  page-select[data-theme="dark"] .page-theme-toggle-button .moon,
   [data-theme="dark"] .page-theme-toggle-button .moon {
-    opacity: 1 !important;
-    transform: rotate(0deg) scale(1) !important;
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
   }
 
-  /* page 스타일 호버 시 회전 효과 */
   .page-theme-toggle-button:hover .sun {
-    transform: rotate(180deg) scale(1.1);
+    transform: translate(-50%, -50%) rotate(180deg) scale(1.1);
   }
 
   .page-theme-toggle-button:hover .moon {
-    transform: rotate(15deg) scale(1.1) !important;
+    transform: translate(-50%, -50%) rotate(15deg) scale(1.1);
   }
 
+  page-select[data-theme="dark"] .page-theme-toggle-button:hover .sun,
   [data-theme="dark"] .page-theme-toggle-button:hover .sun {
-    transform: rotate(-180deg) scale(0.8) !important;
+    transform: translate(-50%, -50%) rotate(-180deg) scale(0.8);
   }
 
+  page-select[data-theme="dark"] .page-theme-toggle-button:hover .moon,
   [data-theme="dark"] .page-theme-toggle-button:hover .moon {
-    transform: rotate(15deg) scale(1.1) !important;
+    transform: translate(-50%, -50%) rotate(15deg) scale(1.1);
   }
 
   /* page 스타일 커스텀 속성 */
@@ -141,16 +140,21 @@
     border: 0;
   }
 
-  /* 모바일 최적화 */
   @media (max-width: 768px) {
     .page-theme-toggle-button {
-      width: 40px;
-      height: 40px;
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      min-height: 32px !important;
     }
-
-    .page-theme-toggle-button svg {
-      width: 18px;
-      height: 18px;
+    .page-theme-toggle-button .sun,
+    .page-theme-toggle-button .moon {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+      font-size: 20px !important;
+      line-height: 20px !important;
     }
   }
 
@@ -160,13 +164,6 @@
       height: 32px !important;
       min-width: 32px !important;
       min-height: 32px !important;
-    }
-
-    .page-theme-toggle-button svg {
-      width: 16px !important;
-      height: 16px !important;
-      min-width: 16px !important;
-      min-height: 16px !important;
     }
   }
 </style>
@@ -213,10 +210,11 @@
     applyTheme(theme: string) {
       document.documentElement.setAttribute("data-theme", theme);
       document.body.setAttribute("data-theme", theme);
+      this.setAttribute("data-theme", theme);
 
       // 모든 Starlight 요소와 헤더, 푸터, CodeCopy, 모바일 메뉴 토글에 테마 적용
       const starlightElements = document.querySelectorAll(
-        ".sl-container, .sl-content, .sl-sidebar, .sl-nav, .page-header, .page-footer-container, .page-code-copy-button, .page-mobile-menu-toggle"
+        ".sl-container, .sl-content, .sl-sidebar, .sl-nav, .page-header, .page-footer-container, .page-code-copy-button, .page-mobile-menu-toggle",
       );
       starlightElements.forEach((element) => {
         element.setAttribute("data-theme", theme);
@@ -228,7 +226,7 @@
 
       // 테마 변경 이벤트 발생
       window.dispatchEvent(
-        new CustomEvent("themechange", { detail: { theme } })
+        new CustomEvent("themechange", { detail: { theme } }),
       );
     }
 
@@ -264,7 +262,7 @@
         const { theme } = event.detail;
         // 주요 요소들에만 테마 속성 적용 (성능 최적화)
         const keyElements = document.querySelectorAll(
-          ".sl-container, .sl-content, .sl-sidebar, .sl-nav, .page-header, .page-footer-container, .page-code-copy-button, .page-mobile-menu-toggle, .page-mobile-menu-overlay"
+          ".sl-container, .sl-content, .sl-sidebar, .sl-nav, .page-header, .page-footer-container, .page-code-copy-button, .page-mobile-menu-toggle, .page-mobile-menu-overlay",
         );
         keyElements.forEach((element) => {
           if (element instanceof HTMLElement) {

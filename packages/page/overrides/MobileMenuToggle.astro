@@ -1,28 +1,15 @@
 ---
-// Page 스타일 모바일 메뉴 토글
+import * as pkg from "@refineui/web-icons";
+const createIconHTML = (pkg as { createIconHTML?: (name: string, style: 'regular' | 'filled') => (size?: number, color?: string, className?: string) => string }).createIconHTML;
+const menuIcon = typeof createIconHTML === 'function' ? createIconHTML("Bar", "regular") : () => '';
 ---
 
 <button
   class="page-mobile-menu-toggle"
-  aria-label="메뉴 열기"
+  aria-label="Open menu"
   id="page-mobile-menu-toggle"
 >
-  <!-- 햄버거 메뉴 아이콘 -->
-  <svg
-    class="page-menu-icon"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <line x1="3" y1="6" x2="21" y2="6"></line>
-    <line x1="3" y1="12" x2="21" y2="12"></line>
-    <line x1="3" y1="18" x2="21" y2="18"></line>
-  </svg>
+  <Fragment set:html={menuIcon(24, "currentColor", "refineui-icon page-menu-icon")} />
 </button>
 
 <script>
@@ -44,7 +31,7 @@
     ) as HTMLButtonElement;
 
     if (!button) {
-      console.error("모바일 메뉴 토글 버튼을 찾을 수 없습니다.");
+      console.error("Mobile menu toggle button not found.");
       return;
     }
 
@@ -168,8 +155,8 @@
     display: none;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border: none;
     border-radius: var(--page-radius);
     background: var(--page-accent-light);
@@ -182,7 +169,7 @@
   }
 
   .page-mobile-menu-toggle:hover {
-    background: var(--page-neutral-200);
+    background: var(--page-text-reverse);
     color: var(--page-text);
     transform: translateY(-1px);
     box-shadow: var(--page-shadow-sm);
@@ -199,23 +186,35 @@
   }
 
   [data-theme="dark"] .page-mobile-menu-toggle:hover {
-    background: var(--page-neutral-800);
+    background: var(--page-text-reverse);
     color: var(--page-text);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--page-shadow-sm);
   }
 
-  .page-mobile-menu-toggle svg {
-    width: 20px;
-    height: 20px;
+  .page-mobile-menu-toggle svg,
+  .page-mobile-menu-toggle .refineui-icon,
+  .page-mobile-menu-toggle .page-menu-icon,
+  .page-mobile-menu-toggle span:not(.sr-only) {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    font-size: 24px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box;
     transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform-origin: center;
   }
 
-  .page-mobile-menu-toggle:hover svg {
+  .page-mobile-menu-toggle:hover svg,
+  .page-mobile-menu-toggle:hover .refineui-icon,
+  .page-mobile-menu-toggle:hover .page-menu-icon {
     transform: scale(1.1);
   }
 
-  /* 햄버거 메뉴 아이콘 애니메이션 */
+  /* 햄버거 메뉴 아이콘 - 크기는 전역 header-icons.css / 위 span 규칙과 동일 24px */
   .page-menu-icon {
     transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform-origin: center;
@@ -245,19 +244,27 @@
     height: 80px;
   }
 
-  /* 모바일에서만 표시 */
+  /* 모바일: 터치 영역 32px, RefineUI 아이콘 20px */
   @media (max-width: 768px) {
     .page-mobile-menu-toggle {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      min-height: 32px;
     }
 
-    .page-mobile-menu-toggle svg {
-      width: 18px;
-      height: 18px;
+    .page-mobile-menu-toggle svg,
+    .page-mobile-menu-toggle .refineui-icon,
+    .page-mobile-menu-toggle .page-menu-icon,
+    .page-mobile-menu-toggle span:not(.sr-only) {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+      font-size: 20px !important;
     }
   }
 
@@ -269,11 +276,15 @@
       min-height: 32px;
     }
 
-    .page-menu-icon {
-      width: 16px;
-      height: 16px;
-      min-width: 16px;
-      min-height: 16px;
+    .page-menu-icon,
+    .page-mobile-menu-toggle .refineui-icon,
+    .page-mobile-menu-toggle .page-menu-icon,
+    .page-mobile-menu-toggle span:not(.sr-only) {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+      font-size: 20px !important;
     }
   }
 </style>
