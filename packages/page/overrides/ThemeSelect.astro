@@ -22,8 +22,10 @@ const moonIcon = createIconHTML("Moon", "regular");
     title={Astro.locals.t("themeSelect.accessibleLabel")}
     data-variant="ghost"
   >
-    <Fragment set:html={sunIcon(24, "currentColor", "refineui-icon sun")} />
-    <Fragment set:html={moonIcon(24, "currentColor", "refineui-icon moon")} />
+    <span class="page-theme-toggle-icon-wrap">
+      <Fragment set:html={sunIcon(24, "currentColor", "refineui-icon sun")} />
+      <Fragment set:html={moonIcon(24, "currentColor", "refineui-icon moon")} />
+    </span>
     <span class="sr-only">Toggle theme</span>
   </button>
 </page-select>
@@ -61,13 +63,22 @@ const moonIcon = createIconHTML("Moon", "regular");
     transform: scale(0.95);
   }
 
-  /* 아이콘 가운데 정렬 (두 개 겹쳐서 하나만 보이게), 크기 24px로 Slack과 통일
-     인라인 inline-block 덮어써서 글리프가 24x24 박스 안에서 시각적 중앙 */
-  .page-theme-toggle-button .sun,
-  .page-theme-toggle-button .moon {
-    position: absolute !important;
-    left: 50% !important;
-    top: 50% !important;
+  /* Search와 동일: 버튼이 한 개의 아이콘 영역(24x24)만 flex로 중앙에 둠 */
+  .page-theme-toggle-icon-wrap {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .page-theme-toggle-icon-wrap :global(.sun),
+  .page-theme-toggle-icon-wrap :global(.moon) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     margin: 0 !important;
     width: 24px !important;
     height: 24px !important;
@@ -75,51 +86,25 @@ const moonIcon = createIconHTML("Moon", "regular");
     min-height: 24px !important;
     font-size: 24px !important;
     line-height: 24px !important;
-    text-align: center !important;
-    transform: translate(-50%, -50%);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    display: inline-flex !important;
+    box-sizing: border-box !important;
     align-items: center !important;
-    pointer-events: none;
   }
-
-  .page-theme-toggle-button .sun {
-    opacity: 1;
+  /* 라이트: sun만 보임. header-icons의 .refineui-icon보다 우선하도록 선택자 강하게 */
+  .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.moon),
+  .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.refineui-icon.moon) {
+    display: none !important;
   }
-
-  .page-theme-toggle-button .moon {
-    opacity: 0;
-    transform: translate(-50%, -50%) rotate(90deg) scale(0.8);
+  .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.sun) {
+    display: inline-flex !important;
   }
-
-  page-select[data-theme="dark"] .page-theme-toggle-button .sun,
-  [data-theme="dark"] .page-theme-toggle-button .sun {
-    opacity: 0;
-    transform: translate(-50%, -50%) rotate(-90deg) scale(0.8);
+  /* 다크: moon만 보임 */
+  :global([data-theme="dark"]) .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.sun),
+  :global([data-theme="dark"]) .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.refineui-icon.sun) {
+    display: none !important;
   }
-
-  page-select[data-theme="dark"] .page-theme-toggle-button .moon,
-  [data-theme="dark"] .page-theme-toggle-button .moon {
-    opacity: 1;
-    transform: translate(-50%, -50%) rotate(0deg) scale(1);
-  }
-
-  .page-theme-toggle-button:hover .sun {
-    transform: translate(-50%, -50%) rotate(180deg) scale(1.1);
-  }
-
-  .page-theme-toggle-button:hover .moon {
-    transform: translate(-50%, -50%) rotate(15deg) scale(1.1);
-  }
-
-  page-select[data-theme="dark"] .page-theme-toggle-button:hover .sun,
-  [data-theme="dark"] .page-theme-toggle-button:hover .sun {
-    transform: translate(-50%, -50%) rotate(-180deg) scale(0.8);
-  }
-
-  page-select[data-theme="dark"] .page-theme-toggle-button:hover .moon,
-  [data-theme="dark"] .page-theme-toggle-button:hover .moon {
-    transform: translate(-50%, -50%) rotate(15deg) scale(1.1);
+  :global([data-theme="dark"]) .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.moon),
+  :global([data-theme="dark"]) .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.refineui-icon.moon) {
+    display: inline-flex !important;
   }
 
   /* page 스타일 커스텀 속성 */
@@ -147,8 +132,12 @@ const moonIcon = createIconHTML("Moon", "regular");
       min-width: 32px !important;
       min-height: 32px !important;
     }
-    .page-theme-toggle-button .sun,
-    .page-theme-toggle-button .moon {
+    .page-theme-toggle-icon-wrap {
+      width: 20px;
+      height: 20px;
+    }
+    .page-theme-toggle-icon-wrap :global(.sun),
+    .page-theme-toggle-icon-wrap :global(.moon) {
       width: 20px !important;
       height: 20px !important;
       min-width: 20px !important;

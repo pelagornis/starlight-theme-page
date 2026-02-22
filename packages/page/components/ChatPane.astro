@@ -368,6 +368,8 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
     flex-wrap: nowrap;
     align-items: center;
     gap: 0;
+    width: 100%;
+    min-width: 0;
     border: 1px solid var(--page-border);
     border-radius: var(--page-radius-lg);
     background: var(--page-bg);
@@ -385,11 +387,14 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
   .page-chat-pane-input {
     flex: 1 1 auto;
     min-width: 0;
+    width: 0;
     padding: var(--page-space-3) var(--page-space-4);
     border: none;
     background: transparent;
     color: var(--page-text);
     font-size: var(--page-font-size-base);
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .page-chat-pane-input:focus {
     outline: none;
@@ -398,10 +403,12 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
     color: var(--page-text-muted);
   }
 
+  /* Search/네비 버튼과 동일: inline-flex로 아이콘 중앙 */
   .page-chat-pane-send {
     width: 44px;
     height: 44px;
     min-width: 44px;
+    max-width: 44px;
     min-height: 44px;
     padding: 0;
     border: none;
@@ -410,10 +417,27 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
     background: transparent;
     color: var(--page-accent);
     cursor: pointer;
-    display: grid;
-    place-items: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
-    font-size: 0;
+    flex-grow: 0;
+    position: relative;
+  }
+  .page-chat-pane-send :global(.refineui-icon),
+  .page-chat-pane-send :global(span[class*="refineui"]) {
+    font-family: "RefineUI-System-Icons-Regular", sans-serif !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    font-size: 20px !important;
+    line-height: 20px !important;
+    box-sizing: border-box !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
   .page-chat-pane-send:hover:not(:disabled) {
     background: var(--page-bg);
@@ -444,8 +468,9 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
     font-weight: var(--page-font-weight-semibold);
     color: var(--page-text);
   }
+  /* Search/네비 버튼과 동일: inline-flex + 아이콘 20px 중앙 */
   .page-chat-pane-close {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 40px;
@@ -457,6 +482,22 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
     background: transparent;
     color: var(--page-text-secondary);
     cursor: pointer;
+    position: relative;
+  }
+  .page-chat-pane-close :global(.refineui-icon),
+  .page-chat-pane-close :global(span[class*="refineui"]) {
+    font-family: "RefineUI-System-Icons-Regular", sans-serif !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    font-size: 20px !important;
+    line-height: 20px !important;
+    box-sizing: border-box !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
   .page-chat-pane-close:hover {
     background: var(--page-bg-secondary);
