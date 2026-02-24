@@ -1,8 +1,22 @@
 ---
 import config from "virtual:starlight/user-config";
 import * as pkg from "@refineui/web-icons";
-const createIconHTML = (pkg as { createIconHTML?: (name: string, style: 'regular' | 'filled') => (size?: number, color?: string, className?: string) => string }).createIconHTML;
-const globeIcon = typeof createIconHTML === 'function' ? createIconHTML("Earth", "regular") : () => '';
+import { ICON_NAME_MAPPING } from "../lib/icon-names";
+const createIconHTML = (
+  pkg as {
+    createIconHTML?: (
+      name: string,
+      style: "regular" | "filled",
+    ) => (size?: number, color?: string, className?: string) => string;
+  }
+).createIconHTML;
+const SIZE = 24;
+const languageName = ICON_NAME_MAPPING.language ?? "local-language";
+// createIconHTML(인라인 문자)만 사용. 클래스 방식(ic_refineui_* :before)은 weather-sunny/local-language에서 미표시 이슈 있음
+const globeIconHtml =
+  typeof createIconHTML === "function"
+    ? createIconHTML(languageName, "regular")(SIZE, "currentColor", "refineui-icon")
+    : "";
 
 const { locales } = config;
 const currentLocale = Astro.locals.starlightRoute?.locale;
@@ -21,7 +35,7 @@ function getPathWithoutLocale(path: string, locale: string): string {
 
 const basePath = getPathWithoutLocale(
   currentPath,
-  currentLocale || defaultLocale || "root"
+  currentLocale || defaultLocale || "root",
 );
 ---
 
@@ -33,7 +47,7 @@ const basePath = getPathWithoutLocale(
         data-base-path={basePath}
         data-default-locale={defaultLocale}
       >
-        <Fragment set:html={globeIcon(24, "currentColor", "refineui-icon")} />
+        {globeIconHtml ? <Fragment set:html={globeIconHtml} /> : null}
       </button>
 
       <div
@@ -59,7 +73,7 @@ const basePath = getPathWithoutLocale(
   // 언어 선택 기능
   document.addEventListener("DOMContentLoaded", () => {
     const languageButton = document.querySelector(
-      ".page-language-select-button"
+      ".page-language-select-button",
     );
     const languageDropdown = document.querySelector(".page-language-dropdown");
 
@@ -231,7 +245,6 @@ const basePath = getPathWithoutLocale(
     box-sizing: border-box;
     display: inline-flex !important;
     align-items: center !important;
-    justify-content: center !important;
   }
 
   @media (max-width: 768px) {

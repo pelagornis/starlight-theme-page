@@ -2,8 +2,9 @@
 /// <reference path="../virtual.d.ts" />
 import Default from "@astrojs/starlight/components/Search.astro";
 import * as pkg from "@refineui/web-icons";
+import { ICON_NAME_MAPPING } from "../lib/icon-names";
 const createIconHTML = (pkg as { createIconHTML?: (name: string, style: 'regular' | 'filled') => (size?: number, color?: string, className?: string) => string }).createIconHTML;
-const searchIcon = typeof createIconHTML === 'function' ? createIconHTML("Search", "regular") : () => '';
+const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME_MAPPING.search ?? "Search", "regular") : () => '';
 ---
 
 <!-- 검색 버튼 -->

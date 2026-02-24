@@ -1,5 +1,6 @@
 ---
 import * as pkg from "@refineui/web-icons";
+import { ICON_NAME_MAPPING } from "../lib/icon-names";
 const createIconHTML = (
   pkg as {
     createIconHTML?: (
@@ -10,11 +11,11 @@ const createIconHTML = (
 ).createIconHTML;
 const closeIcon =
   typeof createIconHTML === "function"
-    ? createIconHTML("Dismiss", "regular")
+    ? createIconHTML(ICON_NAME_MAPPING.dismiss ?? "Dismiss", "regular")
     : () => "";
 const arrowRightIcon =
   typeof createIconHTML === "function"
-    ? createIconHTML("Next", "regular")
+    ? createIconHTML(ICON_NAME_MAPPING.next ?? "Next", "regular")
     : () => "";
 interface Props {
   basePath?: string;

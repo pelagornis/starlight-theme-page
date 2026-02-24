@@ -1,17 +1,13 @@
 ---
 import * as pkg from "@refineui/web-icons";
-const createIconHTML = (
-  pkg as {
-    createIconHTML?: (
-      name: string,
-      style: "regular" | "filled",
-    ) => (size?: number, color?: string, className?: string) => string;
-  }
-).createIconHTML;
-if (typeof createIconHTML !== "function")
-  throw new Error("@refineui/web-icons: createIconHTML not found");
-const sunIcon = createIconHTML("Lightbulb", "regular");
-const moonIcon = createIconHTML("Moon", "regular");
+import { ICON_NAME_MAPPING } from "../lib/icon-names";
+const createIconHTML = (pkg as { createIconHTML?: (name: string, style: "regular" | "filled") => (size?: number, color?: string, className?: string) => string }).createIconHTML;
+const SIZE = 24;
+const sunName = ICON_NAME_MAPPING.themeSun ?? "weather-sunny";
+const moonName = ICON_NAME_MAPPING.themeMoon ?? "Moon";
+// createIconHTML(인라인 문자)만 사용. weather-sunny regular는 폰트에 글리프가 없을 수 있어 filled 사용
+const sunHtml = typeof createIconHTML === "function" ? createIconHTML(sunName, "filled")(SIZE, "currentColor", "refineui-icon sun") : "";
+const moonHtml = typeof createIconHTML === "function" ? createIconHTML(moonName, "regular")(SIZE, "currentColor", "refineui-icon moon") : "";
 ---
 
 <page-select>
@@ -23,8 +19,8 @@ const moonIcon = createIconHTML("Moon", "regular");
     data-variant="ghost"
   >
     <span class="page-theme-toggle-icon-wrap">
-      <Fragment set:html={sunIcon(24, "currentColor", "refineui-icon sun")} />
-      <Fragment set:html={moonIcon(24, "currentColor", "refineui-icon moon")} />
+      {sunHtml ? <Fragment set:html={sunHtml} /> : null}
+      {moonHtml ? <Fragment set:html={moonHtml} /> : null}
     </span>
     <span class="sr-only">Toggle theme</span>
   </button>
@@ -91,19 +87,33 @@ const moonIcon = createIconHTML("Moon", "regular");
   }
   /* 라이트: sun만 보임. header-icons의 .refineui-icon보다 우선하도록 선택자 강하게 */
   .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.moon),
-  .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.refineui-icon.moon) {
+  .page-theme-toggle-button
+    .page-theme-toggle-icon-wrap
+    :global(.refineui-icon.moon) {
     display: none !important;
   }
   .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.sun) {
     display: inline-flex !important;
   }
   /* 다크: moon만 보임 */
-  :global([data-theme="dark"]) .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.sun),
-  :global([data-theme="dark"]) .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.refineui-icon.sun) {
+  :global([data-theme="dark"])
+    .page-theme-toggle-button
+    .page-theme-toggle-icon-wrap
+    :global(.sun),
+  :global([data-theme="dark"])
+    .page-theme-toggle-button
+    .page-theme-toggle-icon-wrap
+    :global(.refineui-icon.sun) {
     display: none !important;
   }
-  :global([data-theme="dark"]) .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.moon),
-  :global([data-theme="dark"]) .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.refineui-icon.moon) {
+  :global([data-theme="dark"])
+    .page-theme-toggle-button
+    .page-theme-toggle-icon-wrap
+    :global(.moon),
+  :global([data-theme="dark"])
+    .page-theme-toggle-button
+    .page-theme-toggle-icon-wrap
+    :global(.refineui-icon.moon) {
     display: inline-flex !important;
   }
 

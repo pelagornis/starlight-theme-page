@@ -1,5 +1,6 @@
 ---
 import * as pkg from "@refineui/web-icons";
+import { ICON_NAME_MAPPING } from "../lib/icon-names";
 const createIconHTML = (
   pkg as {
     createIconHTML?: (
@@ -10,7 +11,7 @@ const createIconHTML = (
 ).createIconHTML;
 const chatIcon =
   typeof createIconHTML === "function"
-    ? createIconHTML("Chat", "regular")
+    ? createIconHTML(ICON_NAME_MAPPING.chat ?? "Chat", "regular")
     : () => "";
 ---
 

@@ -1,7 +1,8 @@
 ---
 import * as pkg from "@refineui/web-icons";
+import { ICON_NAME_MAPPING } from "../lib/icon-names";
 const createIconHTML = (pkg as { createIconHTML?: (name: string, style: 'regular' | 'filled') => (size?: number, color?: string, className?: string) => string }).createIconHTML;
-const arrowUpIcon = typeof createIconHTML === 'function' ? createIconHTML("Send", "regular") : () => '';
+const arrowUpIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME_MAPPING.send ?? "Send", "regular") : () => '';
 interface Props {
   basePath?: string;
   provider?: 'openai' | 'claude' | 'gemini';
