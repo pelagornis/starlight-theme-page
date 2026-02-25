@@ -41,6 +41,7 @@
         "styles.css",
         "styles/*.css",
         "lib/**/*.ts",
+        "api/**/*.ts",
         "components/*.astro",
         "overrides/*.astro",
         "assets/*.svg",
