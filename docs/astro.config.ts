@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { config as loadEnv } from 'dotenv';
+import netlify from '@astrojs/netlify';
 import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
 import pagePlugin from '@pelagornis/page';
@@ -33,6 +34,7 @@ export const locales = {
 export default defineConfig({
   site: 'https://pelagornis-page.netlify.app/',
   output: 'server',
+  adapter: netlify(),
   integrations: [
     starlight({
       logo: {
