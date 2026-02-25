@@ -5,6 +5,11 @@
  * Paths:
  * - Default: resolved relative to this package (repo/docs when in monorepo).
  * - Override: set env CRAWL_DOCS_ROOT and/or CRAWL_OUT_FILE to absolute or cwd-relative paths.
+ *
+ * Chunking:
+ * - CRAWL_CHUNK_BY_HEADINGS=0 to disable heading-based split (one chunk per file).
+ * - When enabled, splits by ## / ### / #### and sub-splits any section longer than
+ *   CRAWL_MAX_CHUNK_CHARS (default 800) by paragraphs for finer retrieval.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -25,8 +30,11 @@ const OUT_FILE = process.env.CRAWL_OUT_FILE
   ? path.resolve(process.cwd(), process.env.CRAWL_OUT_FILE)
   : DEFAULT_OUT_FILE;
 
-/** When true, split each file into chunks by ## / ### headings for finer retrieval. */
+/** When true, split each file into chunks by ## / ### / #### headings for finer retrieval. */
 const CHUNK_BY_HEADINGS = process.env.CRAWL_CHUNK_BY_HEADINGS !== '0';
+
+/** Max chars per chunk; longer sections are split by paragraphs to improve retrieval precision. */
+const MAX_CHUNK_CHARS = Number(process.env.CRAWL_MAX_CHUNK_CHARS) || 800;
 
 export interface DocChunk {
   path: string;
@@ -36,6 +44,8 @@ export interface DocChunk {
   /** Section title when chunked by heading (e.g. "Basic Usage"). */
   section?: string;
   content: string;
+  /** Extra search terms so queries like "다운받아" match; filled by crawler for install/getting-started chunks. */
+  keywords?: string;
 }
 
 const CODE_PLACEHOLDER = '___CRAWL_CODE_BLOCK___';
@@ -89,62 +99,88 @@ function extractTextFromMdx(filePath: string): DocChunk[] {
   const slug = relativePath.replace(/\.(mdx|md)$/, '').replace(/\\/g, '/');
   const basePath = `/${slug}`;
 
-  if (!CHUNK_BY_HEADINGS) {
-    return [
-      {
-        path: basePath,
-        locale,
-        title: pageTitle,
-        description,
-        content: cleanText,
-      },
-    ];
-  }
+  const isInstallPage =
+    basePath.includes('getting-started') ||
+    (typeof description === 'string' && /install|설치|다운로드|download/i.test(description));
+  const searchKeywords = isInstallPage
+    ? 'install download 설치 다운로드 다운받아 설치하기 getting started 시작'
+    : undefined;
 
-  const chunks: DocChunk[] = [];
-  const sectionStart = /(?=^(?:##|###)\s+.+$)/gm;
+  const makeChunk = (opts: { path: string; locale: string; title: string; description?: string; content: string; section?: string }) => ({
+    ...opts,
+    keywords: searchKeywords,
+  });
+
+  const result: DocChunk[] = [];
+  const emitChunks = (chunkOpts: { path: string; locale: string; title: string; description?: string; section?: string; content: string }[]) => {
+    for (const opts of chunkOpts) {
+      let content = opts.content;
+      if (content.length <= MAX_CHUNK_CHARS) {
+        result.push(makeChunk({ ...opts, content }));
+        continue;
+      }
+      const paragraphs = content.split(/\n\n+/);
+      let acc = '';
+      let partIndex = 0;
+      for (const p of paragraphs) {
+        const next = acc ? acc + '\n\n' + p : p;
+        if (next.length > MAX_CHUNK_CHARS && acc) {
+          const sectionLabel = opts.section ? (partIndex > 0 ? `${opts.section} (continued)` : opts.section) : undefined;
+          result.push(makeChunk({ ...opts, section: sectionLabel, content: acc }));
+          partIndex += 1;
+          acc = p;
+        } else {
+          acc = next;
+        }
+      }
+      if (acc) {
+        const sectionLabel = opts.section ? (partIndex > 0 ? `${opts.section} (continued)` : opts.section) : undefined;
+        result.push(makeChunk({ ...opts, section: sectionLabel, content: acc }));
+      }
+    }
+  };
+
+  if (!CHUNK_BY_HEADINGS) {
+    emitChunks([{ path: basePath, locale, title: pageTitle, description, content: cleanText }]);
+    return result;
+  }
+  const sectionStart = /(?=^(?:##|###|####)\s+.+$)/gm;
   const sections = cleanText.split(sectionStart);
   let intro = '';
+  const sectionBlocks: { headingTitle: string; sectionSlug: string; sectionContent: string }[] = [];
   for (let i = 0; i < sections.length; i++) {
     const block = sections[i].trim();
     if (!block) continue;
-    const headingMatch = block.match(/^(##|###)\s+(.+)$/m);
+    const headingMatch = block.match(/^(##|###|####)\s+(.+)$/m);
     if (!headingMatch) {
       intro += (intro ? '\n\n' : '') + block;
       continue;
     }
     const headingTitle = headingMatch[2].trim();
     const sectionSlug = headingToSlug(headingTitle);
-    let sectionContent = block.replace(/^(?:##|###)\s+.+$/m, '').trim();
+    let sectionContent = block.replace(/^(?:##|###|####)\s+.+$/m, '').trim();
     if (!sectionContent) sectionContent = headingTitle;
-    chunks.push({
-      path: sectionSlug ? `${basePath}#${sectionSlug}` : basePath,
-      locale,
-      title: pageTitle,
-      description,
-      section: headingTitle,
-      content: sectionContent,
-    });
+    sectionBlocks.push({ headingTitle, sectionSlug, sectionContent });
   }
   if (intro) {
-    chunks.unshift({
-      path: basePath,
-      locale,
-      title: pageTitle,
-      description,
-      content: intro,
-    });
+    emitChunks([{ path: basePath, locale, title: pageTitle, description, content: intro }]);
   }
-  if (chunks.length === 0) {
-    chunks.push({
-      path: basePath,
-      locale,
-      title: pageTitle,
-      description,
-      content: cleanText,
-    });
+  for (const { headingTitle, sectionSlug, sectionContent } of sectionBlocks) {
+    emitChunks([
+      {
+        path: sectionSlug ? `${basePath}#${sectionSlug}` : basePath,
+        locale,
+        title: pageTitle,
+        description,
+        section: headingTitle,
+        content: sectionContent,
+      },
+    ]);
   }
-  return chunks;
+  if (result.length === 0) {
+    emitChunks([{ path: basePath, locale, title: pageTitle, description, content: cleanText }]);
+  }
+  return result;
 }
 
 function collectDocFiles(dir: string, acc: string[] = []): string[] {

@@ -9,6 +9,8 @@ export interface DocChunk {
   /** Section heading when chunk is from a subsection (crawler chunk-by-heading). */
   section?: string;
   content: string;
+  /** Optional search keywords added by crawler (e.g. install/download synonyms) so retrieval stays keyword-only. */
+  keywords?: string;
 }
 
 function tokenize(text: string): string[] {
@@ -20,7 +22,7 @@ function tokenize(text: string): string[] {
 }
 
 function scoreChunk(chunk: DocChunk, queryTokens: string[]): number {
-  const content = `${chunk.title} ${chunk.section ?? ''} ${chunk.description ?? ''} ${chunk.content}`.toLowerCase();
+  const content = `${chunk.title} ${chunk.section ?? ''} ${chunk.description ?? ''} ${chunk.keywords ?? ''} ${chunk.content}`.toLowerCase();
   let score = 0;
   for (const t of queryTokens) {
     if (content.includes(t)) score += 1;
