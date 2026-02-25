@@ -1,0 +1,4 @@
+# Netlify build config (monorepo: docs app)
+[build]
+  command = "pnpm --filter docs... run build"
+  publish = "docs/dist"

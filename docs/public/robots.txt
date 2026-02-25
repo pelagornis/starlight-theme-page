@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pelagornis-page.netlify.app/sitemap-index.xml
