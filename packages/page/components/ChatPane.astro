@@ -13,9 +13,9 @@ const closeIcon =
   typeof createIconHTML === "function"
     ? createIconHTML(ICON_NAME_MAPPING.dismiss ?? "Dismiss", "regular")
     : () => "";
-const arrowRightIcon =
+const sendIcon =
   typeof createIconHTML === "function"
-    ? createIconHTML(ICON_NAME_MAPPING.next ?? "Next", "regular")
+    ? createIconHTML(ICON_NAME_MAPPING.send ?? "Next", "regular")
     : () => "";
 interface Props {
   basePath?: string;
@@ -150,7 +150,7 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
             disabled={!provider}
           >
             <Fragment
-              set:html={arrowRightIcon(20, "currentColor", "refineui-icon")}
+              set:html={sendIcon(20, "currentColor", "refineui-icon")}
             />
           </button>
         </div>
@@ -373,20 +373,38 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
     word-break: break-word;
     line-height: 1.6;
   }
-  .page-chat-pane-msg-body p:first-child { margin-top: 0; }
-  .page-chat-pane-msg-body p:last-child { margin-bottom: 0; }
-  .page-chat-pane-msg-body p { margin: 0.5em 0; }
-  .page-chat-pane-msg-body strong { font-weight: 600; }
-  .page-chat-pane-msg-body em { font-style: italic; }
+  .page-chat-pane-msg-body p:first-child {
+    margin-top: 0;
+  }
+  .page-chat-pane-msg-body p:last-child {
+    margin-bottom: 0;
+  }
+  .page-chat-pane-msg-body p {
+    margin: 0.5em 0;
+  }
+  .page-chat-pane-msg-body strong {
+    font-weight: 600;
+  }
+  .page-chat-pane-msg-body em {
+    font-style: italic;
+  }
 
-  .page-chat-pane-msg-body ul, .page-chat-pane-msg-body ol {
+  .page-chat-pane-msg-body ul,
+  .page-chat-pane-msg-body ol {
     margin: 0.5em 0;
     padding-left: 1.5em;
   }
-  .page-chat-pane-msg-body ul { list-style-type: disc; }
-  .page-chat-pane-msg-body ol { list-style-type: decimal; }
-  .page-chat-pane-msg-body li { margin: 0.3em 0; }
-  .page-chat-pane-msg-body li > ul, .page-chat-pane-msg-body li > ol {
+  .page-chat-pane-msg-body ul {
+    list-style-type: disc;
+  }
+  .page-chat-pane-msg-body ol {
+    list-style-type: decimal;
+  }
+  .page-chat-pane-msg-body li {
+    margin: 0.3em 0;
+  }
+  .page-chat-pane-msg-body li > ul,
+  .page-chat-pane-msg-body li > ol {
     margin: 0.2em 0;
     padding-left: 1.25em;
   }
@@ -432,7 +450,9 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
     color: var(--page-accent);
     text-decoration: none;
     border-bottom: 1px solid transparent;
-    transition: border-color 0.15s ease, color 0.15s ease;
+    transition:
+      border-color 0.15s ease,
+      color 0.15s ease;
   }
   .page-chat-pane-msg-body a:hover {
     text-decoration: none;
@@ -450,20 +470,38 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
     border-left-color: var(--page-accent);
   }
 
-  .page-chat-pane-msg-body h1, .page-chat-pane-msg-body h2, .page-chat-pane-msg-body h3,
-  .page-chat-pane-msg-body h4, .page-chat-pane-msg-body h5, .page-chat-pane-msg-body h6 {
+  .page-chat-pane-msg-body h1,
+  .page-chat-pane-msg-body h2,
+  .page-chat-pane-msg-body h3,
+  .page-chat-pane-msg-body h4,
+  .page-chat-pane-msg-body h5,
+  .page-chat-pane-msg-body h6 {
     margin: 0.85em 0 0.4em;
     font-weight: 600;
     line-height: 1.35;
   }
-  .page-chat-pane-msg-body h1:first-child, .page-chat-pane-msg-body h2:first-child,
-  .page-chat-pane-msg-body h3:first-child, .page-chat-pane-msg-body h4:first-child,
-  .page-chat-pane-msg-body h5:first-child, .page-chat-pane-msg-body h6:first-child {
+  .page-chat-pane-msg-body h1:first-child,
+  .page-chat-pane-msg-body h2:first-child,
+  .page-chat-pane-msg-body h3:first-child,
+  .page-chat-pane-msg-body h4:first-child,
+  .page-chat-pane-msg-body h5:first-child,
+  .page-chat-pane-msg-body h6:first-child {
     margin-top: 0;
   }
-  .page-chat-pane-msg-body h1 { font-size: 1.1em; }
-  .page-chat-pane-msg-body h2 { font-size: 1.05em; border-bottom: 1px solid var(--page-border); padding-bottom: 0.2em; }
-  .page-chat-pane-msg-body h3, .page-chat-pane-msg-body h4, .page-chat-pane-msg-body h5, .page-chat-pane-msg-body h6 { font-size: 1em; }
+  .page-chat-pane-msg-body h1 {
+    font-size: 1.1em;
+  }
+  .page-chat-pane-msg-body h2 {
+    font-size: 1.05em;
+    border-bottom: 1px solid var(--page-border);
+    padding-bottom: 0.2em;
+  }
+  .page-chat-pane-msg-body h3,
+  .page-chat-pane-msg-body h4,
+  .page-chat-pane-msg-body h5,
+  .page-chat-pane-msg-body h6 {
+    font-size: 1em;
+  }
 
   .page-chat-pane-msg-body table {
     border-collapse: collapse;
@@ -474,7 +512,8 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
     overflow: hidden;
     border: 1px solid var(--page-border);
   }
-  .page-chat-pane-msg-body th, .page-chat-pane-msg-body td {
+  .page-chat-pane-msg-body th,
+  .page-chat-pane-msg-body td {
     border: 1px solid var(--page-border);
     padding: 0.4em 0.65em;
     text-align: left;
@@ -892,7 +931,8 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
         if (!Array.isArray(list) || list.length === 0) return;
         chatHistory = list;
         for (const m of list) {
-          const bodyHtml = m.role === "assistant" ? renderChatMarkdown(m.text) : undefined;
+          const bodyHtml =
+            m.role === "assistant" ? renderChatMarkdown(m.text) : undefined;
           addMessage(m.role, m.text, m.sources || [], bodyHtml, true);
         }
       } catch (e) {
