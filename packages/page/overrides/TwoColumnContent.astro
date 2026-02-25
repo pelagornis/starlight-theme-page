@@ -3,7 +3,7 @@ const { toc, entry, sidebar } = Astro.locals.starlightRoute;
 import Sidebar from "./Sidebar.astro";
 import MobileMenuOverlay from "./MobileMenuOverlay.astro";
 
-// 사이드바가 있는지 확인
+// Check if sidebar exists
 const hasSidebar = sidebar && sidebar.length > 0;
 ---
 
@@ -38,7 +38,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
 </main>
 
 <style>
-  /* CSS 변수 정의 */
+  /* CSS variables */
   :root {
     --page-sidebar-width: 320px;
     --page-toc-width: 320px;
@@ -48,7 +48,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     --page-toc-height: calc(100vh - 104px);
   }
 
-  /* 화면 크기에 따른 동적 조절 */
+  /* Dynamic sizing by viewport */
   @media (min-width: 1600px) and (max-width: 1999px) {
     :root {
       --page-toc-width: 300px;
@@ -70,13 +70,13 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* 전체 레이아웃 래퍼 */
+  /* Layout wrapper */
   .page-layout-wrapper {
     min-height: 100vh;
     background: var(--page-bg);
   }
 
-  /* 메인 컨테이너 - min-width: 0으로 채팅 패널 열렸을 때 좁은 영역에서도 줄어들 수 있게 */
+  /* Main container - min-width: 0 so it can shrink when chat panel is open */
   .page-main-container {
     display: flex;
     min-height: calc(100vh - var(--page-header-height));
@@ -84,27 +84,27 @@ const hasSidebar = sidebar && sidebar.length > 0;
     position: relative;
   }
 
-  /* 사이드바가 있는 경우 */
+  /* With sidebar */
   .page-main-container.with-sidebar {
     gap: var(--page-content-gap);
   }
 
-  /* 사이드바가 없는 경우 */
+  /* Without sidebar */
   .page-main-container.no-sidebar {
     gap: 0;
   }
 
-  /* TOC가 있는 경우 */
+  /* With TOC */
   .page-main-container.with-toc {
     gap: var(--page-content-gap);
   }
 
-  /* TOC가 없는 경우 */
+  /* Without TOC */
   .page-main-container.no-toc {
     gap: var(--page-content-gap);
   }
 
-  /* 왼쪽 사이드바 (축소된 크기) */
+  /* Left sidebar (narrow) */
   .page-sidebar-nav {
     width: var(--page-sidebar-width);
     flex-shrink: 0;
@@ -113,7 +113,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     transition: transform 0.3s ease;
   }
 
-  /* 데스크톱에서 사이드바 표시 (축소된 크기) */
+  /* Show sidebar on desktop (narrow) */
   @media (min-width: 769px) {
     .page-sidebar-nav {
       position: fixed;
@@ -133,7 +133,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* 모바일에서는 사이드바 숨기기 (햄버거 메뉴로만 접근) */
+  /* Hide sidebar on mobile (access via hamburger only) */
   @media (max-width: 768px) {
     .page-main-container {
       flex-direction: column;
@@ -170,7 +170,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* 컨텐츠 래퍼 - 반응형 자동 조절 */
+  /* Content wrapper - responsive */
   .page-content-wrapper {
     flex: 1;
     min-height: calc(100vh - var(--page-header-height));
@@ -179,7 +179,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     min-width: 0;
   }
 
-  /* index 페이지일 때 전체 너비 사용 */
+  /* Full width on index page */
   .page-content-wrapper-full {
     margin-left: 0 !important;
     width: 100% !important;
@@ -188,14 +188,14 @@ const hasSidebar = sidebar && sidebar.length > 0;
     padding: 0 var(--page-space-8) !important;
   }
 
-  /* 모바일에서 index 페이지 패딩 조정 */
+  /* Index page padding on mobile */
   @media (max-width: 768px) {
     .page-content-wrapper-full {
       padding: 0 var(--page-space-4) !important;
     }
   }
 
-  /* 반응형 max-width 조정 */
+  /* Responsive max-width */
   @media (min-width: 1400px) {
     .page-content-wrapper-full {
       max-width: 1400px !important;
@@ -230,7 +230,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     gap: var(--page-space-8);
   }
 
-  /* 매우 큰 화면에서 최대 너비 제한 */
+  /* Max width on very large screens */
   @media (min-width: 2000px) {
     .page-main-container {
       max-width: 1800px;
@@ -238,7 +238,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* 초대형 화면에서 더 넓은 최대 너비 */
+  /* Wider max width on extra-large screens */
   @media (min-width: 2400px) {
     .page-main-container {
       max-width: 2000px;
@@ -246,7 +246,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* 중간 화면에서 TOC를 위로 이동 - 반응형 */
+  /* Move TOC above on medium screens - responsive */
   @media (min-width: 768px) and (max-width: 1279px) {
     .page-main-container {
       flex-direction: column;
@@ -280,7 +280,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* 채팅 패널 열렸을 때: 본문 영역이 좁아지므로 1640px 이하에서는 컬럼 레이아웃 사용 (텍스트/레이아웃 깨짐 방지) */
+  /* When chat open: use column layout below 1640px to avoid layout break */
   :global(body.page-chat-open) .page-main-container {
     min-width: 0;
   }
@@ -319,7 +319,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* 중간 화면에서 최대 너비 제한 */
+  /* Max width on medium screens */
   @media (min-width: 1200px) and (max-width: 1599px) {
     .page-main-container {
       max-width: 1200px;
@@ -327,7 +327,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* 큰 화면에서 TOC를 오른쪽에 표시 */
+  /* TOC on right on large screens */
   @media (min-width: 1280px) {
     .page-main-container {
       display: flex;
@@ -407,7 +407,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
-  /* TOC 제목 스타일 */
+  /* TOC title style */
   .page-toc-sticky :global(h2) {
     font-size: 0.875rem;
     font-weight: 600;
@@ -418,7 +418,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     letter-spacing: 0.05em;
   }
 
-  /* TOC 링크 스타일 */
+  /* TOC link style */
   .page-toc-sticky :global(ul) {
     list-style: none;
     padding: 0;
@@ -454,14 +454,14 @@ const hasSidebar = sidebar && sidebar.length > 0;
     padding-left: var(--page-space-2);
   }
 
-  /* TOC 깊이별 들여쓰기 */
+  /* TOC indent by depth */
   .page-toc-sticky :global(ul ul) {
     margin-left: var(--page-space-4);
     border-left: 1px solid var(--page-border);
     padding-left: var(--page-space-2);
   }
 
-  /* page 스타일 TOC 스크롤바 */
+  /* Page-style TOC scrollbar */
   .page-toc-sticky::-webkit-scrollbar {
     width: 4px;
   }
@@ -479,7 +479,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     background: var(--page-text-secondary);
   }
 
-  /* page 스타일 TOC 링크 스타일링 - 간소화 */
+  /* Page-style TOC link - simplified */
   :global(.page-toc-sticky .sl-toc) {
     font-size: 0.875rem;
   }
@@ -507,7 +507,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     font-weight: 500 !important;
   }
 
-  /* page 스타일 TOC 제목 */
+  /* Page-style TOC title */
   :global(.page-toc-sticky .sl-toc > summary) {
     color: var(--page-text) !important;
     font-weight: 600 !important;
@@ -519,7 +519,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     letter-spacing: 0.05em !important;
   }
 
-  /* page 스타일 중첩 TOC */
+  /* Page-style nested TOC */
   :global(.page-toc-sticky .sl-toc ul) {
     list-style: none !important;
     margin-left: var(--page-space-4) !important;
@@ -531,7 +531,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     font-size: 0.8125rem !important;
   }
 
-  /* Starlight 기본 TOC를 header 아래에 fixed로 표시 */
+  /* Starlight default TOC fixed below header */
   :global(.sl-toc:not(.sl-toc-mobile)) {
     position: fixed !important;
     top: calc(var(--page-header-height) + var(--page-space-4)) !important;
@@ -544,7 +544,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     overflow-y: auto !important;
   }
 
-  /* Starlight 기본 TOC 제목 스타일 - 원래 디자인 유지 */
+  /* Starlight default TOC title - keep original design */
   :global(.sl-toc > summary) {
     display: flex !important;
     align-items: center;
@@ -561,7 +561,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     margin-bottom: var(--page-space-4);
   }
 
-  /* Starlight 기본 TOC 목록 스타일 - 원래 디자인 유지 */
+  /* Starlight default TOC list - keep original design */
   :global(.sl-toc ul) {
     list-style: none !important;
     padding: 0 !important;
@@ -597,41 +597,41 @@ const hasSidebar = sidebar && sidebar.length > 0;
     font-weight: 500 !important;
   }
 
-  /* 모바일에서 TOC 위치 조정 */
+  /* TOC position on mobile */
   @media (max-width: 767px) {
     .page-toc-sidebar {
       display: none !important;
     }
 
-    /* 모바일에서 TOC 완전히 숨기기 */
+    /* Hide TOC on mobile */
     :global(.sl-toc:not(.sl-toc-mobile)) {
       display: none !important;
     }
 
-    /* 컨텐츠에 상단 여백 추가 */
+    /* Top margin for content */
     .page-content-wrapper {
       padding-top: var(--page-header-height);
     }
   }
 
-  /* 중간 화면에서 TOC 숨기기 */
+  /* Hide TOC on medium screens */
   @media (min-width: 768px) and (max-width: 1279px) {
     .page-toc-sidebar {
       display: none !important;
     }
 
-    /* 중간 화면에서도 TOC 숨기기 */
+    /* Hide TOC on medium too */
     :global(.sl-toc:not(.sl-toc-mobile)) {
       display: none !important;
     }
 
-    /* 중간 화면에서 컨텐츠 여백 추가 */
+    /* Content margin on medium screens */
     .page-content-wrapper {
       padding-top: calc(var(--page-header-height));
     }
   }
 
-  /* 다크 테마에서 TOC 스타일 */
+  /* TOC in dark theme */
   [data-theme="dark"] :global(.sl-toc) {
     background: var(--page-bg) !important;
     border-color: var(--page-border) !important;
@@ -644,7 +644,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     color: var(--page-text) !important;
   }
 
-  /* 모바일 반응형 */
+  /* Mobile responsive */
   @media (max-width: 768px) {
     .page-single-column,
     .page-two-column-layout {
@@ -652,14 +652,14 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* 페이지 컨테이너 스타일 */
+  /* Page container style */
   .page-content-area {
     background: var(--page-bg);
     border-radius: var(--page-radius-lg);
     position: relative;
   }
 
-  /* 작은 화면에서 카드 스타일 제거 */
+  /* Remove card style on small screens */
   @media (max-width: 1279px) {
     .page-content-area {
       background: transparent;
@@ -667,7 +667,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* page 스타일 페이지 전환 애니메이션 */
+  /* Page-style page transition animation */
   @keyframes pageFadeIn {
     from {
       opacity: 0;
@@ -679,7 +679,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* 큰 화면에서 더 넓은 여백 */
+  /* Wider margin on large screens */
   @media (min-width: 2560px) {
     .page-two-column-layout {
       max-width: 2400px;

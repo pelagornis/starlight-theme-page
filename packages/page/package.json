@@ -58,7 +58,9 @@
         "directory": "packages/page"
     },
     "dependencies": {
-        "@refineui/web-icons": "^0.3.30",
+        "@refineui/web-icons": "^0.3.32",
+        "dompurify": "^3.2.2",
+        "marked": "^15.0.0",
         "@anthropic-ai/sdk": "^0.32.1",
         "@google/generative-ai": "^0.21.0",
         "dotenv": "^17.3.1",

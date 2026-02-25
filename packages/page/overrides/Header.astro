@@ -1,5 +1,5 @@
 ---
-// page 스타일 헤더 구성
+// Page-style header layout
 import Search from "./Search.astro";
 import ChatButton from "./ChatButton.astro";
 import SocialIcons from "./SocialIcons.astro";
@@ -11,20 +11,20 @@ import ThemeSelect from "./ThemeSelect.astro";
 import config from "virtual:starlight/user-config";
 import { logos } from "virtual:starlight/user-images";
 
-// locale을 고려한 경로 생성 함수
+// Build path considering locale
 function localizedPath(path: string): string {
   const currentLocale = Astro.locals.starlightRoute?.locale;
 
-  // currentLocale이 없거나 'en'이면 locale 없이 반환
+  // If no currentLocale or 'en', return path without locale
   if (!currentLocale || currentLocale === config.defaultLocale.locale) {
     return path;
   }
 
-  // 다른 locale인 경우 locale을 포함한 경로 반환
+  // For other locales, return path with locale prefix
   return `/${currentLocale}${path}`;
 }
 
-// 환경 변수에서 navigation 가져오기
+// Get navigation from env
 let navigation: { href: string; label: string }[] | undefined;
 try {
   const navigationEnv = process.env.PAGE_NAVIGATION;
@@ -35,14 +35,14 @@ try {
 
 const { siteTitle, siteTitleHref, sidebar } = Astro.locals.starlightRoute;
 
-// 사이드바가 있는지 확인
+// Check if sidebar exists
 const hasSidebar = sidebar && sidebar.length > 0;
 ---
 
 <div class="page-header">
   <div class="page-header-container">
     <div class="page-header-left">
-      <!-- page 스타일 사이트 타이틀 -->
+      <!-- Page-style site title -->
       <a href={siteTitleHref} class="page-site-title">
         {
           config.logo && logos.dark && (
@@ -73,7 +73,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
         <span class="page-title-text">{siteTitle}</span>
       </a>
 
-      <!-- page 스타일 네비게이션 -->
+      <!-- Page-style navigation -->
       {
         navigation && (
           <nav class="page-nav">
@@ -88,40 +88,40 @@ const hasSidebar = sidebar && sidebar.length > 0;
     </div>
 
     <div class="page-header-right">
-      <!-- page 스타일 검색 -->
+      <!-- Page-style search -->
       <div class="page-search-wrapper">
         <Search />
       </div>
       {showChat && <ChatButton />}
 
-      <!-- page 스타일 테마 토글 -->
+      <!-- Page-style theme toggle -->
       <ThemeSelect />
 
-      <!-- page 스타일 언어 선택 -->
+      <!-- Page-style language select -->
       <LanguageSelect />
 
-      <!-- page 스타일 소셜 링크 -->
+      <!-- Page-style social links -->
       <SocialIcons />
 
-      <!-- page 스타일 모바일 메뉴 토글 -->
+      <!-- Page-style mobile menu toggle -->
       {hasSidebar && <MobileMenuToggle />}
     </div>
   </div>
 </div>
 
 <script>
-  // 전역 변수로 이벤트 리스너 참조 저장
+  // Store event listener refs in module scope
   let isInitialized = false;
   let themeToggleHandler: (() => void) | null = null;
   let astroPageLoadHandler: (() => void) | null = null;
 
-  // page 스타일 테마 토글 (ThemeSelect 컴포넌트로 대체됨)
+  // Page-style theme toggle (replaced by ThemeSelect component)
   function initpageThemeToggle() {
-    // ThemeSelect 컴포넌트가 테마 토글 기능을 제공하므로 여기서는 초기화만 수행
-    // 필요한 경우 여기에 추가 로직을 구현할 수 있습니다
+    // ThemeSelect handles theme toggle; here we only run init
+    // Add extra logic here if needed
   }
 
-  // page 스타일 활성 네비게이션
+  // Page-style active navigation
   function setpageActiveNavLink() {
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll(".page-nav-link");
@@ -130,7 +130,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
       link.classList.remove("active");
       const href = link.getAttribute("href");
 
-      // 더 정확한 활성 링크 매칭
+      // More precise active link matching
       if (href === "/" && currentPath === "/") {
         link.classList.add("active");
       } else if (href !== "/" && href && currentPath.startsWith(href)) {
@@ -139,7 +139,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     });
   }
 
-  // 로고 테마 변경
+  // Logo theme change
   function updateLogo() {
     const logo = document.querySelector(".page-logo") as HTMLImageElement;
     if (!logo) return;
@@ -156,9 +156,9 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  // 초기화 함수
+  // Init function
   function initializeHeader() {
-    // 이미 초기화되었다면 중복 실행 방지
+    // Prevent duplicate initialization
     if (isInitialized) {
       return;
     }
@@ -167,7 +167,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     setpageActiveNavLink();
     updateLogo();
 
-    // 테마 변경 감지
+    // Listen for theme change
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (
@@ -187,7 +187,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     isInitialized = true;
   }
 
-  // 정리 함수
+  // Cleanup function
   function cleanup() {
     const toggleButton = document.getElementById(
       "page-theme-toggle",
@@ -206,14 +206,14 @@ const hasSidebar = sidebar && sidebar.length > 0;
     isInitialized = false;
   }
 
-  // 초기화
+  // Initialize
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initializeHeader);
   } else {
     initializeHeader();
   }
 
-  // Astro 페이지 변경 시에도 실행 (기존 리스너 정리 후)
+  // Run on Astro page change too (after cleaning existing listeners)
   if (!astroPageLoadHandler) {
     astroPageLoadHandler = () => {
       cleanup();
@@ -222,12 +222,12 @@ const hasSidebar = sidebar && sidebar.length > 0;
     document.addEventListener("astro:page-load", astroPageLoadHandler);
   }
 
-  // 페이지 언로드 시 정리
+  // Cleanup on page unload
   window.addEventListener("beforeunload", cleanup);
 </script>
 
 <style>
-  /* page 스타일 헤더 */
+  /* Page-style header */
   .page-header {
     position: relative;
     top: 0;
@@ -244,7 +244,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     transform: translateZ(0);
   }
 
-  /* 성능 최적화: backdrop-filter를 조건부로 적용 */
+  /* Perf: apply backdrop-filter conditionally */
   @media (min-resolution: 1.5dppx) and (min-width: 768px) {
     .page-header {
       backdrop-filter: blur(30px) saturate(180%);
@@ -254,13 +254,13 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* 다크 테마에서 헤더 강제 스타일 */
+  /* Dark theme header overrides */
   :global([data-theme="dark"]) .page-header {
     background: rgba(0, 0, 0, 0.3) !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
   }
 
-  /* 성능 최적화: 다크모드 backdrop-filter를 조건부로 적용 */
+  /* Perf: dark mode backdrop-filter conditionally */
   @media (min-resolution: 1.5dppx) and (min-width: 768px) {
     :global([data-theme="dark"]) .page-header {
       backdrop-filter: blur(30px) saturate(180%) !important;
@@ -269,7 +269,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* backdrop-filter를 지원하지 않는 브라우저를 위한 폴백 */
+  /* Fallback for browsers without backdrop-filter */
   @supports not (backdrop-filter: blur(1px)) {
     .page-header {
       background: rgba(255, 255, 255, 0.98);
@@ -301,7 +301,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     gap: var(--page-space-2);
   }
 
-  /* 네비 아이콘 버튼 통일: SocialIcons(Slack 등)와 동일 40x40, 아이콘 20px */
+  /* Nav icon buttons: same 40x40 as SocialIcons (Slack etc), icon 20px */
   .page-header-right .page-search-wrapper {
     display: flex;
     align-items: center;
@@ -346,7 +346,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     box-shadow: var(--page-shadow-sm) !important;
   }
 
-  /* RefineUI(폰트 아이콘)은 글리프가 작게 보이므로 24px로 키워 Slack(SVG)과 비슷하게 */
+  /* RefineUI (font icon) glyphs appear small; use 24px to match Slack (SVG) */
   .page-header-right .page-theme-toggle-button span,
   .page-header-right .page-theme-toggle-button .refineui-icon,
   .page-header-right .page-search-button span,
@@ -383,7 +383,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     flex-shrink: 0;
   }
 
-  /* SocialIcons(Slack, GitHub) SVG도 24px로 통일 */
+  /* SocialIcons (Slack, GitHub) SVG also 24px */
   .page-header-right a svg {
     width: 24px !important;
     height: 24px !important;
@@ -391,7 +391,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     min-height: 24px !important;
   }
 
-  /* page 스타일 사이트 타이틀 */
+  /* Page-style site title */
   .page-site-title {
     display: flex;
     align-items: center;
@@ -413,7 +413,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     border-radius: var(--page-radius-sm);
   }
 
-  /* Starlight logo-size 클래스 스타일 */
+  /* Starlight logo-size class style */
   .logo-size {
     width: 32px;
     height: 32px;
@@ -425,7 +425,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     letter-spacing: -0.02em;
   }
 
-  /* page 스타일 네비게이션 */
+  /* Page-style navigation */
   .page-nav {
     display: flex;
     align-items: center;
@@ -464,7 +464,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     color: var(--page-accent);
   }
 
-  /* page 스타일 버튼 */
+  /* Page-style button */
   .page-btn {
     display: inline-flex;
     align-items: center;
@@ -516,7 +516,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     color: var(--page-bg) !important;
   }
 
-  /* GitHub 버튼 특별 스타일 */
+  /* GitHub button specific style */
   [data-theme="dark"] .page-github-btn {
     background: var(--page-accent) !important;
     color: var(--page-bg) !important;
@@ -532,7 +532,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     height: 20px;
   }
 
-  /* page 스타일 테마 토글 */
+  /* Page-style theme toggle */
   .page-theme-toggle {
     width: 40px;
     height: 40px;
@@ -562,7 +562,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     height: 18px;
   }
 
-  /* 모바일 대응 */
+  /* Mobile */
   @media (max-width: 768px) {
     .page-header-container {
       padding: 0 var(--page-space-4);
@@ -584,12 +584,13 @@ const hasSidebar = sidebar && sidebar.length > 0;
       display: flex !important;
     }
 
-    /* 모바일: 네비·메뉴 버튼 터치 영역 32px */
+    /* Mobile: nav/menu button 32px touch target (incl. Social Icons) */
     .page-header-right .page-theme-toggle-button,
     .page-header-right .page-search-button,
     .page-header-right .page-chat-button,
     .page-header-right .page-language-select-button,
-    .page-header-right .page-mobile-menu-toggle {
+    .page-header-right .page-mobile-menu-toggle,
+    .page-header-right a {
       width: 32px !important;
       height: 32px !important;
       min-width: 32px !important;
@@ -597,7 +598,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
       padding: var(--page-space-2) !important;
     }
 
-    /* 모바일: RefineUI 아이콘만 20px (버튼 터치 영역은 32px 유지) */
+    /* Mobile: RefineUI icon 20px only (button touch stays 32px) */
     .page-header-right .page-theme-toggle-button span,
     .page-header-right .page-theme-toggle-button .refineui-icon,
     .page-header-right .page-search-button span,
@@ -634,7 +635,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
       min-height: 20px !important;
     }
 
-    /* 모바일에서 성능 최적화 */
+    /* Mobile perf */
     .page-header {
       background: rgba(255, 255, 255, 0.6) !important;
       backdrop-filter: none !important;
@@ -649,7 +650,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
       -moz-backdrop-filter: none !important;
     }
 
-    /* 모바일에서 애니메이션 최적화 */
+    /* Mobile animation tuning */
     .page-btn,
     .page-theme-toggle,
     .page-mobile-menu-toggle {
@@ -670,7 +671,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
   }
 
-  /* 매우 작은 화면에서 추가 최적화 */
+  /* Extra tuning for very small screens */
   @media (max-width: 480px) {
     .page-header-container {
       padding: 0 var(--page-space-3);

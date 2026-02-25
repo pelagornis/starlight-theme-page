@@ -95,6 +95,151 @@ const apiChatBase = (basePath ? basePath.replace(/\/$/, '') : '') + '/api/chat';
     color: var(--blue-400);
   }
   .page-chat-view-msg .page-chat-view-sources a:hover { text-decoration: underline; }
+
+  /* Chat markdown styles (refined) */
+  .page-chat-view-msg-body {
+    word-break: break-word;
+    line-height: 1.6;
+  }
+  .page-chat-view-msg-body p:first-child { margin-top: 0; }
+  .page-chat-view-msg-body p:last-child { margin-bottom: 0; }
+  .page-chat-view-msg-body p { margin: 0.5em 0; }
+  .page-chat-view-msg-body strong { font-weight: 600; }
+  .page-chat-view-msg-body em { font-style: italic; }
+
+  .page-chat-view-msg-body ul, .page-chat-view-msg-body ol {
+    margin: 0.5em 0;
+    padding-left: 1.5em;
+  }
+  .page-chat-view-msg-body ul { list-style-type: disc; }
+  .page-chat-view-msg-body ol { list-style-type: decimal; }
+  .page-chat-view-msg-body li { margin: 0.3em 0; }
+  .page-chat-view-msg-body li > ul, .page-chat-view-msg-body li > ol {
+    margin: 0.2em 0;
+    padding-left: 1.25em;
+  }
+
+  .page-chat-view-msg-body pre {
+    margin: 0.65em 0;
+    padding: 0.875em 1rem;
+    overflow-x: auto;
+    border-radius: 8px;
+    background: var(--page-neutral-100);
+    border: 1px solid var(--page-neutral-200);
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    -webkit-overflow-scrolling: touch;
+  }
+  :global([data-theme="dark"]) .page-chat-view-msg .page-chat-view-msg-body pre {
+    background: var(--page-neutral-800);
+    border-color: var(--page-neutral-700);
+  }
+  .page-chat-view-msg-body pre code {
+    padding: 0;
+    background: none;
+    font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-size: inherit;
+  }
+  .page-chat-view-msg-body code {
+    font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-size: 0.9em;
+  }
+  .page-chat-view-msg-body :not(pre) > code {
+    padding: 0.2em 0.45em;
+    border-radius: 4px;
+    background: var(--page-neutral-100);
+    border: 1px solid var(--page-neutral-200);
+    font-size: 0.875em;
+  }
+  :global([data-theme="dark"]) .page-chat-view-msg .page-chat-view-msg-body :not(pre) > code {
+    background: var(--page-neutral-800);
+    border-color: var(--page-neutral-700);
+  }
+
+  .page-chat-view-msg-body a {
+    color: var(--blue-600);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  :global([data-theme="dark"]) .page-chat-view-msg .page-chat-view-msg-body a {
+    color: var(--blue-400);
+  }
+  .page-chat-view-msg-body a:hover {
+    text-decoration: none;
+    border-bottom-color: currentColor;
+  }
+
+  .page-chat-view-msg-body blockquote {
+    margin: 0.6em 0;
+    padding: 0.4em 0 0.4em 1em;
+    border-left: 3px solid var(--blue-500);
+    color: var(--page-text-secondary);
+    font-size: 0.95em;
+  }
+  :global([data-theme="dark"]) .page-chat-view-msg .page-chat-view-msg-body blockquote {
+    border-left-color: var(--blue-400);
+  }
+
+  .page-chat-view-msg-body h1, .page-chat-view-msg-body h2, .page-chat-view-msg-body h3,
+  .page-chat-view-msg-body h4, .page-chat-view-msg-body h5, .page-chat-view-msg-body h6 {
+    margin: 0.85em 0 0.4em;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .page-chat-view-msg-body h1:first-child, .page-chat-view-msg-body h2:first-child,
+  .page-chat-view-msg-body h3:first-child, .page-chat-view-msg-body h4:first-child,
+  .page-chat-view-msg-body h5:first-child, .page-chat-view-msg-body h6:first-child {
+    margin-top: 0;
+  }
+  .page-chat-view-msg-body h1 { font-size: 1.1em; }
+  .page-chat-view-msg-body h2 {
+    font-size: 1.05em;
+    border-bottom: 1px solid var(--page-neutral-200);
+    padding-bottom: 0.2em;
+  }
+  :global([data-theme="dark"]) .page-chat-view-msg .page-chat-view-msg-body h2 {
+    border-bottom-color: var(--page-neutral-700);
+  }
+  .page-chat-view-msg-body h3, .page-chat-view-msg-body h4, .page-chat-view-msg-body h5, .page-chat-view-msg-body h6 { font-size: 1em; }
+
+  .page-chat-view-msg-body table {
+    border-collapse: collapse;
+    font-size: 0.9em;
+    margin: 0.6em 0;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--page-neutral-200);
+  }
+  .page-chat-view-msg-body th, .page-chat-view-msg-body td {
+    border: 1px solid var(--page-neutral-200);
+    padding: 0.4em 0.65em;
+    text-align: left;
+  }
+  .page-chat-view-msg-body th {
+    background: var(--page-neutral-100);
+    font-weight: 600;
+  }
+  :global([data-theme="dark"]) .page-chat-view-msg .page-chat-view-msg-body th {
+    background: var(--page-neutral-800);
+  }
+  .page-chat-view-msg-body tr:nth-child(even) td {
+    background: var(--page-neutral-50);
+  }
+  :global([data-theme="dark"]) .page-chat-view-msg .page-chat-view-msg-body tr:nth-child(even) td {
+    background: var(--page-neutral-900);
+  }
+
+  .page-chat-view-msg-body hr {
+    margin: 0.85em 0;
+    border: none;
+    border-top: 1px solid var(--page-neutral-200);
+  }
+  :global([data-theme="dark"]) .page-chat-view-msg .page-chat-view-msg-body hr {
+    border-top-color: var(--page-neutral-700);
+  }
+
   .page-chat-view-form {
     display: flex;
     flex-wrap: nowrap;
@@ -150,7 +295,7 @@ const apiChatBase = (basePath ? basePath.replace(/\/$/, '') : '') + '/api/chat';
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
   }
   .page-chat-view-send:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-  /* RefineUI 아이콘: 가운데 정렬. 글리프가 em 박스에서 위로 올라가 있어 translateY로 보정 */
+  /* RefineUI icon: center. Glyph sits high in em box, correct with translateY */
   .page-chat-view-send .refineui-icon {
     box-sizing: border-box !important;
     width: 20px !important;
@@ -171,19 +316,23 @@ const apiChatBase = (basePath ? basePath.replace(/\/$/, '') : '') + '/api/chat';
 </style>
 
 <script define:vars={{ apiChatBase, provider }}>
+  import { renderChatMarkdown } from "../lib/chat-markdown";
   (function() {
     const messagesEl = document.getElementById('page-chat-view-messages');
     const form = document.getElementById('page-chat-view-form');
     const input = document.getElementById('page-chat-view-input');
     const sendBtn = document.getElementById('page-chat-view-send');
 
-    function addMsg(role, text, sources) {
+    function addMsg(role, text, sources, bodyHtml) {
       if (!messagesEl) return;
       const emptyEl = document.getElementById('page-chat-view-empty');
       if (emptyEl) emptyEl.style.display = 'none';
       const div = document.createElement('div');
       div.className = `page-chat-view-msg ${role}`;
-      let html = text.replace(/\n/g, '<br>');
+      const body = bodyHtml != null
+        ? '<div class="page-chat-view-msg-body">' + bodyHtml + '</div>'
+        : text.replace(/\n/g, '<br>');
+      let html = body;
       if (sources && sources.length) {
         html += '<div class="page-chat-view-sources">Sources: ' + sources.map(s => `<a href="${s.path}" target="_blank" rel="noopener">${s.title}</a>`).join(', ') + '</div>';
       }
@@ -211,7 +360,8 @@ const apiChatBase = (basePath ? basePath.replace(/\/$/, '') : '') + '/api/chat';
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Request failed');
-        addMsg('assistant', data.answer, data.sources);
+        const bodyHtml = renderChatMarkdown(data.answer);
+        addMsg('assistant', data.answer, data.sources, bodyHtml);
       } catch (err) {
         addMsg('assistant', 'Error: ' + (err.message || String(err)), []);
       } finally {

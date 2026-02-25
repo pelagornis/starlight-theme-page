@@ -12,7 +12,7 @@ const {
   },
 } = Astro.locals.starlightRoute;
 
-// index 페이지인지 확인 (slug가 index이거나 빈 문자열이거나 언어 코드인 경우)
+// Check if index page (slug is index, empty, or locale code)
 const isIndexPage =
   slug === "index" ||
   slug === "" ||
@@ -76,7 +76,7 @@ const showFooterInSplash =
     color: var(--page-text) !important;
   }
 
-  /* 전역 다크모드 스타일 오버라이드 */
+  /* Global dark mode overrides */
   :global([data-theme="dark"]) .page-footer-container {
     background: var(--page-bg-secondary) !important;
     border-top-color: var(--page-border) !important;
@@ -87,7 +87,7 @@ const showFooterInSplash =
     margin-bottom: -3vh;
   }
 
-  /* Starlight 기본 푸터 스타일 오버라이드 */
+  /* Starlight default footer overrides */
   :global(.sl-footer) {
     background: transparent !important;
     border: none !important;
@@ -205,7 +205,7 @@ const showFooterInSplash =
     color: var(--page-text) !important;
   }
 
-  /* 페이지네이션 스타일 */
+  /* Pagination style */
   :global(.page-footer-container .pagination-links) {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
@@ -213,7 +213,7 @@ const showFooterInSplash =
     margin: var(--page-space-6) 0 !important;
   }
 
-  /* 링크가 하나일 때 한 열로 표시 */
+  /* Single column when one link */
   :global(.page-footer-container .pagination-links:has(a:only-child)) {
     grid-template-columns: 1fr !important;
   }
@@ -247,7 +247,7 @@ const showFooterInSplash =
     color: var(--page-accent) !important;
   }
 
-  /* 페이지네이션 제목과 설명 스타일 */
+  /* Pagination title and description style */
   :global(.page-footer-container .pagination-links .link-title) {
     font-weight: 600 !important;
     color: var(--page-text) !important;
@@ -297,7 +297,7 @@ const showFooterInSplash =
     color: var(--page-text) !important;
   }
 
-  /* 다크모드 페이지네이션 스타일 */
+  /* Dark mode pagination style */
   [data-theme="dark"] :global(.page-footer-container .pagination-links .title) {
     color: var(--page-text) !important;
   }
@@ -317,7 +317,7 @@ const showFooterInSplash =
     color: var(--page-text) !important;
   }
 
-  /* 편집 링크 스타일 */
+  /* Edit link style */
   :global(.page-footer-container .edit-page) {
     background: var(--page-accent-light) !important;
     color: var(--page-accent) !important;
@@ -355,7 +355,7 @@ const showFooterInSplash =
     border-color: var(--page-border) !important;
   }
 
-  /* 최종 업데이트 정보 스타일 */
+  /* Last updated style */
   :global(.page-footer-container .last-updated) {
     color: var(--page-text-muted) !important;
     font-size: 0.8125rem !important;
@@ -366,7 +366,7 @@ const showFooterInSplash =
     border: 1px solid var(--page-border) !important;
   }
 
-  /* 다크모드 래퍼 스타일 */
+  /* Dark mode wrapper style */
   [data-theme="dark"] .page-footer-wrapper {
     background: var(--page-bg) !important;
     color: var(--page-text) !important;
@@ -387,7 +387,7 @@ const showFooterInSplash =
     color: var(--page-text) !important;
   }
 
-  /* 모바일 반응형 */
+  /* Mobile responsive */
   @media (max-width: 768px) {
     .page-footer-container {
       padding: var(--page-space-6) var(--page-space-4);

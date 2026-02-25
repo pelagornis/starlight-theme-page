@@ -12,8 +12,8 @@ declare module 'virtual:starlight/user-images' {
   }
 }
 
-// 패키지에 이미 dist/index.d.ts 가 있으나, 이 워크스페이스에서 resolve 안 될 수 있어 fallback 선언.
-// 제거해도 되며, 그때는 프로젝트에서 @refineui/web-icons 가 resolve되도록 해야 함.
+// Package may have dist/index.d.ts but resolve can fail in this workspace; fallback declaration.
+// Can be removed if @refineui/web-icons is resolved in the project.
 declare module '@refineui/web-icons' {
   type IconFn = (size?: number, color?: string, className?: string) => string
   export const createIconHTML: (iconName: string, style: 'regular' | 'filled') => IconFn

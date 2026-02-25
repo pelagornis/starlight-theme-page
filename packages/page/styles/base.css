@@ -24,20 +24,20 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* 포커스 스타일 */
+  /* Focus style */
   :focus-visible {
     outline: 2px solid var(--page-accent);
     outline-offset: 2px;
     border-radius: var(--page-radius-sm);
   }
 
-  /* 선택 텍스트 스타일 */
+  /* Selected text style */
   ::selection {
     background-color: var(--page-accent);
     color: var(--page-bg);
   }
 
-  /* 스크롤바 스타일 */
+  /* Scrollbar style */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -58,7 +58,7 @@
     background: var(--page-accent);
   }
 
-  /* 접근성 */
+  /* Accessibility */
   .page-sr-only {
     position: absolute;
     width: 1px;

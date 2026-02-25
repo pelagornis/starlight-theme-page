@@ -15,7 +15,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     max-width: 100%;
   }
 
-  /* page 스타일 타이포그래피 - 좁은 영역(채팅 패널 열림)에서도 텍스트/레이아웃 깨짐 방지 */
+  /* Page-style typography - prevent breakage in narrow area (e.g. chat panel open) */
   .page-content .sl-markdown-content {
     line-height: 1.7;
     color: var(--page-text);
@@ -26,7 +26,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     word-break: break-word;
   }
 
-  /* page 스타일 헤딩 */
+  /* Page-style headings */
   .page-content .sl-markdown-content h1,
   .page-content .sl-markdown-content h2,
   .page-content .sl-markdown-content h3,
@@ -42,7 +42,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     letter-spacing: -0.02em;
   }
 
-  /* 첫 번째 헤딩은 위쪽 마진 제거 */
+  /* Remove top margin from first heading */
   .page-content .sl-markdown-content > h1:first-child,
   .page-content .sl-markdown-content > h2:first-child,
   .page-content .sl-markdown-content > h3:first-child,
@@ -52,7 +52,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     margin-top: 0;
   }
 
-  /* 헤딩 앞에 오는 요소들(문단, 리스트 등)과의 간격 */
+  /* Spacing before headings (paragraphs, lists, etc.) */
   .page-content .sl-markdown-content p + h1,
   .page-content .sl-markdown-content p + h2,
   .page-content .sl-markdown-content p + h3,
@@ -92,7 +92,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     margin-top: 2.5rem;
   }
 
-  /* 헤딩 레벨별 간격 및 스타일 조정 */
+  /* Heading level spacing and style */
   .page-content .sl-markdown-content h1 {
     margin-top: 3rem;
     font-size: 2.25rem;
@@ -120,7 +120,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     margin-top: 2rem;
   }
 
-  /* 헤딩 다음에 오는 헤딩의 간격 조정 */
+  /* Spacing between consecutive headings */
   .page-content .sl-markdown-content h1 + h2,
   .page-content .sl-markdown-content h2 + h3,
   .page-content .sl-markdown-content h3 + h4,
@@ -149,7 +149,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     color: var(--page-text);
   }
 
-  /* 제목 앵커 링크 */
+  /* Heading anchor link */
   .page-content .sl-markdown-content h1 a,
   .page-content .sl-markdown-content h2 a,
   .page-content .sl-markdown-content h3 a,
@@ -169,7 +169,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     color: var(--page-accent);
   }
 
-  /* 제목 앵커 아이콘 */
+  /* Heading anchor icon */
   .page-content .sl-markdown-content h1 .anchor,
   .page-content .sl-markdown-content h2 .anchor,
   .page-content .sl-markdown-content h3 .anchor,
@@ -191,14 +191,14 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     color: var(--page-accent);
   }
 
-  /* page 스타일 문단 */
+  /* Page-style paragraph */
   .page-content .sl-markdown-content p {
     margin: 1.25rem 0;
     line-height: 1.7;
     color: var(--page-text);
   }
 
-  /* page 스타일 리스트 */
+  /* Page-style list */
   .page-content .sl-markdown-content ul,
   .page-content .sl-markdown-content ol {
     margin: 1.25rem 0;
@@ -220,7 +220,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     font-weight: 600;
   }
 
-  /* page 스타일 링크 */
+  /* Page-style link */
   .page-content .sl-markdown-content a {
     color: var(--page-accent);
     text-decoration: none;
@@ -233,7 +233,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     text-decoration: underline;
   }
 
-  /* page 스타일 인용구 */
+  /* Page-style blockquote */
   .page-content .sl-markdown-content blockquote {
     margin: 2rem 0;
     padding: 1.5rem;
@@ -250,7 +250,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     color: var(--page-text-secondary);
   }
 
-  /* page 스타일 코드 블록 */
+  /* Page-style code block */
   .page-content .sl-markdown-content pre {
     padding: 1.5rem;
     background: var(--page-bg-secondary);
@@ -279,7 +279,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     color: var(--page-accent);
   }
 
-  /* page 스타일 테이블 - 좁은 영역에서 가로 스크롤 허용 */
+  /* Page-style table - allow horizontal scroll in narrow area */
   .page-content .sl-markdown-content table {
     display: inline-table;
     width: 100%;
@@ -315,7 +315,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     background: var(--page-accent-light);
   }
 
-  /* page 스타일 이미지 */
+  /* Page-style image */
   .page-content .sl-markdown-content img {
     max-width: 100%;
     height: auto;
@@ -329,7 +329,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     box-shadow: var(--page-shadow-md);
   }
 
-  /* page 스타일 구분선 */
+  /* Page-style horizontal rule */
   .page-content .sl-markdown-content hr {
     margin: 3rem 0;
     border: none;
@@ -337,7 +337,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     background: var(--page-border);
   }
 
-  /* page 스타일 정의 리스트 */
+  /* Page-style definition list */
   .page-content .sl-markdown-content dd:not(:where(.not-content *)) {
     padding-inline-start: 2rem;
     margin-bottom: 1rem;
@@ -350,7 +350,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     color: var(--page-text);
   }
 
-  /* page 스타일 Starlight Aside 컴포넌트 */
+  /* Page-style Starlight Aside */
   .page-content .sl-markdown-content .starlight-aside {
     border-radius: var(--page-radius-lg);
     box-shadow: var(--page-shadow-sm);
@@ -364,7 +364,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     box-shadow: var(--page-shadow-md);
   }
 
-  /* page 스타일 강조 텍스트 */
+  /* Page-style emphasis */
   .page-content .sl-markdown-content strong {
     color: var(--page-text);
     font-weight: 700;
@@ -375,7 +375,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     font-style: italic;
   }
 
-  /* 다크 모드 조정 */
+  /* Dark mode tweaks */
   [data-theme="dark"] .page-content .sl-markdown-content blockquote {
     background: var(--page-bg-secondary);
   }
@@ -396,7 +396,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     background: var(--page-bg-secondary);
   }
 
-  /* 반응형 조정 */
+  /* Responsive tweaks */
   @media (max-width: 768px) {
     .page-content .sl-markdown-content h1 {
       font-size: 1.875rem;
@@ -415,7 +415,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     }
   }
 
-  /* 큰 화면 최적화 */
+  /* Large screen optimization */
   @media (min-width: 1536px) {
     .page-content .sl-markdown-content {
       font-size: 1.125rem;
@@ -444,7 +444,7 @@ import Default from "@astrojs/starlight/components/MarkdownContent.astro";
     }
   }
 
-  /* page 스타일 스크롤바 */
+  /* Page-style scrollbar */
   .page-content .sl-markdown-content pre::-webkit-scrollbar {
     height: 6px;
   }

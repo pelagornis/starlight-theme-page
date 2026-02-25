@@ -27,7 +27,7 @@ const { variant = "default", size = "md" } = Astro.props;
     border: 1px solid;
   }
 
-  /* 전역 스타일로 강제 적용 */
+  /* Force via global style */
   :global(.page-badge p) {
     margin: 0 !important;
     padding: 0 !important;
@@ -118,7 +118,7 @@ const { variant = "default", size = "md" } = Astro.props;
     border-radius: 8px;
   }
 
-  /* 반응형 */
+  /* Responsive */
   @media (max-width: 768px) {
     .page-badge {
       padding: 5px 10px;
@@ -131,7 +131,7 @@ const { variant = "default", size = "md" } = Astro.props;
     }
   }
 
-  /* 포커스 스타일 */
+  /* Focus style */
   .page-badge:focus-visible {
     outline: 2px solid var(--page-accent);
     outline-offset: 2px;

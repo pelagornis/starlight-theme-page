@@ -1,4 +1,4 @@
-  /* Starlight 기본 요소 숨기기 */
+  /* Hide Starlight default elements */
   :global(.sl-nav) {
     display: none !important;
   }
@@ -7,7 +7,7 @@
     display: none !important;
   }
 
-  /* Starlight 기본 레이아웃 요소들 완전 숨기기 */
+  /* Fully hide Starlight default layout elements */
   :global(main[data-pagefind-body]) {
     display: none !important;
   }
@@ -20,22 +20,22 @@
     display: none !important;
   }
 
-  /* Starlight 기본 컨텐츠 숨기기 */
+  /* Hide Starlight default content */
   :global(.sl-content) {
     display: none !important;
   }
 
-  /* page-content-panel 숨기기 */
+  /* Hide page-content-panel */
   :global(.page-content-panel) {
     display: none !important;
   }
 
-  /* 모든 astro-oex62vco 클래스 숨기기 */
+  /* Hide all astro-oex62vco classes */
   :global(.astro-oex62vco) {
     display: none !important;
   }
 
-  /* Starlight TOC 요소들은 항상 표시 (어디에 있든) */
+  /* Starlight TOC elements always visible (wherever they are) */
   :global(.sl-toc),
   :global(.sl-content .sl-toc) {
     display: block !important;
@@ -68,7 +68,7 @@
     opacity: 1 !important;
   }
 
-  /* Starlight 기본 사이드바 완전 제거 */
+  /* Fully remove Starlight default sidebar */
   :global(.sl-sidebar),
   :global(.sidebar),
   :global(.sidebar-pane),
@@ -87,7 +87,7 @@
     pointer-events: none !important;
   }
 
-  /* 모든 화면 크기에서 컨텐츠가 전체 너비 사용 */
+  /* Content full width at all screen sizes */
   :global(.sl-content),
   :global(.sl-content-panel) {
     width: 100% !important;

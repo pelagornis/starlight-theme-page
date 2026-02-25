@@ -1,8 +1,18 @@
 ---
 import * as pkg from "@refineui/web-icons";
 import { ICON_NAME_MAPPING } from "../lib/icon-names";
-const createIconHTML = (pkg as { createIconHTML?: (name: string, style: 'regular' | 'filled') => (size?: number, color?: string, className?: string) => string }).createIconHTML;
-const menuIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME_MAPPING.menu ?? "Bar", "regular") : () => '';
+const createIconHTML = (
+  pkg as {
+    createIconHTML?: (
+      name: string,
+      style: "regular" | "filled",
+    ) => (size?: number, color?: string, className?: string) => string;
+  }
+).createIconHTML;
+const menuIcon =
+  typeof createIconHTML === "function"
+    ? createIconHTML(ICON_NAME_MAPPING.menu ?? "more-horizontal", "regular")
+    : () => "";
 ---
 
 <button
@@ -10,25 +20,26 @@ const menuIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME
   aria-label="Open menu"
   id="page-mobile-menu-toggle"
 >
-  <Fragment set:html={menuIcon(24, "currentColor", "refineui-icon page-menu-icon")} />
+  <Fragment set:html={menuIcon(24, "currentColor", "refineui-icon")} />
+  <span class="sr-only">Menu</span>
 </button>
 
 <script>
-  // 전역 변수로 이벤트 리스너 참조 저장
+  // Store event listener refs in module scope
   let isInitialized = false;
   let clickHandler: ((event: Event) => void) | null = null;
   let popstateHandler: (() => void) | null = null;
   let astroPageLoadHandler: (() => void) | null = null;
 
-  // DOM이 로드된 후 실행
+  // Run after DOM is loaded
   function initializeMobileMenu() {
-    // 이미 초기화되었다면 중복 실행 방지
+    // Prevent duplicate initialization
     if (isInitialized) {
       return;
     }
 
     const button = document.querySelector(
-      "#page-mobile-menu-toggle"
+      "#page-mobile-menu-toggle",
     ) as HTMLButtonElement;
 
     if (!button) {
@@ -36,7 +47,7 @@ const menuIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME
       return;
     }
 
-    // 현재 경로 업데이트
+    // Update current path
     const updateCurrentPath = () => {
       if (typeof window !== "undefined") {
         const currentPath = window.location.pathname;
@@ -44,22 +55,22 @@ const menuIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME
       }
     };
 
-    // 초기 경로 설정
+    // Set initial path
     updateCurrentPath();
 
-    // 클릭 이벤트 리스너 (중복 등록 방지)
+    // Click listener (avoid duplicate registration)
     if (!clickHandler) {
       clickHandler = (event: Event) => {
         event.preventDefault();
         event.stopPropagation();
 
-        // 사이드바 토글
+        // Toggle sidebar
         toggleSidebar();
       };
       button.addEventListener("click", clickHandler);
     }
 
-    // 페이지 변경 시 경로 업데이트 (중복 등록 방지)
+    // Update path on page change (avoid duplicate registration)
     if (typeof window !== "undefined" && !popstateHandler) {
       popstateHandler = updateCurrentPath;
       window.addEventListener("popstate", popstateHandler);
@@ -74,9 +85,9 @@ const menuIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME
   }
 
   function toggleSidebar(): boolean {
-    // 모바일 메뉴 오버레이 찾기
+    // Find mobile menu overlay
     const mobileMenu = document.querySelector(
-      "#page-mobile-menu-overlay"
+      "#page-mobile-menu-overlay",
     ) as HTMLElement;
 
     if (!mobileMenu) {
@@ -106,10 +117,10 @@ const menuIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME
     }
   }
 
-  // 이벤트 리스너 정리 함수
+  // Cleanup event listeners
   function cleanup() {
     const button = document.querySelector(
-      "#page-mobile-menu-toggle"
+      "#page-mobile-menu-toggle",
     ) as HTMLButtonElement;
 
     if (button && clickHandler) {
@@ -130,28 +141,28 @@ const menuIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME
     isInitialized = false;
   }
 
-  // DOM이 로드되면 초기화
+  // Initialize when DOM is ready
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initializeMobileMenu);
   } else {
     initializeMobileMenu();
   }
 
-  // Astro 페이지 로드 시에도 초기화 (기존 리스너 정리 후)
+  // Also initialize on Astro page load (after cleaning existing listeners)
   document.addEventListener("astro:page-load", () => {
-    // 약간의 지연을 두어 DOM이 완전히 로드된 후 실행
+    // Slight delay so DOM is fully loaded
     setTimeout(() => {
       cleanup();
       initializeMobileMenu();
     }, 10);
   });
 
-  // 페이지 언로드 시 정리
+  // Cleanup on page unload
   window.addEventListener("beforeunload", cleanup);
 </script>
 
 <style>
-  /* 모바일 메뉴 토글 버튼 스타일 */
+  /* Mobile menu toggle button style */
   .page-mobile-menu-toggle {
     display: none;
     align-items: center;
@@ -215,7 +226,7 @@ const menuIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME
     transform: scale(1.1);
   }
 
-  /* 햄버거 메뉴 아이콘 - 크기는 전역 header-icons.css / 위 span 규칙과 동일 24px */
+  /* Hamburger menu icon - 24px same as header-icons.css / span rule above */
   .page-menu-icon {
     transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform-origin: center;
@@ -226,7 +237,7 @@ const menuIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME
     transform-origin: center;
   }
 
-  /* 버튼 클릭 시 리플 효과 */
+  /* Ripple effect on button click */
   .page-mobile-menu-toggle::after {
     content: "";
     position: absolute;
@@ -237,7 +248,9 @@ const menuIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.3);
     transform: translate(-50%, -50%);
-    transition: width 0.6s ease, height 0.6s ease;
+    transition:
+      width 0.6s ease,
+      height 0.6s ease;
   }
 
   .page-mobile-menu-toggle:active::after {
@@ -245,12 +258,10 @@ const menuIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME
     height: 80px;
   }
 
-  /* 모바일: 터치 영역 32px, RefineUI 아이콘 20px */
+  /* Mobile: 32px touch target, 20px RefineUI icon (same as other nav buttons) */
   @media (max-width: 768px) {
     .page-mobile-menu-toggle {
       display: flex;
-      align-items: center;
-      justify-content: center;
       width: 32px;
       height: 32px;
       min-width: 32px;
@@ -258,26 +269,6 @@ const menuIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME
     }
 
     .page-mobile-menu-toggle svg,
-    .page-mobile-menu-toggle .refineui-icon,
-    .page-mobile-menu-toggle .page-menu-icon,
-    .page-mobile-menu-toggle span:not(.sr-only) {
-      width: 20px !important;
-      height: 20px !important;
-      min-width: 20px !important;
-      min-height: 20px !important;
-      font-size: 20px !important;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .page-mobile-menu-toggle {
-      width: 32px;
-      height: 32px;
-      min-width: 32px;
-      min-height: 32px;
-    }
-
-    .page-menu-icon,
     .page-mobile-menu-toggle .refineui-icon,
     .page-mobile-menu-toggle .page-menu-icon,
     .page-mobile-menu-toggle span:not(.sr-only) {

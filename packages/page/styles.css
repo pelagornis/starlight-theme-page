@@ -1,7 +1,7 @@
-/* RefineUI 폰트 경로 오버라이드 - 반드시 RefineUI CSS보다 먼저 로드 */
+/* RefineUI font path override - must load before RefineUI CSS */
 @import './styles/refineui-fonts-override.css';
 
-/* RefineUI 아이콘 폰트 (page와 동일 버전에서 로드) */
+/* RefineUI icon font (same version as page) */
 @import '@refineui/web-icons/dist/fonts/refineui-system-icons.css';
 
 /* Import all style modules */

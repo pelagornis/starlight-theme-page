@@ -1,5 +1,5 @@
 
-  /* 반응형 브레이크포인트 */
+  /* Responsive breakpoints */
   @media (max-width: 640px) {
     :root {
       --page-header-height: 3.5rem;
@@ -23,7 +23,7 @@
   }
 
 
-  /* 다크 테마 강제 적용 */
+  /* Force dark theme */
   [data-theme="dark"] :global(.sl-container),
   [data-theme="dark"] :global(.sl-content),
   [data-theme="dark"] :global(.sl-content-panel) {
@@ -43,7 +43,7 @@
     border-bottom-color: var(--page-border) !important;
   }
 
-  /* 다크 테마 추가 스타일 */
+  /* Dark theme extra styles */
   [data-theme="dark"] body {
     background-color: var(--page-bg) !important;
     color: var(--page-text) !important;
@@ -53,7 +53,7 @@
     background-color: var(--page-bg) !important;
   }
 
-  /* 다크 테마에서 링크 스타일 */
+  /* Dark theme link style */
   [data-theme="dark"] a {
     color: var(--page-accent) !important;
   }
@@ -62,7 +62,7 @@
     color: var(--page-accent-hover) !important;
   }
 
-  /* 다크 테마에서 코드 블록 스타일 */
+  /* Dark theme code block style */
   [data-theme="dark"] code {
     background-color: var(--page-bg-secondary) !important;
     color: var(--page-text) !important;
@@ -75,7 +75,7 @@
     border-color: var(--page-border) !important;
   }
 
-  /* 다크 테마에서 테이블 스타일 */
+  /* Dark theme table style */
   [data-theme="dark"] table {
     background-color: var(--page-bg) !important;
     color: var(--page-text) !important;
@@ -91,7 +91,7 @@
     background-color: var(--page-bg-secondary) !important;
   }
 
-  /* 다크 테마에서 특정 요소들 강제 스타일 */
+  /* Dark theme forced styles for specific elements */
   [data-theme="dark"] h1,
   [data-theme="dark"] h2,
   [data-theme="dark"] h3,
@@ -119,7 +119,7 @@
     border-color: var(--page-border) !important;
   }
 
-  /* 다크 테마에서 스크롤바 */
+  /* Dark theme scrollbar */
   [data-theme="dark"] ::-webkit-scrollbar-track {
     background: var(--page-bg-secondary) !important;
   }
@@ -132,7 +132,7 @@
     background: var(--page-accent) !important;
   }
 
-  /* 다크 테마에서 모든 링크 스타일 */
+  /* Dark theme all links */
   [data-theme="dark"] a:not(.page-btn):not(.page-btn-primary):not(.page-github-btn) {
     color: var(--page-text) !important;
   }
@@ -141,7 +141,7 @@
     color: var(--page-text-secondary) !important;
   }
 
-  /* 다크 테마에서 link-title 스타일 */
+  /* Dark theme link-title style */
   [data-theme="dark"] :global(.link-title) {
     color: var(--page-text) !important;
   }
@@ -150,7 +150,7 @@
     color: var(--page-text) !important;
   }
 
-  /* 다크 테마에서 모든 link-title 관련 요소들 */
+  /* Dark theme all link-title related elements */
   [data-theme="dark"] :global([class*="link-title"]) {
     color: var(--page-text) !important;
   }
@@ -159,7 +159,7 @@
     color: var(--page-text) !important;
   }
 
-  /* 검색 버튼 키보드 단축키 스타일 */
+  /* Search button keyboard shortcut style */
   :global(button > kbd) {
     border-radius: var(--page-radius) !important;
     font-size: var(--sl-text-2xs) !important;
@@ -176,7 +176,7 @@
     color: var(--page-text-secondary) !important;
   }
 
-  /* 동적 클래스명에 대한 강제 스타일 */
+  /* Forced style for dynamic class names */
   :global(button:where([class*="astro-"]) > kbd:where([class*="astro-"])) {
     background-color: var(--page-bg-secondary) !important;
     border: 1px solid var(--page-border) !important;
@@ -189,7 +189,7 @@
     color: var(--page-text-secondary) !important;
   }
 
-  /* 더 강력한 선택자 */
+  /* Stronger selector */
   :global(button kbd) {
     background-color: var(--page-bg-secondary) !important;
     border: 1px solid var(--page-border) !important;
@@ -202,7 +202,7 @@
     color: var(--page-text-secondary) !important;
   }
 
-  /* 모든 kbd 요소에 대한 최종 강제 스타일 */
+  /* Final forced style for all kbd elements */
   :global(kbd) {
     background-color: var(--page-bg-secondary) !important;
     border: 1px solid var(--page-border) !important;

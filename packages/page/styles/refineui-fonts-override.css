@@ -1,4 +1,4 @@
-/* RefineUI 아이콘 폰트 경로 오버라이드 (public/fonts에서 로드) */
+/* RefineUI icon font path override (load from public/fonts) */
 @font-face {
   font-family: 'RefineUI-System-Icons-Regular';
   src: url('/fonts/refineui-system-icons-regular.woff2') format('woff2');

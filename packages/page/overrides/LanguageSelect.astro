@@ -12,7 +12,7 @@ const createIconHTML = (
 ).createIconHTML;
 const SIZE = 24;
 const languageName = ICON_NAME_MAPPING.language ?? "local-language";
-// createIconHTML(인라인 문자)만 사용. 클래스 방식(ic_refineui_* :before)은 weather-sunny/local-language에서 미표시 이슈 있음
+// Use only createIconHTML (inline). Class-based (ic_refineui_* :before) can fail for weather-sunny/local-language
 const globeIconHtml =
   typeof createIconHTML === "function"
     ? createIconHTML(languageName, "regular")(SIZE, "currentColor", "refineui-icon")
@@ -23,10 +23,10 @@ const currentLocale = Astro.locals.starlightRoute?.locale;
 const defaultLocale = config.defaultLocale.locale;
 const currentPath = Astro.url.pathname;
 
-// 언어 옵션이 있는지 확인
+// Check if language options exist
 const hasLanguageOptions = locales && Object.keys(locales).length > 1;
 
-// locale을 제거한 경로 생성
+// Build path without locale
 function getPathWithoutLocale(path: string, locale: string): string {
   if (locale === defaultLocale) return path;
   const localePrefix = `/${locale}`;
@@ -70,7 +70,7 @@ const basePath = getPathWithoutLocale(
 }
 
 <script>
-  // 언어 선택 기능
+  // Language selection
   document.addEventListener("DOMContentLoaded", () => {
     const languageButton = document.querySelector(
       ".page-language-select-button",
@@ -79,18 +79,18 @@ const basePath = getPathWithoutLocale(
 
     if (!languageButton || !languageDropdown) return;
 
-    // 드롭다운 토글
+    // Toggle dropdown
     languageButton.addEventListener("click", (e) => {
       e.stopPropagation();
       languageDropdown.classList.toggle("open");
     });
 
-    // 드롭다운 외부 클릭 시 닫기
+    // Close on outside click
     document.addEventListener("click", () => {
       languageDropdown.classList.remove("open");
     });
 
-    // 언어 옵션 클릭
+    // Language option click
     languageDropdown.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
       const option = target.closest(".page-language-option") as HTMLElement;
@@ -104,7 +104,7 @@ const basePath = getPathWithoutLocale(
 
       if (!selectedLocale) return;
 
-      // locale을 추가한 경로 생성
+      // Build path with locale
       const getPathWithLocale = (path: string, locale: string): string => {
         if (locale === defaultLocale) return path;
         return `/${locale}${path}`;
@@ -163,7 +163,7 @@ const basePath = getPathWithoutLocale(
     transition: transform 0.1s ease !important;
   }
 
-  /* 드롭다운 */
+  /* Dropdown */
   .page-language-dropdown {
     position: absolute;
     top: 100%;
@@ -227,7 +227,7 @@ const basePath = getPathWithoutLocale(
     font-weight: 500;
   }
 
-  /* 다크모드 스타일 */
+  /* Dark mode styles */
   [data-theme="dark"] .page-language-dropdown {
     background: var(--page-bg);
     border-color: var(--page-border);

@@ -75,27 +75,15 @@ const links = config.social || [];
     z-index: 1 !important;
   }
 
-  /* 다크모드 스타일 */
+  /* Dark mode styles */
   [data-theme="dark"] a {
     background: var(--page-accent-light) !important;
     color: var(--page-text-secondary) !important;
     border: none !important;
   }
 
-  /* 모바일 반응형 */
+  /* Mobile: same as other nav buttons - 32px touch target, 20px icon (Header .page-header-right a also 32px) */
   @media (max-width: 768px) {
-    .page-language-select-button {
-      width: 44px;
-      height: 44px;
-    }
-
-    .page-language-select-button svg {
-      width: 28px;
-      height: 28px;
-    }
-  }
-
-  @media (max-width: 480px) {
     a {
       width: 32px !important;
       height: 32px !important;
@@ -104,10 +92,10 @@ const links = config.social || [];
     }
 
     a svg {
-      width: 16px !important;
-      height: 16px !important;
-      min-width: 16px !important;
-      min-height: 16px !important;
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
     }
   }
 </style>

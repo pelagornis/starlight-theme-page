@@ -1,23 +1,23 @@
 ---
-// page 스타일 히어로 섹션
+// Page-style hero section
 import { Image } from "astro:assets";
 import Button from "@pelagornis/page/components/Button.astro";
 
-// Starlight에서 entry는 locals.starlightRoute 또는 props.entry로 전달됨
+// In Starlight entry comes from locals.starlightRoute or props.entry
 const entry = Astro.locals.starlightRoute?.entry || Astro.props.entry;
 
-// entry.data에서 hero 필드 직접 읽기
+// Read hero field from entry.data
 const heroData = entry?.data?.hero;
 
-// hero 섹션이 없으면 Hero 컴포넌트를 렌더링하지 않음
+// Don't render Hero if no hero section
 if (!heroData) {
   return null;
 }
 
-// hero.title이 있으면 사용, 없으면 페이지 제목 사용
+// Use hero.title if present, else page title
 const title = heroData.title ?? entry?.data?.title;
 
-// tagline 읽기 (Starlight 기본 schema가 지원함)
+// Read tagline (Starlight default schema supports it)
 const tagline = heroData.tagline;
 const actions = heroData.actions || [];
 const imageFile = heroData.image?.file;
@@ -26,13 +26,13 @@ const imageFile = heroData.image?.file;
 <div class="page-hero">
   <div class={`page-hero-container ${imageFile ? "has-image" : ""}`}>
     <div class="page-hero-content">
-      <!-- 메인 타이틀 -->
+      <!-- Main title -->
       <h1 class="page-hero-title">{title || "Starlight Page"}</h1>
 
-      <!-- 설명 -->
+      <!-- Description -->
       {tagline && <p class="page-hero-tagline">{tagline}</p>}
 
-      <!-- 액션 버튼들 -->
+      <!-- Action buttons -->
       {
         actions && actions.length > 0 && (
           <div class="page-hero-actions">
@@ -72,7 +72,7 @@ const imageFile = heroData.image?.file;
       }
     </div>
 
-    <!-- 이미지가 있을 때만 표시 -->
+    <!-- Show only when image exists -->
     {
       imageFile && (
         <div class="page-hero-visual">
@@ -190,12 +190,12 @@ const imageFile = heroData.image?.file;
     flex-wrap: wrap;
   }
 
-  /* Hero 액션 버튼은 Button 컴포넌트의 스타일을 재사용 */
+  /* Hero action buttons reuse Button component styles */
   .page-hero-actions :global(.page-button) {
     margin-top: 0;
   }
 
-  /* 이미지가 있을 때만 표시 */
+  /* Show only when image exists */
   .page-hero-visual {
     display: flex;
     justify-content: center;
@@ -219,7 +219,7 @@ const imageFile = heroData.image?.file;
     object-fit: contain;
   }
 
-  /* 모바일 대응 */
+  /* Mobile */
   @media (max-width: 768px) {
     .page-hero {
       padding: 3rem 0 2rem;
@@ -261,7 +261,7 @@ const imageFile = heroData.image?.file;
     }
   }
 
-  /* 큰 화면 */
+  /* Large screens */
   @media (min-width: 1200px) {
     .page-hero {
       padding: 5rem 0 4rem;

@@ -1,5 +1,5 @@
 
-  /* Starlight Card 컴포넌트 스타일 */
+  /* Starlight Card component style */
   :global(.sl-card) {
     background: var(--page-bg-elevated) !important;
     border: 1px solid var(--page-border) !important;
@@ -39,7 +39,7 @@
     margin-bottom: var(--page-space-3) !important;
   }
 
-  /* 다크 테마에서 Card 스타일 */
+  /* Dark theme Card style */
   [data-theme="dark"] :global(.sl-card) {
     background: var(--page-bg-secondary) !important;
     border-color: var(--page-border) !important;
@@ -64,7 +64,7 @@
     color: var(--page-accent) !important;
   }
 
-  /* CardGrid 스타일 */
+  /* CardGrid style */
   :global(.sl-card-grid) {
     display: grid !important;
     gap: var(--page-space-6) !important;
@@ -72,7 +72,7 @@
     margin: var(--page-space-8) 0 !important;
   }
 
-  /* CardGrid stagger 애니메이션 */
+  /* CardGrid stagger animation */
   :global(.sl-card-grid[data-stagger]) {
     animation: pageCardStagger 0.6s ease-out !important;
   }

@@ -25,10 +25,11 @@ interface Props {
 }
 const {
   basePath = "",
-  provider,
+  provider: providerProp,
   model,
   locale: localeProp = "en",
 } = Astro.props;
+const provider = providerProp ?? "openai";
 const apiChatBase = (basePath ? basePath.replace(/\/$/, "") : "") + "/api/chat";
 
 const chatStrings: Record<
@@ -122,7 +123,16 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
       <div class="page-chat-pane-messages" id="page-chat-pane-messages">
         <p class="page-chat-pane-empty" id="page-chat-pane-empty">{t.empty}</p>
       </div>
-      <form class="page-chat-pane-form" id="page-chat-pane-form">
+      <form
+        class="page-chat-pane-form"
+        id="page-chat-pane-form"
+        method="post"
+        data-api-chat-base={apiChatBase}
+        data-provider={provider}
+        data-model={model ?? ""}
+        data-chat-label-you={t.you}
+        data-chat-label-assistant={t.assistant}
+      >
         <div class="page-chat-pane-input-bar">
           <input
             class="page-chat-pane-input"
@@ -358,6 +368,137 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
     text-decoration: underline;
   }
 
+  /* Chat markdown styles (refined) */
+  .page-chat-pane-msg-body {
+    word-break: break-word;
+    line-height: 1.6;
+  }
+  .page-chat-pane-msg-body p:first-child { margin-top: 0; }
+  .page-chat-pane-msg-body p:last-child { margin-bottom: 0; }
+  .page-chat-pane-msg-body p { margin: 0.5em 0; }
+  .page-chat-pane-msg-body strong { font-weight: 600; }
+  .page-chat-pane-msg-body em { font-style: italic; }
+
+  .page-chat-pane-msg-body ul, .page-chat-pane-msg-body ol {
+    margin: 0.5em 0;
+    padding-left: 1.5em;
+  }
+  .page-chat-pane-msg-body ul { list-style-type: disc; }
+  .page-chat-pane-msg-body ol { list-style-type: decimal; }
+  .page-chat-pane-msg-body li { margin: 0.3em 0; }
+  .page-chat-pane-msg-body li > ul, .page-chat-pane-msg-body li > ol {
+    margin: 0.2em 0;
+    padding-left: 1.25em;
+  }
+
+  .page-chat-pane-msg-body pre {
+    margin: 0.65em 0;
+    padding: 0.875em 1rem;
+    overflow-x: auto;
+    border-radius: var(--page-radius-md, 8px);
+    background: var(--page-neutral-100);
+    border: 1px solid var(--page-neutral-200);
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    -webkit-overflow-scrolling: touch;
+  }
+  [data-theme="dark"] .page-chat-pane-msg-body pre {
+    background: var(--page-neutral-800);
+    border-color: var(--page-neutral-700);
+  }
+  .page-chat-pane-msg-body pre code {
+    padding: 0;
+    background: none;
+    font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-size: inherit;
+  }
+  .page-chat-pane-msg-body code {
+    font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-size: 0.9em;
+  }
+  .page-chat-pane-msg-body :not(pre) > code {
+    padding: 0.2em 0.45em;
+    border-radius: 4px;
+    background: var(--page-neutral-100);
+    border: 1px solid var(--page-neutral-200);
+    font-size: 0.875em;
+  }
+  [data-theme="dark"] .page-chat-pane-msg-body :not(pre) > code {
+    background: var(--page-neutral-800);
+    border-color: var(--page-neutral-700);
+  }
+
+  .page-chat-pane-msg-body a {
+    color: var(--page-accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .page-chat-pane-msg-body a:hover {
+    text-decoration: none;
+    border-bottom-color: currentColor;
+  }
+
+  .page-chat-pane-msg-body blockquote {
+    margin: 0.6em 0;
+    padding: 0.4em 0 0.4em 1em;
+    border-left: 3px solid var(--page-accent);
+    color: var(--page-text-secondary);
+    font-size: 0.95em;
+  }
+  [data-theme="dark"] .page-chat-pane-msg-body blockquote {
+    border-left-color: var(--page-accent);
+  }
+
+  .page-chat-pane-msg-body h1, .page-chat-pane-msg-body h2, .page-chat-pane-msg-body h3,
+  .page-chat-pane-msg-body h4, .page-chat-pane-msg-body h5, .page-chat-pane-msg-body h6 {
+    margin: 0.85em 0 0.4em;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .page-chat-pane-msg-body h1:first-child, .page-chat-pane-msg-body h2:first-child,
+  .page-chat-pane-msg-body h3:first-child, .page-chat-pane-msg-body h4:first-child,
+  .page-chat-pane-msg-body h5:first-child, .page-chat-pane-msg-body h6:first-child {
+    margin-top: 0;
+  }
+  .page-chat-pane-msg-body h1 { font-size: 1.1em; }
+  .page-chat-pane-msg-body h2 { font-size: 1.05em; border-bottom: 1px solid var(--page-border); padding-bottom: 0.2em; }
+  .page-chat-pane-msg-body h3, .page-chat-pane-msg-body h4, .page-chat-pane-msg-body h5, .page-chat-pane-msg-body h6 { font-size: 1em; }
+
+  .page-chat-pane-msg-body table {
+    border-collapse: collapse;
+    font-size: 0.9em;
+    margin: 0.6em 0;
+    width: 100%;
+    border-radius: var(--page-radius, 6px);
+    overflow: hidden;
+    border: 1px solid var(--page-border);
+  }
+  .page-chat-pane-msg-body th, .page-chat-pane-msg-body td {
+    border: 1px solid var(--page-border);
+    padding: 0.4em 0.65em;
+    text-align: left;
+  }
+  .page-chat-pane-msg-body th {
+    background: var(--page-neutral-100);
+    font-weight: 600;
+  }
+  [data-theme="dark"] .page-chat-pane-msg-body th {
+    background: var(--page-neutral-800);
+  }
+  .page-chat-pane-msg-body tr:nth-child(even) td {
+    background: var(--page-neutral-50);
+  }
+  [data-theme="dark"] .page-chat-pane-msg-body tr:nth-child(even) td {
+    background: var(--page-neutral-900);
+  }
+
+  .page-chat-pane-msg-body hr {
+    margin: 0.85em 0;
+    border: none;
+    border-top: 1px solid var(--page-border);
+  }
+
   .page-chat-pane-form {
     flex-shrink: 0;
     padding: var(--page-space-4);
@@ -404,7 +545,7 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
     color: var(--page-text-muted);
   }
 
-  /* Search/네비 버튼과 동일: inline-flex로 아이콘 중앙 */
+  /* Same as Search/nav: inline-flex center icon */
   .page-chat-pane-send {
     width: 44px;
     height: 44px;
@@ -469,7 +610,7 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
     font-weight: var(--page-font-weight-semibold);
     color: var(--page-text);
   }
-  /* Search/네비 버튼과 동일: inline-flex + 아이콘 20px 중앙 */
+  /* Same as Search/nav: inline-flex + 20px icon center */
   .page-chat-pane-close {
     display: inline-flex;
     align-items: center;
@@ -558,24 +699,58 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
   }
 </style>
 
-<script
-  define:vars={{
-    apiChatBase,
-    provider,
-    model,
-    chatLabelYou: t.you,
-    chatLabelAssistant: t.assistant,
-  }}
->
+<script>
+  import { renderChatMarkdown } from "../lib/chat-markdown";
   (function () {
-    const messagesEl = document.getElementById("page-chat-pane-messages");
     const form = document.getElementById("page-chat-pane-form");
+    const apiChatBase = form?.dataset.apiChatBase ?? "";
+    const provider = form?.dataset.provider ?? "openai";
+    const model = form?.dataset.model || undefined;
+    const chatLabelYou = form?.dataset.chatLabelYou ?? "You";
+    const chatLabelAssistant = form?.dataset.chatLabelAssistant ?? "Assistant";
+
+    const messagesEl = document.getElementById("page-chat-pane-messages");
     const input = document.getElementById("page-chat-pane-input");
     const sendBtn = document.getElementById("page-chat-pane-send");
     const pane = document.getElementById("page-chat-pane");
     const backdrop = document.getElementById("page-chat-backdrop");
     const closeBtn = document.getElementById("page-chat-pane-close");
     const resizeHandle = document.getElementById("page-chat-pane-resize");
+
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const message = input?.value?.trim();
+      if (!message || !provider) return;
+      addMessage("user", message);
+      if (input) input.value = "";
+      if (sendBtn) sendBtn.disabled = true;
+      try {
+        const res = await fetch(`${apiChatBase}/${provider}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message,
+            provider,
+            locale: document.documentElement.lang || "en",
+            model: model || undefined,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Request failed");
+        let bodyHtml;
+        try {
+          bodyHtml = renderChatMarkdown(data.answer);
+        } catch (_) {
+          bodyHtml = data.answer.replace(/\n/g, "<br>");
+        }
+        addMessage("assistant", data.answer, data.sources, bodyHtml);
+      } catch (err) {
+        addMessage("assistant", "Error: " + (err?.message || String(err)), []);
+      } finally {
+        if (sendBtn) sendBtn.disabled = false;
+      }
+    });
 
     const CHAT_PANE_MIN_WIDTH = 280;
     const CHAT_PANE_MAX_WIDTH = 600;
@@ -662,16 +837,33 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
     }
 
     const emptyEl = document.getElementById("page-chat-pane-empty");
-    function addMessage(role, text, sources) {
+    const CHAT_HISTORY_KEY = "page-chat-pane-history";
+    let chatHistory = [];
+
+    function saveHistory() {
+      try {
+        const key = CHAT_HISTORY_KEY;
+        const data = JSON.stringify(chatHistory);
+        sessionStorage.setItem(key, data);
+      } catch (e) {
+        console.warn("[page-chat] saveHistory failed", e);
+      }
+    }
+
+    function addMessage(role, text, sources, bodyHtml, skipSave) {
       if (!messagesEl) return;
       if (emptyEl) emptyEl.style.display = "none";
       const div = document.createElement("div");
       div.className = "page-chat-pane-msg " + role;
-      let html =
+      const label =
         "<strong>" +
         (role === "user" ? chatLabelYou : chatLabelAssistant) +
-        "</strong><br>" +
-        text.replace(/\n/g, "<br>");
+        "</strong><br>";
+      const body =
+        bodyHtml != null
+          ? '<div class="page-chat-pane-msg-body">' + bodyHtml + "</div>"
+          : text.replace(/\n/g, "<br>");
+      let html = label + body;
       if (sources && sources.length) {
         html +=
           '<div class="page-chat-pane-sources">Sources: ' +
@@ -686,34 +878,32 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
       div.innerHTML = html;
       messagesEl.appendChild(div);
       messagesEl.scrollTop = messagesEl.scrollHeight;
+      if (!skipSave) {
+        chatHistory.push({ role, text, sources: sources || [] });
+        saveHistory();
+      }
     }
 
-    form?.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const message = input?.value?.trim();
-      if (!message || !provider) return;
-      addMessage("user", message);
-      if (input) input.value = "";
-      if (sendBtn) sendBtn.disabled = true;
+    function restoreHistory() {
       try {
-        const res = await fetch(`${apiChatBase}/${provider}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            message,
-            provider,
-            locale: document.documentElement.lang || "en",
-            model: model || undefined,
-          }),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Request failed");
-        addMessage("assistant", data.answer, data.sources);
-      } catch (err) {
-        addMessage("assistant", "Error: " + (err?.message || String(err)), []);
-      } finally {
-        if (sendBtn) sendBtn.disabled = false;
+        const raw = sessionStorage.getItem(CHAT_HISTORY_KEY);
+        if (!raw) return;
+        const list = JSON.parse(raw);
+        if (!Array.isArray(list) || list.length === 0) return;
+        chatHistory = list;
+        for (const m of list) {
+          const bodyHtml = m.role === "assistant" ? renderChatMarkdown(m.text) : undefined;
+          addMessage(m.role, m.text, m.sources || [], bodyHtml, true);
+        }
+      } catch (e) {
+        console.warn("[page-chat] restoreHistory failed", e);
       }
-    });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", restoreHistory);
+    } else {
+      restoreHistory();
+    }
   })();
 </script>

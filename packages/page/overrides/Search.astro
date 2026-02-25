@@ -7,7 +7,7 @@ const createIconHTML = (pkg as { createIconHTML?: (name: string, style: 'regular
 const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME_MAPPING.search ?? "Search", "regular") : () => '';
 ---
 
-<!-- 검색 버튼 -->
+<!-- Search button -->
 <button
   aria-label="Search"
   class="page-search-button"
@@ -19,11 +19,11 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
   <span class="sr-only">Search</span>
 </button>
 
-<!-- Starlight 기본 Search 컴포넌트 (완전히 렌더링하되 버튼만 숨김) -->
+<!-- Starlight default Search (fully rendered, button hidden) -->
 <Default />
 
 <style>
-  /* Starlight 기본 검색 버튼만 숨김 (모달과 다른 기능은 정상 작동) */
+  /* Hide only Starlight search button (modal and rest work normally) */
   :global(site-search button[data-open-modal]),
   :global(button[data-open-modal]),
   :global(.sl-search-button) {
@@ -38,12 +38,12 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
     border: 0 !important;
     opacity: 0 !important;
     visibility: hidden !important;
-    /* 버튼은 클릭 가능하게 유지 (트리거용) */
+    /* Keep button clickable (for trigger) */
     pointer-events: auto !important;
     z-index: -1 !important;
   }
 
-  /* Starlight 검색 모달은 완전히 정상 작동하도록 보장 */
+  /* Ensure Starlight search modal works normally */
   :global(site-search dialog),
   :global(dialog[aria-label*="Search" i]),
   :global(.dialog-frame) {
@@ -52,7 +52,7 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
     opacity: 1 !important;
   }
 
-  /* page 스타일 검색 버튼 - 다른 버튼들과 동일한 스타일 */
+  /* Page-style search button - same as other buttons */
   .page-search-button {
     display: inline-flex;
     align-items: center;
@@ -103,7 +103,7 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
     color: var(--page-text) !important;
   }
 
-  /* 접근성 */
+  /* Accessibility */
   .sr-only {
     position: absolute;
     width: 1px;
@@ -116,7 +116,7 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
     border: 0;
   }
 
-  /* 모바일: 터치 영역 32px, RefineUI 아이콘 20px */
+  /* Mobile: 32px touch target, 20px RefineUI icon */
   @media (max-width: 768px) {
     .page-search-button {
       width: 32px !important;
@@ -155,16 +155,16 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
 </style>
 
 <script>
-  // 검색 버튼 클릭 시 Starlight 검색 모달 열기
+  // Open Starlight search modal on search button click
   function initSearchButton() {
     const searchButton = document.querySelector(
       ".page-search-button",
     ) as HTMLButtonElement;
     if (!searchButton) return;
 
-    // Starlight의 기본 검색 버튼 찾기 함수
+    // Find Starlight default search button
     const findSearchButton = (): HTMLButtonElement | HTMLElement | null => {
-      // Starlight 검색 버튼 찾기
+      // Look for Starlight search button
       const selectors = [
         "button[data-open-modal]",
         "site-search button[data-open-modal]",
@@ -187,16 +187,16 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
       return null;
     };
 
-    // 버튼 클릭 이벤트
+    // Button click
     searchButton.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
 
       const triggerSearch = () => {
-        // 1. 기본 검색 버튼 찾기 및 클릭
+        // 1. Find and click default search button
         const defaultSearchButton = findSearchButton();
         if (defaultSearchButton) {
-          // 디버깅 (개발 환경에서만)
+          // Debug (dev only)
           if (import.meta.env.DEV) {
             console.log(
               "[Search Debug] Found search button:",
@@ -215,11 +215,11 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
           }
 
           if (defaultSearchButton instanceof HTMLButtonElement) {
-            // HTMLButtonElement인 경우 직접 클릭
+            // HTMLButtonElement: click directly
             defaultSearchButton.click();
             return true;
           } else {
-            // HTMLElement인 경우 클릭 이벤트 디스패치 및 직접 클릭
+            // HTMLElement: dispatch click and call click()
             const clickEvent = new MouseEvent("click", {
               bubbles: true,
               cancelable: true,
@@ -227,7 +227,7 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
             });
             defaultSearchButton.dispatchEvent(clickEvent);
 
-            // 추가로 직접 클릭 시도 (일부 경우에 작동)
+            // Also try direct click (works in some cases)
             if (
               "click" in defaultSearchButton &&
               typeof defaultSearchButton.click === "function"
@@ -238,7 +238,7 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
           }
         }
 
-        // 2. Starlight 검색 모달 직접 열기 (dialog 요소)
+        // 2. Open Starlight search modal directly (dialog)
         const dialog = document.querySelector(
           'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
         ) as HTMLDialogElement;
@@ -251,7 +251,7 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
           }
         }
 
-        // 3. 키보드 이벤트 시뮬레이션 (Ctrl/Cmd + K)
+        // 3. Simulate keyboard (Ctrl/Cmd + K)
         const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
         const keyboardEvent = new KeyboardEvent("keydown", {
           key: "k",
@@ -262,19 +262,19 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
           cancelable: false,
         });
 
-        // window와 document 모두에 디스패치
+        // Dispatch to both window and document
         window.dispatchEvent(keyboardEvent);
         document.dispatchEvent(keyboardEvent);
 
         return false;
       };
 
-      // 즉시 시도
+      // Try immediately
       if (triggerSearch()) {
         return;
       }
 
-      // DOM이 아직 준비되지 않았을 수 있으므로 여러 번 재시도
+      // Retry a few times (DOM may not be ready)
       let attempts = 0;
       const maxAttempts = 5;
       const retryIntervalId = setInterval(() => {
@@ -285,7 +285,7 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
       }, 100) as unknown as number;
     });
 
-    // MutationObserver로 기본 검색 버튼이 DOM에 추가될 때까지 감지
+    // MutationObserver until default search button is in DOM
     const observer = new MutationObserver(() => {
       const defaultSearchButton = findSearchButton();
       if (defaultSearchButton) {
@@ -298,13 +298,13 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
       subtree: true,
     });
 
-    // docsearch 모달 닫기 이벤트 처리 (중복 방지)
+    // Docsearch modal close handlers (avoid duplicates)
     let clickHandler: ((e: MouseEvent) => void) | null = null;
     let escapeHandler: ((e: KeyboardEvent) => void) | null = null;
     let cancelHandler: ((e: MouseEvent) => void) | null = null;
 
     const closeDocSearch = () => {
-      // Starlight 검색 모달 닫기 (dialog 요소)
+      // Close Starlight search modal (dialog)
       const dialog = document.querySelector(
         'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
       ) as HTMLDialogElement;
@@ -313,7 +313,7 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
         try {
           dialog.close();
 
-          // 키보드 포커스 복원
+          // Restore focus
           const button = findSearchButton();
           if (button && button instanceof HTMLElement) {
             button.focus();
@@ -324,7 +324,7 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
         }
       }
 
-      // fallback: close-modal 버튼 클릭
+      // Fallback: click close-modal button
       const closeButton = document.querySelector(
         "button[data-close-modal]",
       ) as HTMLButtonElement;
@@ -334,7 +334,7 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
     };
 
     const setupModalCloseHandlers = () => {
-      // 기존 핸들러 제거 (중복 방지) - 등록할 때와 동일한 phase 사용
+      // Remove existing handlers (same phase as registration)
       if (clickHandler) {
         document.removeEventListener("click", clickHandler, false);
       }
@@ -345,7 +345,7 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
         document.removeEventListener("click", cancelHandler, false);
       }
 
-      // 모달 바깥 클릭 감지 (Starlight dialog)
+      // Detect click outside modal (Starlight dialog)
       clickHandler = (e: MouseEvent) => {
         const dialog = document.querySelector(
           'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
@@ -358,10 +358,10 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
         const target = e.target as HTMLElement;
         if (!target) return;
 
-        // dialog 내부 요소 클릭은 무시 (검색 기능이 작동하도록)
+        // Ignore clicks inside dialog (so search works)
         const dialogFrame = dialog.querySelector(".dialog-frame");
 
-        // dialog 자체를 클릭했거나, dialog 내부지만 dialog-frame 밖인 경우 닫기
+        // Close if dialog itself or inside dialog but outside dialog-frame
         if (
           target === dialog ||
           (dialog.contains(target) &&
@@ -374,7 +374,7 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
         }
       };
 
-      // ESC 키로 닫기
+      // Close on ESC
       escapeHandler = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
           const dialog = document.querySelector(
@@ -388,13 +388,13 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
         }
       };
 
-      // Cancel 버튼 클릭 감지 (이벤트 위임 사용)
+      // Cancel button click (event delegation)
       cancelHandler = (e: MouseEvent) => {
         const target = e.target as HTMLElement;
         const closeButton = target.closest("button[data-close-modal]");
         if (closeButton) {
-          // Starlight가 먼저 처리할 수 있도록 이벤트 전파는 막지 않음
-          // 하지만 안전하게 닫기 시도
+          // Don't stop propagation so Starlight can handle first
+          // Then safely try close
           setTimeout(() => {
             const dialog = document.querySelector(
               'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
@@ -406,17 +406,17 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
         }
       };
 
-      // 이벤트 리스너 등록 (bubble phase에서 실행하여 DocSearch가 먼저 처리하도록)
-      // capture phase를 사용하지 않음으로써 DocSearch의 이벤트가 먼저 처리됨
+      // Register in bubble phase so DocSearch runs first
+      // Not using capture so DocSearch handles first
       document.addEventListener("click", clickHandler, false);
       document.addEventListener("keydown", escapeHandler, false);
       document.addEventListener("click", cancelHandler, false);
     };
 
-    // 모달 직접 클릭 핸들러 제거 (DocSearch가 직접 처리하도록 함)
-    // 대신 document 레벨에서만 배경 클릭 감지
+    // No direct modal click handler (let DocSearch handle)
+    // Only detect background click at document level
 
-    // 모달이 열릴 때마다 이벤트 리스너 재설정
+    // Re-attach close listeners when modal opens
     const modalObserver = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {
@@ -430,7 +430,7 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
           }
         });
 
-        // dialog의 open 속성 변경 감지 (모달 열림/닫힘)
+        // Watch dialog open attribute (modal open/close)
         if (
           mutation.type === "attributes" &&
           mutation.attributeName === "open"
@@ -438,7 +438,7 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
           const dialog = mutation.target as HTMLDialogElement;
           if (dialog.tagName === "DIALOG" && dialog.closest("site-search")) {
             if (dialog.open) {
-              // 모달이 열릴 때
+              // When modal opens
               setupModalCloseHandlers();
             }
           }
@@ -453,35 +453,35 @@ const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NA
       attributeFilter: ["aria-hidden", "style"],
     });
 
-    // 초기 모달 닫기 이벤트 설정
+    // Initial modal close setup
     setupModalCloseHandlers();
 
-    // 키보드 단축키 (Ctrl/Cmd + K) 지원
+    // Keyboard shortcut (Ctrl/Cmd + K)
     document.addEventListener("keydown", (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "k") {
         e.preventDefault();
-        // 이미 검색 모달이 열려있는지 확인
+        // Check if search modal is open
         const dialog = document.querySelector(
           'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
         ) as HTMLDialogElement;
         if (dialog && dialog.open) {
-          // 모달이 열려있으면 닫기
+          // If open, close
           closeDocSearch();
         } else {
-          // 모달이 닫혀있으면 열기
+          // If closed, open
           searchButton.click();
         }
       }
     });
   }
 
-  // 초기화
+  // Init
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initSearchButton);
   } else {
     initSearchButton();
   }
 
-  // Astro 페이지 변경 시에도 초기화
+  // Also init on Astro page change
   document.addEventListener("astro:page-load", initSearchButton);
 </script>
