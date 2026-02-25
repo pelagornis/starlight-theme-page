@@ -26,6 +26,9 @@ importers:
       '@pelagornis/page':
         specifier: workspace:*
         version: link:../packages/page
+      '@refineui/web-icons':
+        specifier: ^0.3.32
+        version: 0.3.32
       astro:
         specifier: ^5.15.9
         version: 5.17.3(@netlify/blobs@10.7.0)(@types/node@22.19.11)(jiti@2.6.1)(rollup@4.57.1)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
