@@ -1,4 +1,5 @@
 # Netlify build config (monorepo: docs app)
+# Crawl docs first so docs/data/docs.json is fresh for doc-chat API, then build.
 [build]
-  command = "pnpm --filter docs... run build"
+  command = "pnpm crawl && pnpm --filter docs... run build"
   publish = "docs/dist"

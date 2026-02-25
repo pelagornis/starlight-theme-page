@@ -24,6 +24,7 @@ function loadDocs(): { path: string; locale: string; title: string; description?
     const candidates = [
       path.resolve(cwd, 'data/docs.json'),
       path.resolve(cwd, '../docs/data/docs.json'),
+      path.resolve(cwd, 'docs/data/docs.json'), // Netlify build runs from repo root
     ];
     const dataPath = candidates.find((p) => fs.existsSync(p));
     if (!dataPath) return [];
