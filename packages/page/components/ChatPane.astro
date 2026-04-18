@@ -195,7 +195,7 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
       top: 0;
       right: 0;
       bottom: 0;
-      width: 100% !important;
+      width: 100%;
       height: 100%;
       min-width: 0;
       overflow: hidden;
@@ -220,12 +220,12 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
     .page-chat-wrapper {
       position: fixed;
       inset: 0;
-      width: auto !important;
+      width: auto;
       pointer-events: none;
       z-index: 50;
     }
     body.page-chat-open .page-chat-wrapper {
-      width: auto !important;
+      width: auto;
       pointer-events: auto;
     }
     .page-chat-pane {
@@ -234,7 +234,7 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
       top: auto;
       bottom: 0;
       left: 0;
-      width: 0 !important;
+      width: 0;
       min-width: 0;
       height: 0;
       max-height: 0;
@@ -305,7 +305,7 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
 
   body.page-chat-open :global(.page-toc-sidebar),
   body.page-chat-open :global(.sl-toc:not(.sl-toc-mobile)) {
-    display: none !important;
+    display: none;
   }
 
   .page-chat-pane-messages {
@@ -607,18 +607,18 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
   }
   .page-chat-pane-send :global(.refineui-icon),
   .page-chat-pane-send :global(span[class*="refineui"]) {
-    font-family: "RefineUI-System-Icons-Regular", sans-serif !important;
-    width: 20px !important;
-    height: 20px !important;
-    min-width: 20px !important;
-    min-height: 20px !important;
-    font-size: 20px !important;
-    line-height: 20px !important;
-    box-sizing: border-box !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    font-family: "RefineUI-System-Icons-Regular", sans-serif;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+    font-size: 20px;
+    line-height: 20px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
   }
   .page-chat-pane-send:hover:not(:disabled) {
     background: var(--page-bg);
@@ -667,18 +667,18 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
   }
   .page-chat-pane-close :global(.refineui-icon),
   .page-chat-pane-close :global(span[class*="refineui"]) {
-    font-family: "RefineUI-System-Icons-Regular", sans-serif !important;
-    width: 20px !important;
-    height: 20px !important;
-    min-width: 20px !important;
-    min-height: 20px !important;
-    font-size: 20px !important;
-    line-height: 20px !important;
-    box-sizing: border-box !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    font-family: "RefineUI-System-Icons-Regular", sans-serif;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+    font-size: 20px;
+    line-height: 20px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
   }
   .page-chat-pane-close:hover {
     background: var(--page-bg-secondary);
@@ -699,8 +699,8 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
       left: 0;
       right: 0;
       bottom: 0;
-      width: 100% !important;
-      min-width: 0 !important;
+      width: 100%;
+      min-width: 0;
       max-width: 100vw;
       height: 0;
       max-height: 0;
@@ -714,8 +714,8 @@ const t = chatStrings[localeKey] ?? chatStrings.en;
       box-sizing: border-box;
     }
     body.page-chat-open .page-chat-pane {
-      width: 100% !important;
-      min-width: 0 !important;
+      width: 100%;
+      min-width: 0;
       max-width: 100vw;
       height: 70vh;
       max-height: 70vh;

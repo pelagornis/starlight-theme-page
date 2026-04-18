@@ -1,80 +1,80 @@
 
   /* Starlight Card component style */
   :global(.sl-card) {
-    background: var(--page-bg-elevated) !important;
-    border: 1px solid var(--page-border) !important;
-    border-radius: var(--page-radius-lg) !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    overflow: hidden !important;
+    background: var(--page-bg-elevated);
+    border: 1px solid var(--page-border);
+    border-radius: var(--page-radius-lg);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
   }
 
   :global(.sl-card:hover) {
-    transform: translateY(-2px) !important;
-    border-color: var(--page-accent) !important;
+    transform: translateY(-2px);
+    border-color: var(--page-accent);
   }
 
   :global(.sl-card-header) {
-    padding: var(--page-space-6) var(--page-space-6) 0 !important;
-    border-bottom: none !important;
+    padding: var(--page-space-6) var(--page-space-6) 0;
+    border-bottom: none;
   }
 
   :global(.sl-card-title) {
-    color: var(--page-text) !important;
-    font-weight: var(--page-font-weight-semibold) !important;
-    font-size: var(--page-font-size-lg) !important;
-    margin: 0 0 var(--page-space-2) 0 !important;
-    line-height: 1.3 !important;
+    color: var(--page-text);
+    font-weight: var(--page-font-weight-semibold);
+    font-size: var(--page-font-size-lg);
+    margin: 0 0 var(--page-space-2) 0;
+    line-height: 1.3;
   }
 
   :global(.sl-card-body) {
-    padding: var(--page-space-6) !important;
-    color: var(--page-text-secondary) !important;
-    line-height: 1.6 !important;
+    padding: var(--page-space-6);
+    color: var(--page-text-secondary);
+    line-height: 1.6;
   }
 
   :global(.sl-card-icon) {
-    color: var(--page-accent) !important;
-    width: 1.5rem !important;
-    height: 1.5rem !important;
-    margin-bottom: var(--page-space-3) !important;
+    color: var(--page-accent);
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-bottom: var(--page-space-3);
   }
 
   /* Dark theme Card style */
   [data-theme="dark"] :global(.sl-card) {
-    background: var(--page-bg-secondary) !important;
-    border-color: var(--page-border) !important;
-    box-shadow: none !important;
+    background: var(--page-bg-secondary);
+    border-color: var(--page-border);
+    box-shadow: none;
   }
 
   [data-theme="dark"] :global(.sl-card:hover) {
-    background: var(--page-bg-elevated) !important;
-    border-color: var(--page-accent) !important;
-    box-shadow: none !important;
+    background: var(--page-bg-elevated);
+    border-color: var(--page-accent);
+    box-shadow: none;
   }
 
   [data-theme="dark"] :global(.sl-card-title) {
-    color: var(--page-text) !important;
+    color: var(--page-text);
   }
 
   [data-theme="dark"] :global(.sl-card-body) {
-    color: var(--page-text-secondary) !important;
+    color: var(--page-text-secondary);
   }
 
   [data-theme="dark"] :global(.sl-card-icon) {
-    color: var(--page-accent) !important;
+    color: var(--page-accent);
   }
 
   /* CardGrid style */
   :global(.sl-card-grid) {
-    display: grid !important;
-    gap: var(--page-space-6) !important;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
-    margin: var(--page-space-8) 0 !important;
+    display: grid;
+    gap: var(--page-space-6);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    margin: var(--page-space-8) 0;
   }
 
   /* CardGrid stagger animation */
   :global(.sl-card-grid[data-stagger]) {
-    animation: pageCardStagger 0.6s ease-out !important;
+    animation: pageCardStagger 0.6s ease-out;
   }
 
   @keyframes pageCardStagger {

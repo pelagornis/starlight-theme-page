@@ -1,71 +1,71 @@
   /* Hide Starlight default elements */
   :global(.sl-nav) {
-    display: none !important;
+    display: none;
   }
 
   :global(.sl-footer) {
-    display: none !important;
+    display: none;
   }
 
   /* Fully hide Starlight default layout elements */
   :global(main[data-pagefind-body]) {
-    display: none !important;
+    display: none;
   }
 
   :global(.sl-container) {
-    display: none !important;
+    display: none;
   }
 
   :global(.sl-layout) {
-    display: none !important;
+    display: none;
   }
 
   /* Hide Starlight default content */
   :global(.sl-content) {
-    display: none !important;
+    display: none;
   }
 
   /* Hide page-content-panel */
   :global(.page-content-panel) {
-    display: none !important;
+    display: none;
   }
 
   /* Hide all astro-oex62vco classes */
   :global(.astro-oex62vco) {
-    display: none !important;
+    display: none;
   }
 
   /* Starlight TOC elements always visible (wherever they are) */
   :global(.sl-toc),
   :global(.sl-content .sl-toc) {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    display: block;
+    visibility: visible;
+    opacity: 1;
   }
 
   :global(.sl-toc-mobile),
   :global(.sl-content .sl-toc-mobile) {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    display: block;
+    visibility: visible;
+    opacity: 1;
   }
 
   :global(nav[aria-labelledby="starlight__on-this-page--mobile"]) {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    display: block;
+    visibility: visible;
+    opacity: 1;
   }
 
   :global(#starlight__mobile-toc) {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    display: block;
+    visibility: visible;
+    opacity: 1;
   }
 
   :global(#starlight__on-this-page--mobile) {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    display: flex;
+    visibility: visible;
+    opacity: 1;
   }
 
   /* Fully remove Starlight default sidebar */
@@ -76,23 +76,23 @@
   :global(#starlight__sidebar),
   :global(.sidebar-content),
   :global(nav[aria-label="Main"]) {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    width: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
-    position: fixed !important;
-    left: -100% !important;
-    pointer-events: none !important;
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    position: fixed;
+    left: -100%;
+    pointer-events: none;
   }
 
   /* Content full width at all screen sizes */
   :global(.sl-content),
   :global(.sl-content-panel) {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-left: 0 !important;
-    padding-left: var(--sl-content-pad-x) !important;
-    padding-right: var(--sl-content-pad-x) !important;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    padding-left: var(--sl-content-pad-x);
+    padding-right: var(--sl-content-pad-x);
   }

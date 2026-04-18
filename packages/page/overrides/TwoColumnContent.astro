@@ -153,8 +153,8 @@ const hasSidebar = sidebar && sidebar.length > 0;
       transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       overflow-y: auto;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      display: block !important;
-      visibility: visible !important;
+      display: block;
+      visibility: visible;
     }
 
     .page-sidebar-nav[data-open="true"] {
@@ -181,30 +181,30 @@ const hasSidebar = sidebar && sidebar.length > 0;
 
   /* Full width on index page */
   .page-content-wrapper-full {
-    margin-left: 0 !important;
-    width: 100% !important;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-    padding: 0 var(--page-space-8) !important;
+    margin-left: 0;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--page-space-8);
   }
 
   /* Index page padding on mobile */
   @media (max-width: 768px) {
     .page-content-wrapper-full {
-      padding: 0 var(--page-space-4) !important;
+      padding: 0 var(--page-space-4);
     }
   }
 
   /* Responsive max-width */
   @media (min-width: 1400px) {
     .page-content-wrapper-full {
-      max-width: 1400px !important;
+      max-width: 1400px;
     }
   }
 
   @media (min-width: 1600px) {
     .page-content-wrapper-full {
-      max-width: 1600px !important;
+      max-width: 1600px;
     }
   }
 
@@ -268,7 +268,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
       order: 1;
       margin-bottom: var(--page-space-8);
       width: 100%;
-      display: none !important;
+      display: none;
     }
 
     .page-toc-sticky {
@@ -307,7 +307,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
       order: 1;
       margin-bottom: var(--page-space-8);
       width: 100%;
-      display: none !important;
+      display: none;
     }
 
     :global(body.page-chat-open) .page-toc-sticky {
@@ -349,7 +349,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
 
     .page-toc-sidebar {
-      display: block !important;
+      display: block;
       position: fixed;
       right: var(--page-toc-right-margin);
       top: var(--page-toc-top-position);
@@ -485,68 +485,68 @@ const hasSidebar = sidebar && sidebar.length > 0;
   }
 
   :global(.page-toc-sticky .sl-toc a) {
-    color: var(--page-text-secondary) !important;
-    text-decoration: none !important;
-    display: block !important;
-    padding: var(--page-space-2) 0 !important;
-    border-radius: var(--page-radius-xl) !important;
-    transition: all 0.2s ease !important;
-    margin: 2px 0 !important;
+    color: var(--page-text-secondary);
+    text-decoration: none;
+    display: block;
+    padding: var(--page-space-2) 0;
+    border-radius: var(--page-radius-xl);
+    transition: all 0.2s ease;
+    margin: 2px 0;
   }
 
   :global(.page-toc-sticky .sl-toc a:hover) {
-    color: var(--page-text) !important;
-    background: var(--page-accent-light) !important;
-    padding-left: var(--page-space-2) !important;
+    color: var(--page-text);
+    background: var(--page-accent-light);
+    padding-left: var(--page-space-2);
   }
 
   :global(.page-toc-sticky .sl-toc a[aria-current="true"]) {
-    color: var(--page-accent) !important;
-    background: var(--page-accent-light) !important;
-    padding-left: var(--page-space-2) !important;
-    font-weight: 500 !important;
+    color: var(--page-accent);
+    background: var(--page-accent-light);
+    padding-left: var(--page-space-2);
+    font-weight: 500;
   }
 
   /* Page-style TOC title */
   :global(.page-toc-sticky .sl-toc > summary) {
-    color: var(--page-text) !important;
-    font-weight: 600 !important;
-    font-size: 0.875rem !important;
-    margin-bottom: var(--page-space-4) !important;
-    padding-bottom: var(--page-space-2) !important;
-    border-bottom: 1px solid var(--page-border) !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
+    color: var(--page-text);
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: var(--page-space-4);
+    padding-bottom: var(--page-space-2);
+    border-bottom: 1px solid var(--page-border);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   /* Page-style nested TOC */
   :global(.page-toc-sticky .sl-toc ul) {
-    list-style: none !important;
-    margin-left: var(--page-space-4) !important;
-    border-left: 1px solid var(--page-border) !important;
-    padding-left: var(--page-space-2) !important;
+    list-style: none;
+    margin-left: var(--page-space-4);
+    border-left: 1px solid var(--page-border);
+    padding-left: var(--page-space-2);
   }
 
   :global(.page-toc-sticky .sl-toc ul a) {
-    font-size: 0.8125rem !important;
+    font-size: 0.8125rem;
   }
 
   /* Starlight default TOC fixed below header */
   :global(.sl-toc:not(.sl-toc-mobile)) {
-    position: fixed !important;
-    top: calc(var(--page-header-height) + var(--page-space-4)) !important;
-    left: var(--page-sidebar-width) !important;
-    right: var(--page-space-4) !important;
-    z-index: 100 !important;
+    position: fixed;
+    top: calc(var(--page-header-height) + var(--page-space-4));
+    left: var(--page-sidebar-width);
+    right: var(--page-space-4);
+    z-index: 100;
     max-height: calc(
       100vh - var(--page-header-height) - var(--page-space-8)
-    ) !important;
-    overflow-y: auto !important;
+    );
+    overflow-y: auto;
   }
 
   /* Starlight default TOC title - keep original design */
   :global(.sl-toc > summary) {
-    display: flex !important;
+    display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
@@ -563,49 +563,49 @@ const hasSidebar = sidebar && sidebar.length > 0;
 
   /* Starlight default TOC list - keep original design */
   :global(.sl-toc ul) {
-    list-style: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
 
   :global(.sl-toc li) {
-    margin: 0 !important;
+    margin: 0;
   }
 
   :global(.sl-toc a) {
-    display: block !important;
-    padding: var(--page-space-2) 0 !important;
-    color: var(--page-text-secondary) !important;
-    text-decoration: none !important;
-    font-size: 0.875rem !important;
-    line-height: 1.4 !important;
-    transition: all 0.2s ease !important;
-    border-radius: 6px !important;
-    margin: 2px 0 !important;
+    display: block;
+    padding: var(--page-space-2) 0;
+    color: var(--page-text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    transition: all 0.2s ease;
+    border-radius: 6px;
+    margin: 2px 0;
   }
 
   :global(.sl-toc a:hover) {
-    color: var(--page-text) !important;
-    background: var(--page-accent-light) !important;
-    padding-left: var(--page-space-2) !important;
+    color: var(--page-text);
+    background: var(--page-accent-light);
+    padding-left: var(--page-space-2);
   }
 
   :global(.sl-toc a[aria-current="true"]) {
-    color: var(--page-accent) !important;
-    background: var(--page-accent-light) !important;
-    padding-left: var(--page-space-2) !important;
-    font-weight: 500 !important;
+    color: var(--page-accent);
+    background: var(--page-accent-light);
+    padding-left: var(--page-space-2);
+    font-weight: 500;
   }
 
   /* TOC position on mobile */
   @media (max-width: 767px) {
     .page-toc-sidebar {
-      display: none !important;
+      display: none;
     }
 
     /* Hide TOC on mobile */
     :global(.sl-toc:not(.sl-toc-mobile)) {
-      display: none !important;
+      display: none;
     }
 
     /* Top margin for content */
@@ -617,12 +617,12 @@ const hasSidebar = sidebar && sidebar.length > 0;
   /* Hide TOC on medium screens */
   @media (min-width: 768px) and (max-width: 1279px) {
     .page-toc-sidebar {
-      display: none !important;
+      display: none;
     }
 
     /* Hide TOC on medium too */
     :global(.sl-toc:not(.sl-toc-mobile)) {
-      display: none !important;
+      display: none;
     }
 
     /* Content margin on medium screens */
@@ -633,15 +633,15 @@ const hasSidebar = sidebar && sidebar.length > 0;
 
   /* TOC in dark theme */
   [data-theme="dark"] :global(.sl-toc) {
-    background: var(--page-bg) !important;
-    border-color: var(--page-border) !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    background: var(--page-bg);
+    border-color: var(--page-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
   [data-theme="dark"] :global(.sl-toc > summary) {
-    background: var(--page-bg) !important;
-    border-color: var(--page-border) !important;
-    color: var(--page-text) !important;
+    background: var(--page-bg);
+    border-color: var(--page-border);
+    color: var(--page-text);
   }
 
   /* Mobile responsive */

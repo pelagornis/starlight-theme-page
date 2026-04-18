@@ -7,20 +7,20 @@
 .page-header-right .page-language-select-button .refineui-icon,
 .page-header-right .page-mobile-menu-toggle .refineui-icon,
 .page-header-right .page-mobile-menu-toggle .page-menu-icon {
-  box-sizing: border-box !important;
-  font-size: 24px !important;
-  width: 24px !important;
-  height: 24px !important;
-  min-width: 24px !important;
-  min-height: 24px !important;
+  box-sizing: border-box;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
   /* Override inline-block → flex for vertical center (glyph centers without justify-content) */
-  display: inline-flex !important;
-  align-items: center !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 24px !important;
-  text-align: center !important;
-  vertical-align: middle !important;
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  line-height: 24px;
+  text-align: center;
+  vertical-align: middle;
   flex-shrink: 0;
 }
 
@@ -33,11 +33,11 @@
   .page-header-right .page-language-select-button .refineui-icon,
   .page-header-right .page-mobile-menu-toggle .refineui-icon,
   .page-header-right .page-mobile-menu-toggle .page-menu-icon {
-    font-size: 20px !important;
-    width: 20px !important;
-    height: 20px !important;
-    min-width: 20px !important;
-    min-height: 20px !important;
-    line-height: 20px !important;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+    line-height: 20px;
   }
 }
