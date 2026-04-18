@@ -27,68 +27,68 @@
   [data-theme="dark"] :global(.sl-container),
   [data-theme="dark"] :global(.sl-content),
   [data-theme="dark"] :global(.sl-content-panel) {
-    background-color: var(--page-bg);
-    color: var(--page-text);
+    background-color: var(--page-bg) !important;
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] :global(.sl-sidebar) {
-    background-color: var(--page-bg);
-    color: var(--page-text);
-    border-right-color: var(--page-border);
+    background-color: var(--page-bg) !important;
+    color: var(--page-text) !important;
+    border-right-color: var(--page-border) !important;
   }
 
   [data-theme="dark"] :global(.sl-nav) {
-    background-color: var(--page-bg);
-    color: var(--page-text);
-    border-bottom-color: var(--page-border);
+    background-color: var(--page-bg) !important;
+    color: var(--page-text) !important;
+    border-bottom-color: var(--page-border) !important;
   }
 
   /* Dark theme extra styles */
   [data-theme="dark"] body {
-    background-color: var(--page-bg);
-    color: var(--page-text);
+    background-color: var(--page-bg) !important;
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] html {
-    background-color: var(--page-bg);
+    background-color: var(--page-bg) !important;
   }
 
   /* Dark theme link style */
   [data-theme="dark"] a {
-    color: var(--page-accent);
+    color: var(--page-accent) !important;
   }
 
   [data-theme="dark"] a:hover {
-    color: var(--page-accent-hover);
+    color: var(--page-accent-hover) !important;
   }
 
   /* Dark theme code block style */
   [data-theme="dark"] code {
-    background-color: var(--page-bg-secondary);
-    color: var(--page-text);
-    border-color: var(--page-border);
+    background-color: var(--page-bg-secondary) !important;
+    color: var(--page-text) !important;
+    border-color: var(--page-border) !important;
   }
 
   [data-theme="dark"] pre {
-    background-color: var(--page-bg-secondary);
-    color: var(--page-text);
-    border-color: var(--page-border);
+    background-color: var(--page-bg-secondary) !important;
+    color: var(--page-text) !important;
+    border-color: var(--page-border) !important;
   }
 
   /* Dark theme table style */
   [data-theme="dark"] table {
-    background-color: var(--page-bg);
-    color: var(--page-text);
+    background-color: var(--page-bg) !important;
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] th,
   [data-theme="dark"] td {
-    border-color: var(--page-border);
-    color: var(--page-text);
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] th {
-    background-color: var(--page-bg-secondary);
+    background-color: var(--page-bg-secondary) !important;
   }
 
   /* Dark theme forced styles for specific elements */
@@ -98,119 +98,119 @@
   [data-theme="dark"] h4,
   [data-theme="dark"] h5,
   [data-theme="dark"] h6 {
-    color: var(--page-text);
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] p {
-    color: var(--page-text);
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] li {
-    color: var(--page-text);
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] blockquote {
-    background-color: var(--page-bg-secondary);
-    color: var(--page-text);
-    border-left-color: var(--page-accent);
+    background-color: var(--page-bg-secondary) !important;
+    color: var(--page-text) !important;
+    border-left-color: var(--page-accent) !important;
   }
 
   [data-theme="dark"] hr {
-    border-color: var(--page-border);
+    border-color: var(--page-border) !important;
   }
 
   /* Dark theme scrollbar */
   [data-theme="dark"] ::-webkit-scrollbar-track {
-    background: var(--page-bg-secondary);
+    background: var(--page-bg-secondary) !important;
   }
 
   [data-theme="dark"] ::-webkit-scrollbar-thumb {
-    background: var(--page-border);
+    background: var(--page-border) !important;
   }
 
   [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
-    background: var(--page-accent);
+    background: var(--page-accent) !important;
   }
 
   /* Dark theme all links */
   [data-theme="dark"] a:not(.page-btn):not(.page-btn-primary):not(.page-github-btn) {
-    color: var(--page-text);
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] a:not(.page-btn):not(.page-btn-primary):not(.page-github-btn):hover {
-    color: var(--page-text-secondary);
+    color: var(--page-text-secondary) !important;
   }
 
   /* Dark theme link-title style */
   [data-theme="dark"] :global(.link-title) {
-    color: var(--page-text);
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] :global(.astro-63niyltp) {
-    color: var(--page-text);
+    color: var(--page-text) !important;
   }
 
   /* Dark theme all link-title related elements */
   [data-theme="dark"] :global([class*="link-title"]) {
-    color: var(--page-text);
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] :global([class*="astro-"][class*="link"]) {
-    color: var(--page-text);
+    color: var(--page-text) !important;
   }
 
   /* Search button keyboard shortcut style */
   :global(button > kbd) {
-    border-radius: var(--page-radius);
-    font-size: var(--sl-text-2xs);
-    gap: 0.25em;
-    padding-inline: 0.375rem;
-    background-color: var(--page-bg-secondary);
-    border: 1px solid var(--page-border);
-    color: var(--page-text-secondary);
+    border-radius: var(--page-radius) !important;
+    font-size: var(--sl-text-2xs) !important;
+    gap: 0.25em !important;
+    padding-inline: 0.375rem !important;
+    background-color: var(--page-bg-secondary) !important;
+    border: 1px solid var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
   }
 
   [data-theme="dark"] :global(button > kbd) {
-    background-color: var(--page-bg-secondary);
-    border-color: var(--page-border);
-    color: var(--page-text-secondary);
+    background-color: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
   }
 
   /* Forced style for dynamic class names */
   :global(button:where([class*="astro-"]) > kbd:where([class*="astro-"])) {
-    background-color: var(--page-bg-secondary);
-    border: 1px solid var(--page-border);
-    color: var(--page-text-secondary);
+    background-color: var(--page-bg-secondary) !important;
+    border: 1px solid var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
   }
 
   [data-theme="dark"] :global(button:where([class*="astro-"]) > kbd:where([class*="astro-"])) {
-    background-color: var(--page-bg-secondary);
-    border-color: var(--page-border);
-    color: var(--page-text-secondary);
+    background-color: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
   }
 
   /* Stronger selector */
   :global(button kbd) {
-    background-color: var(--page-bg-secondary);
-    border: 1px solid var(--page-border);
-    color: var(--page-text-secondary);
+    background-color: var(--page-bg-secondary) !important;
+    border: 1px solid var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
   }
 
   [data-theme="dark"] :global(button kbd) {
-    background-color: var(--page-bg-secondary);
-    border-color: var(--page-border);
-    color: var(--page-text-secondary);
+    background-color: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
   }
 
   /* Final forced style for all kbd elements */
   :global(kbd) {
-    background-color: var(--page-bg-secondary);
-    border: 1px solid var(--page-border);
-    color: var(--page-text-secondary);
+    background-color: var(--page-bg-secondary) !important;
+    border: 1px solid var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
   }
 
   [data-theme="dark"] :global(kbd) {
-    background-color: var(--page-bg-secondary);
-    border-color: var(--page-border);
-    color: var(--page-text-secondary);
+    background-color: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text-secondary) !important;
   }

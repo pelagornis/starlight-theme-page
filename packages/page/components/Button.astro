@@ -37,7 +37,7 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
 <style>
   .page-button {
     display: inline-flex;
-    margin-top: 0;
+    margin-top: 0 !important;
     align-items: center;
     justify-content: center;
     gap: 8px;
@@ -59,63 +59,63 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
 
   /* Remove p tag style inside slot */
   .page-button p {
-    margin: 0;
-    padding: 0;
-    color: inherit;
-    font-weight: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    text-decoration: inherit;
-    background: inherit;
-    border: inherit;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: inherit !important;
+    font-weight: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    text-decoration: inherit !important;
+    background: inherit !important;
+    border: inherit !important;
   }
 
   /* Force via global style */
   :global(.page-button p) {
-    margin: 0;
-    padding: 0;
-    color: inherit;
-    font-weight: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    text-decoration: inherit;
-    background: inherit;
-    border: inherit;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: inherit !important;
+    font-weight: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    text-decoration: inherit !important;
+    background: inherit !important;
+    border: inherit !important;
   }
 
   /* Override markdown style with stronger selector */
   :global(.page-content .sl-markdown-content .page-button p) {
-    margin: 0;
-    padding: 0;
-    color: inherit;
-    font-weight: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    text-decoration: inherit;
-    background: inherit;
-    border: inherit;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: inherit !important;
+    font-weight: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    text-decoration: inherit !important;
+    background: inherit !important;
+    border: inherit !important;
   }
 
   /* Force inherit for all inner elements */
   .page-button * {
-    color: inherit;
-    font-weight: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    text-decoration: inherit;
-    background: inherit;
-    border: inherit;
+    color: inherit !important;
+    font-weight: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    text-decoration: inherit !important;
+    background: inherit !important;
+    border: inherit !important;
   }
 
   /* Global style force inherit for button inner elements */
   :global(.page-button *) {
-    color: inherit;
-    font-weight: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    text-decoration: inherit;
-    background: inherit;
-    border: inherit;
+    color: inherit !important;
+    font-weight: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    text-decoration: inherit !important;
+    background: inherit !important;
+    border: inherit !important;
   }
 
   .page-button:hover:not(:disabled) {
@@ -133,192 +133,192 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
   .page-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    transform: none;
+    transform: none !important;
   }
 
   /* Link button style */
   .page-button[href] {
-    text-decoration: none;
-    color: inherit;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 1;
-    border: 1px solid var(--page-border);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-    user-select: none;
-    background: var(--page-bg-secondary);
-    color: var(--page-text);
-    border-color: var(--page-border);
-    margin-top: 1rem;
+    text-decoration: none !important;
+    color: inherit !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 12px 20px !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+    border: 1px solid var(--page-border) !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    white-space: nowrap !important;
+    user-select: none !important;
+    background: var(--page-bg-secondary) !important;
+    color: var(--page-text) !important;
+    border-color: var(--page-border) !important;
+    margin-top: 1rem !important;
   }
 
   .page-button[href]:hover {
-    text-decoration: none;
-    color: inherit;
-    background: var(--page-bg-elevated);
-    border-color: var(--page-border-strong);
-    transform: translateY(-1px);
-    box-shadow: var(--page-shadow-sm);
+    text-decoration: none !important;
+    color: inherit !important;
+    background: var(--page-bg-elevated) !important;
+    border-color: var(--page-border-strong) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--page-shadow-sm) !important;
   }
 
   .page-button[href]:focus {
-    outline: 2px solid var(--page-accent);
-    outline-offset: 2px;
+    outline: 2px solid var(--page-accent) !important;
+    outline-offset: 2px !important;
   }
 
   .page-button[href]:active {
-    transform: translateY(0);
-    box-shadow: var(--page-shadow-xs);
+    transform: translateY(0) !important;
+    box-shadow: var(--page-shadow-xs) !important;
   }
 
   .page-button[href]:hover::after {
-    width: 0;
+    width: 0 !important;
   }
 
   [data-theme="dark"] .page-button[href] {
-    background: var(--page-bg-secondary);
-    color: var(--page-text);
-    border-color: var(--page-border);
+    background: var(--page-bg-secondary) !important;
+    color: var(--page-text) !important;
+    border-color: var(--page-border) !important;
   }
 
   [data-theme="dark"] .page-button[href]:hover {
-    background: var(--page-bg-elevated);
-    border-color: var(--page-border-strong);
-    color: var(--page-text);
+    background: var(--page-bg-elevated) !important;
+    border-color: var(--page-border-strong) !important;
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] .page-button[href]:focus {
-    outline-color: var(--page-accent);
+    outline-color: var(--page-accent) !important;
   }
 
   /* Link button variant styles */
   .page-button[href].page-button-primary {
-    background: var(--blue-600);
-    border-color: var(--blue-600);
-    color: var(--neutral-white);
+    background: var(--blue-600) !important;
+    border-color: var(--blue-600) !important;
+    color: var(--neutral-white) !important;
   }
 
   .page-button[href].page-button-primary:hover {
-    background: var(--blue-700);
-    border-color: var(--blue-700);
-    color: var(--neutral-white);
+    background: var(--blue-700) !important;
+    border-color: var(--blue-700) !important;
+    color: var(--neutral-white) !important;
   }
 
   .page-button[href].page-button-success {
-    background: var(--green-600);
-    border-color: var(--green-600);
-    color: var(--neutral-white);
+    background: var(--green-600) !important;
+    border-color: var(--green-600) !important;
+    color: var(--neutral-white) !important;
   }
 
   .page-button[href].page-button-success:hover {
-    background: var(--green-700);
-    border-color: var(--green-700);
-    color: var(--neutral-white);
+    background: var(--green-700) !important;
+    border-color: var(--green-700) !important;
+    color: var(--neutral-white) !important;
   }
 
   .page-button[href].page-button-warning {
-    background: var(--orange-600);
-    border-color: var(--orange-600);
-    color: var(--neutral-white);
+    background: var(--orange-600) !important;
+    border-color: var(--orange-600) !important;
+    color: var(--neutral-white) !important;
   }
 
   .page-button[href].page-button-warning:hover {
-    background: var(--orange-700);
-    border-color: var(--orange-700);
-    color: var(--neutral-white);
+    background: var(--orange-700) !important;
+    border-color: var(--orange-700) !important;
+    color: var(--neutral-white) !important;
   }
 
   .page-button[href].page-button-error {
-    background: var(--red-600);
-    border-color: var(--red-600);
-    color: var(--neutral-white);
+    background: var(--red-600) !important;
+    border-color: var(--red-600) !important;
+    color: var(--neutral-white) !important;
   }
 
   .page-button[href].page-button-error:hover {
-    background: var(--red-700);
-    border-color: var(--red-700);
-    color: var(--neutral-white);
+    background: var(--red-700) !important;
+    border-color: var(--red-700) !important;
+    color: var(--neutral-white) !important;
   }
 
   .page-button[href].page-button-ghost {
-    background: transparent;
-    border-color: var(--page-border);
-    color: var(--page-text);
+    background: transparent !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
   }
 
   .page-button[href].page-button-ghost:hover {
-    background: var(--page-bg-secondary);
-    border-color: var(--page-border-strong);
-    color: var(--page-text);
+    background: var(--page-bg-secondary) !important;
+    border-color: var(--page-border-strong) !important;
+    color: var(--page-text) !important;
   }
 
   /* Dark mode link button variant */
   [data-theme="dark"] .page-button[href].page-button-primary {
-    background: var(--blue-500);
-    border-color: var(--blue-500);
-    color: var(--neutral-white);
+    background: var(--blue-500) !important;
+    border-color: var(--blue-500) !important;
+    color: var(--neutral-white) !important;
   }
 
   [data-theme="dark"] .page-button[href].page-button-primary:hover {
-    background: var(--blue-600);
-    border-color: var(--blue-600);
-    color: var(--neutral-white);
+    background: var(--blue-600) !important;
+    border-color: var(--blue-600) !important;
+    color: var(--neutral-white) !important;
   }
 
   [data-theme="dark"] .page-button[href].page-button-success {
-    background: var(--green-500);
-    border-color: var(--green-500);
-    color: var(--neutral-white);
+    background: var(--green-500) !important;
+    border-color: var(--green-500) !important;
+    color: var(--neutral-white) !important;
   }
 
   [data-theme="dark"] .page-button[href].page-button-success:hover {
-    background: var(--green-600);
-    border-color: var(--green-600);
-    color: var(--neutral-white);
+    background: var(--green-600) !important;
+    border-color: var(--green-600) !important;
+    color: var(--neutral-white) !important;
   }
 
   [data-theme="dark"] .page-button[href].page-button-warning {
-    background: var(--orange-500);
-    border-color: var(--orange-500);
-    color: var(--neutral-white);
+    background: var(--orange-500) !important;
+    border-color: var(--orange-500) !important;
+    color: var(--neutral-white) !important;
   }
 
   [data-theme="dark"] .page-button[href].page-button-warning:hover {
-    background: var(--orange-600);
-    border-color: var(--orange-600);
-    color: var(--neutral-white);
+    background: var(--orange-600) !important;
+    border-color: var(--orange-600) !important;
+    color: var(--neutral-white) !important;
   }
 
   [data-theme="dark"] .page-button[href].page-button-error {
-    background: var(--red-500);
-    border-color: var(--red-500);
-    color: var(--neutral-white);
+    background: var(--red-500) !important;
+    border-color: var(--red-500) !important;
+    color: var(--neutral-white) !important;
   }
 
   [data-theme="dark"] .page-button[href].page-button-error:hover {
-    background: var(--red-600);
-    border-color: var(--red-600);
-    color: var(--neutral-white);
+    background: var(--red-600) !important;
+    border-color: var(--red-600) !important;
+    color: var(--neutral-white) !important;
   }
 
   [data-theme="dark"] .page-button[href].page-button-ghost {
-    background: transparent;
-    border-color: var(--page-border);
-    color: var(--page-text);
+    background: transparent !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
   }
 
   [data-theme="dark"] .page-button[href].page-button-ghost:hover {
-    background: var(--page-bg-secondary);
-    border-color: var(--page-border-strong);
-    color: var(--page-text);
+    background: var(--page-bg-secondary) !important;
+    border-color: var(--page-border-strong) !important;
+    color: var(--page-text) !important;
   }
 
   .page-button-icon {
@@ -327,9 +327,9 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
     align-items: center;
     justify-content: center;
     transition: transform 0.2s ease;
-    border: none;
-    outline: none;
-    background: transparent;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
   }
 
   .page-button:hover .page-button-icon {
@@ -343,17 +343,17 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
 
   /* Remove icon border via global style */
   :global(.page-button .page-button-icon) {
-    border: none;
-    outline: none;
-    background: transparent;
-    box-shadow: none;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
   :global(.page-button-text) {
-    border: none;
-    outline: none;
-    background: transparent;
-    box-shadow: none;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
   /* Default Button */
@@ -370,115 +370,115 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
   }
 
   :global([data-theme="dark"]) .page-button-default {
-    background: var(--page-bg-secondary);
-    border-color: var(--page-border);
-    color: var(--page-text);
+    background: var(--page-bg-secondary) !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
   }
 
   :global([data-theme="dark"]) .page-button-default:hover:not(:disabled) {
-    background: var(--page-bg-elevated);
-    border-color: var(--page-border-strong);
-    color: var(--page-text);
+    background: var(--page-bg-elevated) !important;
+    border-color: var(--page-border-strong) !important;
+    color: var(--page-text) !important;
   }
 
   /* Primary Button */
   .page-button-primary {
     background: var(--blue-600);
     border-color: var(--blue-600);
-    color: var(--neutral-white);
+    color: var(--neutral-white) !important;
   }
 
   .page-button-primary:hover:not(:disabled) {
     background: var(--blue-700);
     border-color: var(--blue-700);
-    color: var(--neutral-white);
+    color: var(--neutral-white) !important;
   }
 
   :global([data-theme="dark"]) .page-button-primary {
-    background: var(--blue-500);
-    border-color: var(--blue-500);
-    color: var(--neutral-white);
+    background: var(--blue-500) !important;
+    border-color: var(--blue-500) !important;
+    color: var(--neutral-white) !important;
   }
 
   :global([data-theme="dark"]) .page-button-primary:hover:not(:disabled) {
-    background: var(--blue-600);
-    border-color: var(--blue-600);
-    color: var(--neutral-white);
+    background: var(--blue-600) !important;
+    border-color: var(--blue-600) !important;
+    color: var(--neutral-white) !important;
   }
 
   /* Success Button */
   .page-button-success {
     background: var(--green-600);
     border-color: var(--green-600);
-    color: var(--neutral-white);
+    color: var(--neutral-white) !important;
   }
 
   .page-button-success:hover:not(:disabled) {
     background: var(--green-700);
     border-color: var(--green-700);
-    color: var(--neutral-white);
+    color: var(--neutral-white) !important;
   }
 
   :global([data-theme="dark"]) .page-button-success {
-    background: var(--green-500);
-    border-color: var(--green-500);
-    color: var(--neutral-white);
+    background: var(--green-500) !important;
+    border-color: var(--green-500) !important;
+    color: var(--neutral-white) !important;
   }
 
   :global([data-theme="dark"]) .page-button-success:hover:not(:disabled) {
-    background: var(--green-600);
-    border-color: var(--green-600);
-    color: var(--neutral-white);
+    background: var(--green-600) !important;
+    border-color: var(--green-600) !important;
+    color: var(--neutral-white) !important;
   }
 
   /* Warning Button */
   .page-button-warning {
     background: var(--orange-600);
     border-color: var(--orange-600);
-    color: var(--neutral-white);
+    color: var(--neutral-white) !important;
   }
 
   .page-button-warning:hover:not(:disabled) {
     background: var(--orange-700);
     border-color: var(--orange-700);
-    color: var(--neutral-white);
+    color: var(--neutral-white) !important;
   }
 
   :global([data-theme="dark"]) .page-button-warning {
-    background: var(--orange-500);
-    border-color: var(--orange-500);
-    color: var(--neutral-white);
+    background: var(--orange-500) !important;
+    border-color: var(--orange-500) !important;
+    color: var(--neutral-white) !important;
   }
 
   :global([data-theme="dark"]) .page-button-warning:hover:not(:disabled) {
-    background: var(--orange-600);
-    border-color: var(--orange-600);
-    color: var(--neutral-white);
+    background: var(--orange-600) !important;
+    border-color: var(--orange-600) !important;
+    color: var(--neutral-white) !important;
   }
 
   /* Error Button */
   .page-button-error {
     background: var(--red-600);
     border-color: var(--red-600);
-    color: var(--neutral-white);
+    color: var(--neutral-white) !important;
   }
 
   .page-button-error:hover:not(:disabled) {
     background: var(--red-700);
     border-color: var(--red-700);
-    color: var(--neutral-white);
+    color: var(--neutral-white) !important;
   }
 
   :global([data-theme="dark"]) .page-button-error {
-    background: var(--red-500);
-    border-color: var(--red-500);
-    color: var(--neutral-white);
+    background: var(--red-500) !important;
+    border-color: var(--red-500) !important;
+    color: var(--neutral-white) !important;
   }
 
   :global([data-theme="dark"]) .page-button-error:hover:not(:disabled) {
-    background: var(--red-600);
-    border-color: var(--red-600);
-    color: var(--neutral-white);
+    background: var(--red-600) !important;
+    border-color: var(--red-600) !important;
+    color: var(--neutral-white) !important;
   }
 
   /* Ghost Button */
@@ -495,15 +495,15 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
   }
 
   :global([data-theme="dark"]) .page-button-ghost {
-    background: transparent;
-    border-color: var(--page-border);
-    color: var(--page-text);
+    background: transparent !important;
+    border-color: var(--page-border) !important;
+    color: var(--page-text) !important;
   }
 
   :global([data-theme="dark"]) .page-button-ghost:hover:not(:disabled) {
-    background: var(--page-bg-secondary);
-    border-color: var(--page-border-strong);
-    color: var(--page-text);
+    background: var(--page-bg-secondary) !important;
+    border-color: var(--page-border-strong) !important;
+    color: var(--page-text) !important;
   }
 
   /* Sizes */
@@ -565,5 +565,15 @@ const buttonAttrs = !href && disabled ? { disabled } : {};
 
   .page-button:active:not(:disabled) {
     animation: buttonPulse 0.2s ease;
+  }
+
+  /* Focus style */
+  .page-button:focus-visible {
+    outline: 2px solid var(--page-accent);
+    outline-offset: 2px;
+  }
+
+  [data-theme="dark"] .page-button:focus-visible {
+    outline-color: var(--page-accent);
   }
 </style>

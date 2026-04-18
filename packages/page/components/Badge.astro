@@ -29,8 +29,8 @@ const { variant = "default", size = "md" } = Astro.props;
 
   /* Force via global style */
   :global(.page-badge p) {
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .page-badge-text {
@@ -46,9 +46,9 @@ const { variant = "default", size = "md" } = Astro.props;
   }
 
   :global([data-theme="dark"]) .page-badge-default {
-    background: var(--neutral-800);
-    border-color: var(--neutral-600);
-    color: var(--neutral-200);
+    background: var(--neutral-800) !important;
+    border-color: var(--neutral-600) !important;
+    color: var(--neutral-200) !important;
   }
 
   .page-badge-primary {
@@ -58,9 +58,9 @@ const { variant = "default", size = "md" } = Astro.props;
   }
 
   :global([data-theme="dark"]) .page-badge-primary {
-    background: var(--blue-900);
-    border-color: var(--blue-700);
-    color: var(--blue-200);
+    background: var(--blue-900) !important;
+    border-color: var(--blue-700) !important;
+    color: var(--blue-200) !important;
   }
 
   .page-badge-success {
@@ -70,9 +70,9 @@ const { variant = "default", size = "md" } = Astro.props;
   }
 
   :global([data-theme="dark"]) .page-badge-success {
-    background: var(--green-900);
-    border-color: var(--green-700);
-    color: var(--green-200);
+    background: var(--green-900) !important;
+    border-color: var(--green-700) !important;
+    color: var(--green-200) !important;
   }
 
   .page-badge-warning {
@@ -82,9 +82,9 @@ const { variant = "default", size = "md" } = Astro.props;
   }
 
   :global([data-theme="dark"]) .page-badge-warning {
-    background: var(--orange-900);
-    border-color: var(--orange-700);
-    color: var(--orange-200);
+    background: var(--orange-900) !important;
+    border-color: var(--orange-700) !important;
+    color: var(--orange-200) !important;
   }
 
   .page-badge-error {
@@ -94,9 +94,9 @@ const { variant = "default", size = "md" } = Astro.props;
   }
 
   :global([data-theme="dark"]) .page-badge-error {
-    background: var(--red-900);
-    border-color: var(--red-700);
-    color: var(--red-200);
+    background: var(--red-900) !important;
+    border-color: var(--red-700) !important;
+    color: var(--red-200) !important;
   }
 
   /* Sizes */
@@ -129,5 +129,11 @@ const { variant = "default", size = "md" } = Astro.props;
       padding: 7px 14px;
       font-size: 13px;
     }
+  }
+
+  /* Focus style */
+  .page-badge:focus-visible {
+    outline: 2px solid var(--page-accent);
+    outline-offset: 2px;
   }
 </style>

@@ -1,71 +1,71 @@
   /* Hide Starlight default elements */
   :global(.sl-nav) {
-    display: none;
+    display: none !important;
   }
 
   :global(.sl-footer) {
-    display: none;
+    display: none !important;
   }
 
   /* Fully hide Starlight default layout elements */
   :global(main[data-pagefind-body]) {
-    display: none;
+    display: none !important;
   }
 
   :global(.sl-container) {
-    display: none;
+    display: none !important;
   }
 
   :global(.sl-layout) {
-    display: none;
+    display: none !important;
   }
 
   /* Hide Starlight default content */
   :global(.sl-content) {
-    display: none;
+    display: none !important;
   }
 
   /* Hide page-content-panel */
   :global(.page-content-panel) {
-    display: none;
+    display: none !important;
   }
 
   /* Hide all astro-oex62vco classes */
   :global(.astro-oex62vco) {
-    display: none;
+    display: none !important;
   }
 
   /* Starlight TOC elements always visible (wherever they are) */
   :global(.sl-toc),
   :global(.sl-content .sl-toc) {
-    display: block;
-    visibility: visible;
-    opacity: 1;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   :global(.sl-toc-mobile),
   :global(.sl-content .sl-toc-mobile) {
-    display: block;
-    visibility: visible;
-    opacity: 1;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   :global(nav[aria-labelledby="starlight__on-this-page--mobile"]) {
-    display: block;
-    visibility: visible;
-    opacity: 1;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   :global(#starlight__mobile-toc) {
-    display: block;
-    visibility: visible;
-    opacity: 1;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   :global(#starlight__on-this-page--mobile) {
-    display: flex;
-    visibility: visible;
-    opacity: 1;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   /* Fully remove Starlight default sidebar */
@@ -76,23 +76,23 @@
   :global(#starlight__sidebar),
   :global(.sidebar-content),
   :global(nav[aria-label="Main"]) {
-    display: none;
-    visibility: hidden;
-    opacity: 0;
-    width: 0;
-    height: 0;
-    overflow: hidden;
-    position: fixed;
-    left: -100%;
-    pointer-events: none;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    position: fixed !important;
+    left: -100% !important;
+    pointer-events: none !important;
   }
 
   /* Content full width at all screen sizes */
   :global(.sl-content),
   :global(.sl-content-panel) {
-    width: 100%;
-    max-width: 100%;
-    margin-left: 0;
-    padding-left: var(--sl-content-pad-x);
-    padding-right: var(--sl-content-pad-x);
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    padding-left: var(--sl-content-pad-x) !important;
+    padding-right: var(--sl-content-pad-x) !important;
   }

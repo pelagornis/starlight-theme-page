@@ -106,8 +106,8 @@ const locale =
   }
   @media (min-width: 1025px) {
     :global(body.page-chat-open) .page-nav-wrap {
-      width: calc(100% - var(--page-chat-pane-width, 360px));
-      max-width: calc(100% - var(--page-chat-pane-width, 360px));
+      width: calc(100% - var(--page-chat-pane-width, 360px)) !important;
+      max-width: calc(100% - var(--page-chat-pane-width, 360px)) !important;
       flex: 0 0 auto;
     }
   }
@@ -123,9 +123,9 @@ const locale =
   }
 
   .main-frame {
-    width: 100%;
-    margin-left: 0;
-    padding-left: 0;
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
     flex: 1 1 auto;
     min-width: 0;
   }

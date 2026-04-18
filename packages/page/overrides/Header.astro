@@ -256,16 +256,16 @@ const hasSidebar = sidebar && sidebar.length > 0;
 
   /* Dark theme header overrides */
   :global([data-theme="dark"]) .page-header {
-    background: rgba(0, 0, 0, 0.3);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
   }
 
   /* Perf: dark mode backdrop-filter conditionally */
   @media (min-resolution: 1.5dppx) and (min-width: 768px) {
     :global([data-theme="dark"]) .page-header {
-      backdrop-filter: blur(30px) saturate(180%);
-      -webkit-backdrop-filter: blur(30px) saturate(180%);
-      -moz-backdrop-filter: blur(30px) saturate(180%);
+      backdrop-filter: blur(30px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+      -moz-backdrop-filter: blur(30px) saturate(180%) !important;
     }
   }
 
@@ -320,19 +320,19 @@ const hasSidebar = sidebar && sidebar.length > 0;
   .page-header-right .page-chat-button,
   .page-header-right .page-language-select-button,
   .page-header-right .page-mobile-menu-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    min-height: 40px;
-    padding: var(--page-space-3);
-    border: none;
-    border-radius: var(--page-radius);
-    background: var(--page-accent-light);
-    color: var(--page-text-secondary);
-    box-sizing: border-box;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    padding: var(--page-space-3) !important;
+    border: none !important;
+    border-radius: var(--page-radius) !important;
+    background: var(--page-accent-light) !important;
+    color: var(--page-text-secondary) !important;
+    box-sizing: border-box !important;
   }
 
   .page-header-right .page-theme-toggle-button:hover,
@@ -340,10 +340,10 @@ const hasSidebar = sidebar && sidebar.length > 0;
   .page-header-right .page-chat-button:hover,
   .page-header-right .page-language-select-button:hover,
   .page-header-right .page-mobile-menu-toggle:hover {
-    background: var(--page-text-reverse);
-    color: var(--page-text);
-    transform: translateY(-1px);
-    box-shadow: var(--page-shadow-sm);
+    background: var(--page-text-reverse) !important;
+    color: var(--page-text) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--page-shadow-sm) !important;
   }
 
   /* RefineUI (font icon) glyphs appear small; use 24px to match Slack (SVG) */
@@ -357,18 +357,18 @@ const hasSidebar = sidebar && sidebar.length > 0;
   .page-header-right .page-language-select-button .refineui-icon,
   .page-header-right .page-mobile-menu-toggle span,
   .page-header-right .page-mobile-menu-toggle .refineui-icon {
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    min-height: 24px;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
     flex-shrink: 0;
-    font-size: 24px;
-    line-height: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
+    font-size: 24px !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .page-header-right .page-search-button svg,
@@ -376,19 +376,19 @@ const hasSidebar = sidebar && sidebar.length > 0;
   .page-header-right .page-theme-toggle-button svg,
   .page-header-right .page-language-select-button svg,
   .page-header-right .page-mobile-menu-toggle svg {
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    min-height: 24px;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
     flex-shrink: 0;
   }
 
   /* SocialIcons (Slack, GitHub) SVG also 24px */
   .page-header-right a svg {
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    min-height: 24px;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
   }
 
   /* Page-style site title */
@@ -507,24 +507,24 @@ const hasSidebar = sidebar && sidebar.length > 0;
   }
 
   [data-theme="dark"] .page-btn-primary {
-    background: var(--page-accent);
-    color: var(--page-bg);
+    background: var(--page-accent) !important;
+    color: var(--page-bg) !important;
   }
 
   [data-theme="dark"] .page-btn-primary:hover {
-    background: var(--page-neutral-300);
-    color: var(--page-bg);
+    background: var(--page-neutral-300) !important;
+    color: var(--page-bg) !important;
   }
 
   /* GitHub button specific style */
   [data-theme="dark"] .page-github-btn {
-    background: var(--page-accent);
-    color: var(--page-bg);
+    background: var(--page-accent) !important;
+    color: var(--page-bg) !important;
   }
 
   [data-theme="dark"] .page-github-btn:hover {
-    background: var(--page-neutral-300);
-    color: var(--page-bg);
+    background: var(--page-neutral-300) !important;
+    color: var(--page-bg) !important;
   }
 
   .page-btn svg {
@@ -581,7 +581,7 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
 
     .page-mobile-menu-toggle {
-      display: flex;
+      display: flex !important;
     }
 
     /* Mobile: nav/menu button 32px touch target (incl. Social Icons) */
@@ -591,11 +591,11 @@ const hasSidebar = sidebar && sidebar.length > 0;
     .page-header-right .page-language-select-button,
     .page-header-right .page-mobile-menu-toggle,
     .page-header-right a {
-      width: 32px;
-      height: 32px;
-      min-width: 32px;
-      min-height: 32px;
-      padding: var(--page-space-2);
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      min-height: 32px !important;
+      padding: var(--page-space-2) !important;
     }
 
     /* Mobile: RefineUI icon 20px only (button touch stays 32px) */
@@ -610,11 +610,11 @@ const hasSidebar = sidebar && sidebar.length > 0;
     .page-header-right .page-mobile-menu-toggle span,
     .page-header-right .page-mobile-menu-toggle .refineui-icon,
     .page-header-right .page-mobile-menu-toggle .page-menu-icon {
-      width: 20px;
-      height: 20px;
-      min-width: 20px;
-      min-height: 20px;
-      font-size: 20px;
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+      font-size: 20px !important;
     }
 
     .page-header-right .page-search-button svg,
@@ -622,52 +622,52 @@ const hasSidebar = sidebar && sidebar.length > 0;
     .page-header-right .page-theme-toggle-button svg,
     .page-header-right .page-language-select-button svg,
     .page-header-right .page-mobile-menu-toggle svg {
-      width: 20px;
-      height: 20px;
-      min-width: 20px;
-      min-height: 20px;
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
     }
 
     .page-header-right a svg {
-      width: 20px;
-      height: 20px;
-      min-width: 20px;
-      min-height: 20px;
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
     }
 
     /* Mobile perf */
     .page-header {
-      background: rgba(255, 255, 255, 0.6);
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      -moz-backdrop-filter: none;
+      background: rgba(255, 255, 255, 0.6) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      -moz-backdrop-filter: none !important;
     }
 
     :global([data-theme="dark"]) .page-header {
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      -moz-backdrop-filter: none;
+      background: rgba(0, 0, 0, 0.4) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      -moz-backdrop-filter: none !important;
     }
 
     /* Mobile animation tuning */
     .page-btn,
     .page-theme-toggle,
     .page-mobile-menu-toggle {
-      transition: none;
-      will-change: auto;
+      transition: none !important;
+      will-change: auto !important;
     }
 
     .page-btn:hover,
     .page-theme-toggle:hover,
     .page-mobile-menu-toggle:hover {
-      transform: none;
+      transform: none !important;
     }
   }
 
   @media (min-width: 769px) {
     .page-mobile-menu-toggle {
-      display: none;
+      display: none !important;
     }
   }
 
@@ -691,11 +691,11 @@ const hasSidebar = sidebar && sidebar.length > 0;
     }
 
     .page-header {
-      background: rgba(255, 255, 255, 0.99);
+      background: rgba(255, 255, 255, 0.99) !important;
     }
 
     :global([data-theme="dark"]) .page-header {
-      background: rgba(0, 0, 0, 0.98);
+      background: rgba(0, 0, 0, 0.98) !important;
     }
   }
 </style>

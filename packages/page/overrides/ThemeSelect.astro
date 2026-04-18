@@ -65,10 +65,10 @@ const moonHtml =
   }
 
   .page-theme-toggle-button:hover {
-    background: var(--page-text-reverse);
-    color: var(--page-text);
-    transform: translateY(-1px);
-    box-shadow: var(--page-shadow-sm);
+    background: var(--page-text-reverse) !important;
+    color: var(--page-text) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--page-shadow-sm) !important;
   }
 
   .page-theme-toggle-button:focus-visible {
@@ -96,25 +96,25 @@ const moonHtml =
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    margin: 0;
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    min-height: 24px;
-    font-size: 24px;
-    line-height: 24px;
-    box-sizing: border-box;
-    align-items: center;
+    margin: 0 !important;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    font-size: 24px !important;
+    line-height: 24px !important;
+    box-sizing: border-box !important;
+    align-items: center !important;
   }
   /* Light: show sun only. Strong selector to override header-icons .refineui-icon */
   .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.moon),
   .page-theme-toggle-button
     .page-theme-toggle-icon-wrap
     :global(.refineui-icon.moon) {
-    display: none;
+    display: none !important;
   }
   .page-theme-toggle-button .page-theme-toggle-icon-wrap :global(.sun) {
-    display: inline-flex;
+    display: inline-flex !important;
   }
   /* Dark: show moon only */
   :global([data-theme="dark"])
@@ -125,7 +125,7 @@ const moonHtml =
     .page-theme-toggle-button
     .page-theme-toggle-icon-wrap
     :global(.refineui-icon.sun) {
-    display: none;
+    display: none !important;
   }
   :global([data-theme="dark"])
     .page-theme-toggle-button
@@ -135,7 +135,7 @@ const moonHtml =
     .page-theme-toggle-button
     .page-theme-toggle-icon-wrap
     :global(.refineui-icon.moon) {
-    display: inline-flex;
+    display: inline-flex !important;
   }
 
   /* Page-style custom properties */
@@ -158,10 +158,10 @@ const moonHtml =
 
   @media (max-width: 768px) {
     .page-theme-toggle-button {
-      width: 32px;
-      height: 32px;
-      min-width: 32px;
-      min-height: 32px;
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      min-height: 32px !important;
     }
     .page-theme-toggle-icon-wrap {
       width: 20px;
@@ -169,21 +169,21 @@ const moonHtml =
     }
     .page-theme-toggle-icon-wrap :global(.sun),
     .page-theme-toggle-icon-wrap :global(.moon) {
-      width: 20px;
-      height: 20px;
-      min-width: 20px;
-      min-height: 20px;
-      font-size: 20px;
-      line-height: 20px;
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+      font-size: 20px !important;
+      line-height: 20px !important;
     }
   }
 
   @media (max-width: 480px) {
     .page-theme-toggle-button {
-      width: 32px;
-      height: 32px;
-      min-width: 32px;
-      min-height: 32px;
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      min-height: 32px !important;
     }
   }
 </style>

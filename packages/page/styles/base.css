@@ -23,6 +23,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
   /* Selected text style */
   ::selection {
     background-color: var(--page-accent);
