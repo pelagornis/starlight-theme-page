@@ -44,13 +44,22 @@ const {
   /* ===== Tabs style ===== */
   .page-tabs {
     margin: 2rem 0;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
   .page-tabs-header {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
+    row-gap: 8px;
     margin-bottom: 20px;
     padding: 4px;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
     background: var(--page-bg-secondary);
     border-radius: 12px;
     border: 1px solid var(--page-border);
@@ -58,7 +67,8 @@ const {
 
   /* Tab button */
   .page-tab-button {
-    flex: 1;
+    flex: 1 1 0;
+    min-width: 0;
     margin-top: 0 !important;
     padding: 12px 16px;
     background: transparent;
@@ -69,12 +79,15 @@ const {
     cursor: pointer;
     transition: all 0.2s ease;
     border-radius: 8px;
-    white-space: nowrap;
+    white-space: normal;
     display: flex;
     align-items: center;
     gap: 8px;
     justify-content: center;
     position: relative;
+    text-align: center;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .page-tab-button:hover {
@@ -123,6 +136,8 @@ const {
   .tab-label {
     font-size: 14px;
     font-weight: inherit;
+    min-width: 0;
+    line-height: 1.35;
   }
 
   /* Tab content */
@@ -143,6 +158,8 @@ const {
   /* Responsive */
   @media (max-width: 768px) {
     .page-tab-button {
+      flex: 1 1 100%;
+      min-width: 0;
       padding: 10px 12px;
       font-size: 13px;
     }
@@ -151,6 +168,7 @@ const {
       font-size: 14px;
       width: 14px;
       height: 14px;
+      flex-shrink: 0;
     }
   }
 
