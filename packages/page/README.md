@@ -1,19 +1,27 @@
-# <img src="../../assets/page-light.svg" alt="" align="left" width="40" height="40"> Starlight Theme Page
+# Starlight Theme Page
+
+A Starlight plugin that uses RefineUI for the docs shell.
 
 ![Official](https://badge.pelagornis.com/official.svg)
 [![npm version](https://img.shields.io/npm/v/@pelagornis/page.svg)](https://www.npmjs.com/package/@pelagornis/page)
 [![stars](https://img.shields.io/github/stars/pelagornis/starlight-theme-page.svg)](https://github.com/pelagornis/starlight-theme-page)
 
-### Installation
+## Requirements
+
+Node.js 22.23.4 or later, Astro 7, Starlight 0.42, and React 19 with `@astrojs/react` 7. Upgrading from 1.x? See [the repository README](https://github.com/pelagornis/starlight-theme-page#upgrading-from-1x).
+
+## Install
 
 ```bash
-npm install @pelagornis/page
+bun add @pelagornis/page @astrojs/react react react-dom
 ```
 
-### Basic Configuration
+`@astrojs/starlight`, `@astrojs/react`, `react`, and `react-dom` are peer dependencies. `@astrojs/markdoc` is an optional peer for the Markdoc preset. The plugin registers React and Tailwind, and injects the RefineUI stylesheets.
 
-```js
-// astro.config.mjs
+## Configure
+
+```ts
+// astro.config.ts
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import pagePlugin from "@pelagornis/page";
@@ -21,105 +29,66 @@ import pagePlugin from "@pelagornis/page";
 export default defineConfig({
   integrations: [
     starlight({
-      plugins: [pagePlugin()],
-      title: "My Documentation",
-      // Add your Starlight configuration here
+      title: "My Docs",
+      plugins: [
+        pagePlugin({
+          navigation: [
+            { href: "/guides/getting-started/", label: "Guide", translations: { ko: "가이드" } },
+            { sidebar: "Components" },
+          ],
+          footerText: "© 2026 Example",
+        }),
+      ],
     }),
   ],
 });
 ```
 
-### Add Styles
+| Option | Use |
+| --- | --- |
+| `navigation` | Header items. A link (`{ label, href }`) or a dropdown (`{ label, items }`, or `{ sidebar: "Group label" }` to fill it from a top-level sidebar group). Every item takes `translations` keyed by locale `lang`. |
+| `footerText` | Footer copyright line. |
+| `siteTitle` | Brand text in the header. Defaults to the Starlight `title`. |
+| `breadcrumbs` | Sidebar trail above each page title. Defaults to `true`. |
+| `llmsTxt` | Writes `llms.txt`, `llms-full.txt`, and a Markdown copy of each page at build time. Files you put in `public/` win. Pass `{ title, description, details }` to change the summary, or `false` to turn it off. Defaults to `true`. |
+| `skipComponents` | Starlight slots that keep the default implementation. |
 
-```css
-/* src/styles/global.css */
-@import "@pelagornis/page/styles";
+The header search matches page titles and, in production builds, page text through Pagefind. UI strings follow Starlight's translations; the strings Starlight doesn't ship come in English, Korean, Japanese, and Chinese.
+
+## Entry points
+
+| Import | Contents |
+| --- | --- |
+| `@pelagornis/page` | The Starlight plugin |
+| `@pelagornis/page/components` | Every export of `@refineui/react` |
+| `@pelagornis/page/markdoc` | `pageMarkdoc()` preset with tags for server-rendered components |
+| `@pelagornis/page/table` | `tableClasses`, the RefineUI Table class names for plain table markup |
+
+Markdown tables in `.md`, `.mdx`, and `.mdoc` pages render with the RefineUI Table markup automatically.
+
+```mdx
+import { Button } from "@pelagornis/page/components";
+
+<Button variant="primary">Continue</Button>
 ```
-
-## 🎨 Customization
-
-### Color System
-
-The theme uses a modern HSL-based color system for easy customization:
-
-```css
-:root {
-  --page-primary: hsl(222.2, 84%, 4.9%);
-  --page-accent: hsl(210, 40%, 92%);
-  --page-background: hsl(0, 0%, 100%);
-  --page-foreground: hsl(222.2, 84%, 4.9%);
-  /* More color variables available */
-}
-```
-
-### Advanced Configuration
 
 ```js
-pagePlugin({
-  navigation: [
-    { href: "/guides/", label: "Guides" },
-    { href: "/api/", label: "API", badge: "New" },
-  ],
-  // Customize theme colors, animations, and more
+// markdoc.config.mjs
+import { defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
 });
 ```
 
-## 🚀 Complete Feature Set
+## Shell
 
-### ✅ Fully Overridden Components
+Overrides: `PageFrame`, `Header`, `SiteTitle`, `ThemeSelect`, `LanguageSelect`, `Sidebar`, `MobileMenuFooter`, `PageSidebar`, `TableOfContents`, `MobileTableOfContents`, `Footer`, `Pagination`, `PageTitle`, `Hero`.
 
-| Component            | Features                                               |
-| -------------------- | ------------------------------------------------------ |
-| **Header**           | Sticky navigation, glass effects, gradient backgrounds |
-| **Hero**             | Animated backgrounds, floating elements, gradient text |
-| **Sidebar**          | Modern styling, hover effects, animated expansion      |
-| **Footer**           | Transparent design, link hover effects, social icons   |
-| **ThemeSelect**      | Rotation animations, glass effects, smooth transitions |
-| **Search**           | Blur backgrounds, modern modal, enhanced input fields  |
-| **Navigation**       | Hover effects, active states, badge system             |
-| **SocialIcons**      | Platform colors, stagger animations, 3D effects        |
-| **MobileMenu**       | Hamburger animations, touch-friendly interface         |
-| **TwoColumnContent** | Enhanced TOC, sticky sidebar, scroll tracking          |
-| **MarkdownContent**  | Typography improvements, code styling, table design    |
-
-### 🎨 Design System
-
-- **Colors**: HSL-based modern palette with light/dark mode support
-- **Typography**: Optimized font sizes, line-heights, and spacing
-- **Animations**: 60fps smooth transitions and micro-interactions
-- **Gradients**: Consistent brand gradient system
-- **Shadows**: Multi-layered shadow system for depth
-- **Spacing**: Consistent spacing scale using CSS custom properties
-
-### 📱 User Experience
-
-- **Accessibility**: WCAG 2.1 AA compliance, screen reader support
-- **Performance**: Optimized CSS, GPU acceleration, lazy loading
-- **Responsive**: Mobile-first design with fluid typography
-- **Dark Mode**: Perfect dark mode with system preference detection
-- **Internationalization**: Multi-language support with RTL compatibility
-
-## 🌟 Recent Updates
-
-### ✨ Latest Improvements
-
-- **Enhanced Sidebar**: Improved navigation with better visual hierarchy
-- **Language Select**: Refined language switcher with better UX
-- **Mobile Experience**: Optimized mobile menu and touch interactions
-- **Performance**: Reduced bundle size and improved loading times
-- **Accessibility**: Enhanced keyboard navigation and screen reader support
-
-### 🔧 Technical Enhancements
-
-- **TypeScript**: Full TypeScript support with improved type safety
-- **Build Optimization**: Faster build times and smaller output
-- **CSS Architecture**: Better organized styles with improved maintainability
-- **Component Structure**: Cleaner component architecture and better reusability
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+Starlight's Aside, Badge, Tabs, Steps, Card, LinkCard, and FileTree are restyled with RefineUI tokens. The plugin supports Starlight 0.42.
 
 ## License
 
-**starlight-theme-page** is under MIT license. See the [LICENSE](LICENSE) file for more info.
+MIT. See [LICENSE](../../LICENSE).

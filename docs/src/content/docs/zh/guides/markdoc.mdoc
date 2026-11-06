@@ -1,0 +1,131 @@
+---
+title: 在 Markdoc 中使用
+description: 启用 Markdoc，加入 pageMarkdoc() 预设，用 Markdoc 标签书写 RefineUI 组件。
+sidebar:
+  order: 3
+---
+
+Markdoc 页面用标签代替 import。`@pelagornis/page/markdoc` 提供一个预设，为不需要客户端状态就能渲染的 RefineUI 组件注册标签。本页也是 `.mdoc` 文件，下面的示例都由这些标签渲染。
+
+## 安装 Markdoc
+
+```sh
+bun add @astrojs/markdoc @astrojs/starlight-markdoc
+```
+
+在 Starlight 之前加入 Markdoc 集成。
+
+```ts {% title="astro.config.ts" %}
+import markdoc from "@astrojs/markdoc";
+import starlight from "@astrojs/starlight";
+import pagePlugin from "@pelagornis/page";
+import { defineConfig } from "astro/config";
+
+export default defineConfig({
+  integrations: [
+    markdoc(),
+    starlight({
+      title: "My Docs",
+      plugins: [pagePlugin()],
+    }),
+  ],
+});
+```
+
+## 加入预设
+
+在 Astro 配置旁边创建 `markdoc.config.mjs`。`starlightMarkdoc()` 带来 `aside` 等 Starlight 标签，`pageMarkdoc()` 加入 RefineUI 标签。
+
+```js {% title="markdoc.config.mjs" %}
+import { defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+});
+```
+
+## 书写标签
+
+属性名和值与 React props 相同。有内容的标签需要对应的结束标签，没有内容的标签在最后的 `%}` 前加斜杠自闭合。
+
+```md {% process=false %}
+{% stack direction="row" gap="sizeSmall" align="center" %}
+{% badge variant="success" %}Stable{% /badge %}
+{% button variant="primary" %}Continue{% /button %}
+{% button variant="outline" %}Cancel{% /button %}
+{% /stack %}
+```
+
+{% stack direction="row" gap="sizeSmall" align="center" class="not-content" %}
+{% badge variant="success" %}Stable{% /badge %}
+{% button variant="primary" %}Continue{% /button %}
+{% button variant="outline" %}Cancel{% /button %}
+{% /stack %}
+
+数字和布尔值不加引号。
+
+```md {% process=false %}
+{% progress value=60 ariaLabel="Upload" /%}
+{% checkbox label="Send release emails" defaultChecked=true /%}
+```
+
+{% stack gap="sizeMedium" class="not-content" %}
+{% progress value=60 ariaLabel="Upload" /%}
+{% checkbox label="Send release emails" defaultChecked=true /%}
+{% /stack %}
+
+React 的 `aria-label` 写作 `ariaLabel`。所有标签也接受 `class` 和 `id`。
+
+## 预设中的标签
+
+| 标签 | 组件 | 说明 |
+| --- | --- | --- |
+| `box`, `container`, `grid`, `stack`, `spacer` | `Box`, `Container`, `Grid`, `Stack`, `Spacer` | 使用令牌 props 的布局 |
+| `divider` | `Divider` | 内容会成为行内标签 |
+| `text` | `Text` | `variant` 默认为 `bodyMd` |
+| `button`, `link` | `Button`, `Link` | `link` 需要 `href` |
+| `label`, `input`, `textarea`, `checkbox`, `radio` | 表单控件 | 原生输入，无客户端脚本 |
+| `badge`, `chip` | `Badge`, `Chip` | 内容就是标签文字 |
+| `progress`, `spinner`, `skeleton` | 反馈 | `progress` 需要 `value` |
+| `icon` | `WebIcon` | `name` 是 RefineUI 图标名 |
+| `avatars` | `Avatars` | `avatars=[{alt: "Name"}]` |
+
+## 为可交互组件添加标签
+
+标签在服务器端渲染为 Astro 组件。带客户端状态的组件需要一个负责水合的 `.astro` 包装。先像[在 MDX 中使用](/zh/guides/mdx/)那样在 `.tsx` 文件中组合，再包装它。
+
+```astro {% title="src/components/markdoc/TabsExample.astro" %}
+---
+import TabsExample from "../TabsExample";
+---
+
+<TabsExample client:load />
+```
+
+在预设旁边注册包装组件。
+
+```js {% title="markdoc.config.mjs" %}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "tabs-example": {
+      render: component("./src/components/markdoc/TabsExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md {% process=false %}
+{% tabs-example /%}
+```
+
+{% tabs-example /%}
+
+每个[组件页面](/zh/components/)都列出了该组件的 Markdoc 标签，或需要编写的包装组件。

@@ -1,0 +1,71 @@
+---
+title: Shell overrides
+description: Which Starlight slots the theme replaces, what each one renders, and how to keep a Starlight default.
+sidebar:
+  order: 4
+---
+
+The plugin sets Starlight's `components` option for you. Each slot below is replaced with an Astro file in `@pelagornis/page` that renders RefineUI.
+
+| Slot | Renders |
+| --- | --- |
+| `PageFrame` | Desktop shell with a resizable `Sidebar` (`ResizablePanelGroup`), and the mobile drawer |
+| `Header` | Brand, `navigation` links and dropdowns, `CommandDialog` search, theme button |
+| `SiteTitle` | Logo and site name, rendered in the header. SVG logos are inlined, so a mark drawn with `fill="currentColor"` follows the theme |
+| `ThemeSelect` | Icon `Button` that switches light and dark |
+| `LanguageSelect` | Locale picker used in the footer and the mobile menu |
+| `Sidebar` | Empty on purpose; the sidebar lives in `PageFrame` |
+| `MobileMenuFooter` | Language and social links at the bottom of the mobile drawer |
+| `PageSidebar`, `TableOfContents`, `MobileTableOfContents` | "On this page" with scroll tracking |
+| `Pagination` | Previous and next page links |
+| `PageTitle` | Breadcrumb from the sidebar, page title, and description |
+| `Hero` | Splash hero on the home page and `hero` blocks on other pages |
+| `Footer` | RefineUI `Footer` with sidebar groups, social links, copyright, and locale |
+
+## Keep a Starlight default
+
+List slot names in `skipComponents` and the plugin leaves those slots alone.
+
+```ts title="astro.config.ts" {4}
+starlight({
+  plugins: [
+    pagePlugin({
+      skipComponents: ["Hero", "Pagination"],
+    }),
+  ],
+});
+```
+
+## Replace a slot yourself
+
+Slots you set in Starlight's own `components` option win over the plugin. Build the replacement from `@pelagornis/page/components` so it matches the rest of the shell.
+
+```ts title="astro.config.ts"
+starlight({
+  components: {
+    PageTitle: "./src/components/MyPageTitle.astro",
+  },
+  plugins: [pagePlugin()],
+});
+```
+
+```astro title="src/components/MyPageTitle.astro"
+---
+import { Badge, Stack, Text } from "@pelagornis/page/components";
+
+const { data } = Astro.locals.starlightRoute.entry;
+---
+
+<Stack gap="sizeXSmall">
+  <Text as="h1" id="_top" variant="titleLg">{data.title}</Text>
+  {data.draft && <Badge variant="warning">Draft</Badge>}
+</Stack>
+```
+
+## Header search
+
+The search in the header lists the pages in the current locale's sidebar and matches page titles and group names. In a production build it also searches page text with Pagefind, which Starlight indexes by default, and shows those matches under **In page content**. The dev server has no index, so it only matches titles. Open the search with <kbd>⌘</kbd> <kbd>K</kbd> or <kbd>Ctrl</kbd> <kbd>K</kbd>. Set Starlight's `pagefind: false` to search titles only.
+
+## Starlight components
+
+Aside, Badge, Tabs, Steps, Card, LinkCard, and FileTree keep working and use the same RefineUI tokens. See [Starlight components](/guides/starlight-components/).

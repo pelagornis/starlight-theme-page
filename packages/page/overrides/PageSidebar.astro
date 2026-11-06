@@ -1,0 +1,19 @@
+---
+import MobileTableOfContents from "virtual:starlight/components/MobileTableOfContents";
+import TableOfContents from "virtual:starlight/components/TableOfContents";
+---
+
+{
+  Astro.locals.starlightRoute.toc && (
+    <>
+      <div data-refineui-docs-toc-mobile-slot>
+        <MobileTableOfContents />
+      </div>
+      <div data-refineui-docs-toc-desktop-slot data-refineui-docs-toc-panel>
+        <div data-refineui-docs-toc-container>
+          <TableOfContents />
+        </div>
+      </div>
+    </>
+  )
+}

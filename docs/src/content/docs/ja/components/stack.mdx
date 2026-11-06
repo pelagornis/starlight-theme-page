@@ -1,0 +1,67 @@
+---
+title: Stack
+description: "間隔に spacing トークンを使う一方向の flex レイアウトです。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/stack";
+import source from "../../../../demos/stack.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import { Stack } from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/StackExample.tsx" />
+
+## MDX で使う
+
+`Stack` は `.mdx` ページにそのまま書けます。frontmatter の下でインポートしてください。サーバーで描画されるので、client ディレクティブは要りません。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Button, Stack } from "@pelagornis/page/components";
+
+<Stack direction="row" gap="sizeSmall" align="center">
+  <Button variant="outline">Cancel</Button>
+  <Button variant="primary">Save</Button>
+</Stack>
+```
+
+## Markdoc で使う
+
+`pageMarkdoc()` がこのコンポーネントの `stack` タグを登録します。`markdoc.config.mjs` にプリセットを一度追加すれば（[Markdoc で使う](/ja/guides/markdoc/)を参照）、どの `.mdoc` ページでもタグを書けます。
+
+```md title="src/content/docs/example.mdoc"
+{% stack direction="row" gap="sizeSmall" align="center" %}
+{% button variant="outline" %}Cancel{% /button %}
+{% button variant="primary" %}Save{% /button %}
+{% /stack %}
+```
+
+属性の名前と値は React の props と同じです。
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="stack" section="anatomy" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Stack](https://ui.pelagornis.com/components/stack/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

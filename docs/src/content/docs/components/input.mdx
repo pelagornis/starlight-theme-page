@@ -1,0 +1,67 @@
+---
+title: Input
+description: Single-line text entry with error and success states.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/input";
+import source from "../../../demos/input.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { Input } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/InputExample.tsx" />
+
+## Use in MDX
+
+`Input` can be written straight in an `.mdx` page. Import it below the frontmatter. It renders on the server, so no client directive is needed.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Input } from "@pelagornis/page/components";
+
+<Input placeholder="you@example.com" aria-label="Email" />
+```
+
+## Use in Markdoc
+
+`pageMarkdoc()` registers a `input` tag for this component. Add the preset once in `markdoc.config.mjs` (see [Use in Markdoc](/guides/markdoc/)), then write the tag in any `.mdoc` page.
+
+```md title="src/content/docs/example.mdoc"
+{% input placeholder="you@example.com" ariaLabel="Email" /%}
+```
+
+Attributes use the same names and values as the React props.
+
+## Variants
+
+Values the component accepts for each variant prop.
+
+<ComponentSpec id="input" section="variants" />
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="input" section="anatomy" />
+
+## Reference
+
+- [RefineUI · Input](https://ui.pelagornis.com/components/input/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

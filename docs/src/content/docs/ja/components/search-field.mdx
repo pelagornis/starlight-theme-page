@@ -1,0 +1,101 @@
+---
+title: Search Field
+description: "検索アイコンとクリアボタンを持つ検索語の入力です。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/search-field";
+import source from "../../../../demos/search-field.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import { SearchField } from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/SearchFieldExample.tsx" />
+
+## MDX で使う
+
+`Search Field` は `.mdx` ページにそのまま書けます。frontmatter の下でインポートしてください。入力に反応するので、`client:load` を付けてハイドレートします。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { SearchField } from "@pelagornis/page/components";
+
+<SearchField client:load defaultValue="tokens" aria-label="Search" />
+```
+
+## Markdoc で使う
+
+Markdoc のタグは Astro コンポーネントを描画しますが、このコンポーネントにはクライアントの状態が必要です。例をハイドレートする `.astro` ファイルで包み、そのファイルをタグとして登録してください。
+
+```astro title="src/components/markdoc/SearchFieldExample.astro"
+---
+import SearchFieldExample from "../SearchFieldExample";
+---
+
+<SearchFieldExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "search-field-example": {
+      render: component("./src/components/markdoc/SearchFieldExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% search-field-example /%}
+```
+
+## バリアント
+
+各 variant prop が受け付ける値です。
+
+<ComponentSpec id="search-field" section="variants" />
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="search-field" section="anatomy" />
+
+## 状態
+
+コンポーネントがスタイルを当てる状態です。コンポーネントの状態は data 属性として公開されます。
+
+<ComponentSpec id="search-field" section="states" />
+
+## キーボード
+
+フォーカスがあるときにコンポーネントが処理するキーです。
+
+<ComponentSpec id="search-field" section="keyboard" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Search Field](https://ui.pelagornis.com/components/search-field/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

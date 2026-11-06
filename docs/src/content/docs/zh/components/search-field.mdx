@@ -1,0 +1,101 @@
+---
+title: Search Field
+description: "带搜索图标和清除按钮的查询输入框。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/search-field";
+import source from "../../../../demos/search-field.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## 导入
+
+```tsx
+import { SearchField } from "@pelagornis/page/components";
+```
+
+## 示例
+
+上方预览渲染的就是这个文件。把它复制到 `src/components/` 即可开始使用。
+
+<Code code={source} lang="tsx" title="src/components/SearchFieldExample.tsx" />
+
+## 在 MDX 中使用
+
+`Search Field` 可以直接写在 `.mdx` 页面中。在 frontmatter 下方导入即可。它会响应输入，所以要加上 `client:load` 进行水合。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { SearchField } from "@pelagornis/page/components";
+
+<SearchField client:load defaultValue="tokens" aria-label="Search" />
+```
+
+## 在 Markdoc 中使用
+
+Markdoc 标签渲染的是 Astro 组件，而这个组件需要客户端状态。请把示例包进一个负责水合的 `.astro` 文件，再把该文件注册为标签。
+
+```astro title="src/components/markdoc/SearchFieldExample.astro"
+---
+import SearchFieldExample from "../SearchFieldExample";
+---
+
+<SearchFieldExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "search-field-example": {
+      render: component("./src/components/markdoc/SearchFieldExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% search-field-example /%}
+```
+
+## 变体
+
+每个 variant prop 可接受的取值。
+
+<ComponentSpec id="search-field" section="variants" />
+
+## 结构
+
+组件的组成部分，以及每个部分渲染的 `data-refineui` 角色。
+
+<ComponentSpec id="search-field" section="anatomy" />
+
+## 状态
+
+组件会设置样式的状态。组件状态通过 data 属性暴露。
+
+<ComponentSpec id="search-field" section="states" />
+
+## 键盘
+
+组件获得焦点时处理的按键。
+
+<ComponentSpec id="search-field" section="keyboard" />
+
+## 参考
+
+- 设计指南和令牌细节见 [RefineUI · Search Field](https://ui.pelagornis.com/components/search-field/)。
+- 通用规则见[在 MDX 中使用](/zh/guides/mdx/)和[在 Markdoc 中使用](/zh/guides/markdoc/)。

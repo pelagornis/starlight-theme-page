@@ -1,0 +1,7 @@
+---
+import { Link } from '@refineui/react';
+
+const { editUrl } = Astro.locals.starlightRoute;
+---
+
+{editUrl && <Link href={editUrl}>{Astro.locals.t('page.editLink')}</Link>}

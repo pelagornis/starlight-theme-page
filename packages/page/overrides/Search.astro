@@ -1,487 +1,201 @@
 ---
-/// <reference path="../virtual.d.ts" />
-import Default from "@astrojs/starlight/components/Search.astro";
-import * as pkg from "@refineui/web-icons";
-import { ICON_NAME_MAPPING } from "../lib/icon-names";
-const createIconHTML = (pkg as { createIconHTML?: (name: string, style: 'regular' | 'filled') => (size?: number, color?: string, className?: string) => string }).createIconHTML;
-const searchIcon = typeof createIconHTML === 'function' ? createIconHTML(ICON_NAME_MAPPING.search ?? "Search", "regular") : () => '';
+import { Button, WebIcon } from '@refineui/react';
+import project from 'virtual:starlight/project-context';
+
+const pagefindTranslations = {
+  placeholder: Astro.locals.t('search.label'),
+  ...Object.fromEntries(
+    Object.entries(Astro.locals.t.all())
+      .filter(([key]) => key.startsWith('pagefind.'))
+      .map(([key, value]) => [key.replace('pagefind.', ''), value]),
+  ),
+};
+
+const dataAttributes: DOMStringMap = { 'data-translations': JSON.stringify(pagefindTranslations) };
+if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash'] = '';
 ---
 
-<!-- Search button -->
-<button
-  aria-label="Search"
-  class="page-search-button"
-  title="Search (Ctrl+K)"
-  type="button"
-  id="page-search-trigger"
->
-  <Fragment set:html={searchIcon(24, "currentColor", "refineui-icon")} />
-  <span class="sr-only">Search</span>
-</button>
+<site-search class="search" {...dataAttributes}>
+  <Button
+    variant="ghost"
+    layout="icon"
+    size="md"
+    data-open-modal
+    disabled
+    aria-label={Astro.locals.t('search.label')}
+    aria-keyshortcuts="Control+K"
+  >
+    <WebIcon name="Search" />
+  </Button>
 
-<!-- Starlight default Search (fully rendered, button hidden) -->
-<Default />
+  <dialog aria-label={Astro.locals.t('search.label')}>
+    <div class="dialog-frame">
+      <Button variant="ghost" layout="icon" size="md" data-close-modal class="close-search">
+        <WebIcon name="Dismiss" />
+      </Button>
+      {
+        import.meta.env.DEV ? (
+          <p class="dev-note">{Astro.locals.t('search.devWarning')}</p>
+        ) : (
+          <div id="starlight__search" />
+        )
+      }
+    </div>
+  </dialog>
+</site-search>
+
+<script>
+  import { pagefindUserConfig } from 'virtual:starlight/pagefind-config';
+
+  class SiteSearch extends HTMLElement {
+    constructor() {
+      super();
+      const openBtn = this.querySelector<HTMLButtonElement>('button[data-open-modal]')!;
+      const closeBtn = this.querySelector<HTMLButtonElement>('button[data-close-modal]')!;
+      const dialog = this.querySelector('dialog')!;
+      const dialogFrame = this.querySelector('.dialog-frame')!;
+
+      const onClick = (event: MouseEvent) => {
+        const isLink = 'href' in (event.target || {});
+        if (
+          isLink ||
+          (document.body.contains(event.target as Node) && !dialogFrame.contains(event.target as Node))
+        ) {
+          closeModal();
+        }
+      };
+
+      const openModal = (event?: MouseEvent) => {
+        dialog.showModal();
+        document.body.toggleAttribute('data-search-modal-open', true);
+        this.querySelector('input')?.focus();
+        event?.stopPropagation();
+        window.addEventListener('click', onClick);
+      };
+
+      const closeModal = () => dialog.close();
+
+      openBtn.addEventListener('click', openModal);
+      openBtn.disabled = false;
+      closeBtn.addEventListener('click', closeModal);
+
+      dialog.addEventListener('close', () => {
+        document.body.toggleAttribute('data-search-modal-open', false);
+        window.removeEventListener('click', onClick);
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+          dialog.open ? closeModal() : openModal();
+          e.preventDefault();
+        }
+      });
+
+      let translations = {};
+      try {
+        translations = JSON.parse(this.dataset.translations || '{}');
+      } catch {
+        translations = {};
+      }
+
+      const shouldStrip = this.dataset.stripTrailingSlash !== undefined;
+      const stripTrailingSlash = (path: string) => path.replace(/(.)\/(#.*)?$/, '$1$2');
+      const formatURL = shouldStrip ? stripTrailingSlash : (path: string) => path;
+
+      window.addEventListener('DOMContentLoaded', () => {
+        if (import.meta.env.DEV) return;
+        const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
+        onIdle(async () => {
+          const { PagefindUI } = await import('@pagefind/default-ui');
+          new PagefindUI({
+            ...pagefindUserConfig,
+            element: '#starlight__search',
+            baseUrl: import.meta.env.BASE_URL,
+            bundlePath: import.meta.env.BASE_URL.replace(/\/$/, '') + '/pagefind/',
+            showImages: false,
+            translations,
+            showSubResults: true,
+            processResult: (result: { url: string; sub_results: Array<{ url: string }> }) => {
+              result.url = formatURL(result.url);
+              result.sub_results = result.sub_results.map((subResult) => {
+                subResult.url = formatURL(subResult.url);
+                return subResult;
+              });
+            },
+          });
+        });
+      });
+    }
+  }
+
+  if (!customElements.get('site-search')) customElements.define('site-search', SiteSearch);
+</script>
 
 <style>
-  /* Hide only Starlight search button (modal and rest work normally) */
-  :global(site-search button[data-open-modal]),
-  :global(button[data-open-modal]),
-  :global(.sl-search-button) {
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    padding: 0 !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    clip: rect(0, 0, 0, 0) !important;
-    white-space: nowrap !important;
-    border: 0 !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    /* Keep button clickable (for trigger) */
-    pointer-events: auto !important;
-    z-index: -1 !important;
+  site-search {
+    display: contents;
   }
 
-  /* Ensure Starlight search modal works normally */
-  :global(site-search dialog),
-  :global(dialog[aria-label*="Search" i]),
-  :global(.dialog-frame) {
-    pointer-events: auto !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+  .close-search {
+    align-self: flex-end;
   }
 
-  /* Page-style search button - same as other buttons */
-  .page-search-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: var(--page-radius);
-    background: var(--page-accent-light);
-    border: none;
-    color: var(--page-text-secondary);
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-  }
-
-  .page-search-button:hover {
-    background: var(--page-text-reverse);
-    color: var(--page-text);
-    transform: translateY(-1px);
-    box-shadow: var(--page-shadow-sm);
-  }
-
-  .page-search-button:focus-visible {
-    outline: 2px solid var(--page-accent);
-    outline-offset: 2px;
-  }
-
-  .page-search-button:active {
-    transform: scale(0.95);
-  }
-
-  .page-search-button svg,
-  .page-search-button .refineui-icon,
-  .page-search-button span:not(.sr-only) {
-    width: 24px !important;
-    height: 24px !important;
-    min-width: 24px !important;
-    min-height: 24px !important;
-    font-size: 24px !important;
-    box-sizing: border-box;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  :global([data-theme="dark"]) .page-search-button:hover {
-    background: var(--page-text-reverse) !important;
-    color: var(--page-text) !important;
-  }
-
-  /* Accessibility */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
+  dialog {
+    margin: 0;
     padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border: 1px solid var(--refineui-color-alias-border-subtle);
+    background: var(--refineui-color-alias-background-surface);
+    color: var(--refineui-color-alias-foreground-primary);
   }
 
-  /* Mobile: 32px touch target, 20px RefineUI icon */
-  @media (max-width: 768px) {
-    .page-search-button {
-      width: 32px !important;
-      height: 32px !important;
-      min-width: 32px !important;
-      min-height: 32px !important;
-    }
-
-    .page-search-button svg,
-    .page-search-button .refineui-icon,
-    .page-search-button span:not(.sr-only) {
-      width: 20px !important;
-      height: 20px !important;
-      min-width: 20px !important;
-      min-height: 20px !important;
-      font-size: 20px !important;
-    }
+  dialog[open] {
+    display: flex;
   }
 
-  @media (max-width: 480px) {
-    .page-search-button {
-      width: 32px !important;
-      height: 32px !important;
+  dialog::backdrop {
+    background: var(--refineui-color-alias-surface-overlay);
+  }
+
+  .dialog-frame {
+    display: flex;
+    flex-direction: column;
+    gap: var(--refineui-spacing-size-large);
+    flex: 1;
+    overflow: auto;
+    padding: var(--refineui-spacing-size-large);
+  }
+
+  .dev-note {
+    margin: auto;
+    text-align: center;
+    white-space: pre-line;
+  }
+
+  @media (min-width: 50rem) {
+    .close-search {
+      display: none;
     }
 
-    .page-search-button svg,
-    .page-search-button .refineui-icon,
-    .page-search-button span:not(.sr-only) {
-      width: 20px !important;
-      height: 20px !important;
-      min-width: 20px !important;
-      min-height: 20px !important;
-      font-size: 20px !important;
+    dialog {
+      margin: 4rem auto auto;
+      width: 90%;
+      max-width: 40rem;
+      height: max-content;
+      min-height: 15rem;
+      max-height: calc(100% - 8rem);
+      border-radius: var(--refineui-radius-rounded-large);
     }
   }
 </style>
 
-<script>
-  // Open Starlight search modal on search button click
-  function initSearchButton() {
-    const searchButton = document.querySelector(
-      ".page-search-button",
-    ) as HTMLButtonElement;
-    if (!searchButton) return;
+<style is:global>
+  @import '@pagefind/default-ui/css/ui.css';
 
-    // Find Starlight default search button
-    const findSearchButton = (): HTMLButtonElement | HTMLElement | null => {
-      // Look for Starlight search button
-      const selectors = [
-        "button[data-open-modal]",
-        "site-search button[data-open-modal]",
-        'button[aria-label*="Search" i]',
-        'button[aria-label*="検索" i]',
-        ".sl-search-button",
-        "[data-search-button]",
-      ];
-
-      for (const selector of selectors) {
-        const element = document.querySelector(selector);
-        if (
-          element &&
-          (element instanceof HTMLButtonElement ||
-            element instanceof HTMLElement)
-        ) {
-          return element;
-        }
-      }
-      return null;
-    };
-
-    // Button click
-    searchButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      const triggerSearch = () => {
-        // 1. Find and click default search button
-        const defaultSearchButton = findSearchButton();
-        if (defaultSearchButton) {
-          // Debug (dev only)
-          if (import.meta.env.DEV) {
-            console.log(
-              "[Search Debug] Found search button:",
-              defaultSearchButton,
-            );
-            console.log(
-              "[Search Debug] Button classes:",
-              defaultSearchButton.className,
-            );
-            console.log(
-              "[Search Debug] Button type:",
-              defaultSearchButton instanceof HTMLButtonElement
-                ? "HTMLButtonElement"
-                : "HTMLElement",
-            );
-          }
-
-          if (defaultSearchButton instanceof HTMLButtonElement) {
-            // HTMLButtonElement: click directly
-            defaultSearchButton.click();
-            return true;
-          } else {
-            // HTMLElement: dispatch click and call click()
-            const clickEvent = new MouseEvent("click", {
-              bubbles: true,
-              cancelable: true,
-              view: window,
-            });
-            defaultSearchButton.dispatchEvent(clickEvent);
-
-            // Also try direct click (works in some cases)
-            if (
-              "click" in defaultSearchButton &&
-              typeof defaultSearchButton.click === "function"
-            ) {
-              defaultSearchButton.click();
-            }
-            return true;
-          }
-        }
-
-        // 2. Open Starlight search modal directly (dialog)
-        const dialog = document.querySelector(
-          'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
-        ) as HTMLDialogElement;
-        if (dialog && typeof dialog.showModal === "function") {
-          try {
-            dialog.showModal();
-            return true;
-          } catch (err) {
-            console.debug("dialog.showModal() failed:", err);
-          }
-        }
-
-        // 3. Simulate keyboard (Ctrl/Cmd + K)
-        const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
-        const keyboardEvent = new KeyboardEvent("keydown", {
-          key: "k",
-          code: "KeyK",
-          ctrlKey: !isMac,
-          metaKey: isMac,
-          bubbles: true,
-          cancelable: false,
-        });
-
-        // Dispatch to both window and document
-        window.dispatchEvent(keyboardEvent);
-        document.dispatchEvent(keyboardEvent);
-
-        return false;
-      };
-
-      // Try immediately
-      if (triggerSearch()) {
-        return;
-      }
-
-      // Retry a few times (DOM may not be ready)
-      let attempts = 0;
-      const maxAttempts = 5;
-      const retryIntervalId = setInterval(() => {
-        attempts++;
-        if (triggerSearch() || attempts >= maxAttempts) {
-          clearInterval(retryIntervalId);
-        }
-      }, 100) as unknown as number;
-    });
-
-    // MutationObserver until default search button is in DOM
-    const observer = new MutationObserver(() => {
-      const defaultSearchButton = findSearchButton();
-      if (defaultSearchButton) {
-        observer.disconnect();
-      }
-    });
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-    });
-
-    // Docsearch modal close handlers (avoid duplicates)
-    let clickHandler: ((e: MouseEvent) => void) | null = null;
-    let escapeHandler: ((e: KeyboardEvent) => void) | null = null;
-    let cancelHandler: ((e: MouseEvent) => void) | null = null;
-
-    const closeDocSearch = () => {
-      // Close Starlight search modal (dialog)
-      const dialog = document.querySelector(
-        'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
-      ) as HTMLDialogElement;
-
-      if (dialog && typeof dialog.close === "function") {
-        try {
-          dialog.close();
-
-          // Restore focus
-          const button = findSearchButton();
-          if (button && button instanceof HTMLElement) {
-            button.focus();
-          }
-          return;
-        } catch (err) {
-          console.debug("dialog.close() failed:", err);
-        }
-      }
-
-      // Fallback: click close-modal button
-      const closeButton = document.querySelector(
-        "button[data-close-modal]",
-      ) as HTMLButtonElement;
-      if (closeButton) {
-        closeButton.click();
-      }
-    };
-
-    const setupModalCloseHandlers = () => {
-      // Remove existing handlers (same phase as registration)
-      if (clickHandler) {
-        document.removeEventListener("click", clickHandler, false);
-      }
-      if (escapeHandler) {
-        document.removeEventListener("keydown", escapeHandler, false);
-      }
-      if (cancelHandler) {
-        document.removeEventListener("click", cancelHandler, false);
-      }
-
-      // Detect click outside modal (Starlight dialog)
-      clickHandler = (e: MouseEvent) => {
-        const dialog = document.querySelector(
-          'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
-        ) as HTMLDialogElement;
-
-        if (!dialog || !dialog.open) {
-          return;
-        }
-
-        const target = e.target as HTMLElement;
-        if (!target) return;
-
-        // Ignore clicks inside dialog (so search works)
-        const dialogFrame = dialog.querySelector(".dialog-frame");
-
-        // Close if dialog itself or inside dialog but outside dialog-frame
-        if (
-          target === dialog ||
-          (dialog.contains(target) &&
-            dialogFrame &&
-            !dialogFrame.contains(target))
-        ) {
-          e.stopPropagation();
-          e.preventDefault();
-          closeDocSearch();
-        }
-      };
-
-      // Close on ESC
-      escapeHandler = (e: KeyboardEvent) => {
-        if (e.key === "Escape") {
-          const dialog = document.querySelector(
-            'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
-          ) as HTMLDialogElement;
-          if (dialog && dialog.open) {
-            e.preventDefault();
-            e.stopPropagation();
-            closeDocSearch();
-          }
-        }
-      };
-
-      // Cancel button click (event delegation)
-      cancelHandler = (e: MouseEvent) => {
-        const target = e.target as HTMLElement;
-        const closeButton = target.closest("button[data-close-modal]");
-        if (closeButton) {
-          // Don't stop propagation so Starlight can handle first
-          // Then safely try close
-          setTimeout(() => {
-            const dialog = document.querySelector(
-              'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
-            ) as HTMLDialogElement;
-            if (dialog && dialog.open) {
-              closeDocSearch();
-            }
-          }, 10);
-        }
-      };
-
-      // Register in bubble phase so DocSearch runs first
-      // Not using capture so DocSearch handles first
-      document.addEventListener("click", clickHandler, false);
-      document.addEventListener("keydown", escapeHandler, false);
-      document.addEventListener("click", cancelHandler, false);
-    };
-
-    // No direct modal click handler (let DocSearch handle)
-    // Only detect background click at document level
-
-    // Re-attach close listeners when modal opens
-    const modalObserver = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          if (node instanceof HTMLElement) {
-            const dialog =
-              node.querySelector?.("dialog") ||
-              (node.tagName === "DIALOG" ? node : null);
-            if (dialog && dialog.closest("site-search")) {
-              setupModalCloseHandlers();
-            }
-          }
-        });
-
-        // Watch dialog open attribute (modal open/close)
-        if (
-          mutation.type === "attributes" &&
-          mutation.attributeName === "open"
-        ) {
-          const dialog = mutation.target as HTMLDialogElement;
-          if (dialog.tagName === "DIALOG" && dialog.closest("site-search")) {
-            if (dialog.open) {
-              // When modal opens
-              setupModalCloseHandlers();
-            }
-          }
-        }
-      });
-    });
-
-    modalObserver.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ["aria-hidden", "style"],
-    });
-
-    // Initial modal close setup
-    setupModalCloseHandlers();
-
-    // Keyboard shortcut (Ctrl/Cmd + K)
-    document.addEventListener("keydown", (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
-        e.preventDefault();
-        // Check if search modal is open
-        const dialog = document.querySelector(
-          'site-search dialog, dialog[aria-label*="Search" i], dialog[aria-label*="検索" i]',
-        ) as HTMLDialogElement;
-        if (dialog && dialog.open) {
-          // If open, close
-          closeDocSearch();
-        } else {
-          // If closed, open
-          searchButton.click();
-        }
-      }
-    });
+  [data-search-modal-open] {
+    overflow: hidden;
   }
-
-  // Init
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initSearchButton);
-  } else {
-    initSearchButton();
-  }
-
-  // Also init on Astro page change
-  document.addEventListener("astro:page-load", initSearchButton);
-</script>
+</style>

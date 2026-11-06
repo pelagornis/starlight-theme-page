@@ -1,192 +1,102 @@
 ---
 title: Tabs
-description: Features and usage of tabs component
-sidebar:
-  order: 8
-  group: components
+description: Switches between panes that share one space.
 ---
 
-import Tabs from "@pelagornis/page/components/Tabs.astro";
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/tabs";
+import source from "../../../demos/tabs.tsx?raw";
 
-A modern and sophisticated tab component. It provides glass effects and smooth animations.
+<Preview>
+  <Demo client:load />
+</Preview>
 
-## Basic Usage
+## Import
 
-<Tabs
-  tabs={[
-    { id: "overview", label: "Overview", icon: "📋" },
-    { id: "usage", label: "Usage", icon: "💡" },
-    { id: "examples", label: "Examples", icon: "🎨" },
-  ]}
-  defaultTab="overview"
->
-  <div>
-    <p>
-      The Tabs component is used to display content divided into multiple tabs.
-      Each tab can have an icon and label, and provides smooth transition
-      animations.
-    </p>
-  </div>
-  <div>
-    <p>
-      When you click a tab, the corresponding content appears smoothly, and
-      provides subtle animation effects on hover.
-    </p>
-  </div>
-  <div>
-    <p>
-      You can check how to utilize the component through various examples and
-      use cases.
-    </p>
-  </div>
-</Tabs>
-
-## Props
-
-| Prop         | Type         | Default        | Description                        |
-| ------------ | ------------ | -------------- | ---------------------------------- |
-| `tabs`       | `Array<Tab>` | -              | Tab configuration array (required) |
-| `defaultTab` | `string`     | First tab's id | Default selected tab               |
-
-### Tab Object
-
-| Property | Type     | Required | Description                        |
-| -------- | -------- | -------- | ---------------------------------- |
-| `id`     | `string` | ✅       | Unique identifier for the tab      |
-| `label`  | `string` | ✅       | Label to display on the tab        |
-| `icon`   | `string` | ❌       | Icon to display on the tab (emoji) |
-
-## Examples
-
-### Basic Tabs
-
-```astro
----
-import Tabs from "@pelagornis/page/components/Tabs.astro";
----
-
-<Tabs tabs={[
-  { id: "tab1", label: "First Tab" },
-  { id: "tab2", label: "Second Tab" },
-  { id: "tab3", label: "Third Tab" }
-]} defaultTab="tab1">
-  <div>
-    Content for the first tab.
-  </div>
-  <div>
-    Content for the second tab.
-  </div>
-  <div>
-    Content for the third tab.
-  </div>
-</Tabs>
+```tsx
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from "@pelagornis/page/components";
 ```
 
-### Tabs with Icons
+## Example
 
-```astro
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/TabsExample.tsx" />
+
+## Use in MDX
+
+`Tabs` is composed from parts that share React state. Children written in MDX are rendered as separate islands, so the parts can't reach each other. Put the composition in a `.tsx` file, like the example above, and import that file instead.
+
+```mdx title="src/content/docs/example.mdx"
 ---
-import Tabs from "@pelagornis/page/components/Tabs.astro";
+title: Example
 ---
 
-<Tabs tabs={[
-  { id: "info", label: "Info", icon: "ℹ️" },
-  { id: "settings", label: "Settings", icon: "⚙️" },
-  { id: "help", label: "Help", icon: "❓" }
-]} defaultTab="info">
-  <div>
-    <h3>Info Tab</h3>
-    <p>Place information content here.</p>
-  </div>
-  <div>
-    <h3>Settings Tab</h3>
-    <p>Place settings content here.</p>
-  </div>
-  <div>
-    <h3>Help Tab</h3>
-    <p>Place help content here.</p>
-  </div>
-</Tabs>
+import TabsExample from "../../components/TabsExample";
+
+<TabsExample client:load />
 ```
 
-### Various Icon Examples
+`client:load` hydrates the island on page load. Use `client:visible` for content far down the page.
 
-<Tabs
-  tabs={[
-    { id: "docs", label: "Documentation", icon: "📚" },
-    { id: "code", label: "Code", icon: "💻" },
-    { id: "design", label: "Design", icon: "🎨" },
-    { id: "deploy", label: "Deploy", icon: "🚀" },
-  ]}
-  defaultTab="docs"
->
-  <div>
-    <h3>📚 Documentation</h3>
-    <p>Check project documentation and guides.</p>
-  </div>
-  <div>
-    <h3>💻 Code</h3>
-    <p>Explore source code and examples.</p>
-  </div>
-  <div>
-    <h3>🎨 Design</h3>
-    <p>Refer to UI/UX design guides.</p>
-  </div>
-  <div>
-    <h3>🚀 Deploy</h3>
-    <p>Check deployment methods and environment setup.</p>
-  </div>
-</Tabs>
+## Use in Markdoc
 
-## Features
+Markdoc tags render Astro components, and this one needs client state. Wrap the example in an `.astro` file that hydrates it, then register that file as a tag.
 
-### ✨ Modern Design
+```astro title="src/components/markdoc/TabsExample.astro"
+---
+import TabsExample from "../TabsExample";
+---
 
-- Glass effects and gradient backgrounds
-- Soft shadows and hover effects
-- Sophisticated typography
-
-### 🎭 Smooth Animations
-
-- Natural fade-in effects on tab transitions
-- Icon scale animations on hover
-- Smooth transition effects
-
-### 🌙 Dark Mode Support
-
-- Perfect compatibility with light/dark themes
-- Automatic color adjustment
-- Consistent user experience
-
-### 📱 Responsive Design
-
-- Horizontal scroll support on mobile
-- Optimized for various screen sizes
-- Touch-friendly interface
-
-### ♿ Accessibility
-
-- Keyboard navigation support
-- Focus indicators
-- Screen reader compatibility
-
-## Styling
-
-The Tabs component can be customized through CSS variables:
-
-```css
-:root {
-  --page-tab-border-radius: 12px;
-  --page-tab-padding: 14px 24px;
-  --page-tab-gap: 12px;
-}
+<TabsExample client:load />
 ```
 
-## Browser Support
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
 
-- Chrome 88+
-- Firefox 85+
-- Safari 14+
-- Edge 88+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "tabs-example": {
+      render: component("./src/components/markdoc/TabsExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
 
-Provides optimal performance on modern browsers.
+```md title="src/content/docs/example.mdoc"
+{% tabs-example /%}
+```
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="tabs" section="anatomy" />
+
+## States
+
+States the component styles. Component states are exposed as data attributes.
+
+<ComponentSpec id="tabs" section="states" />
+
+## Keyboard
+
+Keys the component handles when it has focus.
+
+<ComponentSpec id="tabs" section="keyboard" />
+
+## Reference
+
+- [RefineUI · Tabs](https://ui.pelagornis.com/components/tabs/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

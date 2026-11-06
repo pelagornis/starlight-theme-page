@@ -1,0 +1,67 @@
+---
+title: Progress
+description: Bar that shows how much of a task is done.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/progress";
+import source from "../../../demos/progress.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { Progress } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/ProgressExample.tsx" />
+
+## Use in MDX
+
+`Progress` can be written straight in an `.mdx` page. Import it below the frontmatter. It renders on the server, so no client directive is needed.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Progress } from "@pelagornis/page/components";
+
+<Progress value={60} aria-label="Upload" />
+```
+
+## Use in Markdoc
+
+`pageMarkdoc()` registers a `progress` tag for this component. Add the preset once in `markdoc.config.mjs` (see [Use in Markdoc](/guides/markdoc/)), then write the tag in any `.mdoc` page.
+
+```md title="src/content/docs/example.mdoc"
+{% progress value=60 ariaLabel="Upload" /%}
+```
+
+Attributes use the same names and values as the React props.
+
+## Variants
+
+Values the component accepts for each variant prop.
+
+<ComponentSpec id="progress" section="variants" />
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="progress" section="anatomy" />
+
+## Reference
+
+- [RefineUI · Progress](https://ui.pelagornis.com/components/progress/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

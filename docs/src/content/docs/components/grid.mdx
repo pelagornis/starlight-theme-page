@@ -1,0 +1,71 @@
+---
+title: Grid
+description: CSS grid with fixed columns or an auto-fit minimum item size.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/grid";
+import source from "../../../demos/grid.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { Grid, GridItem } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/GridExample.tsx" />
+
+## Use in MDX
+
+`Grid` can be written straight in an `.mdx` page. Import it below the frontmatter. It renders on the server, so no client directive is needed.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Grid } from "@pelagornis/page/components";
+
+<Grid columns={3} gap="sizeMedium">
+  <div>One</div>
+  <div>Two</div>
+  <div>Three</div>
+</Grid>
+```
+
+## Use in Markdoc
+
+`pageMarkdoc()` registers a `grid` tag for this component. Add the preset once in `markdoc.config.mjs` (see [Use in Markdoc](/guides/markdoc/)), then write the tag in any `.mdoc` page.
+
+```md title="src/content/docs/example.mdoc"
+{% grid columns=3 gap="sizeMedium" %}
+One
+
+Two
+
+Three
+{% /grid %}
+```
+
+Attributes use the same names and values as the React props.
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="grid" section="anatomy" />
+
+## Reference
+
+- [RefineUI · Grid](https://ui.pelagornis.com/components/grid/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

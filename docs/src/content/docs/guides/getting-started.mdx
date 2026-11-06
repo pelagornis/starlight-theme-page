@@ -1,35 +1,25 @@
 ---
 title: Getting Started
-description: Learn how to install and use Starlight Theme Page.
+description: Install the Page theme, register it with Starlight, and render your first RefineUI component.
 sidebar:
-  order: 2
-  group: getting-started
-hero:
-  tagline: Get up and running with Starlight Theme Page in minutes
-  actions:
-    - text: Install Now
-      link: /guides/getting-started/
-      variant: primary
-      icon: right-arrow
-    - text: View GitHub
-      link: https://github.com/pelagornis/starlight-theme-page
-      variant: secondary
-      icon: external
+  order: 1
 ---
 
-import { Steps, Card } from "@astrojs/starlight/components";
-import Tabs from "@pelagornis/page/components/Tabs.astro";
-import PackageManagerTabs from "@pelagornis/page/components/PackageManagerTabs.astro";
+import { InstallTabs } from "../../../components/InstallTabs";
 
-## Quick Start
+Page is a Starlight plugin. It replaces Starlight's header, sidebar, search, table of contents, pagination, and footer with RefineUI, and it re-exports every RefineUI component so your pages can use the same parts.
 
-<PackageManagerTabs />
+## 1. Install
 
-### 2. Astro Configuration
+Add the theme, the React integration, and React. `@astrojs/starlight` is already in a Starlight project.
 
-Add the plugin to your `astro.config.mjs` file:
+<InstallTabs client:load packageName="@pelagornis/page @astrojs/react react react-dom" />
 
-```js
+The theme pulls in `@refineui/react`, `@refineui/tokens`, the icon font, and Tailwind. You don't install them yourself.
+
+## 2. Register the plugin
+
+```ts title="astro.config.ts" ins={3,9-13}
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import pagePlugin from "@pelagornis/page";
@@ -37,73 +27,100 @@ import pagePlugin from "@pelagornis/page";
 export default defineConfig({
   integrations: [
     starlight({
-      plugins: [pagePlugin()],
+      title: "My Docs",
+      plugins: [
+        pagePlugin({
+          navigation: [{ href: "/guides/getting-started/", label: "Guide" }],
+        }),
+      ],
     }),
   ],
 });
 ```
 
-### 3. Add Styles
+The plugin registers `@astrojs/react` and Tailwind for you. Don't add `react()` to `integrations` a second time.
 
-Add styles to your `src/styles/global.css` file:
+### Options
 
-```css
-@import "@pelagornis/page/styles";
-```
+| Option | Type | Use |
+| --- | --- | --- |
+| `navigation` | `NavigationItem[]` | Items in the center of the header. A link, or a dropdown. See [Header navigation](#header-navigation). |
+| `footerText` | `string` | Copyright line in the footer. |
+| `siteTitle` | `string` | Brand text in the header. Defaults to the Starlight `title`. |
+| `breadcrumbs` | `boolean` | Sidebar trail above each page title. Defaults to `true`. |
+| `llmsTxt` | `boolean \| { title?, description?, details? }` | Writes `llms.txt` for AI tools at build time. Defaults to `true`. See [llms.txt](#llmstxt). |
+| `skipComponents` | `string[]` | Starlight slots that should keep the default Starlight component. See [Shell overrides](/guides/overrides/). |
 
-## Key Features
+### Header navigation
 
-### 🎨 Modern Design
+Each `navigation` item is a link or a dropdown. A dropdown lists `items`, or fills itself from a top-level sidebar group: name the group with `sidebar`, using the label as written in the Starlight config. A sidebar dropdown takes the group's translated label, and lists the group's pages and one link per nested group.
 
-Clean and intuitive interface providing the best user experience
-
-### 🌙 Dark Mode Support
-
-Automatic theme switching and perfect dark mode support
-
-### 📱 Responsive
-
-Perfect user experience across all devices from mobile to desktop
-
-## Customization
-
-### Color Changes
-
-You can easily change theme colors using CSS variables:
-
-```css
-:root {
-  --page-accent: hsl(220, 100%, 50%);
-  --page-accent-hover: hsl(220, 100%, 40%);
-  --page-bg: hsl(0, 0%, 100%);
-  --page-text: hsl(0, 0%, 10%);
-}
-```
-
-### Navigation Links
-
-You can configure navigation links in the plugin settings:
-
-```js
+```ts title="astro.config.ts"
 pagePlugin({
-  navLinks: [
+  navigation: [
+    { label: "Blog", href: "/blog/", translations: { ko: "블로그" } },
+    { sidebar: "Guides" },
     {
-      label: "Blog",
-      link: "/blog/",
-      badge: "New",
+      label: "Resources",
+      items: [
+        { label: "Changelog", href: "/changelog/" },
+        { label: "GitHub", href: "https://github.com/pelagornis/starlight-theme-page" },
+      ],
     },
   ],
 });
 ```
 
-## Component Examples
+`translations` holds labels per locale `lang`. Links that start with `/` get the current locale prefix on translated pages.
 
-### Code Blocks
+### llms.txt
 
-```bash
-npm install @pelagornis/page
+`astro build` writes three kinds of files for AI tools, from the rendered pages of the default locale:
+
+- `/llms.txt`: the project summary and every page in sidebar order, linked to its Markdown copy
+- `/llms-full.txt`: every page in one file
+- a Markdown copy of each page at its URL with `.md` in place of the trailing slash, such as `/guides/getting-started.md`
+
+Code examples, tables, and every tab of a tab set are kept. Live component previews are left out. To ship your own `llms.txt` or `llms-full.txt`, put it in `public/` and the plugin leaves it as it is. Set `llmsTxt: false` to turn the files off.
+
+## 3. Run the site
+
+```sh
+bun run dev
 ```
 
-## Next Steps
+Open `http://localhost:4321/`. The header, sidebar, search (<kbd>⌘</kbd> <kbd>K</kbd>), and footer are now RefineUI.
 
-Your theme is now set up! Try clicking the theme toggle button in the header or hover over the logo.
+## 4. Use a component in a page
+
+Every RefineUI component is exported from `@pelagornis/page/components`. Rename a page to `.mdx` and import what you need.
+
+```mdx title="src/content/docs/index.mdx"
+---
+title: Welcome
+---
+
+import { Badge, Button } from "@pelagornis/page/components";
+
+<Badge variant="success">Stable</Badge>
+
+<Button variant="primary">Continue</Button>
+```
+
+Components that only render markup work like this. Components that keep state, such as `Tabs` or `Dialog`, go in a `.tsx` file first. [Use in MDX](/guides/mdx/) explains both cases, and [Use in Markdoc](/guides/markdoc/) covers `.mdoc` pages.
+
+## Styles
+
+The plugin injects the stylesheets the shell needs. A separate `global.css` import is not required.
+
+- The `@pelagornis/page` Tailwind entry with the RefineUI token theme
+- The RefineUI system icon font
+- `@refineui/react/refineui.css`
+- Chrome rules that map Starlight's layout variables onto RefineUI tokens
+
+Light and dark mode follow Starlight's theme switch. RefineUI semantic tokens change with `data-theme`, so components and your own CSS that uses `var(--refineui-color-alias-*)` follow along.
+
+## Next
+
+- Browse [all components](/components/) with live previews.
+- Read [Use in MDX](/guides/mdx/) before composing interactive parts.

@@ -11,14 +11,25 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.5",
-    "@astrojs/netlify": "^6.0.0",
-    "@astrojs/starlight": "^0.36.2",
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/markdoc": "^2.1.2",
+    "@astrojs/markdown-remark": "^7.3.5",
+    "@astrojs/netlify": "^8.2.10",
+    "@astrojs/react": "^7.1.2",
+    "@astrojs/starlight": "^0.42.9",
+    "@astrojs/starlight-markdoc": "^0.7.0",
     "@pelagornis/page": "workspace:*",
-    "@refineui/web-icons": "^0.3.32",
-    "astro": "^5.15.9",
-    "dotenv": "^17.3.1",
-    "sharp": "^0.34.5",
-    "typescript": "^5.9.3"
+    "@refineui/react": "0.2.1",
+    "@refineui/tokens": "^2.2.0",
+    "@refineui/web-icons": "^0.3.43",
+    "astro": "^7.4.4",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "sharp": "^0.35.5",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0"
   }
 }

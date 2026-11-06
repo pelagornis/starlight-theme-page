@@ -1,0 +1,75 @@
+---
+title: Radio
+description: "同じ name を共有するグループから 1 つを選びます。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/radio";
+import source from "../../../../demos/radio.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import { Radio } from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/RadioExample.tsx" />
+
+## MDX で使う
+
+`Radio` は `.mdx` ページにそのまま書けます。frontmatter の下でインポートしてください。サーバーで描画されるので、client ディレクティブは要りません。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Radio } from "@pelagornis/page/components";
+
+<Radio name="plan" value="basic" label="Basic" defaultChecked />
+<Radio name="plan" value="pro" label="Pro" />
+```
+
+## Markdoc で使う
+
+`pageMarkdoc()` がこのコンポーネントの `radio` タグを登録します。`markdoc.config.mjs` にプリセットを一度追加すれば（[Markdoc で使う](/ja/guides/markdoc/)を参照）、どの `.mdoc` ページでもタグを書けます。
+
+```md title="src/content/docs/example.mdoc"
+{% radio name="plan" value="basic" label="Basic" defaultChecked=true /%}
+{% radio name="plan" value="pro" label="Pro" /%}
+```
+
+属性の名前と値は React の props と同じです。
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="radio" section="anatomy" />
+
+## 状態
+
+コンポーネントがスタイルを当てる状態です。コンポーネントの状態は data 属性として公開されます。
+
+<ComponentSpec id="radio" section="states" />
+
+## キーボード
+
+フォーカスがあるときにコンポーネントが処理するキーです。
+
+<ComponentSpec id="radio" section="keyboard" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Radio](https://ui.pelagornis.com/components/radio/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

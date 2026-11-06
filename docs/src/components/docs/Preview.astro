@@ -1,0 +1,23 @@
+<div class="not-content page-preview" data-page-preview>
+  <slot />
+</div>
+
+<style>
+  .page-preview {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--refineui-size-foundation-size-2560);
+    padding: var(--refineui-spacing-size-xx-large);
+    border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-subtle);
+    border-radius: var(--refineui-radius-rounded-x-large);
+    background: var(--refineui-color-alias-background-primary);
+    color: var(--refineui-color-alias-foreground-primary);
+    overflow-x: auto;
+  }
+
+  .page-preview > :global(astro-island) {
+    display: contents;
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+title: Textarea
+description: "複数行の入力です。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/textarea";
+import source from "../../../../demos/textarea.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import { Textarea } from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/TextareaExample.tsx" />
+
+## MDX で使う
+
+`Textarea` は `.mdx` ページにそのまま書けます。frontmatter の下でインポートしてください。サーバーで描画されるので、client ディレクティブは要りません。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Textarea } from "@pelagornis/page/components";
+
+<Textarea placeholder="Write a comment…" rows={4} aria-label="Comment" />
+```
+
+## Markdoc で使う
+
+`pageMarkdoc()` がこのコンポーネントの `textarea` タグを登録します。`markdoc.config.mjs` にプリセットを一度追加すれば（[Markdoc で使う](/ja/guides/markdoc/)を参照）、どの `.mdoc` ページでもタグを書けます。
+
+```md title="src/content/docs/example.mdoc"
+{% textarea placeholder="Write a comment…" rows=4 ariaLabel="Comment" /%}
+```
+
+属性の名前と値は React の props と同じです。
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="textarea" section="anatomy" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Textarea](https://ui.pelagornis.com/components/textarea/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

@@ -1,0 +1,80 @@
+---
+title: Chip
+description: "小さなラベルやフィルターです。削除可能にできます。Tag という名前でもエクスポートされます。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/chip";
+import source from "../../../../demos/chip.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import { Chip, Tag } from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/ChipExample.tsx" />
+
+## MDX で使う
+
+`Chip` は `.mdx` ページにそのまま書けます。frontmatter の下でインポートしてください。サーバーで描画されるので、client ディレクティブは要りません。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Chip } from "@pelagornis/page/components";
+
+<Chip variant="filled">Astro</Chip>
+<Chip variant="outline" size="sm">React</Chip>
+```
+
+## Markdoc で使う
+
+`pageMarkdoc()` がこのコンポーネントの `chip` タグを登録します。`markdoc.config.mjs` にプリセットを一度追加すれば（[Markdoc で使う](/ja/guides/markdoc/)を参照）、どの `.mdoc` ページでもタグを書けます。
+
+```md title="src/content/docs/example.mdoc"
+{% chip variant="filled" %}Astro{% /chip %}
+```
+
+属性の名前と値は React の props と同じです。
+
+## バリアント
+
+各 variant prop が受け付ける値です。
+
+<ComponentSpec id="chip" section="variants" />
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="chip" section="anatomy" />
+
+## 状態
+
+コンポーネントがスタイルを当てる状態です。コンポーネントの状態は data 属性として公開されます。
+
+<ComponentSpec id="chip" section="states" />
+
+## キーボード
+
+フォーカスがあるときにコンポーネントが処理するキーです。
+
+<ComponentSpec id="chip" section="keyboard" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Chip](https://ui.pelagornis.com/components/tag/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

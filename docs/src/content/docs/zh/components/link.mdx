@@ -1,0 +1,73 @@
+---
+title: Link
+description: "会标出外部目标的行内超链接。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/link";
+import source from "../../../../demos/link.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## 导入
+
+```tsx
+import { Link } from "@pelagornis/page/components";
+```
+
+## 示例
+
+上方预览渲染的就是这个文件。把它复制到 `src/components/` 即可开始使用。
+
+<Code code={source} lang="tsx" title="src/components/LinkExample.tsx" />
+
+## 在 MDX 中使用
+
+`Link` 可以直接写在 `.mdx` 页面中。在 frontmatter 下方导入即可。它在服务器端渲染，不需要 client 指令。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Link } from "@pelagornis/page/components";
+
+<Link href="https://ui.pelagornis.com/" target="_blank">RefineUI</Link>
+```
+
+## 在 Markdoc 中使用
+
+`pageMarkdoc()` 会为这个组件注册 `link` 标签。在 `markdoc.config.mjs` 中添加一次预设（见[在 Markdoc 中使用](/zh/guides/markdoc/)），就能在任意 `.mdoc` 页面中使用该标签。
+
+```md title="src/content/docs/example.mdoc"
+{% link href="https://ui.pelagornis.com/" target="_blank" %}RefineUI{% /link %}
+```
+
+属性的名称和取值与 React props 相同。
+
+## 结构
+
+组件的组成部分，以及每个部分渲染的 `data-refineui` 角色。
+
+<ComponentSpec id="link" section="anatomy" />
+
+## 状态
+
+组件会设置样式的状态。组件状态通过 data 属性暴露。
+
+<ComponentSpec id="link" section="states" />
+
+## 键盘
+
+组件获得焦点时处理的按键。
+
+<ComponentSpec id="link" section="keyboard" />
+
+## 参考
+
+- 设计指南和令牌细节见 [RefineUI · Link](https://ui.pelagornis.com/components/link/)。
+- 通用规则见[在 MDX 中使用](/zh/guides/mdx/)和[在 Markdoc 中使用](/zh/guides/markdoc/)。

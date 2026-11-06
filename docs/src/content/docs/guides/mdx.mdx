@@ -1,0 +1,138 @@
+---
+title: Use in MDX
+description: Import RefineUI components into MDX pages, and know when to compose them in a .tsx file.
+sidebar:
+  order: 2
+---
+
+import { Badge, Button, Stack } from "@pelagornis/page/components";
+import TabsDemo from "../../../demos/tabs";
+
+MDX pages can import any export of `@pelagornis/page/components`. That entry re-exports `@refineui/react`, so the names, props, and types match the [RefineUI docs](https://ui.pelagornis.com/).
+
+## Render a component
+
+Import below the frontmatter and write the component as JSX.
+
+```mdx title="src/content/docs/release.mdx"
+---
+title: Release notes
+---
+
+import { Badge, Button, Stack } from "@pelagornis/page/components";
+
+<Stack direction="row" gap="sizeSmall" align="center">
+  <Badge variant="success">Stable</Badge>
+  <Button variant="outline" size="sm">Changelog</Button>
+</Stack>
+```
+
+<div class="not-content">
+  <Stack direction="row" gap="sizeSmall" align="center">
+    <Badge variant="success">Stable</Badge>
+    <Button variant="outline" size="sm">Changelog</Button>
+  </Stack>
+</div>
+
+Without a `client:*` directive Astro renders the component to HTML on the server and ships no JavaScript for it. That is right for anything that only displays: `Badge`, `Text`, `Box`, `Stack`, `Grid`, `Divider`, `Progress`, `Spinner`, `Link`, a `Button` without a handler, and native inputs such as `Input`, `Checkbox`, and `Radio`.
+
+## Hydrate a component that responds to input
+
+Add `client:load` when a single component keeps its own state, such as `SearchField` or `Calendar`.
+
+```mdx
+import { SearchField } from "@pelagornis/page/components";
+
+<SearchField client:load defaultValue="tokens" aria-label="Search" />
+```
+
+Props on a hydrated component are serialized to the browser. Strings, numbers, booleans, arrays, and plain objects work. Functions and JSX elements can't be passed this way, so `onChange={…}` or `trigger={<Button />}` belong in a `.tsx` file.
+
+## Compose compound components in a `.tsx` file
+
+`Tabs`, `Dialog`, `Select`, `Accordion`, `Menu`, and the other multi-part components share state through React context. When you write their parts as MDX children, Astro renders each part separately and the context never reaches them. Compose them in a React file and import that file.
+
+```tsx title="src/components/ReleaseTabs.tsx"
+import { Tabs, TabsContent, TabsList, TabsTrigger, Text } from "@pelagornis/page/components";
+
+export default function ReleaseTabs() {
+  return (
+    <Tabs defaultValue="overview">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="usage">Usage</TabsTrigger>
+      </TabsList>
+      <TabsContent value="overview">
+        <Text variant="bodyMd">Tabs switch between panes in place.</Text>
+      </TabsContent>
+      <TabsContent value="usage">
+        <Text variant="bodyMd">Give each trigger and content the same value.</Text>
+      </TabsContent>
+    </Tabs>
+  );
+}
+```
+
+```mdx title="src/content/docs/release.mdx"
+import ReleaseTabs from "../../components/ReleaseTabs";
+
+<ReleaseTabs client:load />
+```
+
+<div class="not-content">
+  <TabsDemo client:load />
+</div>
+
+Every [component page](/components/) shows its example as a `.tsx` file you can copy as a starting point.
+
+## Tables
+
+Write tables in plain Markdown. The plugin renders every Markdown table in `.md`, `.mdx`, and `.mdoc` pages with the RefineUI `Table` markup, so no import is needed.
+
+```md
+| Option | Type | Use |
+| --- | --- | --- |
+| `navigation` | `NavigationItem[]` | Links in the header |
+| `footerText` | `string` | Copyright line |
+```
+
+| Option | Type | Use |
+| --- | --- | --- |
+| `navigation` | `NavigationItem[]` | Links in the header |
+| `footerText` | `string` | Copyright line |
+
+Data tables with sorting, badges, or other components go in a `.tsx` file with `Table`, `TableHeader`, `TableRow`, and the other parts, like the [Table example](/components/table/). In an `.astro` file, use the class names from `@pelagornis/page/table` on plain table elements.
+
+## Choose a client directive
+
+| Directive | Hydrates | Use for |
+| --- | --- | --- |
+| none | never | Display-only components |
+| `client:load` | on page load | Content visible at the top of the page |
+| `client:visible` | when it scrolls into view | Examples further down a long page |
+| `client:idle` | when the browser is idle | Low-priority widgets |
+
+## Keep Starlight's markdown styles out
+
+Starlight styles `p`, `ul`, `table`, and headings inside page content. Wrap a component in `<div class="not-content">` when those styles shouldn't apply to it.
+
+```mdx
+<div class="not-content">
+  <ReleaseTabs client:load />
+</div>
+```
+
+## Style with tokens
+
+Write custom CSS with RefineUI semantic variables so it follows light and dark mode.
+
+```css
+.release-banner {
+  padding: var(--refineui-spacing-size-large);
+  border-radius: var(--refineui-radius-rounded-x-large);
+  background: var(--refineui-color-alias-background-surface);
+  color: var(--refineui-color-alias-foreground-primary);
+}
+```
+
+Layout props such as `gap="sizeSmall"`, `padding="sizeLarge"`, `background="backgroundSurface"`, and `radius="roundedLarge"` take the same token names.

@@ -1,0 +1,43 @@
+---
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@refineui/react";
+import { docsLabels } from "./labels";
+import { sidebarTrail } from "./nav";
+
+const { entry, hasSidebar, sidebar } = Astro.locals.starlightRoute;
+const { title, description } = entry.data;
+const trail =
+  hasSidebar && process.env.PAGE_BREADCRUMBS !== "false"
+    ? sidebarTrail(sidebar).filter((crumb) => crumb.label !== title)
+    : [];
+---
+
+<div data-refineui-docs-pagehead>
+  {
+    trail.length > 0 && (
+      <Breadcrumb aria-label={docsLabels(Astro.locals.t).breadcrumb} data-refineui-docs-breadcrumb>
+        <BreadcrumbList>
+          {trail.map((crumb) => (
+            <>
+              <BreadcrumbItem>
+                <BreadcrumbLink href={crumb.href}>{crumb.label}</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+            </>
+          ))}
+          <BreadcrumbItem>
+            <BreadcrumbPage>{title}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    )
+  }
+  <h1 id="_top">{title}</h1>
+  {description ? <p data-refineui-docs-lead>{description}</p> : null}
+</div>

@@ -1,0 +1,71 @@
+---
+title: 셸 오버라이드
+description: 테마가 바꾸는 Starlight 슬롯과 각 슬롯이 렌더하는 것, Starlight 기본을 유지하는 방법을 설명합니다.
+sidebar:
+  order: 4
+---
+
+플러그인이 Starlight의 `components` 옵션을 대신 설정합니다. 아래 슬롯은 `@pelagornis/page` 안의 Astro 파일로 바뀌고, 각 파일은 RefineUI를 렌더합니다.
+
+| 슬롯 | 렌더하는 것 |
+| --- | --- |
+| `PageFrame` | 너비 조절 `Sidebar`(`ResizablePanelGroup`)가 있는 데스크톱 셸과 모바일 서랍 |
+| `Header` | 브랜드, `navigation` 링크와 드롭다운, `CommandDialog` 검색, 테마 버튼 |
+| `SiteTitle` | 헤더에 들어가는 로고와 사이트 이름. SVG 로고는 인라인으로 들어가므로 `fill="currentColor"`로 그린 로고는 테마 색을 따라갑니다 |
+| `ThemeSelect` | 라이트·다크를 바꾸는 아이콘 `Button` |
+| `LanguageSelect` | 푸터와 모바일 메뉴의 언어 선택 |
+| `Sidebar` | 의도적으로 비어 있음. 사이드바는 `PageFrame`에 있습니다 |
+| `MobileMenuFooter` | 모바일 서랍 아래 언어와 소셜 링크 |
+| `PageSidebar`, `TableOfContents`, `MobileTableOfContents` | 스크롤을 따라가는 "이 페이지" 목차 |
+| `Pagination` | 이전·다음 페이지 링크 |
+| `PageTitle` | 사이드바 경로(breadcrumb), 페이지 제목과 설명 |
+| `Hero` | 홈의 스플래시 히어로와 다른 페이지의 `hero` 블록 |
+| `Footer` | 사이드바 그룹, 소셜 링크, 저작권, 언어가 있는 RefineUI `Footer` |
+
+## Starlight 기본 유지
+
+`skipComponents`에 슬롯 이름을 넣으면 플러그인이 그 슬롯을 건드리지 않습니다.
+
+```ts title="astro.config.ts" {4}
+starlight({
+  plugins: [
+    pagePlugin({
+      skipComponents: ["Hero", "Pagination"],
+    }),
+  ],
+});
+```
+
+## 슬롯을 직접 바꾸기
+
+Starlight의 `components` 옵션에 직접 지정한 슬롯이 플러그인보다 우선합니다. 셸과 어울리도록 `@pelagornis/page/components`로 만듭니다.
+
+```ts title="astro.config.ts"
+starlight({
+  components: {
+    PageTitle: "./src/components/MyPageTitle.astro",
+  },
+  plugins: [pagePlugin()],
+});
+```
+
+```astro title="src/components/MyPageTitle.astro"
+---
+import { Badge, Stack, Text } from "@pelagornis/page/components";
+
+const { data } = Astro.locals.starlightRoute.entry;
+---
+
+<Stack gap="sizeXSmall">
+  <Text as="h1" id="_top" variant="titleLg">{data.title}</Text>
+  {data.draft && <Badge variant="warning">Draft</Badge>}
+</Stack>
+```
+
+## 헤더 검색
+
+헤더 검색은 현재 언어 사이드바의 페이지를 보여 주고, 페이지 제목과 그룹 이름으로 찾습니다. 프로덕션 빌드에서는 Starlight가 기본으로 만드는 Pagefind 색인으로 본문도 찾아 **본문에서 찾음** 아래에 보여 줍니다. dev 서버에는 색인이 없어서 제목만 찾습니다. <kbd>⌘</kbd> <kbd>K</kbd> 또는 <kbd>Ctrl</kbd> <kbd>K</kbd>로 엽니다. 제목만 찾게 하려면 Starlight의 `pagefind: false`를 설정합니다.
+
+## Starlight 컴포넌트
+
+Aside, Badge, Tabs, Steps, Card, LinkCard, FileTree도 그대로 쓸 수 있고 같은 RefineUI 토큰으로 그려집니다. [Starlight 컴포넌트](/ko/guides/starlight-components/)를 참고하세요.

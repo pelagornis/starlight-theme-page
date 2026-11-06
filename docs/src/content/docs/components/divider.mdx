@@ -1,0 +1,71 @@
+---
+title: Divider
+description: Horizontal rule between groups, with an optional inline label.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/divider";
+import source from "../../../demos/divider.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { Divider } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/DividerExample.tsx" />
+
+## Use in MDX
+
+`Divider` can be written straight in an `.mdx` page. Import it below the frontmatter. It renders on the server, so no client directive is needed.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Divider } from "@pelagornis/page/components";
+
+<Divider />
+
+<Divider layout="content" align="center">Or continue with</Divider>
+```
+
+## Use in Markdoc
+
+`pageMarkdoc()` registers a `divider` tag for this component. Add the preset once in `markdoc.config.mjs` (see [Use in Markdoc](/guides/markdoc/)), then write the tag in any `.mdoc` page.
+
+```md title="src/content/docs/example.mdoc"
+{% divider /%}
+
+{% divider layout="content" align="center" %}Or continue with{% /divider %}
+```
+
+Attributes use the same names and values as the React props.
+
+## Variants
+
+Values the component accepts for each variant prop.
+
+<ComponentSpec id="divider" section="variants" />
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="divider" section="anatomy" />
+
+## Reference
+
+- [RefineUI · Divider](https://ui.pelagornis.com/components/divider/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

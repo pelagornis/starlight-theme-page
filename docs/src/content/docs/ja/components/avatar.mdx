@@ -1,0 +1,98 @@
+---
+title: Avatar
+description: "人を表す写真、イニシャル、アイコンです。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/avatar";
+import source from "../../../../demos/avatar.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+  AvatarText,
+  AvatarIcon,
+  AvatarBadge,
+} from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/AvatarExample.tsx" />
+
+## MDX で使う
+
+`Avatar` は React の状態を共有する複数のパーツで構成されます。MDX に書いた子要素はそれぞれ別のアイランドとして描画されるため、パーツ同士がつながりません。上の例のように `.tsx` ファイルで組み立て、そのファイルをインポートしてください。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import AvatarExample from "../../components/AvatarExample";
+
+<AvatarExample client:load />
+```
+
+`client:load` はページの読み込み時にアイランドをハイドレートします。ページの下の方にあるコンテンツには `client:visible` を使ってください。
+
+## Markdoc で使う
+
+Markdoc のタグは Astro コンポーネントを描画しますが、このコンポーネントにはクライアントの状態が必要です。例をハイドレートする `.astro` ファイルで包み、そのファイルをタグとして登録してください。
+
+```astro title="src/components/markdoc/AvatarExample.astro"
+---
+import AvatarExample from "../AvatarExample";
+---
+
+<AvatarExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "avatar-example": {
+      render: component("./src/components/markdoc/AvatarExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% avatar-example /%}
+```
+
+## バリアント
+
+各 variant prop が受け付ける値です。
+
+<ComponentSpec id="avatar" section="variants" />
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="avatar" section="anatomy" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Avatar](https://ui.pelagornis.com/components/avatar/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

@@ -1,0 +1,16 @@
+---
+import { Text } from '@refineui/react';
+
+const { lang, lastUpdated } = Astro.locals.starlightRoute;
+---
+
+{
+  lastUpdated && (
+    <Text as="p" variant="captionLg">
+      {Astro.locals.t('page.lastUpdated')}{' '}
+      <time datetime={lastUpdated.toISOString()}>
+        {lastUpdated.toLocaleDateString(lang, { dateStyle: 'medium', timeZone: 'UTC' })}
+      </time>
+    </Text>
+  )
+}

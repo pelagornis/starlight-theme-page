@@ -1,0 +1,71 @@
+---
+title: 外壳覆盖
+description: 主题替换了哪些 Starlight 插槽、每个插槽渲染什么，以及如何保留 Starlight 默认实现。
+sidebar:
+  order: 4
+---
+
+插件会替你设置 Starlight 的 `components` 选项。下面的插槽会换成 `@pelagornis/page` 中的 Astro 文件，每个文件都渲染 RefineUI。
+
+| 插槽 | 渲染内容 |
+| --- | --- |
+| `PageFrame` | 带可调整宽度 `Sidebar`（`ResizablePanelGroup`）的桌面外壳和移动端抽屉 |
+| `Header` | 品牌、`navigation` 链接与下拉菜单、`CommandDialog` 搜索、主题按钮 |
+| `SiteTitle` | 页眉中的徽标和站点名称。SVG 徽标会内联嵌入，因此用 `fill="currentColor"` 绘制的徽标会跟随主题颜色 |
+| `ThemeSelect` | 切换浅色与深色的图标 `Button` |
+| `LanguageSelect` | 页脚和移动菜单中的语言选择 |
+| `Sidebar` | 有意留空，侧栏位于 `PageFrame` |
+| `MobileMenuFooter` | 移动端抽屉底部的语言和社交链接 |
+| `PageSidebar`, `TableOfContents`, `MobileTableOfContents` | 跟随滚动的“本页内容” |
+| `Pagination` | 上一页与下一页链接 |
+| `PageTitle` | 来自侧栏的面包屑、页面标题与描述 |
+| `Hero` | 首页的开场 Hero 和其他页面的 `hero` 区块 |
+| `Footer` | 含侧栏分组、社交链接、版权和语言的 RefineUI `Footer` |
+
+## 保留 Starlight 默认实现
+
+在 `skipComponents` 中列出插槽名，插件就不会处理这些插槽。
+
+```ts title="astro.config.ts" {4}
+starlight({
+  plugins: [
+    pagePlugin({
+      skipComponents: ["Hero", "Pagination"],
+    }),
+  ],
+});
+```
+
+## 自己替换插槽
+
+直接写在 Starlight `components` 选项中的插槽优先于插件。用 `@pelagornis/page/components` 构建替换组件，使其与外壳一致。
+
+```ts title="astro.config.ts"
+starlight({
+  components: {
+    PageTitle: "./src/components/MyPageTitle.astro",
+  },
+  plugins: [pagePlugin()],
+});
+```
+
+```astro title="src/components/MyPageTitle.astro"
+---
+import { Badge, Stack, Text } from "@pelagornis/page/components";
+
+const { data } = Astro.locals.starlightRoute.entry;
+---
+
+<Stack gap="sizeXSmall">
+  <Text as="h1" id="_top" variant="titleLg">{data.title}</Text>
+  {data.draft && <Badge variant="warning">Draft</Badge>}
+</Stack>
+```
+
+## 页眉搜索
+
+页眉搜索列出当前语言侧栏中的页面，按页面标题和分组名匹配。在生产构建中，它还会用 Starlight 默认生成的 Pagefind 索引搜索正文，并显示在 **正文匹配** 下。开发服务器没有索引，只匹配标题。用 <kbd>⌘</kbd> <kbd>K</kbd> 或 <kbd>Ctrl</kbd> <kbd>K</kbd> 打开。若只想匹配标题，请设置 Starlight 的 `pagefind: false`。
+
+## Starlight 组件
+
+Aside、Badge、Tabs、Steps、Card、LinkCard 和 FileTree 照常可用，并使用同样的 RefineUI 令牌绘制。见 [Starlight 组件](/zh/guides/starlight-components/)。

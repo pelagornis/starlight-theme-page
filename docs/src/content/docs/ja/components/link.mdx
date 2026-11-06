@@ -1,0 +1,73 @@
+---
+title: Link
+description: "外部リンクを示すインラインのハイパーリンクです。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/link";
+import source from "../../../../demos/link.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import { Link } from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/LinkExample.tsx" />
+
+## MDX で使う
+
+`Link` は `.mdx` ページにそのまま書けます。frontmatter の下でインポートしてください。サーバーで描画されるので、client ディレクティブは要りません。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Link } from "@pelagornis/page/components";
+
+<Link href="https://ui.pelagornis.com/" target="_blank">RefineUI</Link>
+```
+
+## Markdoc で使う
+
+`pageMarkdoc()` がこのコンポーネントの `link` タグを登録します。`markdoc.config.mjs` にプリセットを一度追加すれば（[Markdoc で使う](/ja/guides/markdoc/)を参照）、どの `.mdoc` ページでもタグを書けます。
+
+```md title="src/content/docs/example.mdoc"
+{% link href="https://ui.pelagornis.com/" target="_blank" %}RefineUI{% /link %}
+```
+
+属性の名前と値は React の props と同じです。
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="link" section="anatomy" />
+
+## 状態
+
+コンポーネントがスタイルを当てる状態です。コンポーネントの状態は data 属性として公開されます。
+
+<ComponentSpec id="link" section="states" />
+
+## キーボード
+
+フォーカスがあるときにコンポーネントが処理するキーです。
+
+<ComponentSpec id="link" section="keyboard" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Link](https://ui.pelagornis.com/components/link/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

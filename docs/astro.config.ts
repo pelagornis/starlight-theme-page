@@ -1,15 +1,18 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { config as loadEnv } from 'dotenv';
+import markdoc from '@astrojs/markdoc';
 import netlify from '@astrojs/netlify';
 import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
 import pagePlugin from '@pelagornis/page';
+import catalog from './src/components/docs/catalog.json';
 
-// .env 로드: config 파일 폴더(docs) 기준 + 모노레포 루트 docs/.env
-const dir = path.dirname(fileURLToPath(import.meta.url));
-loadEnv({ path: path.join(dir, '.env') });
-loadEnv({ path: path.join(process.cwd(), 'docs', '.env'), override: true });
+const componentGroups = catalog.categories.map((category) => ({
+  label: category.label,
+  translations: category.translations,
+  collapsed: false,
+  items: catalog.components
+    .filter((component) => component.category === category.id)
+    .map((component) => ({ slug: `components/${component.id}` })),
+}));
 
 export const locales = {
   root: {
@@ -36,6 +39,7 @@ export default defineConfig({
   output: 'server',
   adapter: netlify(),
   integrations: [
+    markdoc(),
     starlight({
       logo: {
         dark: './src/assets/page-dark.svg',
@@ -48,25 +52,32 @@ export default defineConfig({
 
       plugins: [
         pagePlugin({
-          navigation: [
-            { href: '/guides/getting-started/', label: 'Guide' },
-            { href: '/components/header/', label: 'Components' },
-          ],
+          navigation: [{ sidebar: 'Guides' }, { sidebar: 'Components' }],
           footerText: `© ${new Date().getFullYear()} Pelagornis Inc. All rights reserved.`,
-          docChat: {
-            provider: process.env.PUBLIC_DOC_CHAT_PROVIDER as 'openai' | 'claude' | 'gemini' | undefined,
-            model: process.env.PUBLIC_DOC_CHAT_MODEL,
+          llmsTxt: {
+            title: '@pelagornis/page',
+            description:
+              'A Starlight plugin that replaces the docs shell with RefineUI components and re-exports every RefineUI component for MDX and Markdoc pages.',
           },
         })
       ],
       sidebar: [
         {
-          label: 'Getting Started',
-          autogenerate: { directory: 'guides' },
+          label: 'Guides',
+          translations: { ko: '가이드', ja: 'ガイド', zh: '指南' },
+          items: [{ autogenerate: { directory: 'guides' } }],
         },
         {
           label: 'Components',
-          autogenerate: { directory: 'components' },
+          translations: { ko: '컴포넌트', ja: 'コンポーネント', zh: '组件' },
+          items: [
+            {
+              label: 'Overview',
+              translations: { ko: '개요', ja: '概要', zh: '概览' },
+              slug: 'components',
+            },
+            ...componentGroups,
+          ],
         },
       ],
       social: [
@@ -83,6 +94,6 @@ export default defineConfig({
       ],
       title: 'Page',
       locales
-    })
+    }),
   ],
 })

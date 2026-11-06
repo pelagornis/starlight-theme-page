@@ -1,209 +1,142 @@
 ---
-// PageFrame.astro
-import ChatPane from "../components/ChatPane.astro";
+import config from "virtual:starlight/user-config";
+import MobileMenuFooter from "virtual:starlight/components/MobileMenuFooter";
+import { COLLAPSED_KEY, DocsShell, STORAGE_KEY } from "./DocsShell";
+import { DocsSidebar } from "./DocsSidebar";
+import { docsLabels } from "./labels";
+import { serializeNav } from "./nav";
 
-const footerText =
-  process.env.PAGE_FOOTER_TEXT ||
-  `© ${new Date().getFullYear()} Pelagornis Inc. All rights reserved.`;
+const { hasSidebar, siteTitle, siteTitleHref, sidebar } = Astro.locals.starlightRoute;
+const entries = hasSidebar ? serializeNav(sidebar) : [];
+const labels = docsLabels(Astro.locals.t);
+const githubHref = Array.isArray(config.social)
+  ? config.social.find((entry) => entry.icon === "github")?.href
+  : undefined;
 
-// Use PUBLIC_* from .env; default openai if unset (avoid disabling chat button/input)
-const chatProvider = (import.meta.env.PUBLIC_DOC_CHAT_PROVIDER ?? "openai") as
-  | "openai"
-  | "claude"
-  | "gemini";
-const chatModel = import.meta.env.PUBLIC_DOC_CHAT_MODEL;
-const showChat = process.env.PAGE_DOC_CHAT_ENABLED === "1";
-const chatBase = (process.env.PAGE_BASE ?? "").replace(/\/$/, "") || "";
-const locale =
-  (Astro.locals.starlightRoute as { locale?: string } | undefined)?.locale ??
-  "en";
+// @astrojs/react strips `<link rel="stylesheet">` from island HTML, so stylesheets in the
+// content (such as Expressive Code's) are rendered outside the DocsShell island.
+const content = hasSidebar ? await Astro.slots.render("default") : "";
+const stylesheets = [...new Set(content.match(/<link\s[^>]*rel="stylesheet"[^>]*>/g) ?? [])];
 ---
 
-{
-  showChat ? (
-    <div class="page page-has-chat sl-flex">
-      {/* Header + Content + Footer group → shrinks together when chat is open */}
-      <div class="page-nav-wrap">
-        <header class="header">
-          <slot name="header" />
-        </header>
-        <div class="page-scroll-wrap">
-          <main class="main-frame">
-            <slot />
-          </main>
-          <footer class="page-footer">
-            <div class="page-footer-content">
-              <div class="page-footer-left">
-                <p class="page-footer-copyright">{footerText}</p>
-              </div>
-            </div>
-          </footer>
-        </div>
-      </div>
-      {/* Chat in separate wrapper */}
-      <ChatPane
-        basePath={chatBase}
-        provider={chatProvider}
-        model={chatModel}
-        locale={locale}
-      />
-    </div>
-  ) : (
-    <div class="page sl-flex">
-      <header class="header">
-        <slot name="header" />
-      </header>
-      <div class="page-scroll-wrap">
-        <main class="main-frame">
-          <slot />
-        </main>
-        <footer class="page-footer">
-          <div class="page-footer-content">
-            <div class="page-footer-left">
-              <p class="page-footer-copyright">{footerText}</p>
-            </div>
+<div class="page sl-flex" data-docs-page={hasSidebar ? "with-sidebar" : "flush"}>
+  <header class="header"><slot name="header" /></header>
+  {
+    hasSidebar && (
+      <nav
+        class="sidebar print:hidden"
+        data-docs-mobile-sidebar
+        aria-label={Astro.locals.t("sidebarNav.accessibleLabel")}
+      >
+        <div id="starlight__sidebar" class="sidebar-pane">
+          <div class="sidebar-content sl-flex">
+            <DocsSidebar
+              client:load
+              title={siteTitle}
+              titleHref={siteTitleHref}
+              entries={entries}
+              navLabel={labels.nav}
+            />
+            <MobileMenuFooter />
           </div>
-        </footer>
-      </div>
-    </div>
-  )
-}
+        </div>
+      </nav>
+    )
+  }
+  <div class="main-frame">
+    {
+      hasSidebar ? (
+        <>
+          <script is:inline define:vars={{ sizeKey: STORAGE_KEY, collapsedKey: COLLAPSED_KEY }}>
+            {
+              const root = document.documentElement;
+              const size = Number(localStorage.getItem(sizeKey));
+              if (size > 0) root.style.setProperty("--docs-sidebar-size", String(size));
+              root.toggleAttribute("data-docs-sidebar-collapsed", localStorage.getItem(collapsedKey) === "1");
+            }
+          </script>
+          <Fragment set:html={stylesheets.join("")} />
+          <DocsShell
+            client:load
+            title={siteTitle}
+            titleHref={siteTitleHref}
+            entries={entries}
+            githubHref={githubHref}
+            labels={labels}
+          >
+            <Fragment set:html={content} />
+          </DocsShell>
+        </>
+      ) : (
+        <slot />
+      )
+    }
+  </div>
+</div>
 
 <style>
-  /* Page layout: viewport height fixed, only main+footer scroll */
-  .page {
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  /* With chat: [ Header+Content+Footer | Chat ] horizontal; header reacts too */
-  .page-has-chat {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: hidden;
-  }
-
-  /* Nav area = Header + (scroll area: main + footer) */
-  .page-nav-wrap {
-    flex: 1 1 auto;
-    min-width: 0;
-    min-height: 0;
-    width: 100%;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-
-  /* When chat open: desktop (1025px+) uses only left area (header/sidebar/content end beside chat) */
-  :global(body.page-chat-open) .page-nav-wrap {
-    overflow-x: auto;
-    min-width: 0;
-  }
-  @media (min-width: 1025px) {
-    :global(body.page-chat-open) .page-nav-wrap {
-      width: calc(100% - var(--page-chat-pane-width, 360px)) !important;
-      max-width: calc(100% - var(--page-chat-pane-width, 360px)) !important;
-      flex: 0 0 auto;
-    }
-  }
-
-  /* Scroll area containing main + footer */
-  .page-scroll-wrap {
-    flex: 1 1 auto;
-    min-height: 0;
-    min-width: 0;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .main-frame {
-    width: 100% !important;
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-
-  /* Mobile/narrow: bottom padding when chat opens as bottom sheet (70%) */
-  @media (max-width: 1024px) {
-    :global(body.page-chat-open) .page-nav-wrap {
-      padding-bottom: 70vh;
-    }
-  }
-
-  .header {
-    position: relative;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    flex-shrink: 0;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-  }
-  /* Desktop with chat open: fixed header leaves room for chat on the right */
-  @media (min-width: 1025px) {
-    :global(body.page-chat-open) .header {
-      width: calc(100vw - var(--page-chat-pane-width, 360px));
-      max-width: calc(100vw - var(--page-chat-pane-width, 360px));
-    }
-  }
-
-  /* Footer: scrolls with main */
-  .page-footer {
-    margin-top: auto;
-    background: var(--page-bg);
-    border-top: 1px solid var(--page-border);
-    z-index: 10;
-    padding: var(--page-space-6) var(--page-space-8);
-  }
-
-  .page-footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .page-footer-left {
-    display: flex;
-    align-items: center;
-  }
-
-  .page-footer-copyright {
-    margin: 0;
-    font-size: var(--page-font-size-sm);
-    color: var(--page-text-secondary);
-    font-weight: var(--page-font-weight-medium);
-  }
-
-  /* Footer in dark theme */
-  [data-theme="dark"] .page-footer {
-    background: var(--page-bg-secondary);
-    border-top-color: var(--page-border);
-  }
-
-  [data-theme="dark"] .page-footer-copyright {
-    color: var(--page-text-secondary);
-  }
-
-  /* Responsive footer */
-  @media (max-width: 768px) {
-    .page-footer {
-      padding: var(--page-space-4) var(--page-space-6);
-    }
-
-    .page-footer-content {
+  @layer starlight.core {
+    .page {
       flex-direction: column;
-      gap: var(--page-space-2);
-      text-align: center;
+      min-height: 100vh;
+    }
+
+    .header {
+      z-index: var(--sl-z-index-navbar);
+      position: fixed;
+      inset-inline-start: 0;
+      inset-block-start: 0;
+      width: 100%;
+      height: var(--sl-nav-height);
+      border-bottom: 1px solid var(--sl-color-hairline-shade);
+      padding: var(--sl-nav-pad-y) var(--sl-nav-pad-x);
+      padding-inline-end: var(--sl-nav-pad-x);
+      background-color: var(--sl-color-bg-nav);
+    }
+
+    .sidebar-pane {
+      visibility: var(--sl-sidebar-visibility, hidden);
+      position: fixed;
+      z-index: var(--sl-z-index-menu);
+      inset-block: var(--sl-nav-height) 0;
+      inset-inline-start: 0;
+      width: 100%;
+      background-color: var(--sl-color-black);
+      overflow-y: auto;
+    }
+
+    :global(body[data-mobile-menu-expanded]) [data-docs-mobile-sidebar] .sidebar-pane {
+      --sl-sidebar-visibility: visible;
+    }
+
+    .sidebar-content {
+      height: 100%;
+      min-height: max-content;
+      padding: 0;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .main-frame {
+      padding-top: calc(var(--sl-nav-height) + var(--sl-mobile-toc-height));
+      padding-inline-start: 0;
+      min-height: calc(100vh - var(--sl-nav-height));
+    }
+
+    @media (min-width: 50rem) {
+      .main-frame {
+        padding-top: var(--sl-nav-height);
+        height: calc(100vh - var(--sl-nav-height));
+        min-height: calc(100vh - var(--sl-nav-height));
+      }
+
+      :global([data-docs-page="with-sidebar"]) .sidebar {
+        display: none;
+      }
+
+      .sidebar-pane {
+        --sl-sidebar-visibility: hidden;
+      }
     }
   }
 </style>

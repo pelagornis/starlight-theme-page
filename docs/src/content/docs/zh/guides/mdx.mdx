@@ -1,0 +1,138 @@
+---
+title: 在 MDX 中使用
+description: 在 MDX 页面中引入 RefineUI 组件，以及何时需要在 .tsx 文件中组合。
+sidebar:
+  order: 2
+---
+
+import { Badge, Button, Stack } from "@pelagornis/page/components";
+import TabsDemo from "../../../../demos/tabs";
+
+MDX 页面可以引入 `@pelagornis/page/components` 的任何导出。这个入口原样重新导出 `@refineui/react`，名称、props 和类型都与 [RefineUI 文档](https://ui.pelagornis.com/)一致。
+
+## 渲染组件
+
+在 frontmatter 下面引入，然后用 JSX 书写。
+
+```mdx title="src/content/docs/release.mdx"
+---
+title: Release notes
+---
+
+import { Badge, Button, Stack } from "@pelagornis/page/components";
+
+<Stack direction="row" gap="sizeSmall" align="center">
+  <Badge variant="success">Stable</Badge>
+  <Button variant="outline" size="sm">Changelog</Button>
+</Stack>
+```
+
+<div class="not-content">
+  <Stack direction="row" gap="sizeSmall" align="center">
+    <Badge variant="success">Stable</Badge>
+    <Button variant="outline" size="sm">Changelog</Button>
+  </Stack>
+</div>
+
+没有 `client:*` 指令时，Astro 在服务器端渲染为 HTML，不会发送 JavaScript。适合只负责展示的组件：`Badge`、`Text`、`Box`、`Stack`、`Grid`、`Divider`、`Progress`、`Spinner`、`Link`、没有事件处理的 `Button`，以及 `Input`、`Checkbox`、`Radio` 等原生输入。
+
+## 水合会响应输入的组件
+
+像 `SearchField`、`Calendar` 这样自带状态的单个组件，加上 `client:load`。
+
+```mdx
+import { SearchField } from "@pelagornis/page/components";
+
+<SearchField client:load defaultValue="tokens" aria-label="Search" />
+```
+
+水合组件的 props 会序列化到浏览器。字符串、数字、布尔值、数组和普通对象可以传递。函数和 JSX 元素无法这样传递，所以 `onChange={…}` 或 `trigger={<Button />}` 要写在 `.tsx` 文件里。
+
+## 在 `.tsx` 文件中组合复合组件
+
+`Tabs`、`Dialog`、`Select`、`Accordion`、`Menu` 等多部件组件通过 React context 共享状态。如果把部件写成 MDX 子元素，Astro 会分别渲染，context 无法传到它们。请在 React 文件中组合，再引入该文件。
+
+```tsx title="src/components/ReleaseTabs.tsx"
+import { Tabs, TabsContent, TabsList, TabsTrigger, Text } from "@pelagornis/page/components";
+
+export default function ReleaseTabs() {
+  return (
+    <Tabs defaultValue="overview">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="usage">Usage</TabsTrigger>
+      </TabsList>
+      <TabsContent value="overview">
+        <Text variant="bodyMd">Tabs switch between panes in place.</Text>
+      </TabsContent>
+      <TabsContent value="usage">
+        <Text variant="bodyMd">Give each trigger and content the same value.</Text>
+      </TabsContent>
+    </Tabs>
+  );
+}
+```
+
+```mdx title="src/content/docs/release.mdx"
+import ReleaseTabs from "../../components/ReleaseTabs";
+
+<ReleaseTabs client:load />
+```
+
+<div class="not-content">
+  <TabsDemo client:load />
+</div>
+
+每个[组件页面](/zh/components/)都有可以直接复制的 `.tsx` 示例。
+
+## 表格
+
+表格用普通 Markdown 书写。插件会把 `.md`、`.mdx`、`.mdoc` 页面中的所有 Markdown 表格渲染为 RefineUI `Table` 的标记，不需要 import。
+
+```md
+| Option | Type | Use |
+| --- | --- | --- |
+| `navigation` | `NavigationItem[]` | 页眉链接 |
+| `footerText` | `string` | 版权文字 |
+```
+
+| Option | Type | Use |
+| --- | --- | --- |
+| `navigation` | `NavigationItem[]` | 页眉链接 |
+| `footerText` | `string` | 版权文字 |
+
+包含排序、徽章等组件的数据表格，请像 [Table 示例](/zh/components/table/)那样在 `.tsx` 文件中用 `Table`、`TableHeader`、`TableRow` 等组合。在 `.astro` 文件中，把 `@pelagornis/page/table` 的类名用在普通表格元素上。
+
+## 选择客户端指令
+
+| 指令 | 水合时机 | 用途 |
+| --- | --- | --- |
+| 无 | 不水合 | 只负责展示的组件 |
+| `client:load` | 页面加载时 | 页面顶部可见的内容 |
+| `client:visible` | 滚动进入视口时 | 长页面下方的示例 |
+| `client:idle` | 浏览器空闲时 | 低优先级的小部件 |
+
+## 避开 Starlight 正文样式
+
+Starlight 会给正文中的 `p`、`ul`、`table` 和标题加样式。不希望这些样式作用于组件时，用 `<div class="not-content">` 包起来。
+
+```mdx
+<div class="not-content">
+  <ReleaseTabs client:load />
+</div>
+```
+
+## 用令牌写样式
+
+自定义 CSS 使用 RefineUI 语义变量，就能跟随浅色与深色。
+
+```css
+.release-banner {
+  padding: var(--refineui-spacing-size-large);
+  border-radius: var(--refineui-radius-rounded-x-large);
+  background: var(--refineui-color-alias-background-surface);
+  color: var(--refineui-color-alias-foreground-primary);
+}
+```
+
+`gap="sizeSmall"`、`padding="sizeLarge"`、`background="backgroundSurface"`、`radius="roundedLarge"` 等布局 props 使用同样的令牌名称。

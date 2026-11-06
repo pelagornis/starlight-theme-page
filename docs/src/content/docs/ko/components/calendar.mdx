@@ -1,0 +1,95 @@
+---
+title: Calendar
+description: "날짜나 기간을 고르는 월 단위 달력입니다."
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/calendar";
+import source from "../../../../demos/calendar.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## 가져오기
+
+```tsx
+import { Calendar } from "@pelagornis/page/components";
+```
+
+## 예제
+
+위 미리보기는 이 파일을 렌더링한 것입니다. `src/components/`에 복사해서 시작하세요.
+
+<Code code={source} lang="tsx" title="src/components/CalendarExample.tsx" />
+
+## MDX에서 사용
+
+`Calendar` 컴포넌트는 `.mdx` 페이지에 바로 쓸 수 있습니다. frontmatter 아래에서 가져오세요. 입력에 반응하므로 `client:load`를 붙여 하이드레이션합니다.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Calendar } from "@pelagornis/page/components";
+
+<Calendar client:load weekStartsOn={1} />
+```
+
+## Markdoc에서 사용
+
+Markdoc 태그는 Astro 컴포넌트를 렌더링하는데, 이 컴포넌트는 클라이언트 상태가 필요합니다. 예제를 하이드레이션하는 `.astro` 파일로 감싼 뒤, 그 파일을 태그로 등록하세요.
+
+```astro title="src/components/markdoc/CalendarExample.astro"
+---
+import CalendarExample from "../CalendarExample";
+---
+
+<CalendarExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "calendar-example": {
+      render: component("./src/components/markdoc/CalendarExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% calendar-example /%}
+```
+
+## 구조
+
+컴포넌트를 이루는 부분과 각 부분이 렌더링하는 `data-refineui` 역할입니다.
+
+<ComponentSpec id="calendar" section="anatomy" />
+
+## 상태
+
+컴포넌트가 스타일을 적용하는 상태입니다. 컴포넌트 상태는 data 속성으로 드러납니다.
+
+<ComponentSpec id="calendar" section="states" />
+
+## 키보드
+
+포커스가 있을 때 컴포넌트가 처리하는 키입니다.
+
+<ComponentSpec id="calendar" section="keyboard" />
+
+## 참고
+
+- 디자인 가이드와 토큰 상세는 [RefineUI · Calendar](https://ui.pelagornis.com/components/calendar/)를 참고하세요.
+- 공통 규칙은 [MDX에서 사용](/ko/guides/mdx/)과 [Markdoc에서 사용](/ko/guides/markdoc/)을 참고하세요.

@@ -1,0 +1,78 @@
+---
+title: Collapsible
+description: "트리거로 보이고 숨기는 섹션 하나입니다."
+---
+
+import { Code } from "@astrojs/starlight/components";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/collapsible";
+import source from "../../../../demos/collapsible.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## 가져오기
+
+```tsx
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@pelagornis/page/components";
+```
+
+## 예제
+
+위 미리보기는 이 파일을 렌더링한 것입니다. `src/components/`에 복사해서 시작하세요.
+
+<Code code={source} lang="tsx" title="src/components/CollapsibleExample.tsx" />
+
+## MDX에서 사용
+
+`Collapsible` 컴포넌트는 React 상태를 공유하는 여러 부분으로 이루어집니다. MDX에 적은 자식은 각각 별도의 아일랜드로 렌더링되어 부분끼리 서로 닿지 않습니다. 위 예제처럼 `.tsx` 파일에서 조합한 뒤 그 파일을 가져오세요.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import CollapsibleExample from "../../components/CollapsibleExample";
+
+<CollapsibleExample client:load />
+```
+
+`client:load`는 페이지를 불러올 때 아일랜드를 하이드레이션합니다. 페이지 아래쪽에 있는 콘텐츠에는 `client:visible`을 쓰세요.
+
+## Markdoc에서 사용
+
+Markdoc 태그는 Astro 컴포넌트를 렌더링하는데, 이 컴포넌트는 클라이언트 상태가 필요합니다. 예제를 하이드레이션하는 `.astro` 파일로 감싼 뒤, 그 파일을 태그로 등록하세요.
+
+```astro title="src/components/markdoc/CollapsibleExample.astro"
+---
+import CollapsibleExample from "../CollapsibleExample";
+---
+
+<CollapsibleExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "collapsible-example": {
+      render: component("./src/components/markdoc/CollapsibleExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% collapsible-example /%}
+```
+
+## 참고
+
+- 디자인 가이드와 토큰 상세는 [RefineUI · Collapsible](https://ui.pelagornis.com/components/collapsible/)를 참고하세요.
+- 공통 규칙은 [MDX에서 사용](/ko/guides/mdx/)과 [Markdoc에서 사용](/ko/guides/markdoc/)을 참고하세요.

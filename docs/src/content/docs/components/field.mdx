@@ -1,0 +1,97 @@
+---
+title: Field
+description: Groups a label, control, hint, and error message.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/field";
+import source from "../../../demos/field.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import {
+  Field,
+  FieldLabel,
+  FieldHint,
+  FieldError,
+  FieldRequired,
+} from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/FieldExample.tsx" />
+
+## Use in MDX
+
+`Field` is composed from parts that share React state. Children written in MDX are rendered as separate islands, so the parts can't reach each other. Put the composition in a `.tsx` file, like the example above, and import that file instead.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import FieldExample from "../../components/FieldExample";
+
+<FieldExample client:load />
+```
+
+`client:load` hydrates the island on page load. Use `client:visible` for content far down the page.
+
+## Use in Markdoc
+
+Markdoc tags render Astro components, and this one needs client state. Wrap the example in an `.astro` file that hydrates it, then register that file as a tag.
+
+```astro title="src/components/markdoc/FieldExample.astro"
+---
+import FieldExample from "../FieldExample";
+---
+
+<FieldExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "field-example": {
+      render: component("./src/components/markdoc/FieldExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% field-example /%}
+```
+
+## Variants
+
+Values the component accepts for each variant prop.
+
+<ComponentSpec id="field" section="variants" />
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="field" section="anatomy" />
+
+## Reference
+
+- [RefineUI · Field](https://ui.pelagornis.com/components/field/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

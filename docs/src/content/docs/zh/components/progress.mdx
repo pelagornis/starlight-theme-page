@@ -1,0 +1,67 @@
+---
+title: Progress
+description: "显示任务完成程度的进度条。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/progress";
+import source from "../../../../demos/progress.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## 导入
+
+```tsx
+import { Progress } from "@pelagornis/page/components";
+```
+
+## 示例
+
+上方预览渲染的就是这个文件。把它复制到 `src/components/` 即可开始使用。
+
+<Code code={source} lang="tsx" title="src/components/ProgressExample.tsx" />
+
+## 在 MDX 中使用
+
+`Progress` 可以直接写在 `.mdx` 页面中。在 frontmatter 下方导入即可。它在服务器端渲染，不需要 client 指令。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Progress } from "@pelagornis/page/components";
+
+<Progress value={60} aria-label="Upload" />
+```
+
+## 在 Markdoc 中使用
+
+`pageMarkdoc()` 会为这个组件注册 `progress` 标签。在 `markdoc.config.mjs` 中添加一次预设（见[在 Markdoc 中使用](/zh/guides/markdoc/)），就能在任意 `.mdoc` 页面中使用该标签。
+
+```md title="src/content/docs/example.mdoc"
+{% progress value=60 ariaLabel="Upload" /%}
+```
+
+属性的名称和取值与 React props 相同。
+
+## 变体
+
+每个 variant prop 可接受的取值。
+
+<ComponentSpec id="progress" section="variants" />
+
+## 结构
+
+组件的组成部分，以及每个部分渲染的 `data-refineui` 角色。
+
+<ComponentSpec id="progress" section="anatomy" />
+
+## 参考
+
+- 设计指南和令牌细节见 [RefineUI · Progress](https://ui.pelagornis.com/components/progress/)。
+- 通用规则见[在 MDX 中使用](/zh/guides/mdx/)和[在 Markdoc 中使用](/zh/guides/markdoc/)。

@@ -1,0 +1,101 @@
+---
+title: Search Field
+description: Query input with a search icon and a clear button.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/search-field";
+import source from "../../../demos/search-field.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { SearchField } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/SearchFieldExample.tsx" />
+
+## Use in MDX
+
+`Search Field` can be written straight in an `.mdx` page. Import it below the frontmatter. It responds to input, so add `client:load` to hydrate it.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { SearchField } from "@pelagornis/page/components";
+
+<SearchField client:load defaultValue="tokens" aria-label="Search" />
+```
+
+## Use in Markdoc
+
+Markdoc tags render Astro components, and this one needs client state. Wrap the example in an `.astro` file that hydrates it, then register that file as a tag.
+
+```astro title="src/components/markdoc/SearchFieldExample.astro"
+---
+import SearchFieldExample from "../SearchFieldExample";
+---
+
+<SearchFieldExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "search-field-example": {
+      render: component("./src/components/markdoc/SearchFieldExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% search-field-example /%}
+```
+
+## Variants
+
+Values the component accepts for each variant prop.
+
+<ComponentSpec id="search-field" section="variants" />
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="search-field" section="anatomy" />
+
+## States
+
+States the component styles. Component states are exposed as data attributes.
+
+<ComponentSpec id="search-field" section="states" />
+
+## Keyboard
+
+Keys the component handles when it has focus.
+
+<ComponentSpec id="search-field" section="keyboard" />
+
+## Reference
+
+- [RefineUI · Search Field](https://ui.pelagornis.com/components/search-field/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

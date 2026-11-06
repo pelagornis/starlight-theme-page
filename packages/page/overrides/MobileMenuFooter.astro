@@ -1,0 +1,12 @@
+---
+import SocialIcons from "virtual:starlight/components/SocialIcons";
+import { DocsThemeSelect } from "./DocsThemeSelect";
+import LanguageSelect from "./LanguageSelect.astro";
+import { docsLabels } from "./labels";
+---
+
+<div data-refineui-docs-mobile-prefs>
+  <SocialIcons />
+  <LanguageSelect />
+  <DocsThemeSelect client:load labels={docsLabels(Astro.locals.t)} />
+</div>

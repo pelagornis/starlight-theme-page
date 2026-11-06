@@ -1,132 +1,107 @@
 ---
 title: Alert
-description: 显示通知、警告、成功、错误消息的组件
-sidebar:
-  order: 4
-  group: components
+description: "带图标、标题和操作的行内状态提示。"
 ---
 
-import Alert from "@pelagornis/page/components/Alert.astro";
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/alert";
+import source from "../../../../demos/alert.tsx?raw";
 
-Alert 组件用于向用户传达重要信息时使用的通知组件。提供现代玻璃效果和平滑动画。
+<Preview>
+  <Demo client:load />
+</Preview>
 
-## 基本用法
+## 导入
 
-<Alert type="info" title="信息" icon="💡">
-  这是一个信息提醒。用于传达重要信息时使用。
-</Alert>
-
-<Alert type="success" title="成功" icon="✅">
-  操作成功完成！
-</Alert>
-
-<Alert type="warning" title="警告" icon="⚠️">
-  此操作无法撤销。请谨慎进行。
-</Alert>
-
-<Alert type="error" title="错误" icon="❌">
-  发生错误。请重试。
-</Alert>
-
-## Props
-
-| Prop    | Type                                          | Default  | Description              |
-| ------- | --------------------------------------------- | -------- | ------------------------ |
-| `type`  | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | 提醒的类型              |
-| `title` | `string`                                      | -        | 提醒的标题 (可选)        |
-| `icon`  | `string`                                      | -        | 自定义图标 (可选)        |
-
-## 使用示例
-
-### 基本提醒
-
-```mdx
-<Alert type="info">这是一个基本的信息提醒。</Alert>
+```tsx
+import {
+  Alert,
+  AlertRow,
+  AlertIcon,
+  AlertBody,
+  AlertTitle,
+  AlertDescription,
+  AlertClose,
+  AlertActions,
+  AlertAction,
+} from "@pelagornis/page/components";
 ```
 
-### 带标题的提醒
+## 示例
 
-```mdx
-<Alert type="success" title="安装完成">
-  包已成功安装。
-</Alert>
+上方预览渲染的就是这个文件。把它复制到 `src/components/` 即可开始使用。
+
+<Code code={source} lang="tsx" title="src/components/AlertExample.tsx" />
+
+## 在 MDX 中使用
+
+`Alert` 由共享 React 状态的多个部件组成。写在 MDX 中的子元素会各自渲染成独立的岛，部件之间无法互通。请像上面的示例一样在 `.tsx` 文件中组合，再导入该文件。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import AlertExample from "../../components/AlertExample";
+
+<AlertExample client:load />
 ```
 
-### 自定义图标
+`client:load` 会在页面加载时水合该岛。位于页面靠下位置的内容请使用 `client:visible`。
 
-```mdx
-<Alert type="warning" title="警告" icon="🚨">
-  此操作无法撤销。
-</Alert>
+## 在 Markdoc 中使用
+
+Markdoc 标签渲染的是 Astro 组件，而这个组件需要客户端状态。请把示例包进一个负责水合的 `.astro` 文件，再把该文件注册为标签。
+
+```astro title="src/components/markdoc/AlertExample.astro"
+---
+import AlertExample from "../AlertExample";
+---
+
+<AlertExample client:load />
 ```
 
-### 错误消息
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
 
-```mdx
-<Alert type="error" title="发生错误" icon="💥">
-  网络连接失败。请检查您的互联网连接。
-</Alert>
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "alert-example": {
+      render: component("./src/components/markdoc/AlertExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
 ```
 
-## 特性
-
-### ✨ 现代设计
-
-- **玻璃效果**: 应用 `backdrop-filter: blur(20px)`
-- **渐变背景**: 每种类型的美丽渐变效果
-- **柔和阴影**: 多层阴影营造深度感
-- **悬停动画**: `translateY(-2px)` 变换和图标弹跳效果
-
-### 🎨 类型特定功能
-
-- **Info**: 蓝色渐变，用于信息传达
-- **Success**: 绿色渐变，用于成功消息
-- **Warning**: 橙色渐变，用于警告
-- **Error**: 红色渐变，用于错误消息
-
-### 🌙 深色模式支持
-
-- 自动颜色调整
-- 一致的用户体验
-- 完美的主题兼容性
-
-### 📱 响应式设计
-
-- 移动端优化尺寸
-- 自适应内边距和字体大小
-- 触摸友好界面
-
-### 💫 动画效果
-
-- **提醒淡入**: 页面加载时的平滑出现
-- **悬停效果**: 鼠标悬停时的自然变换
-- **图标弹跳**: 悬停时的图标弹跳动画
-- **平滑过渡**: 所有状态变化的自然过渡
-
-### 🎯 无障碍性
-
-- 清晰的颜色区分
-- 适当的对比度
-- 屏幕阅读器兼容
-- 键盘导航支持
-
-## 样式
-
-Alert 组件可以通过 CSS 变量进行自定义：
-
-```css
-:root {
-  --page-alert-border-radius: 16px;
-  --page-alert-padding: 20px 24px;
-  --page-alert-gap: 16px;
-}
+```md title="src/content/docs/example.mdoc"
+{% alert-example /%}
 ```
 
-## 浏览器支持
+## 变体
 
-- Chrome 88+
-- Firefox 85+
-- Safari 14+
-- Edge 88+
+每个 variant prop 可接受的取值。
 
-在现代浏览器上提供最佳性能。
+<ComponentSpec id="alert" section="variants" />
+
+## 结构
+
+组件的组成部分，以及每个部分渲染的 `data-refineui` 角色。
+
+<ComponentSpec id="alert" section="anatomy" />
+
+## 状态
+
+组件会设置样式的状态。组件状态通过 data 属性暴露。
+
+<ComponentSpec id="alert" section="states" />
+
+## 参考
+
+- 设计指南和令牌细节见 [RefineUI · Alert](https://ui.pelagornis.com/components/alert/)。
+- 通用规则见[在 MDX 中使用](/zh/guides/mdx/)和[在 Markdoc 中使用](/zh/guides/markdoc/)。

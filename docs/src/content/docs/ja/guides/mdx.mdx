@@ -1,0 +1,138 @@
+---
+title: MDX で使う
+description: MDX ページに RefineUI コンポーネントを読み込む方法と、.tsx ファイルで組み立てるべき場合を説明します。
+sidebar:
+  order: 2
+---
+
+import { Badge, Button, Stack } from "@pelagornis/page/components";
+import TabsDemo from "../../../../demos/tabs";
+
+MDX ページでは `@pelagornis/page/components` のすべての export を読み込めます。このエントリは `@refineui/react` をそのまま再エクスポートするので、名前、props、型は [RefineUI のドキュメント](https://ui.pelagornis.com/)と同じです。
+
+## コンポーネントを表示する
+
+frontmatter の下で import し、JSX として書きます。
+
+```mdx title="src/content/docs/release.mdx"
+---
+title: Release notes
+---
+
+import { Badge, Button, Stack } from "@pelagornis/page/components";
+
+<Stack direction="row" gap="sizeSmall" align="center">
+  <Badge variant="success">Stable</Badge>
+  <Button variant="outline" size="sm">Changelog</Button>
+</Stack>
+```
+
+<div class="not-content">
+  <Stack direction="row" gap="sizeSmall" align="center">
+    <Badge variant="success">Stable</Badge>
+    <Button variant="outline" size="sm">Changelog</Button>
+  </Stack>
+</div>
+
+`client:*` ディレクティブがなければ、Astro はサーバーで HTML にし、JavaScript を送りません。`Badge`、`Text`、`Box`、`Stack`、`Grid`、`Divider`、`Progress`、`Spinner`、`Link`、ハンドラのない `Button`、`Input`・`Checkbox`・`Radio` のようなネイティブ入力など、表示だけのものに向いています。
+
+## 入力に反応するコンポーネントをハイドレートする
+
+`SearchField` や `Calendar` のように単体で状態を持つものには `client:load` を付けます。
+
+```mdx
+import { SearchField } from "@pelagornis/page/components";
+
+<SearchField client:load defaultValue="tokens" aria-label="Search" />
+```
+
+ハイドレートされるコンポーネントの props はブラウザへシリアライズされます。文字列、数値、真偽値、配列、プレーンなオブジェクトは渡せます。関数や JSX 要素は渡せないので、`onChange={…}` や `trigger={<Button />}` は `.tsx` ファイルに書きます。
+
+## 複合コンポーネントは `.tsx` ファイルで組み立てる
+
+`Tabs`、`Dialog`、`Select`、`Accordion`、`Menu` などの複数部品のコンポーネントは React の context で状態を共有します。部品を MDX の子として書くと、Astro が個別に描画するため context が届きません。React ファイルで組み立て、そのファイルを読み込みます。
+
+```tsx title="src/components/ReleaseTabs.tsx"
+import { Tabs, TabsContent, TabsList, TabsTrigger, Text } from "@pelagornis/page/components";
+
+export default function ReleaseTabs() {
+  return (
+    <Tabs defaultValue="overview">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="usage">Usage</TabsTrigger>
+      </TabsList>
+      <TabsContent value="overview">
+        <Text variant="bodyMd">Tabs switch between panes in place.</Text>
+      </TabsContent>
+      <TabsContent value="usage">
+        <Text variant="bodyMd">Give each trigger and content the same value.</Text>
+      </TabsContent>
+    </Tabs>
+  );
+}
+```
+
+```mdx title="src/content/docs/release.mdx"
+import ReleaseTabs from "../../components/ReleaseTabs";
+
+<ReleaseTabs client:load />
+```
+
+<div class="not-content">
+  <TabsDemo client:load />
+</div>
+
+[各コンポーネントのページ](/ja/components/)に、そのまま使える `.tsx` の例があります。
+
+## 表
+
+表は通常の Markdown で書きます。プラグインが `.md`、`.mdx`、`.mdoc` ページのすべての Markdown の表を RefineUI の `Table` のマークアップで描画するので、import は不要です。
+
+```md
+| Option | Type | Use |
+| --- | --- | --- |
+| `navigation` | `NavigationItem[]` | ヘッダーのリンク |
+| `footerText` | `string` | 著作権表記 |
+```
+
+| Option | Type | Use |
+| --- | --- | --- |
+| `navigation` | `NavigationItem[]` | ヘッダーのリンク |
+| `footerText` | `string` | 著作権表記 |
+
+並べ替えやバッジなどのコンポーネントを含むデータの表は、[Table の例](/ja/components/table/)のように `Table`、`TableHeader`、`TableRow` などで `.tsx` ファイルに書きます。`.astro` ファイルでは `@pelagornis/page/table` のクラス名を通常の表要素に付けます。
+
+## クライアントディレクティブの選び方
+
+| ディレクティブ | ハイドレートのタイミング | 用途 |
+| --- | --- | --- |
+| なし | しない | 表示だけのコンポーネント |
+| `client:load` | ページ読み込み時 | ページ上部のコンテンツ |
+| `client:visible` | 画面に入ったとき | 長いページの下の方の例 |
+| `client:idle` | ブラウザがアイドルのとき | 優先度の低いウィジェット |
+
+## Starlight の本文スタイルを避ける
+
+Starlight は本文の `p`、`ul`、`table`、見出しにスタイルを当てます。コンポーネントに当てたくないときは `<div class="not-content">` で囲みます。
+
+```mdx
+<div class="not-content">
+  <ReleaseTabs client:load />
+</div>
+```
+
+## トークンでスタイルを書く
+
+独自の CSS も RefineUI のセマンティック変数を使えば、ライト・ダークに追従します。
+
+```css
+.release-banner {
+  padding: var(--refineui-spacing-size-large);
+  border-radius: var(--refineui-radius-rounded-x-large);
+  background: var(--refineui-color-alias-background-surface);
+  color: var(--refineui-color-alias-foreground-primary);
+}
+```
+
+`gap="sizeSmall"`、`padding="sizeLarge"`、`background="backgroundSurface"`、`radius="roundedLarge"` などのレイアウト props も同じトークン名を使います。

@@ -1,0 +1,81 @@
+---
+title: Starlight components
+description: Starlight's own content components keep working, and the theme draws them with RefineUI tokens.
+sidebar:
+  order: 5
+---
+
+import { Aside, Badge, Card, CardGrid, FileTree, LinkCard, Steps, TabItem, Tabs } from "@astrojs/starlight/components";
+
+Pages can mix Starlight's built-in components with RefineUI components. The theme restyles the built-in ones with the same tokens, so both sets look alike.
+
+## Asides
+
+<Aside>A note uses the info colors.</Aside>
+
+<Aside type="tip">A tip uses the success colors.</Aside>
+
+<Aside type="caution" title="Check your config">A caution uses the warning colors.</Aside>
+
+<Aside type="danger">A danger aside uses the error colors.</Aside>
+
+## Badges
+
+<Badge text="Default" /> <Badge text="Note" variant="note" /> <Badge text="Tip" variant="tip" /> <Badge text="Caution" variant="caution" /> <Badge text="Danger" variant="danger" /> <Badge text="Success" variant="success" />
+
+## Tabs
+
+<Tabs>
+  <TabItem label="bun">
+
+```sh
+bun add @pelagornis/page
+```
+
+  </TabItem>
+  <TabItem label="npm">
+
+```sh
+npm install @pelagornis/page
+```
+
+  </TabItem>
+</Tabs>
+
+## Steps
+
+<Steps>
+
+1. Install the plugin.
+
+2. Add `pagePlugin()` to Starlight's `plugins`.
+
+3. Run the dev server.
+
+</Steps>
+
+## Cards
+
+<CardGrid>
+  <Card title="Shell" icon="rocket">
+    Header, sidebar, search, and footer come from RefineUI.
+  </Card>
+  <Card title="Components" icon="puzzle">
+    Every RefineUI component is exported from `@pelagornis/page/components`.
+  </Card>
+</CardGrid>
+
+<LinkCard title="Getting Started" href="/guides/getting-started/" description="Install the theme and register the plugin." />
+
+## File tree
+
+<FileTree>
+- astro.config.ts
+- markdoc.config.mjs
+- src/
+  - content/
+    - docs/
+      - index.mdx
+      - guides/
+        - getting-started.mdx
+</FileTree>

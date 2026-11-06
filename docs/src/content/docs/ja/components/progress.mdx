@@ -1,0 +1,67 @@
+---
+title: Progress
+description: "作業がどこまで進んだかを示すバーです。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/progress";
+import source from "../../../../demos/progress.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import { Progress } from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/ProgressExample.tsx" />
+
+## MDX で使う
+
+`Progress` は `.mdx` ページにそのまま書けます。frontmatter の下でインポートしてください。サーバーで描画されるので、client ディレクティブは要りません。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Progress } from "@pelagornis/page/components";
+
+<Progress value={60} aria-label="Upload" />
+```
+
+## Markdoc で使う
+
+`pageMarkdoc()` がこのコンポーネントの `progress` タグを登録します。`markdoc.config.mjs` にプリセットを一度追加すれば（[Markdoc で使う](/ja/guides/markdoc/)を参照）、どの `.mdoc` ページでもタグを書けます。
+
+```md title="src/content/docs/example.mdoc"
+{% progress value=60 ariaLabel="Upload" /%}
+```
+
+属性の名前と値は React の props と同じです。
+
+## バリアント
+
+各 variant prop が受け付ける値です。
+
+<ComponentSpec id="progress" section="variants" />
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="progress" section="anatomy" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Progress](https://ui.pelagornis.com/components/progress/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

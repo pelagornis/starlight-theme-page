@@ -1,0 +1,121 @@
+---
+import catalog from "./catalog.json";
+
+const lang = Astro.locals.starlightRoute.lang;
+const prefix = lang === "en" ? "" : `/${lang}`;
+
+const groups = catalog.categories.map((category) => ({
+  label: (category.translations as Record<string, string>)[lang] ?? category.label,
+  items: catalog.components
+    .filter((item) => item.category === category.id)
+    .map((item) => ({
+      ...item,
+      description: (item.descriptionTranslations as Record<string, string>)[lang] ?? item.description,
+    })),
+}));
+---
+
+<div class="not-content page-catalog">
+  {
+    groups.map((group) => (
+      <section class="page-catalog-group">
+        <h2 class="page-catalog-heading">
+          {group.label} <span class="page-catalog-count">{group.items.length}</span>
+        </h2>
+        <ul class="page-catalog-grid">
+          {group.items.map((item) => (
+            <li>
+              <a class="page-catalog-card" href={`${prefix}/components/${item.id}/`}>
+                <span class="page-catalog-title">{item.title}</span>
+                <span class="page-catalog-description">{item.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .page-catalog {
+    display: flex;
+    flex-direction: column;
+    gap: var(--refineui-spacing-size-xxx-large);
+  }
+
+  .page-catalog-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--refineui-spacing-size-large);
+  }
+
+  .page-catalog-heading {
+    display: flex;
+    align-items: baseline;
+    gap: var(--refineui-spacing-size-small);
+    margin: 0;
+    color: var(--refineui-color-alias-foreground-primary);
+    font-family: var(--refineui-text-title-md-font-family);
+    font-size: var(--refineui-text-title-md-font-size);
+    font-weight: var(--refineui-text-title-md-font-weight);
+    line-height: var(--refineui-text-title-md-line-height);
+  }
+
+  .page-catalog-count {
+    color: var(--refineui-color-alias-foreground-tertiary);
+    font-family: var(--refineui-text-caption-md-font-family);
+    font-size: var(--refineui-text-caption-md-font-size);
+    font-weight: var(--refineui-text-caption-md-font-weight);
+  }
+
+  .page-catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--refineui-size-foundation-size-2560), 1fr));
+    gap: var(--refineui-spacing-size-medium);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .page-catalog-card {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: var(--refineui-spacing-size-xx-small);
+    height: 100%;
+    padding: var(--refineui-spacing-size-large);
+    border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-subtle);
+    border-radius: var(--refineui-radius-rounded-x-large);
+    background: var(--refineui-color-alias-background-primary);
+    text-decoration: none;
+    transition: background-color var(--refineui-motion-duration-fast) var(--refineui-motion-easing-standard),
+      border-color var(--refineui-motion-duration-fast) var(--refineui-motion-easing-standard);
+  }
+
+  .page-catalog-card:hover {
+    border-color: var(--refineui-color-alias-border-default);
+    background: var(--refineui-color-alias-background-surface-hover);
+  }
+
+  .page-catalog-card:focus-visible {
+    outline: var(--refineui-focus-ring-width) var(--refineui-focus-ring-style) var(--refineui-focus-ring-color);
+    outline-offset: var(--refineui-focus-ring-offset);
+  }
+
+  .page-catalog-title {
+    color: var(--refineui-color-alias-foreground-primary);
+    font-family: var(--refineui-text-subtitle-md-font-family);
+    font-size: var(--refineui-text-subtitle-md-font-size);
+    font-weight: var(--refineui-text-subtitle-md-font-weight);
+    line-height: var(--refineui-text-subtitle-md-line-height);
+  }
+
+  .page-catalog-description {
+    color: var(--refineui-color-alias-foreground-secondary);
+    font-family: var(--refineui-text-body-sm-font-family);
+    font-size: var(--refineui-text-body-sm-font-size);
+    font-weight: var(--refineui-text-body-sm-font-weight);
+    line-height: var(--refineui-text-body-sm-line-height);
+  }
+</style>

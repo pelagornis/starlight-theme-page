@@ -1,0 +1,131 @@
+---
+title: Markdoc で使う
+description: Markdoc を有効にし、pageMarkdoc() プリセットを追加して RefineUI コンポーネントを Markdoc タグで書きます。
+sidebar:
+  order: 3
+---
+
+Markdoc のページでは import の代わりにタグを使います。`@pelagornis/page/markdoc` には、クライアントの状態なしで描画できる RefineUI コンポーネントをタグとして登録するプリセットがあります。このページも `.mdoc` なので、下の例はそのタグで描画されています。
+
+## Markdoc をインストール
+
+```sh
+bun add @astrojs/markdoc @astrojs/starlight-markdoc
+```
+
+Starlight の前に Markdoc 統合を追加します。
+
+```ts {% title="astro.config.ts" %}
+import markdoc from "@astrojs/markdoc";
+import starlight from "@astrojs/starlight";
+import pagePlugin from "@pelagornis/page";
+import { defineConfig } from "astro/config";
+
+export default defineConfig({
+  integrations: [
+    markdoc(),
+    starlight({
+      title: "My Docs",
+      plugins: [pagePlugin()],
+    }),
+  ],
+});
+```
+
+## プリセットを追加
+
+Astro の設定の隣に `markdoc.config.mjs` を作ります。`starlightMarkdoc()` は `aside` などの Starlight のタグを、`pageMarkdoc()` は RefineUI のタグを追加します。
+
+```js {% title="markdoc.config.mjs" %}
+import { defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+});
+```
+
+## タグを書く
+
+属性の名前と値は React の props と同じです。内容のあるタグには閉じタグが必要で、内容のないタグは最後の `%}` の前にスラッシュを付けて自己終了します。
+
+```md {% process=false %}
+{% stack direction="row" gap="sizeSmall" align="center" %}
+{% badge variant="success" %}Stable{% /badge %}
+{% button variant="primary" %}Continue{% /button %}
+{% button variant="outline" %}Cancel{% /button %}
+{% /stack %}
+```
+
+{% stack direction="row" gap="sizeSmall" align="center" class="not-content" %}
+{% badge variant="success" %}Stable{% /badge %}
+{% button variant="primary" %}Continue{% /button %}
+{% button variant="outline" %}Cancel{% /button %}
+{% /stack %}
+
+数値と真偽値は引用符なしで書きます。
+
+```md {% process=false %}
+{% progress value=60 ariaLabel="Upload" /%}
+{% checkbox label="Send release emails" defaultChecked=true /%}
+```
+
+{% stack gap="sizeMedium" class="not-content" %}
+{% progress value=60 ariaLabel="Upload" /%}
+{% checkbox label="Send release emails" defaultChecked=true /%}
+{% /stack %}
+
+React の `aria-label` は `ariaLabel` と書きます。どのタグも `class` と `id` を受け取ります。
+
+## プリセットのタグ
+
+| タグ | コンポーネント | 補足 |
+| --- | --- | --- |
+| `box`, `container`, `grid`, `stack`, `spacer` | `Box`, `Container`, `Grid`, `Stack`, `Spacer` | トークン props のレイアウト |
+| `divider` | `Divider` | 内容がインラインのラベルになります |
+| `text` | `Text` | `variant` の既定は `bodyMd` |
+| `button`, `link` | `Button`, `Link` | `link` は `href` 必須 |
+| `label`, `input`, `textarea`, `checkbox`, `radio` | フォーム | ネイティブ入力、クライアントスクリプトなし |
+| `badge`, `chip` | `Badge`, `Chip` | 内容がラベル |
+| `progress`, `spinner`, `skeleton` | フィードバック | `progress` は `value` 必須 |
+| `icon` | `WebIcon` | `name` は RefineUI のアイコン名 |
+| `avatars` | `Avatars` | `avatars=[{alt: "Name"}]` |
+
+## 操作できるコンポーネントのタグを追加する
+
+タグはサーバーで Astro コンポーネントとして描画されます。クライアントの状態を持つものには、ハイドレートする `.astro` ラッパーが必要です。[MDX で使う](/ja/guides/mdx/)と同じく `.tsx` で組み立ててから包みます。
+
+```astro {% title="src/components/markdoc/TabsExample.astro" %}
+---
+import TabsExample from "../TabsExample";
+---
+
+<TabsExample client:load />
+```
+
+プリセットの隣にラッパーを登録します。
+
+```js {% title="markdoc.config.mjs" %}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "tabs-example": {
+      render: component("./src/components/markdoc/TabsExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md {% process=false %}
+{% tabs-example /%}
+```
+
+{% tabs-example /%}
+
+[各コンポーネントのページ](/ja/components/)に、そのコンポーネントの Markdoc タグか、必要なラッパーが載っています。

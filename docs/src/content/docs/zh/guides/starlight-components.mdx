@@ -1,0 +1,81 @@
+---
+title: Starlight 组件
+description: Starlight 自带的内容组件照常可用，主题用 RefineUI 令牌绘制它们。
+sidebar:
+  order: 5
+---
+
+import { Aside, Badge, Card, CardGrid, FileTree, LinkCard, Steps, TabItem, Tabs } from "@astrojs/starlight/components";
+
+页面中可以混用 Starlight 自带组件和 RefineUI 组件。主题用同样的令牌重新绘制自带组件，所以两者看起来一致。
+
+## Aside
+
+<Aside>注释使用信息色。</Aside>
+
+<Aside type="tip">提示使用成功色。</Aside>
+
+<Aside type="caution" title="检查你的配置">注意使用警告色。</Aside>
+
+<Aside type="danger">危险使用错误色。</Aside>
+
+## Badge
+
+<Badge text="Default" /> <Badge text="Note" variant="note" /> <Badge text="Tip" variant="tip" /> <Badge text="Caution" variant="caution" /> <Badge text="Danger" variant="danger" /> <Badge text="Success" variant="success" />
+
+## Tabs
+
+<Tabs>
+  <TabItem label="bun">
+
+```sh
+bun add @pelagornis/page
+```
+
+  </TabItem>
+  <TabItem label="npm">
+
+```sh
+npm install @pelagornis/page
+```
+
+  </TabItem>
+</Tabs>
+
+## Steps
+
+<Steps>
+
+1. 安装插件。
+
+2. 把 `pagePlugin()` 加到 Starlight 的 `plugins` 中。
+
+3. 运行开发服务器。
+
+</Steps>
+
+## Card
+
+<CardGrid>
+  <Card title="外壳" icon="rocket">
+    页眉、侧栏、搜索和页脚来自 RefineUI。
+  </Card>
+  <Card title="组件" icon="puzzle">
+    所有 RefineUI 组件都可以从 `@pelagornis/page/components` 导入。
+  </Card>
+</CardGrid>
+
+<LinkCard title="快速开始" href="/zh/guides/getting-started/" description="安装主题并注册插件。" />
+
+## 文件树
+
+<FileTree>
+- astro.config.ts
+- markdoc.config.mjs
+- src/
+  - content/
+    - docs/
+      - index.mdx
+      - guides/
+        - getting-started.mdx
+</FileTree>

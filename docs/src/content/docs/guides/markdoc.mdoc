@@ -1,0 +1,131 @@
+---
+title: Use in Markdoc
+description: Turn on Markdoc, add the pageMarkdoc() preset, and write RefineUI components as Markdoc tags.
+sidebar:
+  order: 3
+---
+
+Markdoc pages use tags instead of imports. `@pelagornis/page/markdoc` ships a preset that registers tags for the RefineUI components that render without client state. This page is an `.mdoc` file, so every example below is rendered by those tags.
+
+## Install Markdoc
+
+```sh
+bun add @astrojs/markdoc @astrojs/starlight-markdoc
+```
+
+Add the Markdoc integration before Starlight.
+
+```ts {% title="astro.config.ts" %}
+import markdoc from "@astrojs/markdoc";
+import starlight from "@astrojs/starlight";
+import pagePlugin from "@pelagornis/page";
+import { defineConfig } from "astro/config";
+
+export default defineConfig({
+  integrations: [
+    markdoc(),
+    starlight({
+      title: "My Docs",
+      plugins: [pagePlugin()],
+    }),
+  ],
+});
+```
+
+## Add the preset
+
+Create `markdoc.config.mjs` next to the Astro config. `starlightMarkdoc()` brings Starlight's own tags such as `aside`. `pageMarkdoc()` adds the RefineUI tags.
+
+```js {% title="markdoc.config.mjs" %}
+import { defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+});
+```
+
+## Write tags
+
+Attributes use the React prop names and values. A tag with content needs a matching closing tag. A tag without content closes itself with a slash before the final `%}`.
+
+```md {% process=false %}
+{% stack direction="row" gap="sizeSmall" align="center" %}
+{% badge variant="success" %}Stable{% /badge %}
+{% button variant="primary" %}Continue{% /button %}
+{% button variant="outline" %}Cancel{% /button %}
+{% /stack %}
+```
+
+{% stack direction="row" gap="sizeSmall" align="center" class="not-content" %}
+{% badge variant="success" %}Stable{% /badge %}
+{% button variant="primary" %}Continue{% /button %}
+{% button variant="outline" %}Cancel{% /button %}
+{% /stack %}
+
+Numbers and booleans are written without quotes.
+
+```md {% process=false %}
+{% progress value=60 ariaLabel="Upload" /%}
+{% checkbox label="Send release emails" defaultChecked=true /%}
+```
+
+{% stack gap="sizeMedium" class="not-content" %}
+{% progress value=60 ariaLabel="Upload" /%}
+{% checkbox label="Send release emails" defaultChecked=true /%}
+{% /stack %}
+
+Use `ariaLabel` where the React prop is `aria-label`. Every tag also accepts `class` and `id`.
+
+## Tags in the preset
+
+| Tag | Component | Notes |
+| --- | --- | --- |
+| `box`, `container`, `grid`, `stack`, `spacer` | `Box`, `Container`, `Grid`, `Stack`, `Spacer` | Layout with token props |
+| `divider` | `Divider` | Content becomes the inline label |
+| `text` | `Text` | `variant` defaults to `bodyMd` |
+| `button`, `link` | `Button`, `Link` | `link` requires `href` |
+| `label`, `input`, `textarea`, `checkbox`, `radio` | Form controls | Native inputs, no client script |
+| `badge`, `chip` | `Badge`, `Chip` | Content is the label |
+| `progress`, `spinner`, `skeleton` | Feedback | `progress` requires `value` |
+| `icon` | `WebIcon` | `name` is a RefineUI icon name |
+| `avatars` | `Avatars` | `avatars=[{alt: "Name"}]` |
+
+## Add a tag for an interactive component
+
+Tags render Astro components on the server. A component with client state needs an `.astro` wrapper that hydrates it. Compose the component in a `.tsx` file as described in [Use in MDX](/guides/mdx/), then wrap it.
+
+```astro {% title="src/components/markdoc/TabsExample.astro" %}
+---
+import TabsExample from "../TabsExample";
+---
+
+<TabsExample client:load />
+```
+
+Register the wrapper next to the preset.
+
+```js {% title="markdoc.config.mjs" %}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "tabs-example": {
+      render: component("./src/components/markdoc/TabsExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md {% process=false %}
+{% tabs-example /%}
+```
+
+{% tabs-example /%}
+
+Each [component page](/components/) lists the Markdoc tag for that component, or the wrapper to write when it needs one.

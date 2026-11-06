@@ -1,287 +1,51 @@
 ---
-import config from "virtual:starlight/user-config";
-import * as pkg from "@refineui/web-icons";
-import { ICON_NAME_MAPPING } from "../lib/icon-names";
-const createIconHTML = (
-  pkg as {
-    createIconHTML?: (
-      name: string,
-      style: "regular" | "filled",
-    ) => (size?: number, color?: string, className?: string) => string;
-  }
-).createIconHTML;
-const SIZE = 24;
-const languageName = ICON_NAME_MAPPING.language ?? "local-language";
-// Use only createIconHTML (inline). Class-based (ic_refineui_* :before) can fail for weather-sunny/local-language
-const globeIconHtml =
-  typeof createIconHTML === "function"
-    ? createIconHTML(languageName, "regular")(SIZE, "currentColor", "refineui-icon")
-    : "";
+import config from 'virtual:starlight/user-config';
+import context from 'virtual:starlight/project-context';
+import { LanguageSelect as LanguageSelectControl } from './LanguageSelect';
 
-const { locales } = config;
-const currentLocale = Astro.locals.starlightRoute?.locale;
-const defaultLocale = config.defaultLocale.locale;
-const currentPath = Astro.url.pathname;
-
-// Check if language options exist
-const hasLanguageOptions = locales && Object.keys(locales).length > 1;
-
-// Build path without locale
-function getPathWithoutLocale(path: string, locale: string): string {
-  if (locale === defaultLocale) return path;
-  const localePrefix = `/${locale}`;
-  return path.startsWith(localePrefix) ? path.slice(localePrefix.length) : path;
+function stripTrailingSlash(path: string) {
+  return path.replace(/\/$/, '') || '/';
 }
 
-const basePath = getPathWithoutLocale(
-  currentPath,
-  currentLocale || defaultLocale || "root",
-);
+function localizedPathname(locale: string | undefined): string {
+  const url = new URL(Astro.url);
+  if (locale === 'root') locale = '';
+  const base = stripTrailingSlash(import.meta.env.BASE_URL);
+  const hasBase = url.pathname.startsWith(base);
+  if (hasBase) url.pathname = url.pathname.replace(base, '');
+  const [_leadingSlash, baseSegment] = url.pathname.split('/');
+  const htmlExt = '.html';
+  const isRootHtml = baseSegment?.endsWith(htmlExt);
+  const baseSlug = isRootHtml ? baseSegment?.slice(0, -1 * htmlExt.length) : baseSegment;
+  if (baseSlug && baseSlug in config.locales) {
+    if (locale) url.pathname = url.pathname.replace(baseSlug, locale);
+    else if (isRootHtml) url.pathname = '/index.html';
+    else url.pathname = url.pathname.replace('/' + baseSlug, '');
+  } else if (locale) {
+    url.pathname =
+      baseSegment === 'index.html' ? '/' + locale + '.html' : '/' + locale + url.pathname;
+  }
+  if (hasBase) url.pathname = base + url.pathname;
+  if (context.trailingSlash === 'never') url.pathname = stripTrailingSlash(url.pathname);
+  return url.pathname;
+}
+
+const options = config.isMultilingual
+  ? Object.entries(config.locales).map(([code, locale]) => ({
+      value: localizedPathname(code),
+      label: locale!.label,
+    }))
+  : [];
+const value = localizedPathname(Astro.locals.starlightRoute.locale);
 ---
 
 {
-  hasLanguageOptions && (
-    <div class="page-language-select">
-      <button
-        class="page-language-select-button"
-        data-base-path={basePath}
-        data-default-locale={defaultLocale}
-      >
-        {globeIconHtml ? <Fragment set:html={globeIconHtml} /> : null}
-      </button>
-
-      <div
-        class="page-language-dropdown"
-        data-base-path={basePath}
-        data-default-locale={defaultLocale}
-      >
-        {Object.entries(locales || {}).map(([locale, localeConfig]) => (
-          <button
-            class={`page-language-option ${locale === currentLocale ? "active" : ""}`}
-            data-locale={locale}
-            title={localeConfig.label}
-          >
-            <span class="page-language-option-label">{localeConfig.label}</span>
-          </button>
-        ))}
-      </div>
-    </div>
+  config.isMultilingual && (
+    <LanguageSelectControl
+      client:load
+      label={Astro.locals.t('languageSelect.accessibleLabel')}
+      value={value}
+      options={options}
+    />
   )
 }
-
-<script>
-  // Language selection
-  document.addEventListener("DOMContentLoaded", () => {
-    const languageButton = document.querySelector(
-      ".page-language-select-button",
-    );
-    const languageDropdown = document.querySelector(".page-language-dropdown");
-
-    if (!languageButton || !languageDropdown) return;
-
-    // Toggle dropdown
-    languageButton.addEventListener("click", (e) => {
-      e.stopPropagation();
-      languageDropdown.classList.toggle("open");
-    });
-
-    // Close on outside click
-    document.addEventListener("click", () => {
-      languageDropdown.classList.remove("open");
-    });
-
-    // Language option click
-    languageDropdown.addEventListener("click", (e) => {
-      const target = e.target as HTMLElement;
-      const option = target.closest(".page-language-option") as HTMLElement;
-
-      if (!option) return;
-
-      const selectedLocale = (option as HTMLElement).dataset.locale;
-      const basePath = (languageDropdown as HTMLElement).dataset.basePath || "";
-      const defaultLocale =
-        (languageDropdown as HTMLElement).dataset.defaultLocale || "root";
-
-      if (!selectedLocale) return;
-
-      // Build path with locale
-      const getPathWithLocale = (path: string, locale: string): string => {
-        if (locale === defaultLocale) return path;
-        return `/${locale}${path}`;
-      };
-
-      const newPath = getPathWithLocale(basePath, selectedLocale);
-      window.location.href = newPath;
-    });
-  });
-</script>
-
-<style>
-  .page-language-select {
-    position: relative;
-  }
-
-  .page-language-select-button {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border: none !important;
-    border-radius: var(--page-radius) !important;
-    background: var(--page-accent-light) !important;
-    color: var(--page-text-secondary) !important;
-    cursor: pointer !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    font-weight: 500 !important;
-    text-decoration: none !important;
-    width: 40px !important;
-    height: 40px !important;
-    min-width: 40px !important;
-    min-height: 40px !important;
-    box-sizing: border-box !important;
-    position: relative !important;
-    overflow: hidden !important;
-    z-index: 2 !important;
-    isolation: isolate !important;
-  }
-
-  .page-language-select-button:hover {
-    background: var(--page-text-reverse) !important;
-    color: var(--page-text) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: var(--page-shadow-sm) !important;
-    z-index: 3 !important;
-  }
-
-  .page-language-select-button:focus-visible {
-    outline: 2px solid var(--page-accent) !important;
-    outline-offset: 2px !important;
-    z-index: 4 !important;
-  }
-
-  .page-language-select-button:active {
-    transform: translateY(0) !important;
-    transition: transform 0.1s ease !important;
-  }
-
-  /* Dropdown */
-  .page-language-dropdown {
-    position: absolute;
-    top: 100%;
-    right: -3.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: var(--page-space-2);
-    margin-top: var(--page-space-2);
-    background: var(--page-bg);
-    border: 1px solid var(--page-border);
-    border-radius: var(--page-radius-lg);
-    box-shadow: var(--page-shadow-lg);
-    padding: var(--page-space-2);
-    min-width: 160px;
-    z-index: 9999;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-8px);
-    transition: all 0.2s ease;
-  }
-
-  .page-language-dropdown.open {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-
-  .page-language-dropdown.open {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: translateY(0) !important;
-  }
-
-  .page-language-option {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: var(--page-space-2);
-    border: none;
-    background: transparent;
-    color: var(--page-text-secondary);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border-radius: var(--page-radius-lg);
-    font-size: 0.875rem;
-    text-align: left;
-  }
-
-  .page-language-option:hover {
-    background: var(--page-accent-light);
-    color: var(--page-text);
-  }
-
-  .page-language-option.active {
-    background: var(--page-accent-light);
-    color: var(--page-accent);
-    font-weight: 600;
-  }
-
-  .page-language-option-label {
-    font-weight: 500;
-  }
-
-  /* Dark mode styles */
-  [data-theme="dark"] .page-language-dropdown {
-    background: var(--page-bg);
-    border-color: var(--page-border);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  }
-
-  .page-language-select-button svg,
-  .page-language-select-button .refineui-icon,
-  .page-language-select-button span {
-    width: 24px !important;
-    height: 24px !important;
-    min-width: 24px !important;
-    min-height: 24px !important;
-    font-size: 24px !important;
-    box-sizing: border-box;
-    display: inline-flex !important;
-    align-items: center !important;
-  }
-
-  @media (max-width: 768px) {
-    .page-language-select-button {
-      width: 32px !important;
-      height: 32px !important;
-      min-width: 32px !important;
-      min-height: 32px !important;
-    }
-
-    .page-language-select-button svg,
-    .page-language-select-button .refineui-icon,
-    .page-language-select-button span {
-      width: 20px !important;
-      height: 20px !important;
-      min-width: 20px !important;
-      min-height: 20px !important;
-      font-size: 20px !important;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .page-language-select-button {
-      width: 32px !important;
-      height: 32px !important;
-      min-width: 32px !important;
-      min-height: 32px !important;
-    }
-
-    .page-language-select-button svg,
-    .page-language-select-button .refineui-icon,
-    .page-language-select-button span {
-      width: 20px !important;
-      height: 20px !important;
-      min-width: 20px !important;
-      min-height: 20px !important;
-      font-size: 20px !important;
-    }
-  }
-</style>

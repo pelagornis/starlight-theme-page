@@ -1,51 +1,38 @@
 ---
-title: Starlight Theme Page
-description: 現代的な Starlight テーマ
-template: splash
-sidebar:
-  order: 1
-  group: getting-started
+title: Page
+description: ドキュメントシェルに RefineUI を使う Starlight テーマ
+editUrl: false
+tableOfContents: false
 hero:
-  tagline: 現代的なドキュメントサイトテーマで、開発者体験を新たな高みへ
+  tagline: ヘッダー、サイドバー、検索、フッターは RefineUI です。
   actions:
     - text: 始める
       link: /ja/guides/getting-started/
       variant: primary
-    - text: コンポーネントを見る
-      link: /ja/components/header/
-      variant: secondary
-    - text: GitHub で見る
-      link: https://github.com/pelagornis/starlight-theme-page
+    - text: コンポーネント
+      link: /ja/components/
       variant: secondary
 ---
 
-import Card from "@pelagornis/page/components/Card.astro";
+## ドキュメントシェル
 
-## ✨ 主な特徴
+Page は Starlight のクロムを RefineUI の override に置き換えます。
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 32px 0;">
-  <Card title="🎨 モダンデザイン" icon="⭐">
-    現代的な HSL ベースのカラーシステムと美しいグラデーション効果
-  </Card>
-  <Card title="🌊 スムーズアニメーション" icon="🚀">
-    すべてのインタラクションに自然なトランジション効果とホバーアニメーション
-  </Card>
-  <Card title="🌙 ダークモード" icon="🌙">
-    ガラス効果と共に完璧なライト/ダークモードサポート
-  </Card>
-  <Card title="📱 レスポンシブ" icon="💻">
-    モバイルからデスクトップまで、すべてのデバイスで完璧なユーザー体験
-  </Card>
-</div>
+- 設定したリンク、コマンド検索、テーマボタンがあるヘッダー
+- デスクトップでは幅を変えられるサイドバー、狭い画面ではドロワー
+- ナビゲーション、ソーシャルリンク、著作権、言語選択があるフッター
+- RefineUI のセマンティックトークンによるライトとダーク
 
-## 🚀 強化されたコンポーネント
+## ページで使うコンポーネント
 
-このテーマは以下のコンポーネントを現代的に再デザインしました：
+RefineUI のコンポーネントはすべて `@pelagornis/page/components` から読み込めます。
 
-- **Header**: スティッキーナビゲーションとガラス効果
-- **ThemeSelect**: 回転アニメーション付きのテーマ切り替え
-- **Navigation**: ホバー効果とアクティブ状態インジケーター
-- **Search**: ブラー背景のモダンなモーダル
-- **SiteTitle**: インタラクティブなロゴとグラデーションテキスト
+```mdx
+import { Button } from "@pelagornis/page/components";
 
-ヘッダーのテーマ切り替えボタンをクリックしてみたり、ロゴにマウスを重ねてみてください！🎯
+<Button variant="primary">Continue</Button>
+```
+
+- [MDX で使う](/ja/guides/mdx/): import、クライアントディレクティブ、複合コンポーネント
+- [Markdoc で使う](/ja/guides/markdoc/): `pageMarkdoc()` プリセットとタグ
+- [コンポーネント](/ja/components/): 59 個のコンポーネントのプレビュー、例、props

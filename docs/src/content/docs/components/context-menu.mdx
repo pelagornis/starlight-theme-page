@@ -1,0 +1,85 @@
+---
+title: Context Menu
+description: Menu that opens from a right click on its trigger.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/context-menu";
+import source from "../../../demos/context-menu.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuPortal,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/ContextMenuExample.tsx" />
+
+## Use in MDX
+
+`Context Menu` is composed from parts that share React state. Children written in MDX are rendered as separate islands, so the parts can't reach each other. Put the composition in a `.tsx` file, like the example above, and import that file instead.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import ContextMenuExample from "../../components/ContextMenuExample";
+
+<ContextMenuExample client:load />
+```
+
+`client:load` hydrates the island on page load. Use `client:visible` for content far down the page.
+
+## Use in Markdoc
+
+Markdoc tags render Astro components, and this one needs client state. Wrap the example in an `.astro` file that hydrates it, then register that file as a tag.
+
+```astro title="src/components/markdoc/ContextMenuExample.astro"
+---
+import ContextMenuExample from "../ContextMenuExample";
+---
+
+<ContextMenuExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "context-menu-example": {
+      render: component("./src/components/markdoc/ContextMenuExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% context-menu-example /%}
+```
+
+## Reference
+
+- [RefineUI · Context Menu](https://ui.pelagornis.com/components/context-menu/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

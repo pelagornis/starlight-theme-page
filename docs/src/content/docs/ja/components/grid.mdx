@@ -1,0 +1,71 @@
+---
+title: Grid
+description: "固定列、または自動フィットの最小幅を使う CSS グリッドです。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/grid";
+import source from "../../../../demos/grid.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import { Grid, GridItem } from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/GridExample.tsx" />
+
+## MDX で使う
+
+`Grid` は `.mdx` ページにそのまま書けます。frontmatter の下でインポートしてください。サーバーで描画されるので、client ディレクティブは要りません。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Grid } from "@pelagornis/page/components";
+
+<Grid columns={3} gap="sizeMedium">
+  <div>One</div>
+  <div>Two</div>
+  <div>Three</div>
+</Grid>
+```
+
+## Markdoc で使う
+
+`pageMarkdoc()` がこのコンポーネントの `grid` タグを登録します。`markdoc.config.mjs` にプリセットを一度追加すれば（[Markdoc で使う](/ja/guides/markdoc/)を参照）、どの `.mdoc` ページでもタグを書けます。
+
+```md title="src/content/docs/example.mdoc"
+{% grid columns=3 gap="sizeMedium" %}
+One
+
+Two
+
+Three
+{% /grid %}
+```
+
+属性の名前と値は React の props と同じです。
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="grid" section="anatomy" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Grid](https://ui.pelagornis.com/components/grid/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

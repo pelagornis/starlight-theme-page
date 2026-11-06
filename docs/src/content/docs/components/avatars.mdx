@@ -1,0 +1,67 @@
+---
+title: Avatar Group
+description: Stacked or spread avatars with an overflow count.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/avatars";
+import source from "../../../demos/avatars.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { Avatars } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/AvatarsExample.tsx" />
+
+## Use in MDX
+
+`Avatar Group` can be written straight in an `.mdx` page. Import it below the frontmatter. It renders on the server, so no client directive is needed.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Avatars } from "@pelagornis/page/components";
+
+<Avatars avatars={[{ alt: "Jihoon Ahn" }, { alt: "Mina Park" }, { alt: "Leo Kim" }]} max={2} />
+```
+
+## Use in Markdoc
+
+`pageMarkdoc()` registers a `avatars` tag for this component. Add the preset once in `markdoc.config.mjs` (see [Use in Markdoc](/guides/markdoc/)), then write the tag in any `.mdoc` page.
+
+```md title="src/content/docs/example.mdoc"
+{% avatars avatars=[{alt: "Jihoon Ahn"}, {alt: "Mina Park"}, {alt: "Leo Kim"}] max=2 /%}
+```
+
+Attributes use the same names and values as the React props.
+
+## Variants
+
+Values the component accepts for each variant prop.
+
+<ComponentSpec id="avatars" section="variants" />
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="avatars" section="anatomy" />
+
+## Reference
+
+- [RefineUI · Avatar Group](https://ui.pelagornis.com/components/avatars/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

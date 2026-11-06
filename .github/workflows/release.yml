@@ -15,21 +15,16 @@ jobs:
           fetch-depth: 0
           ref: main
 
-      - uses: pnpm/action-setup@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          run_install: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
+          bun-version-file: package.json
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: Publish @pelagornis/page to npm
         working-directory: packages/page
-        run: pnpm publish --access public
+        run: bun publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}
+          NPM_CONFIG_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}

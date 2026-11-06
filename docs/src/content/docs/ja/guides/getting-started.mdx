@@ -1,35 +1,25 @@
 ---
-title: はじめる
-description: Starlight Theme Pageのインストールと使用方法を学びましょう。
+title: はじめに
+description: Page テーマをインストールして Starlight に登録し、最初の RefineUI コンポーネントを表示します。
 sidebar:
-  order: 2
-  group: getting-started
-hero:
-  tagline: 数分でStarlight Theme Pageを始めましょう
-  actions:
-    - text: 今すぐインストール
-      link: /ja/guides/getting-started/
-      variant: primary
-      icon: right-arrow
-    - text: GitHubを見る
-      link: https://github.com/pelagornis/starlight-theme-page
-      variant: secondary
-      icon: external
+  order: 1
 ---
 
-import { Steps, Card } from "@astrojs/starlight/components";
-import Tabs from "@pelagornis/page/components/Tabs.astro";
-import PackageManagerTabs from "@pelagornis/page/components/PackageManagerTabs.astro";
+import { InstallTabs } from "../../../../components/InstallTabs";
 
-## クイックスタート
+Page は Starlight プラグインです。Starlight のヘッダー、サイドバー、検索、目次、ページ送り、フッターを RefineUI に置き換え、すべての RefineUI コンポーネントを再エクスポートするので、ドキュメントページでも同じ部品を使えます。
 
-<PackageManagerTabs />
+## 1. インストール
 
-### 2. Astro 設定
+テーマ、React 統合、React を追加します。`@astrojs/starlight` は Starlight プロジェクトにすでに入っています。
 
-`astro.config.mjs`ファイルにプラグインを追加してください：
+<InstallTabs client:load packageName="@pelagornis/page @astrojs/react react react-dom" />
 
-```js
+`@refineui/react`、`@refineui/tokens`、アイコンフォント、Tailwind はテーマが一緒に読み込みます。個別のインストールは不要です。
+
+## 2. プラグインを登録
+
+```ts title="astro.config.ts" ins={3,9-13}
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import pagePlugin from "@pelagornis/page";
@@ -37,73 +27,100 @@ import pagePlugin from "@pelagornis/page";
 export default defineConfig({
   integrations: [
     starlight({
-      plugins: [pagePlugin()],
+      title: "My Docs",
+      plugins: [
+        pagePlugin({
+          navigation: [{ href: "/guides/getting-started/", label: "Guide" }],
+        }),
+      ],
     }),
   ],
 });
 ```
 
-### 3. スタイル追加
+プラグインが `@astrojs/react` と Tailwind を登録します。`integrations` に `react()` を重ねて追加しないでください。
 
-`src/styles/global.css`ファイルにスタイルを追加してください：
+### オプション
 
-```css
-@import "@pelagornis/page/styles";
-```
+| オプション | 型 | 用途 |
+| --- | --- | --- |
+| `navigation` | `NavigationItem[]` | ヘッダー中央の項目。リンクかドロップダウン。[ヘッダーのナビゲーション](#ヘッダーのナビゲーション)を参照 |
+| `footerText` | `string` | フッターの著作権表記 |
+| `siteTitle` | `string` | ヘッダーのブランド表記。既定は Starlight の `title` |
+| `breadcrumbs` | `boolean` | ページタイトルの上のサイドバー経路。既定は `true` |
+| `llmsTxt` | `boolean \| { title?, description?, details? }` | ビルド時に AI ツール向けの `llms.txt` を書き出します。既定は `true`。[llms.txt](#llmstxt) を参照 |
+| `skipComponents` | `string[]` | Starlight 既定のままにするスロット。[シェルのオーバーライド](/ja/guides/overrides/)を参照 |
 
-## 主な特徴
+### ヘッダーのナビゲーション
 
-### 🎨 現代的なデザイン
+`navigation` の各項目はリンクかドロップダウンです。ドロップダウンは `items` を並べるか、最上位のサイドバーグループから項目を埋めます。グループは `sidebar` に Starlight 設定に書いたラベルのまま指定します。サイドバーのドロップダウンはグループの翻訳済みラベルを使い、グループのページと、入れ子のグループごとに 1 つのリンクを並べます。
 
-クリーンで直感的なインターフェースで最高のユーザー体験を提供
-
-### 🌙 ダークモードサポート
-
-自動テーマ切り替えと完璧なダークモードサポート
-
-### 📱 レスポンシブ
-
-モバイルからデスクトップまで、すべてのデバイスで完璧なユーザー体験
-
-## カスタマイゼーション
-
-### 色の変更
-
-CSS 変数を使用してテーマの色を簡単に変更できます：
-
-```css
-:root {
-  --page-accent: hsl(220, 100%, 50%);
-  --page-accent-hover: hsl(220, 100%, 40%);
-  --page-bg: hsl(0, 0%, 100%);
-  --page-text: hsl(0, 0%, 10%);
-}
-```
-
-### ナビゲーションリンク
-
-プラグイン設定でナビゲーションリンクを設定できます：
-
-```js
+```ts title="astro.config.ts"
 pagePlugin({
-  navLinks: [
+  navigation: [
+    { label: "Blog", href: "/blog/", translations: { ja: "ブログ" } },
+    { sidebar: "Guides" },
     {
-      label: "Blog",
-      link: "/blog/",
-      badge: "New",
+      label: "Resources",
+      items: [
+        { label: "Changelog", href: "/changelog/" },
+        { label: "GitHub", href: "https://github.com/pelagornis/starlight-theme-page" },
+      ],
     },
   ],
 });
 ```
 
-## コンポーネント例
+`translations` には言語（`lang`）ごとのラベルを書きます。`/` で始まるリンクは、翻訳されたページで現在の言語のパスが前に付きます。
 
-### コードブロック
+### llms.txt
 
-```bash
-npm install @pelagornis/page
+`astro build` は既定の言語のページの描画結果から、AI ツール向けのファイルを書き出します。
+
+- `/llms.txt`: プロジェクトの概要と、サイドバー順の各ページの Markdown へのリンク
+- `/llms-full.txt`: すべてのページを 1 つにまとめたもの
+- 各ページの Markdown 版: ページの URL 末尾の `/` を `.md` に替えた URL。例: `/guides/getting-started.md`
+
+コード例、表、タブのすべての内容は残り、ライブのコンポーネントプレビューは除かれます。自作の `llms.txt` や `llms-full.txt` を使うには `public/` に置きます。プラグインはそのファイルを上書きしません。`llmsTxt: false` で止められます。
+
+## 3. 起動
+
+```sh
+bun run dev
 ```
 
-## 次のステップ
+`http://localhost:4321/` を開くと、ヘッダー、サイドバー、検索(<kbd>⌘</kbd> <kbd>K</kbd>)、フッターが RefineUI になっています。
 
-テーマの設定が完了しました！ヘッダーのテーマトグルボタンをクリックしたり、ロゴにマウスを乗せてみてください。
+## 4. ページでコンポーネントを使う
+
+RefineUI のコンポーネントはすべて `@pelagornis/page/components` から読み込めます。ページを `.mdx` にして必要なものを import します。
+
+```mdx title="src/content/docs/index.mdx"
+---
+title: Welcome
+---
+
+import { Badge, Button } from "@pelagornis/page/components";
+
+<Badge variant="success">Stable</Badge>
+
+<Button variant="primary">Continue</Button>
+```
+
+表示だけのコンポーネントはこのまま書けます。`Tabs` や `Dialog` のように状態を持つものは、先に `.tsx` ファイルで組み立てます。詳しくは [MDX で使う](/ja/guides/mdx/)、`.mdoc` ページは [Markdoc で使う](/ja/guides/markdoc/) を参照してください。
+
+## スタイル
+
+シェルに必要なスタイルシートはプラグインが追加します。`global.css` での import は不要です。
+
+- RefineUI トークンテーマを含む `@pelagornis/page` の Tailwind エントリ
+- RefineUI システムアイコンフォント
+- `@refineui/react/refineui.css`
+- Starlight のレイアウト変数を RefineUI トークンに合わせるクロムのルール
+
+ライト・ダークは Starlight のテーマ切り替えに従います。RefineUI のセマンティックトークンは `data-theme` で切り替わるので、コンポーネントや `var(--refineui-color-alias-*)` を使う CSS も追従します。
+
+## 次へ
+
+- [すべてのコンポーネント](/ja/components/)をプレビュー付きで見る
+- 操作できる部品を組み立てる前に [MDX で使う](/ja/guides/mdx/) を読む

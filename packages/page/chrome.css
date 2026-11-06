@@ -1,0 +1,840 @@
+/**
+ * Docs chrome. Unlayered so these beat Starlight's layered styles.
+ * Values come from RefineUI semantic tokens, which already switch on
+ * `[data-theme="dark"]`.
+ */
+:root,
+:root[data-theme="light"],
+:root[data-theme="dark"] {
+  --sl-font: var(--refineui-typography-body-1-font-family);
+  --sl-color-white: var(--refineui-color-alias-foreground-primary);
+  --sl-color-gray-1: var(--refineui-color-alias-foreground-primary);
+  --sl-color-gray-2: var(--refineui-color-alias-foreground-secondary);
+  --sl-color-gray-3: var(--refineui-color-alias-foreground-tertiary);
+  --sl-color-gray-5: var(--refineui-color-alias-border-default);
+  --sl-color-gray-6: var(--refineui-color-alias-background-surface-hover);
+  --sl-color-black: var(--refineui-color-alias-background-primary);
+  --sl-color-text: var(--refineui-color-alias-foreground-secondary);
+  --sl-color-text-accent: var(--refineui-color-alias-foreground-link);
+  --sl-color-bg: var(--refineui-color-alias-background-primary);
+  --sl-color-bg-nav: var(--refineui-color-alias-background-primary);
+  --sl-color-bg-sidebar: var(--refineui-color-alias-background-primary);
+  --sl-color-bg-inline-code: var(--refineui-color-alias-background-surface-hover);
+  --sl-color-hairline: var(--refineui-color-alias-border-default);
+  --sl-color-hairline-light: var(--refineui-color-alias-border-subtle);
+  --sl-color-hairline-shade: var(--refineui-color-alias-border-subtle);
+  --sl-text-h1: var(--refineui-typography-title-2-font-size);
+  --sl-text-h2: var(--refineui-typography-title-3-font-size);
+  --sl-text-h3: var(--refineui-typography-sub-title-1-font-size);
+  --sl-text-h4: var(--refineui-typography-sub-title-2-font-size);
+  --sl-nav-height: var(--refineui-size-foundation-size-540);
+  --sl-sidebar-width: var(--refineui-size-foundation-size-2560);
+  --sl-mobile-toc-height: var(--refineui-size-foundation-size-540);
+  --sl-nav-pad-x: var(--refineui-spacing-size-large);
+  --sl-nav-pad-y: 0px;
+  --sl-content-pad-x: var(--refineui-spacing-size-large);
+  --sl-content-inline-start: 0px;
+}
+
+@media (min-width: 50em) {
+  :root {
+    --sl-nav-pad-x: var(--refineui-spacing-size-x-large);
+    --sl-content-inline-start: 0px;
+  }
+}
+
+header.header {
+  overflow: visible;
+  padding-inline: var(--refineui-spacing-size-large);
+  padding-block: 0;
+  border-bottom-color: var(--refineui-color-alias-border-subtle);
+  background: color-mix(in srgb, var(--refineui-color-alias-background-primary) 88%, transparent);
+  backdrop-filter: blur(var(--refineui-size-foundation-size-120));
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  header.header {
+    background: var(--refineui-color-alias-background-primary);
+    backdrop-filter: none;
+  }
+}
+
+@media (min-width: 50em) {
+  header.header {
+    padding-inline: var(--refineui-spacing-size-x-large);
+  }
+}
+
+[data-refineui-docs-header] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--refineui-spacing-size-medium);
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+}
+
+[data-refineui-docs-nav] {
+  display: none;
+  min-width: 0;
+}
+
+@media (min-width: 72rem) {
+  [data-refineui-docs-header] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: var(--refineui-spacing-size-large);
+  }
+
+  [data-refineui-docs-brand] {
+    justify-self: start;
+  }
+
+  [data-refineui-docs-nav] {
+    display: flex;
+    justify-self: center;
+    grid-column: 2;
+  }
+
+  [data-refineui-docs-header-end] {
+    justify-self: end;
+    grid-column: 3;
+  }
+}
+
+[data-refineui-docs-header-end],
+[data-refineui-docs-tools] {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  min-width: 0;
+  gap: var(--refineui-spacing-size-xx-small);
+}
+
+[data-refineui-docs-menu-toggle] {
+  display: inline-flex;
+}
+
+@media (min-width: 50rem) {
+  [data-refineui-docs-menu-toggle] {
+    display: none;
+  }
+}
+
+body[data-mobile-menu-expanded] {
+  overflow: hidden;
+}
+
+@media (min-width: 50rem) {
+  body[data-mobile-menu-expanded] {
+    overflow: auto;
+  }
+}
+
+html[data-has-sidebar] main:has([data-refineui-home-hero]) {
+  --sl-content-width: min(100%, var(--refineui-size-foundation-size-8500));
+}
+
+[data-docs-shell="desktop"] {
+  height: 100%;
+  min-height: calc(100vh - var(--sl-nav-height));
+  background: var(--refineui-color-alias-background-primary);
+}
+
+[data-refineui-docs-search-result] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--refineui-spacing-size-xxx-small);
+  min-width: 0;
+}
+
+[data-refineui-docs-search-result-excerpt] {
+  overflow: hidden;
+  color: var(--refineui-color-alias-foreground-tertiary);
+  font-size: var(--refineui-typography-caption-2-font-size);
+  line-height: var(--refineui-typography-caption-2-line-height);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Until the shell hydrates, PageFrame's inline script mirrors the stored rail width and collapsed state onto <html>. */
+html[style*="--docs-sidebar-size"] astro-island[ssr] [data-docs-shell="desktop"] > [data-refineui="resizable-panel"]:first-child {
+  flex-grow: var(--docs-sidebar-size) !important;
+}
+
+html[style*="--docs-sidebar-size"] astro-island[ssr] [data-docs-shell="desktop"] > [data-refineui="resizable-panel"]:last-child {
+  flex-grow: calc(100 - var(--docs-sidebar-size)) !important;
+}
+
+html[data-docs-sidebar-collapsed] astro-island[ssr] [data-docs-shell="desktop"] > :is([data-refineui="resizable-panel"]:first-child, [data-refineui="resizable-handle"]) {
+  display: none;
+}
+
+/* The server renders the desktop shell; small screens use the drawer instead. */
+@media (max-width: 49.99rem) {
+  [data-docs-shell="desktop"] > :is([data-refineui="resizable-panel"]:first-child, [data-refineui="resizable-handle"]),
+  [data-docs-shell="desktop"] [data-docs-sidebar-toggle] {
+    display: none;
+  }
+}
+
+[data-docs-shell-sidebar],
+[data-docs-shell-main] {
+  min-width: 0;
+  min-height: 0;
+}
+
+[data-docs-sidebar-toggle] {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: var(--refineui-spacing-size-x-small);
+  inset-inline-start: var(--refineui-spacing-size-x-small);
+}
+
+[data-refineui="sidebar-peek"][data-sidebar-peek-open] [data-docs-sidebar-toggle] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+[data-refineui="sidebar-peek-inset"] [data-docs-shell-main] {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+}
+
+[data-docs-shell-sidebar] [data-refineui="scroll-area"],
+[data-docs-shell-main][data-refineui="scroll-area"] {
+  flex: 1 1 auto;
+}
+
+/*
+ * The shell scroll areas cover the whole reading column and sidebar, so area hover or focus would keep
+ * their scrollbars on screen. Reveal them only while scrolling, dragging, or pointing at the bar itself.
+ */
+:is([data-docs-shell-main], [data-refineui-docs-sidebar] [data-refineui="scroll-area"])
+  > [data-refineui="scroll-area-scrollbar"][data-visibility="hover"][data-state="visible"] {
+  opacity: 0;
+  pointer-events: auto;
+}
+
+:is([data-docs-shell-main], [data-refineui-docs-sidebar] [data-refineui="scroll-area"]):is([data-scrolling], [data-interacting])
+  > [data-refineui="scroll-area-scrollbar"][data-visibility="hover"][data-state="visible"],
+:is([data-docs-shell-main], [data-refineui-docs-sidebar] [data-refineui="scroll-area"])
+  > [data-refineui="scroll-area-scrollbar"][data-visibility="hover"][data-state="visible"]:is(:hover, [data-active="true"]) {
+  opacity: 1;
+}
+
+[data-refineui-docs-sidebar] {
+  height: 100%;
+}
+
+[data-docs-sidebar-section] {
+  margin-block-start: var(--refineui-spacing-size-small);
+  color: var(--refineui-color-alias-foreground-tertiary);
+}
+
+.sidebar-pane {
+  background: var(--refineui-color-alias-background-primary);
+}
+
+.sidebar-content {
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+}
+
+[data-refineui-docs-pagehead] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--refineui-spacing-size-small);
+}
+
+[data-refineui-docs-pagehead] h1 {
+  margin: 0;
+  color: var(--refineui-color-alias-foreground-primary);
+  font-family: var(--refineui-typography-title-2-font-family);
+  font-size: var(--refineui-typography-title-2-font-size);
+  font-weight: var(--refineui-typography-title-2-font-weight);
+  line-height: var(--refineui-typography-title-2-line-height);
+}
+
+[data-refineui-docs-lead] {
+  margin: 0;
+  max-width: var(--refineui-size-foundation-size-6000);
+  color: var(--refineui-color-alias-foreground-secondary);
+  font-family: var(--refineui-typography-body-2-font-family);
+  font-size: var(--refineui-typography-body-2-font-size);
+  font-weight: var(--refineui-typography-body-2-font-weight);
+  line-height: var(--refineui-typography-body-2-line-height);
+}
+
+.sl-markdown-content > h1:first-of-type {
+  display: none;
+}
+
+.content-panel {
+  padding-block: var(--refineui-spacing-size-xx-large);
+}
+
+.content-panel + .content-panel {
+  border-top: none;
+  padding-top: 0;
+}
+
+.sl-markdown-content :is(h2, h3, h4, h5, h6) {
+  color: var(--refineui-color-alias-foreground-primary);
+}
+
+.sl-markdown-content :not(pre) > code {
+  padding: var(--refineui-spacing-size-xxx-small) var(--refineui-spacing-size-x-small);
+  border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-subtle);
+  border-radius: var(--refineui-radius-rounded-small);
+  background: var(--refineui-color-alias-surface-sunken);
+  color: var(--refineui-color-alias-foreground-primary);
+  font-size: 0.875em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.sl-markdown-content :is(td, th):first-child > code {
+  white-space: nowrap;
+}
+
+/* Markdown tables use RefineUI Table markup; prose columns wrap and the table scrolls when wide. */
+[data-page-table] {
+  overflow-x: auto;
+}
+
+[data-page-table] code {
+  padding: var(--refineui-spacing-size-xxx-small) var(--refineui-spacing-size-x-small);
+  border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-subtle);
+  border-radius: var(--refineui-radius-rounded-small);
+  background: var(--refineui-color-alias-surface-sunken);
+  font-size: 0.875em;
+}
+
+[data-page-table] a {
+  color: var(--refineui-color-alias-foreground-link);
+}
+
+/* Starlight's UI-theme colors set these per theme, above the plugin's styleOverrides. */
+.expressive-code {
+  --ec-frm-edBg: var(--refineui-color-alias-surface-sunken);
+  --ec-frm-trmBg: var(--refineui-color-alias-surface-sunken);
+  --ec-frm-edActTabBg: var(--refineui-color-alias-surface-sunken);
+  --ec-frm-trmTtbDotsFg: var(--refineui-color-alias-foreground-tertiary);
+  --ec-frm-inlBtnFg: var(--refineui-color-alias-foreground-secondary);
+  --ec-tm-markBg: var(--refineui-color-alias-background-surface-selected);
+  --ec-tm-markBrdCol: var(--refineui-color-alias-border-default);
+}
+
+/* File and terminal titles: a flat header row inside the card. */
+.expressive-code .frame.has-title .header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--refineui-spacing-size-x-small);
+  min-height: var(--refineui-size-foundation-size-400);
+  padding: var(--refineui-spacing-size-x-small) var(--refineui-spacing-size-x-large);
+  border: var(--ec-brdWd) solid var(--ec-brdCol);
+  border-bottom-color: var(--refineui-color-alias-border-subtle);
+  background: var(--refineui-color-alias-surface-sunken);
+}
+
+.expressive-code .frame.has-title .header::before {
+  content: "\F0495";
+  position: static;
+  inset: auto;
+  width: auto;
+  height: auto;
+  border: none;
+  background: none;
+  opacity: 1;
+  mask-image: none;
+  color: var(--refineui-color-alias-foreground-tertiary);
+  font-family: "RefineUI-System-Icons-Regular";
+  font-size: var(--refineui-size-foundation-size-160);
+  line-height: 1;
+}
+
+.expressive-code .frame.has-title.is-terminal .header::before {
+  content: "\F03DC";
+}
+
+.expressive-code .frame.has-title .header::after {
+  content: none;
+}
+
+.expressive-code .frame.has-title .title {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--refineui-color-alias-foreground-secondary);
+  font-family: var(--__sl-font-mono);
+  font-size: var(--refineui-typography-caption-2-font-size);
+  font-weight: var(--refineui-typography-caption-2-font-weight);
+  line-height: var(--refineui-typography-caption-2-line-height);
+  letter-spacing: normal;
+}
+
+.expressive-code .frame.has-title .title::after {
+  content: none;
+}
+
+.expressive-code .frame.is-terminal:not(.has-title) .header {
+  display: none;
+}
+
+.expressive-code .frame.is-terminal:not(.has-title) :is(pre, code) {
+  border-top: var(--ec-brdWd) solid var(--ec-brdCol);
+  border-start-start-radius: calc(var(--ec-brdRad) + var(--ec-brdWd));
+  border-start-end-radius: calc(var(--ec-brdRad) + var(--ec-brdWd));
+}
+.expressive-code .copy {
+  inset-block-start: var(--refineui-spacing-size-small);
+  inset-inline-end: var(--refineui-spacing-size-small);
+}
+
+.expressive-code .copy button {
+  width: var(--refineui-size-foundation-size-320);
+  height: var(--refineui-size-foundation-size-320);
+  border-radius: var(--refineui-radius-rounded-medium);
+  background: var(--refineui-color-alias-background-primary);
+  opacity: 0;
+  transition-property: opacity, background-color, border-color;
+  transition-duration: var(--refineui-motion-duration-fast);
+  transition-timing-function: var(--refineui-motion-easing-standard);
+}
+
+.expressive-code .copy button::before {
+  border-radius: inherit;
+  border-color: var(--refineui-color-alias-border-default);
+  opacity: 1;
+}
+
+.expressive-code .copy button::after {
+  margin: var(--refineui-spacing-size-x-small);
+  background-color: var(--refineui-color-alias-foreground-secondary);
+}
+
+.expressive-code .copy button div {
+  background: var(--refineui-color-alias-background-surface-hover);
+  opacity: 0;
+}
+
+.expressive-code .frame:hover .copy button:not(:hover),
+.expressive-code .frame:focus-within .copy button:not(:hover),
+.expressive-code .copy .feedback.show ~ button:not(:hover) {
+  opacity: 0.9;
+}
+
+.expressive-code .copy button:hover,
+.expressive-code .copy button:focus-visible {
+  opacity: 1;
+}
+
+.expressive-code .copy button:hover::before,
+.expressive-code .copy button:focus-visible::before {
+  border-color: var(--refineui-color-alias-border-hover);
+}
+
+.expressive-code .copy button:hover::after,
+.expressive-code .copy button:focus-visible::after {
+  background-color: var(--refineui-color-alias-foreground-primary);
+}
+
+.expressive-code .copy button:hover div,
+.expressive-code .copy button:focus-visible div {
+  opacity: 1;
+}
+
+.expressive-code .copy .feedback {
+  padding: var(--refineui-spacing-size-xx-small) var(--refineui-spacing-size-medium);
+  border-radius: var(--refineui-radius-rounded-medium);
+  background-color: var(--refineui-color-alias-surface-inverse);
+  color: var(--refineui-color-alias-foreground-inversed);
+  font-family: var(--refineui-typography-caption-2-font-family);
+  font-size: var(--refineui-typography-caption-2-font-size);
+  font-weight: var(--refineui-typography-caption-2-font-weight);
+  line-height: var(--refineui-typography-caption-2-line-height);
+}
+
+.expressive-code .copy .feedback::after {
+  border-inline-start-color: var(--refineui-color-alias-surface-inverse);
+}
+
+@media (hover: none) {
+  .expressive-code .copy button {
+    opacity: 0.9;
+  }
+}
+
+.right-sidebar {
+  border-inline-start-color: transparent;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* The page scrolls inside the docs shell, so the rail sticks within its own column instead of the viewport. */
+@media (min-width: 72rem) {
+  .right-sidebar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: calc(100vh - var(--sl-nav-height));
+    padding-top: 0;
+  }
+}
+
+[data-refineui-docs-toc-mobile-slot] {
+  display: block;
+}
+
+[data-refineui-docs-toc-desktop-slot] {
+  display: none;
+}
+
+/* Keep the reading column uncluttered between the mobile and full rail layouts. */
+@media (min-width: 50rem) {
+  [data-refineui-docs-toc-mobile-slot] {
+    display: none;
+  }
+}
+
+/* Without the rail the content column starts under the sidebar toggle. */
+@media (min-width: 50rem) and (max-width: 71.99rem) {
+  main > .content-panel:first-child {
+    padding-top: var(--refineui-size-foundation-size-480);
+  }
+}
+
+@media (min-width: 72rem) {
+  [data-refineui-docs-toc-desktop-slot] {
+    display: block;
+  }
+}
+
+/* Right rail TOC: layout shell only; item chrome comes from Sidebar links. */
+[data-refineui-docs-toc-panel] {
+  box-sizing: border-box;
+  max-height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: var(--refineui-spacing-size-x-large) var(--refineui-spacing-size-large);
+  pointer-events: none;
+}
+
+[data-refineui-docs-toc-container] {
+  width: calc(var(--sl-sidebar-width) - 2 * var(--sl-sidebar-pad-x));
+  max-width: 100%;
+  pointer-events: auto;
+}
+
+[data-refineui-docs-toc] [data-refineui="sidebar-link"] {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Mobile TOC bar: same link colors as the left Sidebar rail. */
+[data-refineui-docs-toc-mobile] {
+  position: fixed;
+  z-index: var(--sl-z-index-toc);
+  top: calc(var(--sl-nav-height) - var(--refineui-stroke-width-thin));
+  inset-inline: 0;
+  border-top: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-subtle);
+  background: var(--refineui-color-alias-background-primary);
+  pointer-events: auto;
+}
+
+[data-refineui-docs-toc-summary] {
+  display: flex;
+  gap: var(--refineui-spacing-size-medium);
+  align-items: center;
+  height: var(--sl-mobile-toc-height);
+  border-bottom: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-subtle);
+  padding: var(--refineui-spacing-size-medium) var(--refineui-spacing-size-large);
+  list-style: none;
+  cursor: pointer;
+  outline-offset: var(--refineui-spacing-size-xx-small);
+}
+
+[data-refineui-docs-toc-summary]::marker,
+[data-refineui-docs-toc-summary]::-webkit-details-marker {
+  display: none;
+}
+
+[data-refineui-docs-toc-toggle] {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--refineui-spacing-size-x-small);
+  min-height: var(--refineui-size-control-height-sm);
+  padding-block: var(--refineui-spacing-size-x-small);
+  padding-inline: var(--refineui-spacing-size-medium);
+  border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-subtle);
+  border-radius: var(--refineui-radius-rounded-large);
+  color: var(--refineui-color-alias-foreground-tertiary);
+  background: transparent;
+  user-select: none;
+  transition:
+    color var(--refineui-motion-duration-fast) var(--refineui-motion-easing-ease-out),
+    border-color var(--refineui-motion-duration-fast) var(--refineui-motion-easing-ease-out),
+    background-color var(--refineui-motion-duration-fast) var(--refineui-motion-easing-ease-out);
+}
+
+[data-refineui-docs-toc-summary]:hover [data-refineui-docs-toc-toggle] {
+  color: var(--refineui-color-alias-foreground-primary-hover);
+  border-color: var(--refineui-color-alias-border-hover);
+  background: var(--refineui-color-alias-background-primary-hover);
+}
+
+details[open] > [data-refineui-docs-toc-summary] [data-refineui-docs-toc-toggle] {
+  color: var(--refineui-color-alias-foreground-primary);
+  border-color: var(--refineui-color-alias-border-hover);
+  background: var(--refineui-color-alias-background-primary-hover);
+}
+
+[data-refineui-docs-toc-caret] {
+  display: inline-flex;
+  flex-shrink: 0;
+  transition: transform var(--refineui-motion-duration-fast) var(--refineui-motion-easing-ease-out);
+}
+
+/* The icon-font chevron is drawn high in its em box; drop it onto the label's optical center. */
+[data-refineui-docs-toc-caret] > span {
+  translate: 0 0.0625em;
+}
+
+[dir="rtl"] [data-refineui-docs-toc-caret] {
+  transform: rotateZ(180deg);
+}
+
+details[open] > [data-refineui-docs-toc-summary] [data-refineui-docs-toc-caret] {
+  transform: rotateZ(90deg);
+}
+
+[data-refineui-docs-toc-dropdown] {
+  margin: var(--refineui-spacing-size-xx-small) var(--refineui-spacing-size-large) var(--refineui-spacing-size-medium);
+  padding: var(--refineui-spacing-size-medium);
+  max-height: calc(85vh - var(--sl-nav-height) - var(--sl-mobile-toc-height));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-subtle);
+  border-radius: var(--refineui-radius-rounded-large);
+  background: var(--refineui-color-alias-background-primary);
+}
+
+[data-refineui-docs-mobile-prefs] {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--refineui-spacing-size-small);
+  padding: var(--refineui-spacing-size-medium);
+  border-top: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-subtle);
+}
+
+[data-refineui-docs-end] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--refineui-spacing-size-xxx-large);
+  margin-top: var(--refineui-spacing-size-xxx-large);
+}
+
+[data-refineui-docs-pagination] {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--refineui-spacing-size-medium);
+  width: 100%;
+}
+
+[data-refineui-docs-pager] {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--refineui-spacing-size-medium);
+  min-width: 0;
+  min-height: var(--refineui-size-foundation-size-800);
+  padding: var(--refineui-spacing-size-large);
+  border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-subtle);
+  border-radius: var(--refineui-radius-rounded-large);
+  background: transparent;
+  color: var(--refineui-color-alias-foreground-tertiary);
+  text-decoration: none;
+}
+
+[data-refineui-docs-pager][data-direction="next"] {
+  flex-direction: row-reverse;
+  text-align: end;
+}
+
+[data-refineui-docs-pager]:hover {
+  border-color: var(--refineui-color-alias-border-hover);
+  background: var(--refineui-color-alias-background-surface-hover);
+  color: var(--refineui-color-alias-foreground-primary);
+}
+
+[data-refineui="footer"][data-refineui-docs-site-footer] {
+  margin-top: 0;
+  padding-inline: 0;
+}
+
+/* Starlight's content components (Aside, Badge, Tabs, Steps, Card, LinkCard, FileTree) drawn with RefineUI tokens. */
+/* Matches RefineUI Badge: solid status fill with inverted text. */
+:root {
+  --sl-badge-default-border: transparent;
+  --sl-badge-default-bg: var(--refineui-color-alias-background-brand);
+  --sl-badge-default-text: var(--refineui-color-alias-foreground-inversed);
+  --sl-badge-note-border: transparent;
+  --sl-badge-note-bg: var(--refineui-color-alias-background-info);
+  --sl-badge-note-text: var(--refineui-color-alias-foreground-inversed);
+  --sl-badge-tip-border: transparent;
+  --sl-badge-tip-bg: var(--refineui-color-alias-background-success);
+  --sl-badge-tip-text: var(--refineui-color-alias-foreground-inversed);
+  --sl-badge-success-border: transparent;
+  --sl-badge-success-bg: var(--refineui-color-alias-background-success);
+  --sl-badge-success-text: var(--refineui-color-alias-foreground-inversed);
+  --sl-badge-caution-border: transparent;
+  --sl-badge-caution-bg: var(--refineui-color-alias-background-warning);
+  --sl-badge-caution-text: var(--refineui-color-alias-foreground-inversed);
+  --sl-badge-danger-border: transparent;
+  --sl-badge-danger-bg: var(--refineui-color-alias-background-error);
+  --sl-badge-danger-text: var(--refineui-color-alias-foreground-inversed);
+}
+
+.sl-badge {
+  border-radius: var(--refineui-radius-rounded-medium);
+  font-family: var(--refineui-typography-caption-2-font-family);
+  font-weight: var(--refineui-typography-caption-2-font-weight);
+}
+
+/* Matches RefineUI Alert: neutral surface and border, status color on the icon, title, and text. */
+.starlight-aside {
+  --sl-color-asides-text-accent: var(--refineui-color-alias-foreground-info);
+  --sl-color-asides-border: var(--refineui-color-alias-border-default);
+  padding: var(--refineui-spacing-size-medium) var(--refineui-spacing-size-large);
+  border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-default);
+  border-radius: var(--refineui-radius-rounded-large);
+  background-color: var(--refineui-color-alias-background-primary);
+  color: var(--sl-color-asides-text-accent);
+}
+
+.starlight-aside--tip {
+  --sl-color-asides-text-accent: var(--refineui-color-alias-foreground-success);
+}
+
+.starlight-aside--caution {
+  --sl-color-asides-text-accent: var(--refineui-color-alias-foreground-warning);
+}
+
+.starlight-aside--danger {
+  --sl-color-asides-text-accent: var(--refineui-color-alias-foreground-error);
+}
+
+.starlight-aside__title {
+  font-family: var(--refineui-typography-sub-title-2-font-family);
+  font-size: var(--refineui-typography-sub-title-2-font-size);
+  font-weight: var(--refineui-typography-sub-title-2-font-weight);
+  line-height: var(--refineui-typography-sub-title-2-line-height);
+}
+
+starlight-tabs [role="tablist"] {
+  border-bottom-color: var(--refineui-color-alias-border-subtle);
+}
+
+starlight-tabs [role="tab"] {
+  --sl-tab-color-border: transparent;
+  color: var(--refineui-color-alias-foreground-secondary);
+  font-family: var(--refineui-typography-sub-title-2-font-family);
+  font-size: var(--refineui-typography-body-2-font-size);
+}
+
+starlight-tabs [role="tab"]:hover {
+  color: var(--refineui-color-alias-foreground-primary);
+}
+
+starlight-tabs [role="tab"][aria-selected="true"] {
+  --sl-tab-color-border: var(--refineui-color-alias-foreground-primary);
+  color: var(--refineui-color-alias-foreground-primary);
+}
+
+.sl-steps > li::before {
+  border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-default);
+  background-color: var(--refineui-color-alias-background-surface-hover);
+  color: var(--refineui-color-alias-foreground-primary);
+  font-family: var(--refineui-typography-caption-2-font-family);
+  font-weight: var(--refineui-typography-sub-title-2-font-weight);
+}
+
+.sl-steps > li::after {
+  background-color: var(--refineui-color-alias-border-subtle);
+}
+
+.card {
+  --sl-card-border: var(--refineui-color-alias-border-default);
+  --sl-card-bg: var(--refineui-color-alias-background-surface-hover);
+  padding: var(--refineui-spacing-size-x-large);
+  border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-default);
+  border-radius: var(--refineui-radius-rounded-x-large);
+  background-color: var(--refineui-color-alias-background-primary);
+}
+
+.card .title {
+  color: var(--refineui-color-alias-foreground-primary);
+  font-family: var(--refineui-typography-sub-title-1-font-family);
+  font-size: var(--refineui-typography-sub-title-1-font-size);
+  font-weight: var(--refineui-typography-sub-title-1-font-weight);
+}
+
+.card .icon {
+  border-radius: var(--refineui-radius-rounded-medium);
+  color: var(--refineui-color-alias-foreground-primary);
+}
+
+.card .body {
+  color: var(--refineui-color-alias-foreground-secondary);
+}
+
+.sl-link-card {
+  border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-default);
+  border-radius: var(--refineui-radius-rounded-x-large);
+  background-color: var(--refineui-color-alias-background-primary);
+  box-shadow: none;
+  transition:
+    background-color var(--refineui-motion-duration-fast) var(--refineui-motion-easing-ease-out),
+    border-color var(--refineui-motion-duration-fast) var(--refineui-motion-easing-ease-out);
+}
+
+.sl-link-card:hover {
+  border-color: var(--refineui-color-alias-border-hover);
+  background-color: var(--refineui-color-alias-background-surface-hover);
+}
+
+.sl-link-card .title {
+  color: var(--refineui-color-alias-foreground-primary);
+  font-family: var(--refineui-typography-sub-title-2-font-family);
+  font-weight: var(--refineui-typography-sub-title-2-font-weight);
+}
+
+.sl-link-card .description {
+  color: var(--refineui-color-alias-foreground-secondary);
+}
+
+.sl-link-card .icon {
+  color: var(--refineui-color-alias-foreground-tertiary);
+}
+
+starlight-file-tree {
+  border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-default);
+  border-radius: var(--refineui-radius-rounded-large);
+  background-color: var(--refineui-color-alias-surface-sunken);
+  color: var(--refineui-color-alias-foreground-primary);
+}
+
+starlight-file-tree .directory > details > summary:hover,
+starlight-file-tree .directory > details > summary:hover .tree-icon {
+  color: var(--refineui-color-alias-foreground-primary);
+}

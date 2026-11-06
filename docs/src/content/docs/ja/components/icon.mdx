@@ -1,0 +1,53 @@
+---
+title: Icon
+description: "WebIcon でアイコンフォントから描く RefineUI のシステムアイコンです。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/icon";
+import source from "../../../../demos/icon.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import { WebIcon } from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/IconExample.tsx" />
+
+## MDX で使う
+
+`Icon` は `.mdx` ページにそのまま書けます。frontmatter の下でインポートしてください。サーバーで描画されるので、client ディレクティブは要りません。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { WebIcon } from "@pelagornis/page/components";
+
+<WebIcon name="search" size={24} aria-label="Search" />
+```
+
+## Markdoc で使う
+
+`pageMarkdoc()` がこのコンポーネントの `icon` タグを登録します。`markdoc.config.mjs` にプリセットを一度追加すれば（[Markdoc で使う](/ja/guides/markdoc/)を参照）、どの `.mdoc` ページでもタグを書けます。
+
+```md title="src/content/docs/example.mdoc"
+{% icon name="search" size=24 ariaLabel="Search" /%}
+```
+
+属性の名前と値は React の props と同じです。
+
+## 参考
+
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

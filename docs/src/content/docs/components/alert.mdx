@@ -1,132 +1,107 @@
 ---
 title: Alert
-description: Features and usage of alert component
-sidebar:
-  order: 7
-  group: components
+description: Inline status message with an icon, title, and actions.
 ---
 
-import Alert from "@pelagornis/page/components/Alert.astro";
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/alert";
+import source from "../../../demos/alert.tsx?raw";
 
-The Alert component is used to convey important information to users. It provides modern glass effects and smooth animations.
+<Preview>
+  <Demo client:load />
+</Preview>
 
-## Basic Usage
+## Import
 
-<Alert type="info" title="Information" icon="💡">
-  This is an information alert. Use it to convey important information.
-</Alert>
-
-<Alert type="success" title="Success" icon="✅">
-  The operation completed successfully!
-</Alert>
-
-<Alert type="warning" title="Warning" icon="⚠️">
-  This action cannot be undone. Please proceed with caution.
-</Alert>
-
-<Alert type="error" title="Error" icon="❌">
-  An error occurred. Please try again.
-</Alert>
-
-## Props
-
-| Prop    | Type                                          | Default  | Description            |
-| ------- | --------------------------------------------- | -------- | ---------------------- |
-| `type`  | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | Type of alert          |
-| `title` | `string`                                      | -        | Alert title (optional) |
-| `icon`  | `string`                                      | -        | Custom icon (optional) |
-
-## Usage Examples
-
-### Basic Alert
-
-```mdx
-<Alert type="info">This is a basic information alert.</Alert>
+```tsx
+import {
+  Alert,
+  AlertRow,
+  AlertIcon,
+  AlertBody,
+  AlertTitle,
+  AlertDescription,
+  AlertClose,
+  AlertActions,
+  AlertAction,
+} from "@pelagornis/page/components";
 ```
 
-### Alert with Title
+## Example
 
-```mdx
-<Alert type="success" title="Installation Complete">
-  The package has been successfully installed.
-</Alert>
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/AlertExample.tsx" />
+
+## Use in MDX
+
+`Alert` is composed from parts that share React state. Children written in MDX are rendered as separate islands, so the parts can't reach each other. Put the composition in a `.tsx` file, like the example above, and import that file instead.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import AlertExample from "../../components/AlertExample";
+
+<AlertExample client:load />
 ```
 
-### Custom Icon
+`client:load` hydrates the island on page load. Use `client:visible` for content far down the page.
 
-```mdx
-<Alert type="warning" title="Warning" icon="🚨">
-  This action cannot be undone.
-</Alert>
+## Use in Markdoc
+
+Markdoc tags render Astro components, and this one needs client state. Wrap the example in an `.astro` file that hydrates it, then register that file as a tag.
+
+```astro title="src/components/markdoc/AlertExample.astro"
+---
+import AlertExample from "../AlertExample";
+---
+
+<AlertExample client:load />
 ```
 
-### Error Message
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
 
-```mdx
-<Alert type="error" title="Error Occurred" icon="💥">
-  Network connection failed. Please check your internet connection.
-</Alert>
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "alert-example": {
+      render: component("./src/components/markdoc/AlertExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
 ```
 
-## Features
-
-### ✨ Modern Design
-
-- **Glass Effect**: Applied `backdrop-filter: blur(20px)`
-- **Gradient Background**: Beautiful gradient effects for each type
-- **Soft Shadows**: Multi-layered shadows for depth
-- **Hover Animation**: `translateY(-2px)` transform and icon bounce effect
-
-### 🎨 Type-specific Features
-
-- **Info**: Blue gradient, for information delivery
-- **Success**: Green gradient, for success messages
-- **Warning**: Orange gradient, for warnings
-- **Error**: Red gradient, for error messages
-
-### 🌙 Dark Mode Support
-
-- Automatic color adjustment
-- Consistent user experience
-- Perfect theme compatibility
-
-### 📱 Responsive Design
-
-- Optimized size on mobile
-- Adaptive padding and font sizes
-- Touch-friendly interface
-
-### 💫 Animation Effects
-
-- **Alert Fade-in**: Smooth appearance on page load
-- **Hover Effects**: Natural transformation on mouse over
-- **Icon Bounce**: Icon bounce animation on hover
-- **Smooth Transitions**: Natural transitions for all state changes
-
-### 🎯 Accessibility
-
-- Clear color distinction
-- Appropriate contrast ratios
-- Screen reader compatibility
-- Keyboard navigation support
-
-## Styling
-
-The Alert component can be customized through CSS variables:
-
-```css
-:root {
-  --page-alert-border-radius: 16px;
-  --page-alert-padding: 20px 24px;
-  --page-alert-gap: 16px;
-}
+```md title="src/content/docs/example.mdoc"
+{% alert-example /%}
 ```
 
-## Browser Support
+## Variants
 
-- Chrome 88+
-- Firefox 85+
-- Safari 14+
-- Edge 88+
+Values the component accepts for each variant prop.
 
-Provides optimal performance on modern browsers.
+<ComponentSpec id="alert" section="variants" />
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="alert" section="anatomy" />
+
+## States
+
+States the component styles. Component states are exposed as data attributes.
+
+<ComponentSpec id="alert" section="states" />
+
+## Reference
+
+- [RefineUI · Alert](https://ui.pelagornis.com/components/alert/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

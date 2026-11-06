@@ -1,0 +1,97 @@
+---
+title: Resizable
+description: "ドラッグできるハンドルで区切られた分割パネルです。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/resizable";
+import source from "../../../../demos/resizable.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/ResizableExample.tsx" />
+
+## MDX で使う
+
+`Resizable` は React の状態を共有する複数のパーツで構成されます。MDX に書いた子要素はそれぞれ別のアイランドとして描画されるため、パーツ同士がつながりません。上の例のように `.tsx` ファイルで組み立て、そのファイルをインポートしてください。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import ResizableExample from "../../components/ResizableExample";
+
+<ResizableExample client:load />
+```
+
+`client:load` はページの読み込み時にアイランドをハイドレートします。ページの下の方にあるコンテンツには `client:visible` を使ってください。
+
+## Markdoc で使う
+
+Markdoc のタグは Astro コンポーネントを描画しますが、このコンポーネントにはクライアントの状態が必要です。例をハイドレートする `.astro` ファイルで包み、そのファイルをタグとして登録してください。
+
+```astro title="src/components/markdoc/ResizableExample.astro"
+---
+import ResizableExample from "../ResizableExample";
+---
+
+<ResizableExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "resizable-example": {
+      render: component("./src/components/markdoc/ResizableExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% resizable-example /%}
+```
+
+## バリアント
+
+各 variant prop が受け付ける値です。
+
+<ComponentSpec id="resizable" section="variants" />
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="resizable" section="anatomy" />
+
+## キーボード
+
+フォーカスがあるときにコンポーネントが処理するキーです。
+
+<ComponentSpec id="resizable" section="keyboard" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Resizable](https://ui.pelagornis.com/components/resizable/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

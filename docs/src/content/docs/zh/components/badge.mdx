@@ -1,166 +1,68 @@
 ---
 title: Badge
-description: 显示状态、版本、类别等的小组件
-sidebar:
-  order: 5
-  group: components
+description: "小型状态标签或计数。"
 ---
 
-import Badge from "@pelagornis/page/components/Badge.astro";
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/badge";
+import source from "../../../../demos/badge.tsx?raw";
 
-Badge 组件是用于简洁显示状态、版本、类别等的小组件。提供现代玻璃效果和渐变。
+<Preview>
+  <Demo client:load />
+</Preview>
 
-## 基本用法
+## 导入
 
-<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
-  <Badge variant="default">Default</Badge>
-  <Badge variant="primary">Primary</Badge>
-  <Badge variant="success">Success</Badge>
-  <Badge variant="warning">Warning</Badge>
-  <Badge variant="error">Error</Badge>
-</div>
-
-## 尺寸示例
-
-<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
-  <Badge variant="primary" size="sm">
-    Small
-  </Badge>
-  <Badge variant="primary" size="md">
-    Medium
-  </Badge>
-  <Badge variant="primary" size="lg">
-    Large
-  </Badge>
-</div>
-
-## 带图标
-
-<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
-  <Badge variant="primary" size="sm" icon="📦">
-    npm
-  </Badge>
-  <Badge variant="success" size="md" icon="🚀">
-    pnpm
-  </Badge>
-  <Badge variant="warning" size="lg" icon="🧶">
-    yarn
-  </Badge>
-  <Badge variant="gradient" size="md" icon="✨">
-    Special
-  </Badge>
-</div>
-
-## Props
-
-| Prop      | Type                                                                        | Default     | Description       |
-| --------- | --------------------------------------------------------------------------- | ----------- | ----------------- |
-| `variant` | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'gradient'` | `'default'` | 徽章的样式        |
-| `size`    | `'sm' \| 'md' \| 'lg'`                                                      | `'md'`      | 徽章的尺寸        |
-| `icon`    | `string`                                                                    | -           | 图标 (可选)       |
-
-## 使用示例
-
-### 基本徽章
-
-```mdx
-<Badge variant="primary">New</Badge>
+```tsx
+import { Badge } from "@pelagornis/page/components";
 ```
 
-### 尺寸调整
+## 示例
 
-```mdx
-<Badge variant="success" size="sm">
-  Small
-</Badge>
-<Badge variant="success" size="md">
-  Medium
-</Badge>
-<Badge variant="success" size="lg">
-  Large
-</Badge>
+上方预览渲染的就是这个文件。把它复制到 `src/components/` 即可开始使用。
+
+<Code code={source} lang="tsx" title="src/components/BadgeExample.tsx" />
+
+## 在 MDX 中使用
+
+`Badge` 可以直接写在 `.mdx` 页面中。在 frontmatter 下方导入即可。它在服务器端渲染，不需要 client 指令。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Badge } from "@pelagornis/page/components";
+
+<Badge variant="success">Stable</Badge>
+<Badge variant="danger" layout="number">12</Badge>
 ```
 
-### 带图标
+## 在 Markdoc 中使用
 
-```mdx
-<Badge variant="primary" icon="📦">
-  npm
-</Badge>
+`pageMarkdoc()` 会为这个组件注册 `badge` 标签。在 `markdoc.config.mjs` 中添加一次预设（见[在 Markdoc 中使用](/zh/guides/markdoc/)），就能在任意 `.mdoc` 页面中使用该标签。
+
+```md title="src/content/docs/example.mdoc"
+{% badge variant="success" %}Stable{% /badge %}
 ```
 
-### 各种样式
+属性的名称和取值与 React props 相同。
 
-```mdx
-<Badge variant="default">Default</Badge>
-<Badge variant="primary">Primary</Badge>
-<Badge variant="success">Success</Badge>
-<Badge variant="warning">Warning</Badge>
-<Badge variant="error">Error</Badge>
-<Badge variant="gradient">Gradient</Badge>
-```
+## 变体
 
-## 特性
+每个 variant prop 可接受的取值。
 
-### ✨ 现代设计
+<ComponentSpec id="badge" section="variants" />
 
-- **玻璃效果**: 应用 `backdrop-filter: blur(10px)`
-- **渐变背景**: 美丽的渐变效果
-- **柔和阴影**: 多层阴影营造深度感
-- **悬停动画**: `translateY(-1px) scale(1.05)` 变换和图标缩放效果
+## 结构
 
-### 🎨 变体特定功能
+组件的组成部分，以及每个部分渲染的 `data-refineui` 角色。
 
-- **Default**: 灰色渐变，用于默认状态
-- **Primary**: 蓝色渐变，用于主要信息
-- **Success**: 绿色渐变，用于成功状态
-- **Warning**: 橙色渐变，用于警告
-- **Error**: 红色渐变，用于错误状态
-- **Gradient**: 特殊渐变背景 (新功能)
+<ComponentSpec id="badge" section="anatomy" />
 
-### 🌙 深色模式支持
+## 参考
 
-- 自动颜色调整
-- 一致的用户体验
-- 完美的主题兼容性
-
-### 📱 响应式设计
-
-- 移动端优化尺寸
-- 自适应内边距和字体大小
-- 触摸友好界面
-
-### 💫 动画效果
-
-- **悬停效果**: 鼠标悬停时的自然变换
-- **图标动画**: 悬停时的图标缩放效果
-- **脉冲动画**: 悬停时的微妙脉冲效果
-- **平滑过渡**: 所有状态变化的自然过渡
-
-### ♿ 无障碍性
-
-- 键盘导航支持
-- 焦点指示器
-- 屏幕阅读器兼容
-- 适当的对比度
-
-## 样式
-
-Badge 组件可以通过 CSS 变量进行自定义：
-
-```css
-:root {
-  --page-badge-border-radius: 10px;
-  --page-badge-padding: 6px 12px;
-  --page-badge-gap: 6px;
-}
-```
-
-## 浏览器支持
-
-- Chrome 88+
-- Firefox 85+
-- Safari 14+
-- Edge 88+
-
-在现代浏览器上提供最佳性能。
+- 设计指南和令牌细节见 [RefineUI · Badge](https://ui.pelagornis.com/components/badge/)。
+- 通用规则见[在 MDX 中使用](/zh/guides/mdx/)和[在 Markdoc 中使用](/zh/guides/markdoc/)。

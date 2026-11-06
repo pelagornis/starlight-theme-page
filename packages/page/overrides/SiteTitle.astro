@@ -1,0 +1,76 @@
+---
+import { logos } from "virtual:starlight/user-images";
+import config from "virtual:starlight/user-config";
+import { Text } from "@refineui/react";
+
+const { siteTitle, siteTitleHref } = Astro.locals.starlightRoute;
+const title = process.env.PAGE_SITE_TITLE ?? siteTitle;
+const inline: { src?: string; dark?: string; light?: string } | undefined = process.env.PAGE_LOGO_SVG
+  ? JSON.parse(process.env.PAGE_LOGO_SVG)
+  : undefined;
+---
+
+<a
+  href={siteTitleHref}
+  data-refineui-docs-brand
+  class="flex min-w-0 items-center gap-refineui-size-x-small no-underline"
+>
+  {
+    config.logo && (
+      <span data-refineui-docs-logo class="text-refineui-alias-foreground-primary">
+        {inline?.src ? (
+          <Fragment set:html={inline.src} />
+        ) : inline?.dark && inline.light ? (
+          <>
+            <span class="light:sl-hidden" set:html={inline.dark} />
+            <span class="dark:sl-hidden" set:html={inline.light} />
+          </>
+        ) : (
+          logos.dark && (
+            <>
+              <img
+                class:list={{ "light:sl-hidden print:hidden": !("src" in config.logo) }}
+                alt=""
+                src={logos.dark.src}
+                width={logos.dark.width}
+                height={logos.dark.height}
+              />
+              {!("src" in config.logo) && logos.light && (
+                <img
+                  class="dark:sl-hidden print:block"
+                  alt=""
+                  src={logos.light.src}
+                  width={logos.light.width}
+                  height={logos.light.height}
+                />
+              )}
+            </>
+          )
+        )}
+      </span>
+    )
+  }
+  {
+    config.logo?.replacesTitle ? (
+      <span class="sr-only">{title}</span>
+    ) : (
+      <Text as="span" variant="subtitleMd" className="text-refineui-alias-foreground-primary">
+        {title}
+      </Text>
+    )
+  }
+</a>
+
+<style>
+  [data-refineui-docs-logo] {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  [data-refineui-docs-logo] :global(svg),
+  [data-refineui-docs-logo] img {
+    display: block;
+    width: auto;
+    height: var(--refineui-size-foundation-size-200);
+  }
+</style>

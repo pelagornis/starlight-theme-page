@@ -1,166 +1,68 @@
 ---
 title: Badge
-description: Features and usage of badge component
-sidebar:
-  order: 6
-  group: components
+description: Small status label or count.
 ---
 
-import Badge from "@pelagornis/page/components/Badge.astro";
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/badge";
+import source from "../../../demos/badge.tsx?raw";
 
-The Badge component is a small component for concisely displaying status, version, category, etc. It provides modern glass effects and gradients.
+<Preview>
+  <Demo client:load />
+</Preview>
 
-## Basic Usage
+## Import
 
-<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
-  <Badge variant="default">Default</Badge>
-  <Badge variant="primary">Primary</Badge>
-  <Badge variant="success">Success</Badge>
-  <Badge variant="warning">Warning</Badge>
-  <Badge variant="error">Error</Badge>
-</div>
-
-## Size Examples
-
-<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
-  <Badge variant="primary" size="sm">
-    Small
-  </Badge>
-  <Badge variant="primary" size="md">
-    Medium
-  </Badge>
-  <Badge variant="primary" size="lg">
-    Large
-  </Badge>
-</div>
-
-## With Icons
-
-<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
-  <Badge variant="primary" size="sm" icon="📦">
-    npm
-  </Badge>
-  <Badge variant="success" size="md" icon="🚀">
-    pnpm
-  </Badge>
-  <Badge variant="warning" size="lg" icon="🧶">
-    yarn
-  </Badge>
-  <Badge variant="gradient" size="md" icon="✨">
-    Special
-  </Badge>
-</div>
-
-## Props
-
-| Prop      | Type                                                                        | Default     | Description     |
-| --------- | --------------------------------------------------------------------------- | ----------- | --------------- |
-| `variant` | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'gradient'` | `'default'` | Badge style     |
-| `size`    | `'sm' \| 'md' \| 'lg'`                                                      | `'md'`      | Badge size      |
-| `icon`    | `string`                                                                    | -           | Icon (optional) |
-
-## Usage Examples
-
-### Basic Badge
-
-```mdx
-<Badge variant="primary">New</Badge>
+```tsx
+import { Badge } from "@pelagornis/page/components";
 ```
 
-### Size Adjustment
+## Example
 
-```mdx
-<Badge variant="success" size="sm">
-  Small
-</Badge>
-<Badge variant="success" size="md">
-  Medium
-</Badge>
-<Badge variant="success" size="lg">
-  Large
-</Badge>
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/BadgeExample.tsx" />
+
+## Use in MDX
+
+`Badge` can be written straight in an `.mdx` page. Import it below the frontmatter. It renders on the server, so no client directive is needed.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Badge } from "@pelagornis/page/components";
+
+<Badge variant="success">Stable</Badge>
+<Badge variant="danger" layout="number">12</Badge>
 ```
 
-### With Icon
+## Use in Markdoc
 
-```mdx
-<Badge variant="primary" icon="📦">
-  npm
-</Badge>
+`pageMarkdoc()` registers a `badge` tag for this component. Add the preset once in `markdoc.config.mjs` (see [Use in Markdoc](/guides/markdoc/)), then write the tag in any `.mdoc` page.
+
+```md title="src/content/docs/example.mdoc"
+{% badge variant="success" %}Stable{% /badge %}
 ```
 
-### Various Styles
+Attributes use the same names and values as the React props.
 
-```mdx
-<Badge variant="default">Default</Badge>
-<Badge variant="primary">Primary</Badge>
-<Badge variant="success">Success</Badge>
-<Badge variant="warning">Warning</Badge>
-<Badge variant="error">Error</Badge>
-<Badge variant="gradient">Gradient</Badge>
-```
+## Variants
 
-## Features
+Values the component accepts for each variant prop.
 
-### ✨ Modern Design
+<ComponentSpec id="badge" section="variants" />
 
-- **Glass Effect**: Applied `backdrop-filter: blur(10px)`
-- **Gradient Background**: Beautiful gradient effects
-- **Soft Shadows**: Multi-layered shadows for depth
-- **Hover Animation**: `translateY(-1px) scale(1.05)` transform and icon scale effect
+## Anatomy
 
-### 🎨 Variant-specific Features
+Parts of the component and the `data-refineui` role each one renders.
 
-- **Default**: Gray gradient, for default states
-- **Primary**: Blue gradient, for primary information
-- **Success**: Green gradient, for success states
-- **Warning**: Orange gradient, for warnings
-- **Error**: Red gradient, for error states
-- **Gradient**: Special gradient background (new feature)
+<ComponentSpec id="badge" section="anatomy" />
 
-### 🌙 Dark Mode Support
+## Reference
 
-- Automatic color adjustment
-- Consistent user experience
-- Perfect theme compatibility
-
-### 📱 Responsive Design
-
-- Optimized size on mobile
-- Adaptive padding and font sizes
-- Touch-friendly interface
-
-### 💫 Animation Effects
-
-- **Hover Effects**: Natural transformation on mouse over
-- **Icon Animation**: Icon scale effect on hover
-- **Pulse Animation**: Subtle pulse effect on hover
-- **Smooth Transitions**: Natural transitions for all state changes
-
-### ♿ Accessibility
-
-- Keyboard navigation support
-- Focus indicators
-- Screen reader compatibility
-- Appropriate contrast ratios
-
-## Styling
-
-The Badge component can be customized through CSS variables:
-
-```css
-:root {
-  --page-badge-border-radius: 10px;
-  --page-badge-padding: 6px 12px;
-  --page-badge-gap: 6px;
-}
-```
-
-## Browser Support
-
-- Chrome 88+
-- Firefox 85+
-- Safari 14+
-- Edge 88+
-
-Provides optimal performance on modern browsers.
+- [RefineUI · Badge](https://ui.pelagornis.com/components/badge/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

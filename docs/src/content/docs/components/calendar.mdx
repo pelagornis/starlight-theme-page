@@ -1,0 +1,95 @@
+---
+title: Calendar
+description: Month grid for picking a date or a range.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/calendar";
+import source from "../../../demos/calendar.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { Calendar } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/CalendarExample.tsx" />
+
+## Use in MDX
+
+`Calendar` can be written straight in an `.mdx` page. Import it below the frontmatter. It responds to input, so add `client:load` to hydrate it.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Calendar } from "@pelagornis/page/components";
+
+<Calendar client:load weekStartsOn={1} />
+```
+
+## Use in Markdoc
+
+Markdoc tags render Astro components, and this one needs client state. Wrap the example in an `.astro` file that hydrates it, then register that file as a tag.
+
+```astro title="src/components/markdoc/CalendarExample.astro"
+---
+import CalendarExample from "../CalendarExample";
+---
+
+<CalendarExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "calendar-example": {
+      render: component("./src/components/markdoc/CalendarExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% calendar-example /%}
+```
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="calendar" section="anatomy" />
+
+## States
+
+States the component styles. Component states are exposed as data attributes.
+
+<ComponentSpec id="calendar" section="states" />
+
+## Keyboard
+
+Keys the component handles when it has focus.
+
+<ComponentSpec id="calendar" section="keyboard" />
+
+## Reference
+
+- [RefineUI · Calendar](https://ui.pelagornis.com/components/calendar/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

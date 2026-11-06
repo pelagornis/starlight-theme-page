@@ -1,0 +1,105 @@
+---
+title: Carousel
+description: "前後のボタンとインジケーターを持つスライドです。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/carousel";
+import source from "../../../../demos/carousel.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselControls,
+  CarouselPrevious,
+  CarouselNext,
+  CarouselIndicators,
+} from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/CarouselExample.tsx" />
+
+## MDX で使う
+
+`Carousel` は React の状態を共有する複数のパーツで構成されます。MDX に書いた子要素はそれぞれ別のアイランドとして描画されるため、パーツ同士がつながりません。上の例のように `.tsx` ファイルで組み立て、そのファイルをインポートしてください。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import CarouselExample from "../../components/CarouselExample";
+
+<CarouselExample client:load />
+```
+
+`client:load` はページの読み込み時にアイランドをハイドレートします。ページの下の方にあるコンテンツには `client:visible` を使ってください。
+
+## Markdoc で使う
+
+Markdoc のタグは Astro コンポーネントを描画しますが、このコンポーネントにはクライアントの状態が必要です。例をハイドレートする `.astro` ファイルで包み、そのファイルをタグとして登録してください。
+
+```astro title="src/components/markdoc/CarouselExample.astro"
+---
+import CarouselExample from "../CarouselExample";
+---
+
+<CarouselExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "carousel-example": {
+      render: component("./src/components/markdoc/CarouselExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% carousel-example /%}
+```
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="carousel" section="anatomy" />
+
+## 状態
+
+コンポーネントがスタイルを当てる状態です。コンポーネントの状態は data 属性として公開されます。
+
+<ComponentSpec id="carousel" section="states" />
+
+## キーボード
+
+フォーカスがあるときにコンポーネントが処理するキーです。
+
+<ComponentSpec id="carousel" section="keyboard" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Carousel](https://ui.pelagornis.com/components/carousel/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

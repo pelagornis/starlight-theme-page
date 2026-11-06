@@ -1,0 +1,97 @@
+---
+title: Switch
+description: "바로 적용되는 켜기·끄기 설정입니다. Toggle이라는 이름으로도 내보냅니다."
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/switch";
+import source from "../../../../demos/switch.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## 가져오기
+
+```tsx
+import { Switch, Toggle } from "@pelagornis/page/components";
+```
+
+## 예제
+
+위 미리보기는 이 파일을 렌더링한 것입니다. `src/components/`에 복사해서 시작하세요.
+
+<Code code={source} lang="tsx" title="src/components/SwitchExample.tsx" />
+
+## MDX에서 사용
+
+`Switch` 컴포넌트는 React 상태를 공유하는 여러 부분으로 이루어집니다. MDX에 적은 자식은 각각 별도의 아일랜드로 렌더링되어 부분끼리 서로 닿지 않습니다. 위 예제처럼 `.tsx` 파일에서 조합한 뒤 그 파일을 가져오세요.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import SwitchExample from "../../components/SwitchExample";
+
+<SwitchExample client:load />
+```
+
+`client:load`는 페이지를 불러올 때 아일랜드를 하이드레이션합니다. 페이지 아래쪽에 있는 콘텐츠에는 `client:visible`을 쓰세요.
+
+## Markdoc에서 사용
+
+Markdoc 태그는 Astro 컴포넌트를 렌더링하는데, 이 컴포넌트는 클라이언트 상태가 필요합니다. 예제를 하이드레이션하는 `.astro` 파일로 감싼 뒤, 그 파일을 태그로 등록하세요.
+
+```astro title="src/components/markdoc/SwitchExample.astro"
+---
+import SwitchExample from "../SwitchExample";
+---
+
+<SwitchExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "switch-example": {
+      render: component("./src/components/markdoc/SwitchExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% switch-example /%}
+```
+
+## 구조
+
+컴포넌트를 이루는 부분과 각 부분이 렌더링하는 `data-refineui` 역할입니다.
+
+<ComponentSpec id="switch" section="anatomy" />
+
+## 상태
+
+컴포넌트가 스타일을 적용하는 상태입니다. 컴포넌트 상태는 data 속성으로 드러납니다.
+
+<ComponentSpec id="switch" section="states" />
+
+## 키보드
+
+포커스가 있을 때 컴포넌트가 처리하는 키입니다.
+
+<ComponentSpec id="switch" section="keyboard" />
+
+## 참고
+
+- 디자인 가이드와 토큰 상세는 [RefineUI · Switch](https://ui.pelagornis.com/components/switch/)를 참고하세요.
+- 공통 규칙은 [MDX에서 사용](/ko/guides/mdx/)과 [Markdoc에서 사용](/ko/guides/markdoc/)을 참고하세요.

@@ -1,0 +1,449 @@
+{
+  "categories": [
+    { "id": "layout", "label": "Layout", "translations": { "ko": "레이아웃", "ja": "レイアウト", "zh": "布局" } },
+    { "id": "actions", "label": "Actions", "translations": { "ko": "액션", "ja": "アクション", "zh": "操作" } },
+    { "id": "forms", "label": "Forms", "translations": { "ko": "폼", "ja": "フォーム", "zh": "表单" } },
+    { "id": "navigation", "label": "Navigation", "translations": { "ko": "내비게이션", "ja": "ナビゲーション", "zh": "导航" } },
+    { "id": "feedback", "label": "Feedback", "translations": { "ko": "피드백", "ja": "フィードバック", "zh": "反馈" } },
+    { "id": "overlays", "label": "Overlays", "translations": { "ko": "오버레이", "ja": "オーバーレイ", "zh": "浮层" } },
+    { "id": "data-display", "label": "Data display", "translations": { "ko": "데이터 표시", "ja": "データ表示", "zh": "数据展示" } }
+  ],
+  "components": [
+    {
+      "id": "box", "title": "Box", "category": "layout",
+      "description": "Base layout surface with token padding, fill, radius, and border.",
+      "descriptionTranslations": {"ko": "토큰 패딩, 배경, 모서리, 테두리를 갖춘 기본 레이아웃 표면입니다.", "ja": "トークンのパディング、塗り、角丸、枠線を持つ基本のレイアウト面です。", "zh": "带有令牌内边距、填充、圆角和边框的基础布局容器。"},
+      "exports": ["Box"], "spec": "box", "refineui": "box",
+      "mdx": { "code": "<Box padding=\"sizeLarge\" background=\"backgroundSurface\" radius=\"roundedLarge\">\n  Surface box\n</Box>" },
+      "markdoc": "{% box padding=\"sizeLarge\" background=\"backgroundSurface\" radius=\"roundedLarge\" %}\nSurface box\n{% /box %}"
+    },
+    {
+      "id": "container", "title": "Container", "category": "layout",
+      "description": "Centered page column with token padding.",
+      "descriptionTranslations": {"ko": "토큰 패딩을 둔 가운데 정렬 페이지 열입니다.", "ja": "トークンのパディングを持つ中央寄せのページ列です。", "zh": "带令牌内边距的居中页面列。"},
+      "exports": ["Container"], "spec": "container", "refineui": "container",
+      "mdx": { "code": "<Container padding=\"sizeXXLarge\">\n  Centered content\n</Container>" },
+      "markdoc": "{% container padding=\"sizeXXLarge\" %}\nCentered content\n{% /container %}"
+    },
+    {
+      "id": "grid", "title": "Grid", "category": "layout",
+      "description": "CSS grid with fixed columns or an auto-fit minimum item size.",
+      "descriptionTranslations": {"ko": "고정 열 또는 자동 맞춤 최소 너비를 쓰는 CSS 그리드입니다.", "ja": "固定列、または自動フィットの最小幅を使う CSS グリッドです。", "zh": "使用固定列数或自动适配最小宽度的 CSS 网格。"},
+      "exports": ["Grid", "GridItem"], "spec": "grid", "refineui": "grid",
+      "mdx": { "code": "<Grid columns={3} gap=\"sizeMedium\">\n  <div>One</div>\n  <div>Two</div>\n  <div>Three</div>\n</Grid>" },
+      "markdoc": "{% grid columns=3 gap=\"sizeMedium\" %}\nOne\n\nTwo\n\nThree\n{% /grid %}"
+    },
+    {
+      "id": "stack", "title": "Stack", "category": "layout",
+      "description": "One-axis flex layout with spacing tokens for the gap.",
+      "descriptionTranslations": {"ko": "간격에 spacing 토큰을 쓰는 한 방향 flex 레이아웃입니다.", "ja": "間隔に spacing トークンを使う一方向の flex レイアウトです。", "zh": "用间距令牌控制间隔的单向 flex 布局。"},
+      "exports": ["Stack"], "spec": "stack", "refineui": "stack",
+      "mdx": { "code": "<Stack direction=\"row\" gap=\"sizeSmall\" align=\"center\">\n  <Button variant=\"outline\">Cancel</Button>\n  <Button variant=\"primary\">Save</Button>\n</Stack>" },
+      "markdoc": "{% stack direction=\"row\" gap=\"sizeSmall\" align=\"center\" %}\n{% button variant=\"outline\" %}Cancel{% /button %}\n{% button variant=\"primary\" %}Save{% /button %}\n{% /stack %}"
+    },
+    {
+      "id": "spacer", "title": "Spacer", "category": "layout",
+      "description": "Flexible gap that pushes siblings apart inside a row or column.",
+      "descriptionTranslations": {"ko": "행이나 열 안에서 형제 요소를 밀어내는 유연한 간격입니다.", "ja": "行や列の中で兄弟要素を押し広げる伸縮する余白です。", "zh": "在行或列中把相邻元素推开的弹性间隔。"},
+      "exports": ["Spacer"], "spec": "spacer", "refineui": null,
+      "mdx": { "code": "<Stack direction=\"row\">\n  <span>Project</span>\n  <Spacer />\n  <Button size=\"sm\">New file</Button>\n</Stack>" },
+      "markdoc": "{% stack direction=\"row\" %}\nProject\n{% spacer /%}\n{% button size=\"sm\" %}New file{% /button %}\n{% /stack %}"
+    },
+    {
+      "id": "divider", "title": "Divider", "category": "layout",
+      "description": "Horizontal rule between groups, with an optional inline label.",
+      "descriptionTranslations": {"ko": "그룹 사이의 가로 구분선입니다. 가운데에 라벨을 넣을 수 있습니다.", "ja": "グループ間の横線です。中央にラベルを入れられます。", "zh": "分组之间的水平分隔线，可带内联标签。"},
+      "exports": ["Divider"], "spec": "divider", "refineui": "divider",
+      "mdx": { "code": "<Divider />\n\n<Divider layout=\"content\" align=\"center\">Or continue with</Divider>" },
+      "markdoc": "{% divider /%}\n\n{% divider layout=\"content\" align=\"center\" %}Or continue with{% /divider %}"
+    },
+    {
+      "id": "text", "title": "Text", "category": "layout",
+      "description": "Typography primitive that maps a semantic text token to an element.",
+      "descriptionTranslations": {"ko": "시맨틱 텍스트 토큰을 요소에 연결하는 타이포그래피 기본 요소입니다.", "ja": "セマンティックなテキストトークンを要素に割り当てるタイポグラフィの基本要素です。", "zh": "把语义文字令牌映射到元素的排版基础组件。"},
+      "exports": ["Text"], "spec": "text", "refineui": null,
+      "mdx": { "code": "<Text as=\"p\" variant=\"titleMd\">Title medium</Text>\n<Text variant=\"captionMd\">Caption</Text>" },
+      "markdoc": "{% text as=\"p\" variant=\"titleMd\" %}Title medium{% /text %}"
+    },
+    {
+      "id": "scroll-area", "title": "Scroll Area", "category": "layout",
+      "description": "Scroll container with a token-styled scrollbar.",
+      "descriptionTranslations": {"ko": "토큰으로 꾸민 스크롤바를 가진 스크롤 컨테이너입니다.", "ja": "トークンでスタイルしたスクロールバーを持つスクロールコンテナです。", "zh": "带令牌样式滚动条的滚动容器。"},
+      "exports": ["ScrollArea", "ScrollAreaViewport", "ScrollAreaScrollbar", "ScrollAreaThumb"], "spec": "scroll-area", "refineui": "scroll-area",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "resizable", "title": "Resizable", "category": "layout",
+      "description": "Split panels separated by draggable handles.",
+      "descriptionTranslations": {"ko": "드래그할 수 있는 핸들로 나뉜 분할 패널입니다.", "ja": "ドラッグできるハンドルで区切られた分割パネルです。", "zh": "由可拖动手柄分隔的分栏面板。"},
+      "exports": ["ResizablePanelGroup", "ResizablePanel", "ResizableHandle"], "spec": "resizable", "refineui": "resizable",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "button", "title": "Button", "category": "actions",
+      "description": "Starts an action such as save, continue, or open a panel.",
+      "descriptionTranslations": {"ko": "저장, 계속, 패널 열기 같은 동작을 시작합니다.", "ja": "保存、続行、パネルを開くなどの操作を始めます。", "zh": "触发保存、继续或打开面板等操作。"},
+      "exports": ["Button"], "spec": "button", "refineui": "button",
+      "mdx": { "code": "<Button variant=\"primary\">Continue</Button>\n<Button variant=\"outline\" size=\"sm\">Cancel</Button>" },
+      "markdoc": "{% button variant=\"primary\" %}Continue{% /button %}\n{% button variant=\"outline\" size=\"sm\" %}Cancel{% /button %}"
+    },
+    {
+      "id": "link", "title": "Link", "category": "actions",
+      "description": "Inline hyperlink that marks external destinations.",
+      "descriptionTranslations": {"ko": "외부 링크를 표시하는 인라인 하이퍼링크입니다.", "ja": "外部リンクを示すインラインのハイパーリンクです。", "zh": "会标出外部目标的行内超链接。"},
+      "exports": ["Link"], "spec": "link", "refineui": "link",
+      "mdx": { "code": "<Link href=\"https://ui.pelagornis.com/\" target=\"_blank\">RefineUI</Link>" },
+      "markdoc": "{% link href=\"https://ui.pelagornis.com/\" target=\"_blank\" %}RefineUI{% /link %}"
+    },
+    {
+      "id": "dropdown", "title": "Dropdown", "category": "actions",
+      "description": "Action list that opens from a trigger.",
+      "descriptionTranslations": {"ko": "트리거에서 열리는 동작 목록입니다.", "ja": "トリガーから開くアクションの一覧です。", "zh": "从触发器展开的操作列表。"},
+      "exports": ["Dropdown", "DropdownTrigger", "DropdownContent", "DropdownItem", "DropdownSeparator"], "spec": "dropdown", "refineui": "dropdown",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "menu", "title": "Menu", "category": "actions",
+      "description": "Menu with labels, shortcuts, descriptions, and submenus.",
+      "descriptionTranslations": {"ko": "라벨, 단축키, 설명, 하위 메뉴를 갖춘 메뉴입니다.", "ja": "ラベル、ショートカット、説明、サブメニューを持つメニューです。", "zh": "带标签、快捷键、说明和子菜单的菜单。"},
+      "exports": ["Menu", "MenuTrigger", "MenuPopover", "MenuList", "MenuItem", "MenuLabel", "MenuDivider"], "spec": "menu", "refineui": "menu",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "context-menu", "title": "Context Menu", "category": "actions",
+      "description": "Menu that opens from a right click on its trigger.",
+      "descriptionTranslations": {"ko": "트리거를 오른쪽 클릭하면 열리는 메뉴입니다.", "ja": "トリガーを右クリックすると開くメニューです。", "zh": "在触发器上右键点击时打开的菜单。"},
+      "exports": ["ContextMenu", "ContextMenuTrigger", "ContextMenuPortal", "ContextMenuContent", "ContextMenuItem", "ContextMenuSeparator"], "spec": null, "refineui": "context-menu",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "command", "title": "Command", "category": "actions",
+      "description": "Searchable command list. The header search uses it inside CommandDialog.",
+      "descriptionTranslations": {"ko": "검색할 수 있는 명령 목록입니다. 헤더 검색이 CommandDialog 안에서 이 컴포넌트를 씁니다.", "ja": "検索できるコマンド一覧です。ヘッダーの検索は CommandDialog の中でこれを使います。", "zh": "可搜索的命令列表。页眉搜索在 CommandDialog 中使用它。"},
+      "exports": ["Command", "CommandInput", "CommandList", "CommandEmpty", "CommandGroup", "CommandGroupHeading", "CommandItem", "CommandSeparator", "CommandDialog"], "spec": "command", "refineui": "command",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "field", "title": "Field", "category": "forms",
+      "description": "Groups a label, control, hint, and error message.",
+      "descriptionTranslations": {"ko": "라벨, 컨트롤, 도움말, 오류 메시지를 묶습니다.", "ja": "ラベル、コントロール、ヒント、エラーメッセージをまとめます。", "zh": "组合标签、控件、提示和错误信息。"},
+      "exports": ["Field", "FieldLabel", "FieldHint", "FieldError", "FieldRequired"], "spec": "field", "refineui": "field",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "label", "title": "Label", "category": "forms",
+      "description": "Text label for a form control, with a required marker.",
+      "descriptionTranslations": {"ko": "폼 컨트롤의 텍스트 라벨입니다. 필수 표시를 넣을 수 있습니다.", "ja": "フォームコントロールのテキストラベルです。必須マークを付けられます。", "zh": "表单控件的文字标签，可带必填标记。"},
+      "exports": ["Label", "LabelRequired"], "spec": "label", "refineui": "label",
+      "mdx": { "code": "<Label htmlFor=\"email\" required>Email address</Label>" },
+      "markdoc": "{% label htmlFor=\"email\" required=true %}Email address{% /label %}"
+    },
+    {
+      "id": "input", "title": "Input", "category": "forms",
+      "description": "Single-line text entry with error and success states.",
+      "descriptionTranslations": {"ko": "오류와 성공 상태가 있는 한 줄 입력입니다.", "ja": "エラーと成功の状態を持つ 1 行の入力です。", "zh": "带错误和成功状态的单行输入框。"},
+      "exports": ["Input"], "spec": "input", "refineui": "input",
+      "mdx": { "code": "<Input placeholder=\"you@example.com\" aria-label=\"Email\" />" },
+      "markdoc": "{% input placeholder=\"you@example.com\" ariaLabel=\"Email\" /%}"
+    },
+    {
+      "id": "textarea", "title": "Textarea", "category": "forms",
+      "description": "Multi-line text entry.",
+      "descriptionTranslations": {"ko": "여러 줄 입력입니다.", "ja": "複数行の入力です。", "zh": "多行文本输入框。"},
+      "exports": ["Textarea"], "spec": "textarea", "refineui": "textarea",
+      "mdx": { "code": "<Textarea placeholder=\"Write a comment…\" rows={4} aria-label=\"Comment\" />" },
+      "markdoc": "{% textarea placeholder=\"Write a comment…\" rows=4 ariaLabel=\"Comment\" /%}"
+    },
+    {
+      "id": "search-field", "title": "Search Field", "category": "forms",
+      "description": "Query input with a search icon and a clear button.",
+      "descriptionTranslations": {"ko": "검색 아이콘과 지우기 버튼이 있는 검색어 입력입니다.", "ja": "検索アイコンとクリアボタンを持つ検索語の入力です。", "zh": "带搜索图标和清除按钮的查询输入框。"},
+      "exports": ["SearchField"], "spec": "search-field", "refineui": "search-field",
+      "mdx": { "code": "<SearchField client:load defaultValue=\"tokens\" aria-label=\"Search\" />", "client": true },
+      "markdoc": null
+    },
+    {
+      "id": "input-otp", "title": "Input OTP", "category": "forms",
+      "description": "One-time code entry split into slots.",
+      "descriptionTranslations": {"ko": "칸으로 나뉜 일회용 코드 입력입니다.", "ja": "スロットに分かれたワンタイムコードの入力です。", "zh": "分格输入的一次性验证码。"},
+      "exports": ["InputOTP", "InputOTPSlot"], "spec": "input-otp", "refineui": "input-otp",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "checkbox", "title": "Checkbox", "category": "forms",
+      "description": "Binary choice with an optional label and description.",
+      "descriptionTranslations": {"ko": "라벨과 설명을 붙일 수 있는 두 가지 중 하나의 선택입니다.", "ja": "ラベルと説明を付けられる二択の選択です。", "zh": "可带标签和说明的二元选择。"},
+      "exports": ["Checkbox"], "spec": "checkbox", "refineui": "checkbox",
+      "mdx": { "code": "<Checkbox label=\"Accept terms\" description=\"Required to continue\" />" },
+      "markdoc": "{% checkbox label=\"Accept terms\" description=\"Required to continue\" /%}"
+    },
+    {
+      "id": "radio", "title": "Radio", "category": "forms",
+      "description": "One choice from a group that shares a name.",
+      "descriptionTranslations": {"ko": "같은 name을 공유하는 그룹에서 하나를 고릅니다.", "ja": "同じ name を共有するグループから 1 つを選びます。", "zh": "在共享同一 name 的分组中选择一项。"},
+      "exports": ["Radio"], "spec": "radio", "refineui": "radio",
+      "mdx": { "code": "<Radio name=\"plan\" value=\"basic\" label=\"Basic\" defaultChecked />\n<Radio name=\"plan\" value=\"pro\" label=\"Pro\" />" },
+      "markdoc": "{% radio name=\"plan\" value=\"basic\" label=\"Basic\" defaultChecked=true /%}\n{% radio name=\"plan\" value=\"pro\" label=\"Pro\" /%}"
+    },
+    {
+      "id": "switch", "title": "Switch", "category": "forms",
+      "description": "Immediate on and off setting. Also exported as Toggle.",
+      "descriptionTranslations": {"ko": "바로 적용되는 켜기·끄기 설정입니다. Toggle이라는 이름으로도 내보냅니다.", "ja": "すぐに反映されるオン・オフの設定です。Toggle という名前でもエクスポートされます。", "zh": "即时生效的开关设置，也以 Toggle 导出。"},
+      "exports": ["Switch", "Toggle"], "spec": "switch", "refineui": "switch",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "select", "title": "Select", "category": "forms",
+      "description": "Pick one value from a list in a popover.",
+      "descriptionTranslations": {"ko": "팝오버 목록에서 값 하나를 고릅니다.", "ja": "ポップオーバーの一覧から値を 1 つ選びます。", "zh": "从弹出列表中选择一个值。"},
+      "exports": ["Select", "SelectTrigger", "SelectValue", "SelectContent", "SelectItem", "SelectGroup", "SelectLabel", "SelectSeparator"], "spec": "select", "refineui": "select",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "segmented-control", "title": "Segmented Control", "category": "forms",
+      "description": "Row of mutually exclusive options.",
+      "descriptionTranslations": {"ko": "서로 배타적인 선택지를 한 줄로 늘어놓습니다.", "ja": "互いに排他的な選択肢を 1 列に並べます。", "zh": "一排互斥的选项。"},
+      "exports": ["SegmentedControl", "SegmentedControlItem"], "spec": "segmented-control", "refineui": "segmented-control",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "slider", "title": "Slider", "category": "forms",
+      "description": "Pick a number along a range.",
+      "descriptionTranslations": {"ko": "범위 안에서 숫자를 고릅니다.", "ja": "範囲の中から数値を選びます。", "zh": "在一个范围内选取数值。"},
+      "exports": ["Slider"], "spec": "slider", "refineui": "slider",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "spin-button", "title": "Spin Button", "category": "forms",
+      "description": "Numeric input with step buttons.",
+      "descriptionTranslations": {"ko": "증감 버튼이 있는 숫자 입력입니다.", "ja": "増減ボタンを持つ数値入力です。", "zh": "带增减按钮的数字输入框。"},
+      "exports": ["SpinButton"], "spec": "spin-button", "refineui": "spin-button",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "calendar", "title": "Calendar", "category": "forms",
+      "description": "Month grid for picking a date or a range.",
+      "descriptionTranslations": {"ko": "날짜나 기간을 고르는 월 단위 달력입니다.", "ja": "日付や期間を選ぶ月単位のカレンダーです。", "zh": "用于选择日期或日期范围的月历。"},
+      "exports": ["Calendar"], "spec": "calendar", "refineui": "calendar",
+      "mdx": { "code": "<Calendar client:load weekStartsOn={1} />", "client": true },
+      "markdoc": null
+    },
+    {
+      "id": "breadcrumb", "title": "Breadcrumb", "category": "navigation",
+      "description": "Trail of links to the current page.",
+      "descriptionTranslations": {"ko": "현재 페이지까지 이어지는 링크 경로입니다.", "ja": "現在のページまでのリンクの経路です。", "zh": "通往当前页面的链接路径。"},
+      "exports": ["Breadcrumb", "BreadcrumbList", "BreadcrumbItem", "BreadcrumbLink", "BreadcrumbPage", "BreadcrumbSeparator"], "spec": "breadcrumb", "refineui": "breadcrumb",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "navigation-menu", "title": "Navigation Menu", "category": "navigation",
+      "description": "Top-level site navigation with optional dropdown panels.",
+      "descriptionTranslations": {"ko": "드롭다운 패널을 둘 수 있는 최상위 사이트 내비게이션입니다.", "ja": "ドロップダウンパネルを持てる最上位のサイトナビゲーションです。", "zh": "可带下拉面板的顶层站点导航。"},
+      "exports": ["NavigationMenu", "NavigationMenuList", "NavigationMenuItem", "NavigationMenuTrigger", "NavigationMenuContent", "NavigationMenuLink"], "spec": "navigation-menu", "refineui": "navigation-menu",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "pagination", "title": "Pagination", "category": "navigation",
+      "description": "Moves between pages of a long list.",
+      "descriptionTranslations": {"ko": "긴 목록의 페이지 사이를 이동합니다.", "ja": "長い一覧のページ間を移動します。", "zh": "在长列表的各页之间切换。"},
+      "exports": ["Pagination", "PaginationContent", "PaginationItem", "PaginationLink", "PaginationPrevious", "PaginationNext", "PaginationEllipsis"], "spec": "pagination", "refineui": "pagination",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "tabs", "title": "Tabs", "category": "navigation",
+      "description": "Switches between panes that share one space.",
+      "descriptionTranslations": {"ko": "한 공간을 나눠 쓰는 패널 사이를 전환합니다.", "ja": "1 つの領域を共有するパネルを切り替えます。", "zh": "在共用同一区域的面板之间切换。"},
+      "exports": ["Tabs", "TabsList", "TabsTrigger", "TabsContent"], "spec": "tabs", "refineui": "tabs",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "sidebar", "title": "Sidebar", "category": "navigation",
+      "description": "Vertical navigation with groups. The docs shell is built on it.",
+      "descriptionTranslations": {"ko": "그룹이 있는 세로 내비게이션입니다. 문서 셸이 이 컴포넌트로 만들어져 있습니다.", "ja": "グループを持つ縦のナビゲーションです。ドキュメントのシェルはこれで作られています。", "zh": "带分组的垂直导航，文档外壳基于它构建。"},
+      "exports": ["Sidebar", "SidebarHeader", "SidebarBrand", "SidebarContent", "SidebarNav", "SidebarGroup", "SidebarGroupLabel", "SidebarLink", "SidebarFooter"], "spec": "sidebar", "refineui": "sidebar",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "stepper", "title": "Stepper", "category": "navigation",
+      "description": "Numbered steps with titles and descriptions.",
+      "descriptionTranslations": {"ko": "제목과 설명이 있는 번호 단계입니다.", "ja": "タイトルと説明を持つ番号付きのステップです。", "zh": "带标题和说明的编号步骤。"},
+      "exports": ["Stepper", "StepperList", "StepperItem", "StepperIndicator", "StepperTitle", "StepperDescription", "StepperSeparator"], "spec": "stepper", "refineui": "stepper",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "progress-stepper", "title": "Progress Stepper", "category": "navigation",
+      "description": "Compact progress through a multi-step flow.",
+      "descriptionTranslations": {"ko": "여러 단계 흐름의 진행 상황을 간결하게 보여 줍니다.", "ja": "複数ステップの流れの進み具合を簡潔に示します。", "zh": "以紧凑形式显示多步骤流程的进度。"},
+      "exports": ["ProgressStepper", "ProgressStepperList", "ProgressStepperItem", "ProgressStepperMarker", "ProgressStepperLabel"], "spec": "progress-stepper", "refineui": "progress-stepper",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "tree", "title": "Tree", "category": "navigation",
+      "description": "Expandable hierarchy for files and nested navigation.",
+      "descriptionTranslations": {"ko": "파일이나 중첩 내비게이션을 위한 펼칠 수 있는 계층입니다.", "ja": "ファイルや入れ子のナビゲーション向けの展開できる階層です。", "zh": "用于文件和嵌套导航的可展开层级。"},
+      "exports": ["Tree", "TreeItem", "TreeItemTrigger", "TreeItemContent"], "spec": "tree", "refineui": "tree",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "footer", "title": "Footer", "category": "navigation",
+      "description": "Site footer with brand, link groups, and meta. The docs footer uses it.",
+      "descriptionTranslations": {"ko": "브랜드, 링크 그룹, 메타 정보를 담은 사이트 푸터입니다. 문서 푸터가 이 컴포넌트를 씁니다.", "ja": "ブランド、リンクのグループ、メタ情報を持つサイトのフッターです。ドキュメントのフッターはこれを使います。", "zh": "包含品牌、链接分组和元信息的站点页脚，文档页脚使用它。"},
+      "exports": ["Footer", "FooterBrand", "FooterBrandName", "FooterBrandDescription", "FooterNav", "FooterGroup", "FooterGroupLabel", "FooterLink", "FooterMeta", "FooterCopyright"], "spec": "footer", "refineui": "footer",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "alert", "title": "Alert", "category": "feedback",
+      "description": "Inline status message with an icon, title, and actions.",
+      "descriptionTranslations": {"ko": "아이콘, 제목, 동작이 있는 인라인 상태 메시지입니다.", "ja": "アイコン、タイトル、アクションを持つインラインの状態メッセージです。", "zh": "带图标、标题和操作的行内状态提示。"},
+      "exports": ["Alert", "AlertRow", "AlertIcon", "AlertBody", "AlertTitle", "AlertDescription", "AlertClose", "AlertActions", "AlertAction"], "spec": "alert", "refineui": "alert",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "toast", "title": "Toast", "category": "feedback",
+      "description": "Short notification triggered from code with toast().",
+      "descriptionTranslations": {"ko": "코드에서 toast()로 띄우는 짧은 알림입니다.", "ja": "コードから toast() で出す短い通知です。", "zh": "在代码中用 toast() 触发的简短通知。"},
+      "exports": ["Toaster", "toast", "dismissToast"], "spec": "toast", "refineui": "toast",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "progress", "title": "Progress", "category": "feedback",
+      "description": "Bar that shows how much of a task is done.",
+      "descriptionTranslations": {"ko": "작업이 얼마나 진행됐는지 보여 주는 막대입니다.", "ja": "作業がどこまで進んだかを示すバーです。", "zh": "显示任务完成程度的进度条。"},
+      "exports": ["Progress"], "spec": "progress", "refineui": "progress",
+      "mdx": { "code": "<Progress value={60} aria-label=\"Upload\" />" },
+      "markdoc": "{% progress value=60 ariaLabel=\"Upload\" /%}"
+    },
+    {
+      "id": "spinner", "title": "Spinner", "category": "feedback",
+      "description": "Indeterminate loading indicator.",
+      "descriptionTranslations": {"ko": "진행 정도를 알 수 없는 로딩 표시입니다.", "ja": "進み具合の分からない読み込み表示です。", "zh": "不确定进度的加载指示器。"},
+      "exports": ["Spinner"], "spec": "spinner", "refineui": "spinner",
+      "mdx": { "code": "<Spinner size=\"lg\" label=\"Loading…\" labelPosition=\"right\" />" },
+      "markdoc": "{% spinner size=\"lg\" label=\"Loading…\" labelPosition=\"right\" /%}"
+    },
+    {
+      "id": "skeleton", "title": "Skeleton", "category": "feedback",
+      "description": "Placeholder shape while content loads.",
+      "descriptionTranslations": {"ko": "콘텐츠를 불러오는 동안 보여 주는 자리 표시 모양입니다.", "ja": "コンテンツの読み込み中に表示するプレースホルダーです。", "zh": "内容加载时显示的占位形状。"},
+      "exports": ["Skeleton"], "spec": "skeleton", "refineui": "skeleton",
+      "mdx": { "code": "<Skeleton width=\"60%\" height={16} />" },
+      "markdoc": "{% skeleton width=\"60%\" height=16 /%}"
+    },
+    {
+      "id": "badge", "title": "Badge", "category": "feedback",
+      "description": "Small status label or count.",
+      "descriptionTranslations": {"ko": "작은 상태 라벨이나 개수입니다.", "ja": "小さな状態ラベルや件数です。", "zh": "小型状态标签或计数。"},
+      "exports": ["Badge"], "spec": "badge", "refineui": "badge",
+      "mdx": { "code": "<Badge variant=\"success\">Stable</Badge>\n<Badge variant=\"danger\" layout=\"number\">12</Badge>" },
+      "markdoc": "{% badge variant=\"success\" %}Stable{% /badge %}"
+    },
+    {
+      "id": "tooltip", "title": "Tooltip", "category": "feedback",
+      "description": "Short hint on hover or focus.",
+      "descriptionTranslations": {"ko": "마우스를 올리거나 포커스하면 나오는 짧은 도움말입니다.", "ja": "ホバーやフォーカスで表示される短いヒントです。", "zh": "悬停或聚焦时显示的简短提示。"},
+      "exports": ["Tooltip"], "spec": "tooltip", "refineui": "tooltip",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "dialog", "title": "Dialog", "category": "overlays",
+      "description": "Modal window for a focused task or confirmation.",
+      "descriptionTranslations": {"ko": "한 가지 작업이나 확인에 집중하는 모달 창입니다.", "ja": "1 つの作業や確認に集中させるモーダルウィンドウです。", "zh": "用于专注任务或确认的模态窗口。"},
+      "exports": ["Dialog", "DialogTrigger", "DialogContent", "DialogHeader", "DialogTitle", "DialogDescription"], "spec": "dialog", "refineui": "dialog",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "drawer", "title": "Drawer", "category": "overlays",
+      "description": "Panel that slides in from the edge of the screen.",
+      "descriptionTranslations": {"ko": "화면 가장자리에서 밀려 나오는 패널입니다.", "ja": "画面の端からスライドして出るパネルです。", "zh": "从屏幕边缘滑出的面板。"},
+      "exports": ["Drawer", "DrawerTrigger", "DrawerContent", "DrawerHeader", "DrawerTitle", "DrawerDescription", "DrawerBody", "DrawerFooter"], "spec": "drawer", "refineui": "drawer",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "popover", "title": "Popover", "category": "overlays",
+      "description": "Floating panel anchored to a trigger.",
+      "descriptionTranslations": {"ko": "트리거에 붙어 떠 있는 패널입니다.", "ja": "トリガーに固定されて浮かぶパネルです。", "zh": "锚定在触发器上的浮动面板。"},
+      "exports": ["Popover", "PopoverTrigger", "PopoverContent"], "spec": "popover", "refineui": "popover",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "avatar", "title": "Avatar", "category": "data-display",
+      "description": "Picture, initials, or icon that stands for a person.",
+      "descriptionTranslations": {"ko": "사람을 나타내는 사진, 이니셜, 아이콘입니다.", "ja": "人を表す写真、イニシャル、アイコンです。", "zh": "代表某个人的图片、首字母或图标。"},
+      "exports": ["Avatar", "AvatarImage", "AvatarFallback", "AvatarText", "AvatarIcon", "AvatarBadge"], "spec": "avatar", "refineui": "avatar",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "avatars", "title": "Avatar Group", "category": "data-display",
+      "description": "Stacked or spread avatars with an overflow count.",
+      "descriptionTranslations": {"ko": "겹치거나 펼친 아바타 묶음입니다. 넘치는 개수를 표시합니다.", "ja": "重ねたり並べたりしたアバターの集まりです。あふれた数を表示します。", "zh": "堆叠或展开的头像组，可显示溢出数量。"},
+      "exports": ["Avatars"], "spec": "avatars", "refineui": "avatars",
+      "mdx": { "code": "<Avatars avatars={[{ alt: \"Jihoon Ahn\" }, { alt: \"Mina Park\" }, { alt: \"Leo Kim\" }]} max={2} />" },
+      "markdoc": "{% avatars avatars=[{alt: \"Jihoon Ahn\"}, {alt: \"Mina Park\"}, {alt: \"Leo Kim\"}] max=2 /%}"
+    },
+    {
+      "id": "card", "title": "Card", "category": "data-display",
+      "description": "Container for one topic with header, content, and footer.",
+      "descriptionTranslations": {"ko": "헤더, 내용, 푸터로 한 주제를 담는 컨테이너입니다.", "ja": "ヘッダー、内容、フッターで 1 つの話題をまとめるコンテナです。", "zh": "用页眉、内容和页脚承载一个主题的容器。"},
+      "exports": ["Card", "CardHeader", "CardHeaderMain", "CardTitle", "CardDescription", "CardAction", "CardContent", "CardFooter"], "spec": "card", "refineui": "card",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "chip", "title": "Chip", "category": "data-display",
+      "description": "Compact label or filter, optionally removable. Also exported as Tag.",
+      "descriptionTranslations": {"ko": "작은 라벨이나 필터입니다. 지울 수 있게 만들 수 있습니다. Tag라는 이름으로도 내보냅니다.", "ja": "小さなラベルやフィルターです。削除可能にできます。Tag という名前でもエクスポートされます。", "zh": "紧凑的标签或筛选项，可设为可移除，也以 Tag 导出。"},
+      "exports": ["Chip", "Tag"], "spec": "chip", "refineui": "tag",
+      "mdx": { "code": "<Chip variant=\"filled\">Astro</Chip>\n<Chip variant=\"outline\" size=\"sm\">React</Chip>" },
+      "markdoc": "{% chip variant=\"filled\" %}Astro{% /chip %}"
+    },
+    {
+      "id": "bubble", "title": "Bubble", "category": "data-display",
+      "description": "Chat message bubble aligned to either side.",
+      "descriptionTranslations": {"ko": "왼쪽이나 오른쪽에 붙는 채팅 메시지 말풍선입니다.", "ja": "左右どちらかに寄せるチャットメッセージの吹き出しです。", "zh": "靠左或靠右对齐的聊天消息气泡。"},
+      "exports": ["Bubble", "BubbleContent", "BubbleGroup"], "spec": "bubble", "refineui": "bubble",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "table", "title": "Table", "category": "data-display",
+      "description": "Rows and columns for structured records.",
+      "descriptionTranslations": {"ko": "구조화된 데이터를 위한 행과 열입니다.", "ja": "構造化されたデータのための行と列です。", "zh": "用于结构化数据的行和列。"},
+      "exports": ["Table", "TableCaption", "TableHeader", "TableBody", "TableFooter", "TableRow", "TableHead", "TableCell"], "spec": "table", "refineui": "table",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "chart", "title": "Chart", "category": "data-display",
+      "description": "Bar and line charts composed from plot primitives.",
+      "descriptionTranslations": {"ko": "플롯 기본 요소로 조합하는 막대·선 차트입니다.", "ja": "プロットの基本要素で組み立てる棒グラフと折れ線グラフです。", "zh": "由绘图基础组件组合而成的柱状图和折线图。"},
+      "exports": ["Chart", "ChartBody", "ChartContent", "ChartPlot", "ChartGrid", "ChartBars", "ChartLine", "ChartYAxisLabels", "ChartAxisLabels", "ChartLegend", "ChartLegendItem"], "spec": "chart", "refineui": "chart",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "carousel", "title": "Carousel", "category": "data-display",
+      "description": "Slides with previous and next controls and indicators.",
+      "descriptionTranslations": {"ko": "이전·다음 버튼과 인디케이터가 있는 슬라이드입니다.", "ja": "前後のボタンとインジケーターを持つスライドです。", "zh": "带上一张、下一张按钮和指示器的幻灯片。"},
+      "exports": ["Carousel", "CarouselContent", "CarouselItem", "CarouselControls", "CarouselPrevious", "CarouselNext", "CarouselIndicators"], "spec": "carousel", "refineui": "carousel",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "accordion", "title": "Accordion", "category": "data-display",
+      "description": "Stacked sections that expand one or many at a time.",
+      "descriptionTranslations": {"ko": "하나 또는 여러 개를 펼칠 수 있는 쌓인 섹션입니다.", "ja": "1 つまたは複数を展開できる積み重なったセクションです。", "zh": "可一次展开一个或多个的堆叠分区。"},
+      "exports": ["Accordion", "AccordionItem", "AccordionTrigger", "AccordionContent"], "spec": "accordion", "refineui": "accordion",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "collapsible", "title": "Collapsible", "category": "data-display",
+      "description": "One section that shows and hides from a trigger.",
+      "descriptionTranslations": {"ko": "트리거로 보이고 숨기는 섹션 하나입니다.", "ja": "トリガーで表示と非表示を切り替える 1 つのセクションです。", "zh": "通过触发器显示或隐藏的单个分区。"},
+      "exports": ["Collapsible", "CollapsibleTrigger", "CollapsibleContent"], "spec": null, "refineui": "collapsible",
+      "mdx": null, "markdoc": null
+    },
+    {
+      "id": "icon", "title": "Icon", "category": "data-display",
+      "description": "RefineUI system icon rendered from the icon font with WebIcon.",
+      "descriptionTranslations": {"ko": "WebIcon으로 아이콘 폰트에서 그리는 RefineUI 시스템 아이콘입니다.", "ja": "WebIcon でアイコンフォントから描く RefineUI のシステムアイコンです。", "zh": "通过 WebIcon 从图标字体渲染的 RefineUI 系统图标。"},
+      "exports": ["WebIcon"], "spec": null, "refineui": null,
+      "mdx": { "code": "<WebIcon name=\"search\" size={24} aria-label=\"Search\" />" },
+      "markdoc": "{% icon name=\"search\" size=24 ariaLabel=\"Search\" /%}"
+    }
+  ]
+}

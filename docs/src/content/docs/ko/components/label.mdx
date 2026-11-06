@@ -1,0 +1,67 @@
+---
+title: Label
+description: "폼 컨트롤의 텍스트 라벨입니다. 필수 표시를 넣을 수 있습니다."
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/label";
+import source from "../../../../demos/label.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## 가져오기
+
+```tsx
+import { Label, LabelRequired } from "@pelagornis/page/components";
+```
+
+## 예제
+
+위 미리보기는 이 파일을 렌더링한 것입니다. `src/components/`에 복사해서 시작하세요.
+
+<Code code={source} lang="tsx" title="src/components/LabelExample.tsx" />
+
+## MDX에서 사용
+
+`Label` 컴포넌트는 `.mdx` 페이지에 바로 쓸 수 있습니다. frontmatter 아래에서 가져오세요. 서버에서 렌더링되므로 client 지시어가 필요 없습니다.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Label } from "@pelagornis/page/components";
+
+<Label htmlFor="email" required>Email address</Label>
+```
+
+## Markdoc에서 사용
+
+`pageMarkdoc()`가 이 컴포넌트의 `label` 태그를 등록합니다. `markdoc.config.mjs`에 프리셋을 한 번 추가한 뒤([Markdoc에서 사용](/ko/guides/markdoc/) 참고), 어느 `.mdoc` 페이지에서나 태그를 쓰세요.
+
+```md title="src/content/docs/example.mdoc"
+{% label htmlFor="email" required=true %}Email address{% /label %}
+```
+
+속성 이름과 값은 React props와 같습니다.
+
+## 변형
+
+각 variant prop에 넣을 수 있는 값입니다.
+
+<ComponentSpec id="label" section="variants" />
+
+## 구조
+
+컴포넌트를 이루는 부분과 각 부분이 렌더링하는 `data-refineui` 역할입니다.
+
+<ComponentSpec id="label" section="anatomy" />
+
+## 참고
+
+- 디자인 가이드와 토큰 상세는 [RefineUI · Label](https://ui.pelagornis.com/components/label/)를 참고하세요.
+- 공통 규칙은 [MDX에서 사용](/ko/guides/mdx/)과 [Markdoc에서 사용](/ko/guides/markdoc/)을 참고하세요.

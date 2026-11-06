@@ -1,132 +1,107 @@
 ---
 title: Alert
-description: 通知、警告、成功、エラーメッセージを表示するコンポーネント
-sidebar:
-  order: 4
-  group: components
+description: "アイコン、タイトル、アクションを持つインラインの状態メッセージです。"
 ---
 
-import Alert from "@pelagornis/page/components/Alert.astro";
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/alert";
+import source from "../../../../demos/alert.tsx?raw";
 
-Alertコンポーネントは、ユーザーに重要な情報を伝える際に使用する通知コンポーネントです。モダンなガラス効果とスムーズなアニメーションを提供します。
+<Preview>
+  <Demo client:load />
+</Preview>
 
-## 基本的な使用方法
+## インポート
 
-<Alert type="info" title="情報" icon="💡">
-  これは情報アラートです。重要な情報を伝える際に使用します。
-</Alert>
-
-<Alert type="success" title="成功" icon="✅">
-  操作が正常に完了しました！
-</Alert>
-
-<Alert type="warning" title="注意" icon="⚠️">
-  この操作は元に戻せません。慎重に進めてください。
-</Alert>
-
-<Alert type="error" title="エラー" icon="❌">
-  エラーが発生しました。もう一度お試しください。
-</Alert>
-
-## Props
-
-| Prop    | Type                                          | Default  | Description              |
-| ------- | --------------------------------------------- | -------- | ------------------------ |
-| `type`  | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | アラートのタイプ         |
-| `title` | `string`                                      | -        | アラートのタイトル (オプション) |
-| `icon`  | `string`                                      | -        | カスタムアイコン (オプション) |
-
-## 使用例
-
-### 基本的なアラート
-
-```mdx
-<Alert type="info">これは基本的な情報アラートです。</Alert>
+```tsx
+import {
+  Alert,
+  AlertRow,
+  AlertIcon,
+  AlertBody,
+  AlertTitle,
+  AlertDescription,
+  AlertClose,
+  AlertActions,
+  AlertAction,
+} from "@pelagornis/page/components";
 ```
 
-### タイトル付きアラート
+## 例
 
-```mdx
-<Alert type="success" title="インストール完了">
-  パッケージが正常にインストールされました。
-</Alert>
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/AlertExample.tsx" />
+
+## MDX で使う
+
+`Alert` は React の状態を共有する複数のパーツで構成されます。MDX に書いた子要素はそれぞれ別のアイランドとして描画されるため、パーツ同士がつながりません。上の例のように `.tsx` ファイルで組み立て、そのファイルをインポートしてください。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import AlertExample from "../../components/AlertExample";
+
+<AlertExample client:load />
 ```
 
-### カスタムアイコン
+`client:load` はページの読み込み時にアイランドをハイドレートします。ページの下の方にあるコンテンツには `client:visible` を使ってください。
 
-```mdx
-<Alert type="warning" title="注意" icon="🚨">
-  この操作は元に戻せません。
-</Alert>
+## Markdoc で使う
+
+Markdoc のタグは Astro コンポーネントを描画しますが、このコンポーネントにはクライアントの状態が必要です。例をハイドレートする `.astro` ファイルで包み、そのファイルをタグとして登録してください。
+
+```astro title="src/components/markdoc/AlertExample.astro"
+---
+import AlertExample from "../AlertExample";
+---
+
+<AlertExample client:load />
 ```
 
-### エラーメッセージ
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
 
-```mdx
-<Alert type="error" title="エラー発生" icon="💥">
-  ネットワーク接続に失敗しました。インターネット接続を確認してください。
-</Alert>
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "alert-example": {
+      render: component("./src/components/markdoc/AlertExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
 ```
 
-## 特徴
-
-### ✨ モダンデザイン
-
-- **ガラス効果**: `backdrop-filter: blur(20px)` を適用
-- **グラデーション背景**: 各タイプ別の美しいグラデーション効果
-- **ソフトシャドウ**: 多層シャドウで深さを表現
-- **ホバーアニメーション**: `translateY(-2px)` 変換とアイコンバウンス効果
-
-### 🎨 タイプ別特徴
-
-- **Info**: 青色グラデーション、情報配信用
-- **Success**: 緑色グラデーション、成功メッセージ用
-- **Warning**: オレンジ色グラデーション、注意事項用
-- **Error**: 赤色グラデーション、エラーメッセージ用
-
-### 🌙 ダークモードサポート
-
-- 自動色調整
-- 一貫したユーザー体験
-- 完璧なテーマ互換性
-
-### 📱 レスポンシブデザイン
-
-- モバイルで最適化されたサイズ
-- 適応型パディングとフォントサイズ
-- タッチフレンドリーなインターフェース
-
-### 💫 アニメーション効果
-
-- **アラートフェードイン**: ページ読み込み時のスムーズな登場
-- **ホバー効果**: マウスオーバー時の自然な変換
-- **アイコンバウンス**: ホバー時のアイコンバウンスアニメーション
-- **スムーズトランジション**: すべての状態変化に自然なトランジション
-
-### 🎯 アクセシビリティ
-
-- 明確な色の区別
-- 適切なコントラスト比
-- スクリーンリーダー互換
-- キーボードナビゲーションサポート
-
-## スタイリング
-
-Alertコンポーネントは CSS 変数を通じてカスタマイズできます：
-
-```css
-:root {
-  --page-alert-border-radius: 16px;
-  --page-alert-padding: 20px 24px;
-  --page-alert-gap: 16px;
-}
+```md title="src/content/docs/example.mdoc"
+{% alert-example /%}
 ```
 
-## ブラウザサポート
+## バリアント
 
-- Chrome 88+
-- Firefox 85+
-- Safari 14+
-- Edge 88+
+各 variant prop が受け付ける値です。
 
-モダンブラウザで最適なパフォーマンスを提供します。
+<ComponentSpec id="alert" section="variants" />
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="alert" section="anatomy" />
+
+## 状態
+
+コンポーネントがスタイルを当てる状態です。コンポーネントの状態は data 属性として公開されます。
+
+<ComponentSpec id="alert" section="states" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Alert](https://ui.pelagornis.com/components/alert/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

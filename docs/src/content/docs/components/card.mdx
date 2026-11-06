@@ -1,195 +1,106 @@
 ---
 title: Card
-description: Features and usage of card component
-sidebar:
-  order: 5
-  group: components
+description: Container for one topic with header, content, and footer.
 ---
 
-import Card from "@pelagornis/page/components/Card.astro";
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/card";
+import source from "../../../demos/card.tsx?raw";
 
-The Card component displays information in card format and can also be used as links. It provides modern glass effects and gradients.
+<Preview>
+  <Demo client:load />
+</Preview>
 
-## Basic Usage
+## Import
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 1rem 0;">
-  <Card
-    variant="default"
-    icon="📦"
-    title="Package Manager"
-    subtitle="Support for various package managers"
-  >
-    Supports various package managers like npm, pnpm, yarn, allowing users to choose
-    their preferred tools.
-  </Card>
-
-{" "}
-
-<Card
-  variant="elevated"
-  icon="🎨"
-  title="Theme Support"
-  subtitle="Dark/Light Mode"
->
-  Provides beautiful gradients and glassmorphism effects with perfect dark mode
-  support.
-</Card>
-
-</div>
-
-## Size Examples
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0;">
-  <Card variant="default" padding="sm" title="Small Padding">
-    A card with small padding. Suitable for displaying simple information.
-  </Card>
-
-{" "}
-
-<Card variant="default" padding="md" title="Medium Padding">
-  A card with default padding. Used in most cases.
-</Card>
-
-  <Card variant="default" padding="lg" title="Large Padding">
-    A card with large padding. Used for important information or detailed content.
-  </Card>
-</div>
-
-## Link Cards
-
-<Card
-  variant="elevated"
-  icon="🚀"
-  title="Get Started"
-  subtitle="Quick Installation Guide"
-  href="/guides/getting-started/"
->
-  Learn how to install and configure the Page theme. You can easily get started
-  with step-by-step guides.
-</Card>
-
-## Props
-
-| Prop       | Type                                                  | Default     | Description            |
-| ---------- | ----------------------------------------------------- | ----------- | ---------------------- |
-| `variant`  | `'default' \| 'elevated' \| 'outlined' \| 'gradient'` | `'default'` | Card style             |
-| `padding`  | `'sm' \| 'md' \| 'lg'`                                | `'md'`      | Card padding           |
-| `icon`     | `string`                                              | -           | Icon (optional)        |
-| `title`    | `string`                                              | -           | Title (optional)       |
-| `subtitle` | `string`                                              | -           | Subtitle (optional)    |
-| `href`     | `string`                                              | -           | Link URL (optional)    |
-| `target`   | `string`                                              | -           | Link target (optional) |
-
-## Usage Examples
-
-### Basic Card
-
-```mdx
-<Card>This is a basic card. Used for displaying simple information.</Card>
+```tsx
+import {
+  Card,
+  CardHeader,
+  CardHeaderMain,
+  CardTitle,
+  CardDescription,
+  CardAction,
+  CardContent,
+  CardFooter,
+} from "@pelagornis/page/components";
 ```
 
-### Card with Title and Icon
+## Example
 
-```mdx
-<Card icon="🎨" title="Design" subtitle="Beautiful UI">
-  Explains the design features of the Page theme. Provides a modern and
-  intuitive interface.
-</Card>
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/CardExample.tsx" />
+
+## Use in MDX
+
+`Card` is composed from parts that share React state. Children written in MDX are rendered as separate islands, so the parts can't reach each other. Put the composition in a `.tsx` file, like the example above, and import that file instead.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import CardExample from "../../components/CardExample";
+
+<CardExample client:load />
 ```
 
-### Various Styles
+`client:load` hydrates the island on page load. Use `client:visible` for content far down the page.
 
-```mdx
-<Card variant="default" title="Default">
-  A card with default style.
-</Card>
+## Use in Markdoc
 
-<Card variant="elevated" title="Elevated">
-  A card with strong shadow effects.
-</Card>
+Markdoc tags render Astro components, and this one needs client state. Wrap the example in an `.astro` file that hydrates it, then register that file as a tag.
 
-<Card variant="outlined" title="Outlined">
-  A transparent card with only borders.
-</Card>
+```astro title="src/components/markdoc/CardExample.astro"
+---
+import CardExample from "../CardExample";
+---
 
-<Card variant="gradient" title="Gradient">
-  A special card with gradient background.
-</Card>
+<CardExample client:load />
 ```
 
-### Link Card
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
 
-```mdx
-<Card variant="elevated" icon="📚" title="Documentation" href="/docs">
-  Navigate to documentation.
-</Card>
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "card-example": {
+      render: component("./src/components/markdoc/CardExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
 ```
 
-### External Link
-
-```mdx
-<Card
-  variant="outlined"
-  icon="🔗"
-  title="GitHub"
-  href="https://github.com"
-  target="_blank"
->
-  Visit the GitHub repository.
-</Card>
+```md title="src/content/docs/example.mdoc"
+{% card-example /%}
 ```
 
-## Features
+## Variants
 
-### ✨ Modern Design
+Values the component accepts for each variant prop.
 
-- **Glass Effect**: Applied `backdrop-filter: blur(20px)`
-- **Gradient Background**: Beautiful gradient effects
-- **Soft Shadows**: Multi-layered shadows for depth
-- **Hover Animation**: `translateY(-4px) scale(1.02)` transform
+<ComponentSpec id="card" section="variants" />
 
-### 🎨 Variant-specific Features
+## Anatomy
 
-- **Default**: Default style with moderate shadows and glass effects
-- **Elevated**: Stronger shadows and hover effects
-- **Outlined**: Transparent background with only borders
-- **Gradient**: Beautiful gradient background (new feature)
+Parts of the component and the `data-refineui` role each one renders.
 
-### 🌙 Dark Mode Support
+<ComponentSpec id="card" section="anatomy" />
 
-- Automatic color adjustment
-- Consistent user experience
-- Perfect theme compatibility
+## States
 
-### 📱 Responsive Design
+States the component styles. Component states are exposed as data attributes.
 
-- Optimized size on mobile
-- Flexible grid layout
-- Touch-friendly interface
+<ComponentSpec id="card" section="states" />
 
-### 💫 Animation Effects
+## Reference
 
-- **Card Fade-in**: Smooth appearance on page load
-- **Hover Effects**: Natural transformation on mouse over
-- **Icon Animation**: Icon scale effect on hover
-
-## Styling
-
-The Card component can be customized through CSS variables:
-
-```css
-:root {
-  --page-card-border-radius: 16px;
-  --page-card-padding: 24px;
-  --page-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-```
-
-## Browser Support
-
-- Chrome 88+
-- Firefox 85+
-- Safari 14+
-- Edge 88+
-
-Provides optimal performance on modern browsers.
+- [RefineUI · Card](https://ui.pelagornis.com/components/card/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

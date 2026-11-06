@@ -1,401 +1,92 @@
 ---
-import Default from "@astrojs/starlight/components/Footer.astro";
 import config from "virtual:starlight/user-config";
+import context from "virtual:starlight/project-context";
+import Pagination from "virtual:starlight/components/Pagination";
+import { DocsSiteFooter } from "./DocsSiteFooter";
+import { docsLabels } from "./labels";
+import { serializeNav, type DocsNavLink } from "./nav";
 
-const {
-  pagination,
-  editUrl,
-  lastUpdated,
-  entry: {
-    data: { template },
-    slug,
-  },
-} = Astro.locals.starlightRoute;
+const { sidebar, editUrl, locale, hasSidebar } = Astro.locals.starlightRoute;
+const footerText = process.env.PAGE_FOOTER_TEXT;
 
-// Check if index page (slug is index, empty, or locale code)
-const isIndexPage =
-  slug === "index" ||
-  slug === "" ||
-  (config.locales && Object.keys(config.locales).includes(slug));
+function stripTrailingSlash(path: string) {
+  return path.replace(/\/$/, "") || "/";
+}
 
-const showFooterInSplash =
-  template === "splash" &&
-  !isIndexPage &&
-  !!(
-    editUrl ||
-    lastUpdated ||
-    pagination.next ||
-    pagination.prev ||
-    config.credits
-  );
+function localizedPathname(localeCode: string | undefined): string {
+  const url = new URL(Astro.url);
+  if (localeCode === "root") localeCode = "";
+  const base = stripTrailingSlash(import.meta.env.BASE_URL);
+  const hasBase = url.pathname.startsWith(base);
+  if (hasBase) url.pathname = url.pathname.replace(base, "");
+  const [_leadingSlash, baseSegment] = url.pathname.split("/");
+  const htmlExt = ".html";
+  const isRootHtml = baseSegment?.endsWith(htmlExt);
+  const baseSlug = isRootHtml ? baseSegment?.slice(0, -1 * htmlExt.length) : baseSegment;
+  if (baseSlug && baseSlug in config.locales) {
+    if (localeCode) url.pathname = url.pathname.replace(baseSlug, localeCode);
+    else if (isRootHtml) url.pathname = "/index.html";
+    else url.pathname = url.pathname.replace("/" + baseSlug, "");
+  } else if (localeCode) {
+    url.pathname = baseSegment === "index.html" ? "/" + localeCode + ".html" : "/" + localeCode + url.pathname;
+  }
+  if (hasBase) url.pathname = base + url.pathname;
+  if (context.trailingSlash === "never") url.pathname = stripTrailingSlash(url.pathname);
+  return url.pathname;
+}
+
+/** Top-level pages stay; each nested section collapses to one link to its first page. */
+function representativeLinks(links: DocsNavLink[]) {
+  const seen = new Set<string>();
+  return links.flatMap((link) => {
+    if (!link.section) return [{ label: link.label, href: link.href, external: link.external }];
+    if (seen.has(link.section)) return [];
+    seen.add(link.section);
+    return [{ label: link.section, href: link.href, external: link.external }];
+  });
+}
+
+const groups = hasSidebar
+  ? serializeNav(sidebar).flatMap((entry) => {
+      if (entry.type === "link") {
+        return [{ label: entry.label, links: [{ label: entry.label, href: entry.href, external: entry.external }] }];
+      }
+      return [{ label: entry.label, links: representativeLinks(entry.entries) }];
+    })
+  : [];
+
+const social = Array.isArray(config.social)
+  ? config.social.map((entry) => ({
+      label: entry.label,
+      href: entry.href,
+      external: true,
+    }))
+  : [];
+
+const languages = config.isMultilingual
+  ? Object.entries(config.locales).map(([code, entry]) => ({
+      value: localizedPathname(code),
+      label: entry!.label,
+    }))
+  : [];
 ---
 
-{
-  showFooterInSplash && (
-    <div class="page-footer-wrapper">
-      <div class="page-footer-container">
-        <Default />
-      </div>
-    </div>
-  )
-}
-
-{
-  !showFooterInSplash && template === "splash" && (
-    <div class="page-footer-padding" />
-  )
-}
-
-{
-  template === "doc" && (
-    <div class="page-footer-wrapper">
-      <div class="page-footer-container">
-        <Default />
-      </div>
-    </div>
-  )
-}
-
-<style>
-  .page-footer-wrapper {
-    margin-top: var(--page-space-8);
-  }
-
-  .page-footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: var(--page-space-8) var(--page-space-6);
-    background: var(--page-bg-secondary);
-    border-top: 1px solid var(--page-border);
-    border-radius: var(--page-radius-lg);
-  }
-
-  [data-theme="dark"] .page-footer-container {
-    background: var(--page-bg-secondary) !important;
-    border-top-color: var(--page-border) !important;
-    color: var(--page-text) !important;
-  }
-
-  /* Global dark mode overrides */
-  :global([data-theme="dark"]) .page-footer-container {
-    background: var(--page-bg-secondary) !important;
-    border-top-color: var(--page-border) !important;
-    color: var(--page-text) !important;
-  }
-
-  .page-footer-padding {
-    margin-bottom: -3vh;
-  }
-
-  /* Starlight default footer overrides */
-  :global(.sl-footer) {
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    color: var(--page-text) !important;
-  }
-
-  [data-theme="dark"] :global(.sl-footer) {
-    background: transparent !important;
-    color: var(--page-text) !important;
-  }
-
-  :global([data-theme="dark"]) :global(.sl-footer) {
-    background: transparent !important;
-    color: var(--page-text) !important;
-  }
-
-  :global(.page-footer-container .sl-footer) {
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    color: var(--page-text) !important;
-  }
-
-  [data-theme="dark"] :global(.page-footer-container .sl-footer) {
-    background: transparent !important;
-    color: var(--page-text) !important;
-  }
-
-  :global(.sl-footer .sl-flex) {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  :global(.page-footer-container .page-footer-container .sl-flex) {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  :global(.page-footer-container .meta) {
-    gap: 0.75rem 3rem;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-top: 0;
-    font-size: var(--sl-text-sm);
-    color: var(--page-text-secondary);
-  }
-
-  [data-theme="dark"] :global(.page-footer-container .meta) {
-    color: var(--page-text-secondary) !important;
-  }
-
-  :global(.page-footer-container .meta > p:only-child) {
-    margin-inline-start: auto;
-  }
-
-  :global(.page-footer-container .kudos) {
-    align-items: center;
-    gap: 0.5em;
-    margin: 1.5rem auto;
-    font-size: var(--sl-text-xs);
-    text-decoration: none;
-    color: var(--page-text-secondary);
-  }
-
-  :global(.page-footer-container .page-footer-container .kudos) {
-    align-items: center;
-    gap: 0.5em;
-    margin: 1.5rem auto;
-    font-size: var(--sl-text-xs);
-    text-decoration: none;
-    color: var(--page-text-secondary);
-  }
-
-  [data-theme="dark"] :global(.page-footer-container .kudos) {
-    color: var(--page-text-secondary) !important;
-  }
-
-  [data-theme="dark"]
-    :global(.page-footer-container .page-footer-container .kudos) {
-    color: var(--page-text-secondary) !important;
-  }
-
-  :global(.page-footer-container .kudos svg) {
-    color: var(--page-accent);
-  }
-
-  :global(.page-footer-container .page-footer-container .kudos svg) {
-    color: var(--page-accent);
-  }
-
-  [data-theme="dark"] :global(.page-footer-container .kudos svg) {
-    color: var(--page-accent) !important;
-  }
-
-  [data-theme="dark"]
-    :global(.page-footer-container .page-footer-container .kudos svg) {
-    color: var(--page-accent) !important;
-  }
-
-  :global(.page-footer-container .kudos:hover) {
-    color: var(--page-text);
-  }
-
-  :global(.page-footer-container .page-footer-container .kudos:hover) {
-    color: var(--page-text);
-  }
-
-  [data-theme="dark"] :global(.page-footer-container .kudos:hover) {
-    color: var(--page-text) !important;
-  }
-
-  [data-theme="dark"]
-    :global(.page-footer-container .page-footer-container .kudos:hover) {
-    color: var(--page-text) !important;
-  }
-
-  /* Pagination style */
-  :global(.page-footer-container .pagination-links) {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: var(--page-space-4) !important;
-    margin: var(--page-space-6) 0 !important;
-  }
-
-  /* Single column when one link */
-  :global(.page-footer-container .pagination-links:has(a:only-child)) {
-    grid-template-columns: 1fr !important;
-  }
-
-  :global(.page-footer-container .pagination-links a) {
-    background: var(--page-bg) !important;
-    border: 1px solid var(--page-border) !important;
-    border-radius: var(--page-radius) !important;
-    padding: var(--page-space-4) !important;
-    text-decoration: none !important;
-    transition: all 0.2s ease !important;
-    display: flex !important;
-    gap: var(--page-space-1) !important;
-    color: var(--page-text) !important;
-  }
-
-  :global(.page-footer-container .pagination-links a:hover) {
-    background: var(--page-accent-light) !important;
-    transform: translateY(-1px) !important;
-  }
-
-  [data-theme="dark"] :global(.page-footer-container .pagination-links a) {
-    background: var(--page-bg) !important;
-    border-color: var(--page-border) !important;
-    color: var(--page-text) !important;
-  }
-
-  [data-theme="dark"]
-    :global(.page-footer-container .pagination-links a:hover) {
-    background: var(--page-accent-light) !important;
-    color: var(--page-accent) !important;
-  }
-
-  /* Pagination title and description style */
-  :global(.page-footer-container .pagination-links .link-title) {
-    font-weight: 600 !important;
-    color: var(--page-text) !important;
-    font-size: 1.5rem !important;
-  }
-
-  :global(.page-footer-container .pagination-links .description) {
-    color: var(--page-text-secondary) !important;
-    font-size: 0.8125rem !important;
-  }
-
-  :global(
-      .page-footer-container
-        .page-footer-container
-        .pagination-links
-        .description
-    ) {
-    color: var(--page-text-secondary) !important;
-    font-size: 0.8125rem !important;
-  }
-
-  :global(.page-footer-container .pagination-links a:hover .title) {
-    color: var(--page-accent) !important;
-  }
-
-  :global(
-      .page-footer-container
-        .page-footer-container
-        .pagination-links
-        a:hover
-        .title
-    ) {
-    color: var(--page-accent) !important;
-  }
-
-  :global(.page-footer-container .pagination-links a:hover .description) {
-    color: var(--page-text) !important;
-  }
-
-  :global(
-      .page-footer-container
-        .page-footer-container
-        .pagination-links
-        a:hover
-        .description
-    ) {
-    color: var(--page-text) !important;
-  }
-
-  /* Dark mode pagination style */
-  [data-theme="dark"] :global(.page-footer-container .pagination-links .title) {
-    color: var(--page-text) !important;
-  }
-
-  [data-theme="dark"]
-    :global(.page-footer-container .pagination-links .description) {
-    color: var(--page-text-secondary) !important;
-  }
-
-  [data-theme="dark"]
-    :global(.page-footer-container .pagination-links a:hover .title) {
-    color: var(--page-accent) !important;
-  }
-
-  [data-theme="dark"]
-    :global(.page-footer-container .pagination-links a:hover .description) {
-    color: var(--page-text) !important;
-  }
-
-  /* Edit link style */
-  :global(.page-footer-container .edit-page) {
-    background: var(--page-accent-light) !important;
-    color: var(--page-accent) !important;
-    border: 1px solid var(--page-border) !important;
-    border-radius: var(--page-radius) !important;
-    padding: var(--page-space-2) var(--page-space-4) !important;
-    text-decoration: none !important;
-    font-weight: 500 !important;
-    transition: all 0.2s ease !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: var(--page-space-1) !important;
-  }
-
-  :global(.page-footer-container .edit-page:hover) {
-    background: var(--page-accent) !important;
-    color: var(--page-bg) !important;
-    transform: translateY(-1px) !important;
-  }
-
-  [data-theme="dark"] :global(.page-footer-container .edit-page) {
-    background: var(--page-accent-light) !important;
-    color: var(--page-accent) !important;
-    border-color: var(--page-border) !important;
-  }
-
-  [data-theme="dark"] :global(.page-footer-container .edit-page:hover) {
-    background: var(--page-accent) !important;
-    color: var(--page-bg) !important;
-  }
-
-  [data-theme="dark"] :global(.page-footer-container .last-updated) {
-    background: var(--page-bg-secondary) !important;
-    color: var(--page-text-muted) !important;
-    border-color: var(--page-border) !important;
-  }
-
-  /* Last updated style */
-  :global(.page-footer-container .last-updated) {
-    color: var(--page-text-muted) !important;
-    font-size: 0.8125rem !important;
-    margin: var(--page-space-4) 0 !important;
-    padding: var(--page-space-2) !important;
-    background: var(--page-bg-secondary) !important;
-    border-radius: var(--page-radius) !important;
-    border: 1px solid var(--page-border) !important;
-  }
-
-  /* Dark mode wrapper style */
-  [data-theme="dark"] .page-footer-wrapper {
-    background: var(--page-bg) !important;
-    color: var(--page-text) !important;
-  }
-
-  [data-theme="dark"] .page-footer-padding {
-    background: var(--page-bg) !important;
-    color: var(--page-text) !important;
-  }
-
-  :global([data-theme="dark"]) .page-footer-wrapper {
-    background: var(--page-bg) !important;
-    color: var(--page-text) !important;
-  }
-
-  :global([data-theme="dark"]) .page-footer-padding {
-    background: var(--page-bg) !important;
-    color: var(--page-text) !important;
-  }
-
-  /* Mobile responsive */
-  @media (max-width: 768px) {
-    .page-footer-container {
-      padding: var(--page-space-6) var(--page-space-4);
-    }
-
-    :global(.page-footer-container .pagination-links) {
-      grid-template-columns: 1fr !important;
-      gap: var(--page-space-2) !important;
-    }
-  }
-</style>
+<div data-refineui-docs-end>
+  <div data-refineui-docs-footer>
+    <Pagination />
+  </div>
+  <div class="not-content">
+    <DocsSiteFooter
+      client:load
+      groups={groups}
+      social={social}
+      copyright={footerText}
+      editHref={editUrl}
+      editLabel={editUrl ? Astro.locals.t("page.editLink") : undefined}
+      languages={languages}
+      languageValue={languages.length > 1 ? localizedPathname(locale) : undefined}
+      languageLabel={Astro.locals.t("languageSelect.accessibleLabel")}
+      navLabel={docsLabels(Astro.locals.t).footer}
+    />
+  </div>
+</div>

@@ -1,0 +1,91 @@
+---
+title: Bubble
+description: Chat message bubble aligned to either side.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/bubble";
+import source from "../../../demos/bubble.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { Bubble, BubbleContent, BubbleGroup } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/BubbleExample.tsx" />
+
+## Use in MDX
+
+`Bubble` is composed from parts that share React state. Children written in MDX are rendered as separate islands, so the parts can't reach each other. Put the composition in a `.tsx` file, like the example above, and import that file instead.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import BubbleExample from "../../components/BubbleExample";
+
+<BubbleExample client:load />
+```
+
+`client:load` hydrates the island on page load. Use `client:visible` for content far down the page.
+
+## Use in Markdoc
+
+Markdoc tags render Astro components, and this one needs client state. Wrap the example in an `.astro` file that hydrates it, then register that file as a tag.
+
+```astro title="src/components/markdoc/BubbleExample.astro"
+---
+import BubbleExample from "../BubbleExample";
+---
+
+<BubbleExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "bubble-example": {
+      render: component("./src/components/markdoc/BubbleExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% bubble-example /%}
+```
+
+## Variants
+
+Values the component accepts for each variant prop.
+
+<ComponentSpec id="bubble" section="variants" />
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="bubble" section="anatomy" />
+
+## Reference
+
+- [RefineUI · Bubble](https://ui.pelagornis.com/components/bubble/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

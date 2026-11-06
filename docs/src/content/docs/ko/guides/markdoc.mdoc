@@ -1,0 +1,131 @@
+---
+title: Markdoc에서 사용
+description: Markdoc을 켜고 pageMarkdoc() 프리셋을 추가해 RefineUI 컴포넌트를 Markdoc 태그로 씁니다.
+sidebar:
+  order: 3
+---
+
+Markdoc 페이지는 import 대신 태그를 씁니다. `@pelagornis/page/markdoc`에는 클라이언트 상태 없이 렌더되는 RefineUI 컴포넌트를 태그로 등록하는 프리셋이 들어 있습니다. 이 페이지도 `.mdoc` 파일이라 아래 예제는 그 태그로 렌더됩니다.
+
+## Markdoc 설치
+
+```sh
+bun add @astrojs/markdoc @astrojs/starlight-markdoc
+```
+
+Starlight 앞에 Markdoc 통합을 추가합니다.
+
+```ts {% title="astro.config.ts" %}
+import markdoc from "@astrojs/markdoc";
+import starlight from "@astrojs/starlight";
+import pagePlugin from "@pelagornis/page";
+import { defineConfig } from "astro/config";
+
+export default defineConfig({
+  integrations: [
+    markdoc(),
+    starlight({
+      title: "My Docs",
+      plugins: [pagePlugin()],
+    }),
+  ],
+});
+```
+
+## 프리셋 추가
+
+Astro 설정 옆에 `markdoc.config.mjs`를 만듭니다. `starlightMarkdoc()`은 `aside` 같은 Starlight 태그를, `pageMarkdoc()`은 RefineUI 태그를 추가합니다.
+
+```js {% title="markdoc.config.mjs" %}
+import { defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+});
+```
+
+## 태그 쓰기
+
+속성 이름과 값은 React props와 같습니다. 내용이 있는 태그는 닫는 태그가 필요하고, 내용이 없는 태그는 마지막 `%}` 앞에 슬래시를 붙여 스스로 닫습니다.
+
+```md {% process=false %}
+{% stack direction="row" gap="sizeSmall" align="center" %}
+{% badge variant="success" %}Stable{% /badge %}
+{% button variant="primary" %}Continue{% /button %}
+{% button variant="outline" %}Cancel{% /button %}
+{% /stack %}
+```
+
+{% stack direction="row" gap="sizeSmall" align="center" class="not-content" %}
+{% badge variant="success" %}Stable{% /badge %}
+{% button variant="primary" %}Continue{% /button %}
+{% button variant="outline" %}Cancel{% /button %}
+{% /stack %}
+
+숫자와 불리언은 따옴표 없이 씁니다.
+
+```md {% process=false %}
+{% progress value=60 ariaLabel="Upload" /%}
+{% checkbox label="Send release emails" defaultChecked=true /%}
+```
+
+{% stack gap="sizeMedium" class="not-content" %}
+{% progress value=60 ariaLabel="Upload" /%}
+{% checkbox label="Send release emails" defaultChecked=true /%}
+{% /stack %}
+
+React의 `aria-label`은 `ariaLabel`로 씁니다. 모든 태그는 `class`와 `id`도 받습니다.
+
+## 프리셋에 들어 있는 태그
+
+| 태그 | 컴포넌트 | 비고 |
+| --- | --- | --- |
+| `box`, `container`, `grid`, `stack`, `spacer` | `Box`, `Container`, `Grid`, `Stack`, `Spacer` | 토큰 props 레이아웃 |
+| `divider` | `Divider` | 내용이 인라인 라벨이 됩니다 |
+| `text` | `Text` | `variant` 기본값은 `bodyMd` |
+| `button`, `link` | `Button`, `Link` | `link`는 `href` 필수 |
+| `label`, `input`, `textarea`, `checkbox`, `radio` | 폼 컨트롤 | 기본 입력, 클라이언트 스크립트 없음 |
+| `badge`, `chip` | `Badge`, `Chip` | 내용이 라벨 |
+| `progress`, `spinner`, `skeleton` | 피드백 | `progress`는 `value` 필수 |
+| `icon` | `WebIcon` | `name`은 RefineUI 아이콘 이름 |
+| `avatars` | `Avatars` | `avatars=[{alt: "Name"}]` |
+
+## 상호작용 컴포넌트 태그 추가
+
+태그는 서버에서 Astro 컴포넌트로 렌더됩니다. 클라이언트 상태가 있는 컴포넌트는 하이드레이션하는 `.astro` 래퍼가 필요합니다. [MDX에서 사용](/ko/guides/mdx/)처럼 `.tsx` 파일에서 조합한 뒤 감쌉니다.
+
+```astro {% title="src/components/markdoc/TabsExample.astro" %}
+---
+import TabsExample from "../TabsExample";
+---
+
+<TabsExample client:load />
+```
+
+프리셋 옆에 래퍼를 등록합니다.
+
+```js {% title="markdoc.config.mjs" %}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "tabs-example": {
+      render: component("./src/components/markdoc/TabsExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md {% process=false %}
+{% tabs-example /%}
+```
+
+{% tabs-example /%}
+
+[컴포넌트 페이지](/ko/components/)마다 해당 컴포넌트의 Markdoc 태그나 필요한 래퍼가 나와 있습니다.

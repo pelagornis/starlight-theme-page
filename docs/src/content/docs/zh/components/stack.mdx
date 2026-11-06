@@ -1,0 +1,67 @@
+---
+title: Stack
+description: "用间距令牌控制间隔的单向 flex 布局。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/stack";
+import source from "../../../../demos/stack.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## 导入
+
+```tsx
+import { Stack } from "@pelagornis/page/components";
+```
+
+## 示例
+
+上方预览渲染的就是这个文件。把它复制到 `src/components/` 即可开始使用。
+
+<Code code={source} lang="tsx" title="src/components/StackExample.tsx" />
+
+## 在 MDX 中使用
+
+`Stack` 可以直接写在 `.mdx` 页面中。在 frontmatter 下方导入即可。它在服务器端渲染，不需要 client 指令。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Button, Stack } from "@pelagornis/page/components";
+
+<Stack direction="row" gap="sizeSmall" align="center">
+  <Button variant="outline">Cancel</Button>
+  <Button variant="primary">Save</Button>
+</Stack>
+```
+
+## 在 Markdoc 中使用
+
+`pageMarkdoc()` 会为这个组件注册 `stack` 标签。在 `markdoc.config.mjs` 中添加一次预设（见[在 Markdoc 中使用](/zh/guides/markdoc/)），就能在任意 `.mdoc` 页面中使用该标签。
+
+```md title="src/content/docs/example.mdoc"
+{% stack direction="row" gap="sizeSmall" align="center" %}
+{% button variant="outline" %}Cancel{% /button %}
+{% button variant="primary" %}Save{% /button %}
+{% /stack %}
+```
+
+属性的名称和取值与 React props 相同。
+
+## 结构
+
+组件的组成部分，以及每个部分渲染的 `data-refineui` 角色。
+
+<ComponentSpec id="stack" section="anatomy" />
+
+## 参考
+
+- 设计指南和令牌细节见 [RefineUI · Stack](https://ui.pelagornis.com/components/stack/)。
+- 通用规则见[在 MDX 中使用](/zh/guides/mdx/)和[在 Markdoc 中使用](/zh/guides/markdoc/)。

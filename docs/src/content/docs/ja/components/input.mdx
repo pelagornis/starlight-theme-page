@@ -1,0 +1,67 @@
+---
+title: Input
+description: "エラーと成功の状態を持つ 1 行の入力です。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/input";
+import source from "../../../../demos/input.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import { Input } from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/InputExample.tsx" />
+
+## MDX で使う
+
+`Input` は `.mdx` ページにそのまま書けます。frontmatter の下でインポートしてください。サーバーで描画されるので、client ディレクティブは要りません。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Input } from "@pelagornis/page/components";
+
+<Input placeholder="you@example.com" aria-label="Email" />
+```
+
+## Markdoc で使う
+
+`pageMarkdoc()` がこのコンポーネントの `input` タグを登録します。`markdoc.config.mjs` にプリセットを一度追加すれば（[Markdoc で使う](/ja/guides/markdoc/)を参照）、どの `.mdoc` ページでもタグを書けます。
+
+```md title="src/content/docs/example.mdoc"
+{% input placeholder="you@example.com" ariaLabel="Email" /%}
+```
+
+属性の名前と値は React の props と同じです。
+
+## バリアント
+
+各 variant prop が受け付ける値です。
+
+<ComponentSpec id="input" section="variants" />
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="input" section="anatomy" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Input](https://ui.pelagornis.com/components/input/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

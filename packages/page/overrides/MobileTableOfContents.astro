@@ -1,0 +1,18 @@
+---
+import { DocsToc } from "./DocsToc";
+
+const { toc } = Astro.locals.starlightRoute;
+---
+
+{
+  toc && (
+    <DocsToc
+      client:load
+      title={Astro.locals.t("tableOfContents.onThisPage")}
+      items={toc.items}
+      minHeadingLevel={toc.minHeadingLevel}
+      maxHeadingLevel={toc.maxHeadingLevel}
+      variant="mobile"
+    />
+  )
+}

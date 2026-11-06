@@ -1,0 +1,61 @@
+---
+title: Text
+description: "把语义文字令牌映射到元素的排版基础组件。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/text";
+import source from "../../../../demos/text.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## 导入
+
+```tsx
+import { Text } from "@pelagornis/page/components";
+```
+
+## 示例
+
+上方预览渲染的就是这个文件。把它复制到 `src/components/` 即可开始使用。
+
+<Code code={source} lang="tsx" title="src/components/TextExample.tsx" />
+
+## 在 MDX 中使用
+
+`Text` 可以直接写在 `.mdx` 页面中。在 frontmatter 下方导入即可。它在服务器端渲染，不需要 client 指令。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Text } from "@pelagornis/page/components";
+
+<Text as="p" variant="titleMd">Title medium</Text>
+<Text variant="captionMd">Caption</Text>
+```
+
+## 在 Markdoc 中使用
+
+`pageMarkdoc()` 会为这个组件注册 `text` 标签。在 `markdoc.config.mjs` 中添加一次预设（见[在 Markdoc 中使用](/zh/guides/markdoc/)），就能在任意 `.mdoc` 页面中使用该标签。
+
+```md title="src/content/docs/example.mdoc"
+{% text as="p" variant="titleMd" %}Title medium{% /text %}
+```
+
+属性的名称和取值与 React props 相同。
+
+## 结构
+
+组件的组成部分，以及每个部分渲染的 `data-refineui` 角色。
+
+<ComponentSpec id="text" section="anatomy" />
+
+## 参考
+
+- 通用规则见[在 MDX 中使用](/zh/guides/mdx/)和[在 Markdoc 中使用](/zh/guides/markdoc/)。

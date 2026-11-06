@@ -1,0 +1,3 @@
+[install]
+# Astro's prerender bundle resolves native packages (Sätteri) from docs/, so they must be hoisted.
+linker = "hoisted"

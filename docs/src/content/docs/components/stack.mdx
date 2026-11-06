@@ -1,0 +1,67 @@
+---
+title: Stack
+description: One-axis flex layout with spacing tokens for the gap.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/stack";
+import source from "../../../demos/stack.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { Stack } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/StackExample.tsx" />
+
+## Use in MDX
+
+`Stack` can be written straight in an `.mdx` page. Import it below the frontmatter. It renders on the server, so no client directive is needed.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Button, Stack } from "@pelagornis/page/components";
+
+<Stack direction="row" gap="sizeSmall" align="center">
+  <Button variant="outline">Cancel</Button>
+  <Button variant="primary">Save</Button>
+</Stack>
+```
+
+## Use in Markdoc
+
+`pageMarkdoc()` registers a `stack` tag for this component. Add the preset once in `markdoc.config.mjs` (see [Use in Markdoc](/guides/markdoc/)), then write the tag in any `.mdoc` page.
+
+```md title="src/content/docs/example.mdoc"
+{% stack direction="row" gap="sizeSmall" align="center" %}
+{% button variant="outline" %}Cancel{% /button %}
+{% button variant="primary" %}Save{% /button %}
+{% /stack %}
+```
+
+Attributes use the same names and values as the React props.
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="stack" section="anatomy" />
+
+## Reference
+
+- [RefineUI · Stack](https://ui.pelagornis.com/components/stack/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

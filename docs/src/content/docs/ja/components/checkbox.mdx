@@ -1,0 +1,73 @@
+---
+title: Checkbox
+description: "ラベルと説明を付けられる二択の選択です。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/checkbox";
+import source from "../../../../demos/checkbox.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import { Checkbox } from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/CheckboxExample.tsx" />
+
+## MDX で使う
+
+`Checkbox` は `.mdx` ページにそのまま書けます。frontmatter の下でインポートしてください。サーバーで描画されるので、client ディレクティブは要りません。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Checkbox } from "@pelagornis/page/components";
+
+<Checkbox label="Accept terms" description="Required to continue" />
+```
+
+## Markdoc で使う
+
+`pageMarkdoc()` がこのコンポーネントの `checkbox` タグを登録します。`markdoc.config.mjs` にプリセットを一度追加すれば（[Markdoc で使う](/ja/guides/markdoc/)を参照）、どの `.mdoc` ページでもタグを書けます。
+
+```md title="src/content/docs/example.mdoc"
+{% checkbox label="Accept terms" description="Required to continue" /%}
+```
+
+属性の名前と値は React の props と同じです。
+
+## バリアント
+
+各 variant prop が受け付ける値です。
+
+<ComponentSpec id="checkbox" section="variants" />
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="checkbox" section="anatomy" />
+
+## キーボード
+
+フォーカスがあるときにコンポーネントが処理するキーです。
+
+<ComponentSpec id="checkbox" section="keyboard" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Checkbox](https://ui.pelagornis.com/components/checkbox/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

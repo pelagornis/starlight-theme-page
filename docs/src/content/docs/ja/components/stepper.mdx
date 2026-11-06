@@ -1,0 +1,105 @@
+---
+title: Stepper
+description: "タイトルと説明を持つ番号付きのステップです。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/stepper";
+import source from "../../../../demos/stepper.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## インポート
+
+```tsx
+import {
+  Stepper,
+  StepperList,
+  StepperItem,
+  StepperIndicator,
+  StepperTitle,
+  StepperDescription,
+  StepperSeparator,
+} from "@pelagornis/page/components";
+```
+
+## 例
+
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/StepperExample.tsx" />
+
+## MDX で使う
+
+`Stepper` は React の状態を共有する複数のパーツで構成されます。MDX に書いた子要素はそれぞれ別のアイランドとして描画されるため、パーツ同士がつながりません。上の例のように `.tsx` ファイルで組み立て、そのファイルをインポートしてください。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import StepperExample from "../../components/StepperExample";
+
+<StepperExample client:load />
+```
+
+`client:load` はページの読み込み時にアイランドをハイドレートします。ページの下の方にあるコンテンツには `client:visible` を使ってください。
+
+## Markdoc で使う
+
+Markdoc のタグは Astro コンポーネントを描画しますが、このコンポーネントにはクライアントの状態が必要です。例をハイドレートする `.astro` ファイルで包み、そのファイルをタグとして登録してください。
+
+```astro title="src/components/markdoc/StepperExample.astro"
+---
+import StepperExample from "../StepperExample";
+---
+
+<StepperExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "stepper-example": {
+      render: component("./src/components/markdoc/StepperExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% stepper-example /%}
+```
+
+## 構造
+
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
+
+<ComponentSpec id="stepper" section="anatomy" />
+
+## 状態
+
+コンポーネントがスタイルを当てる状態です。コンポーネントの状態は data 属性として公開されます。
+
+<ComponentSpec id="stepper" section="states" />
+
+## キーボード
+
+フォーカスがあるときにコンポーネントが処理するキーです。
+
+<ComponentSpec id="stepper" section="keyboard" />
+
+## 参考
+
+- デザインのガイドとトークンの詳細は [RefineUI · Stepper](https://ui.pelagornis.com/components/stepper/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

@@ -1,0 +1,73 @@
+---
+title: Checkbox
+description: Binary choice with an optional label and description.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/checkbox";
+import source from "../../../demos/checkbox.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { Checkbox } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/CheckboxExample.tsx" />
+
+## Use in MDX
+
+`Checkbox` can be written straight in an `.mdx` page. Import it below the frontmatter. It renders on the server, so no client directive is needed.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Checkbox } from "@pelagornis/page/components";
+
+<Checkbox label="Accept terms" description="Required to continue" />
+```
+
+## Use in Markdoc
+
+`pageMarkdoc()` registers a `checkbox` tag for this component. Add the preset once in `markdoc.config.mjs` (see [Use in Markdoc](/guides/markdoc/)), then write the tag in any `.mdoc` page.
+
+```md title="src/content/docs/example.mdoc"
+{% checkbox label="Accept terms" description="Required to continue" /%}
+```
+
+Attributes use the same names and values as the React props.
+
+## Variants
+
+Values the component accepts for each variant prop.
+
+<ComponentSpec id="checkbox" section="variants" />
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="checkbox" section="anatomy" />
+
+## Keyboard
+
+Keys the component handles when it has focus.
+
+<ComponentSpec id="checkbox" section="keyboard" />
+
+## Reference
+
+- [RefineUI · Checkbox](https://ui.pelagornis.com/components/checkbox/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

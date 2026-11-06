@@ -1,0 +1,67 @@
+---
+title: Spinner
+description: Indeterminate loading indicator.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/spinner";
+import source from "../../../demos/spinner.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { Spinner } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/SpinnerExample.tsx" />
+
+## Use in MDX
+
+`Spinner` can be written straight in an `.mdx` page. Import it below the frontmatter. It renders on the server, so no client directive is needed.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Spinner } from "@pelagornis/page/components";
+
+<Spinner size="lg" label="Loading…" labelPosition="right" />
+```
+
+## Use in Markdoc
+
+`pageMarkdoc()` registers a `spinner` tag for this component. Add the preset once in `markdoc.config.mjs` (see [Use in Markdoc](/guides/markdoc/)), then write the tag in any `.mdoc` page.
+
+```md title="src/content/docs/example.mdoc"
+{% spinner size="lg" label="Loading…" labelPosition="right" /%}
+```
+
+Attributes use the same names and values as the React props.
+
+## Variants
+
+Values the component accepts for each variant prop.
+
+<ComponentSpec id="spinner" section="variants" />
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="spinner" section="anatomy" />
+
+## Reference
+
+- [RefineUI · Spinner](https://ui.pelagornis.com/components/spinner/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

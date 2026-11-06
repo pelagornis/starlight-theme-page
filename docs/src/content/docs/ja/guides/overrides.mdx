@@ -1,0 +1,71 @@
+---
+title: シェルのオーバーライド
+description: テーマが置き換える Starlight のスロット、それぞれが描画するもの、Starlight 既定を残す方法を説明します。
+sidebar:
+  order: 4
+---
+
+プラグインが Starlight の `components` オプションを設定します。下のスロットは `@pelagornis/page` の Astro ファイルに置き換わり、各ファイルが RefineUI を描画します。
+
+| スロット | 描画するもの |
+| --- | --- |
+| `PageFrame` | 幅を変えられる `Sidebar`(`ResizablePanelGroup`)のデスクトップシェルとモバイルのドロワー |
+| `Header` | ブランド、`navigation` のリンクとドロップダウン、`CommandDialog` の検索、テーマボタン |
+| `SiteTitle` | ヘッダーのロゴとサイト名。SVG ロゴはインラインで埋め込まれるので、`fill="currentColor"` で描いたロゴはテーマの色に従います |
+| `ThemeSelect` | ライト・ダークを切り替えるアイコン `Button` |
+| `LanguageSelect` | フッターとモバイルメニューの言語選択 |
+| `Sidebar` | 意図的に空。サイドバーは `PageFrame` にあります |
+| `MobileMenuFooter` | モバイルのドロワー下部の言語とソーシャルリンク |
+| `PageSidebar`, `TableOfContents`, `MobileTableOfContents` | スクロールに追従する「このページ」 |
+| `Pagination` | 前後のページへのリンク |
+| `PageTitle` | サイドバーの経路（パンくず）、ページのタイトルと説明 |
+| `Hero` | ホームのスプラッシュヒーローと、他のページの `hero` |
+| `Footer` | サイドバーのグループ、ソーシャルリンク、著作権、言語を持つ RefineUI の `Footer` |
+
+## Starlight 既定を残す
+
+`skipComponents` にスロット名を書くと、プラグインはそのスロットに触れません。
+
+```ts title="astro.config.ts" {4}
+starlight({
+  plugins: [
+    pagePlugin({
+      skipComponents: ["Hero", "Pagination"],
+    }),
+  ],
+});
+```
+
+## スロットを自分で置き換える
+
+Starlight の `components` に直接指定したスロットがプラグインより優先されます。シェルに合わせるため `@pelagornis/page/components` で作ります。
+
+```ts title="astro.config.ts"
+starlight({
+  components: {
+    PageTitle: "./src/components/MyPageTitle.astro",
+  },
+  plugins: [pagePlugin()],
+});
+```
+
+```astro title="src/components/MyPageTitle.astro"
+---
+import { Badge, Stack, Text } from "@pelagornis/page/components";
+
+const { data } = Astro.locals.starlightRoute.entry;
+---
+
+<Stack gap="sizeXSmall">
+  <Text as="h1" id="_top" variant="titleLg">{data.title}</Text>
+  {data.draft && <Badge variant="warning">Draft</Badge>}
+</Stack>
+```
+
+## ヘッダーの検索
+
+ヘッダーの検索は現在の言語のサイドバーにあるページを一覧にし、ページタイトルとグループ名で探します。本番ビルドでは Starlight が既定で作る Pagefind の索引で本文も検索し、**本文の一致** の下に表示します。dev サーバーには索引がないため、タイトルだけを探します。<kbd>⌘</kbd> <kbd>K</kbd> または <kbd>Ctrl</kbd> <kbd>K</kbd> で開きます。タイトルだけを探すには Starlight の `pagefind: false` を設定します。
+
+## Starlight のコンポーネント
+
+Aside、Badge、Tabs、Steps、Card、LinkCard、FileTree もそのまま使え、同じ RefineUI トークンで描かれます。[Starlight のコンポーネント](/ja/guides/starlight-components/)を参照してください。

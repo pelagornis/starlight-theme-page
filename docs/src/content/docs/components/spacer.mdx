@@ -1,0 +1,68 @@
+---
+title: Spacer
+description: Flexible gap that pushes siblings apart inside a row or column.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/spacer";
+import source from "../../../demos/spacer.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { Spacer } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/SpacerExample.tsx" />
+
+## Use in MDX
+
+`Spacer` can be written straight in an `.mdx` page. Import it below the frontmatter. It renders on the server, so no client directive is needed.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Button, Spacer, Stack } from "@pelagornis/page/components";
+
+<Stack direction="row">
+  <span>Project</span>
+  <Spacer />
+  <Button size="sm">New file</Button>
+</Stack>
+```
+
+## Use in Markdoc
+
+`pageMarkdoc()` registers a `stack` tag for this component. Add the preset once in `markdoc.config.mjs` (see [Use in Markdoc](/guides/markdoc/)), then write the tag in any `.mdoc` page.
+
+```md title="src/content/docs/example.mdoc"
+{% stack direction="row" %}
+Project
+{% spacer /%}
+{% button size="sm" %}New file{% /button %}
+{% /stack %}
+```
+
+Attributes use the same names and values as the React props.
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="spacer" section="anatomy" />
+
+## Reference
+
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

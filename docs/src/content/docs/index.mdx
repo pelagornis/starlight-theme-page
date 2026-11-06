@@ -1,52 +1,41 @@
 ---
 title: Starlight Page
-description: Starlight theme inspired by Shadcn docs
+description: A Starlight theme that uses RefineUI for the docs shell.
 head:
   - tag: title
     content: Starlight Page
-template: splash
 editUrl: false
+tableOfContents: false
 hero:
-  tagline: A modern documentation site theme that elevates the developer experience
+  tagline: Header, sidebar, search, and footer come from RefineUI.
   actions:
     - text: Get Started
       link: /guides/getting-started/
       variant: primary
-    - text: View Components
-      link: /components/header/
-      variant: secondary
-    - text: View on GitHub
-      link: https://github.com/pelagornis/starlight-theme-page
+    - text: Components
+      link: /components/
       variant: secondary
 ---
 
-import Card from "@pelagornis/page/components/Card.astro";
+## Docs shell
 
-## ✨ Key Features
+Page replaces Starlight’s chrome with RefineUI overrides.
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 32px 0;">
-  <Card title="🎨 Modern Design" icon="⭐">
-    Modern HSL-based color system with beautiful gradient effects
-  </Card>
-  <Card title="🌊 Smooth Animations" icon="🚀">
-    Natural transition effects and hover animations for all interactions
-  </Card>
-  <Card title="🌙 Dark Mode" icon="🌙">
-    Perfect light/dark mode support with glass effects
-  </Card>
-  <Card title="📱 Responsive" icon="💻">
-    Perfect user experience across all devices from mobile to desktop
-  </Card>
-</div>
+- Header with the links you configure, command search, and a theme button
+- Resizable sidebar on desktop, and a drawer on small screens
+- Footer with navigation, social links, copyright, and the language select
+- Light and dark themes from RefineUI semantic tokens
 
-## 🚀 Enhanced Components
+## Components in your pages
 
-This theme has modernly redesigned the following components:
+Every RefineUI component is exported from `@pelagornis/page/components`.
 
-- **Header**: Sticky navigation with glass effects
-- **ThemeSelect**: Theme toggle with rotation animations
-- **Navigation**: Hover effects and active state indicators
-- **Search**: Modern modal with blur background
-- **SiteTitle**: Interactive logo with gradient text
+```mdx
+import { Button } from "@pelagornis/page/components";
 
-Try clicking the theme toggle button in the header or hover over the logo! 🎯
+<Button variant="primary">Continue</Button>
+```
+
+- [Use in MDX](/guides/mdx/) covers imports, client directives, and compound components.
+- [Use in Markdoc](/guides/markdoc/) covers the `pageMarkdoc()` preset and its tags.
+- [Components](/components/) lists all 59 components with live previews, example source, and props.

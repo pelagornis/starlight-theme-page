@@ -1,8 +1,5 @@
 ---
-// @ts-expect-error - Starlight internal component, type definitions may not be available
-import Default from "@astrojs/starlight/components/MarkdownContent.astro";
+import '@astrojs/starlight/style/markdown.css';
 ---
 
-<Default>
-  <slot />
-</Default>
+<div class="sl-markdown-content"><slot /></div>

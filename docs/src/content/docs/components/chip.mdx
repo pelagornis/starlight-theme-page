@@ -1,0 +1,80 @@
+---
+title: Chip
+description: Compact label or filter, optionally removable. Also exported as Tag.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/chip";
+import source from "../../../demos/chip.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { Chip, Tag } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/ChipExample.tsx" />
+
+## Use in MDX
+
+`Chip` can be written straight in an `.mdx` page. Import it below the frontmatter. It renders on the server, so no client directive is needed.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Chip } from "@pelagornis/page/components";
+
+<Chip variant="filled">Astro</Chip>
+<Chip variant="outline" size="sm">React</Chip>
+```
+
+## Use in Markdoc
+
+`pageMarkdoc()` registers a `chip` tag for this component. Add the preset once in `markdoc.config.mjs` (see [Use in Markdoc](/guides/markdoc/)), then write the tag in any `.mdoc` page.
+
+```md title="src/content/docs/example.mdoc"
+{% chip variant="filled" %}Astro{% /chip %}
+```
+
+Attributes use the same names and values as the React props.
+
+## Variants
+
+Values the component accepts for each variant prop.
+
+<ComponentSpec id="chip" section="variants" />
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="chip" section="anatomy" />
+
+## States
+
+States the component styles. Component states are exposed as data attributes.
+
+<ComponentSpec id="chip" section="states" />
+
+## Keyboard
+
+Keys the component handles when it has focus.
+
+<ComponentSpec id="chip" section="keyboard" />
+
+## Reference
+
+- [RefineUI · Chip](https://ui.pelagornis.com/components/tag/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

@@ -1,0 +1,97 @@
+---
+title: Input OTP
+description: One-time code entry split into slots.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/input-otp";
+import source from "../../../demos/input-otp.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { InputOTP, InputOTPSlot } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/InputOtpExample.tsx" />
+
+## Use in MDX
+
+`Input OTP` is composed from parts that share React state. Children written in MDX are rendered as separate islands, so the parts can't reach each other. Put the composition in a `.tsx` file, like the example above, and import that file instead.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import InputOtpExample from "../../components/InputOtpExample";
+
+<InputOtpExample client:load />
+```
+
+`client:load` hydrates the island on page load. Use `client:visible` for content far down the page.
+
+## Use in Markdoc
+
+Markdoc tags render Astro components, and this one needs client state. Wrap the example in an `.astro` file that hydrates it, then register that file as a tag.
+
+```astro title="src/components/markdoc/InputOtpExample.astro"
+---
+import InputOtpExample from "../InputOtpExample";
+---
+
+<InputOtpExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "input-otp-example": {
+      render: component("./src/components/markdoc/InputOtpExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% input-otp-example /%}
+```
+
+## Variants
+
+Values the component accepts for each variant prop.
+
+<ComponentSpec id="input-otp" section="variants" />
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="input-otp" section="anatomy" />
+
+## Keyboard
+
+Keys the component handles when it has focus.
+
+<ComponentSpec id="input-otp" section="keyboard" />
+
+## Reference
+
+- [RefineUI · Input OTP](https://ui.pelagornis.com/components/input-otp/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

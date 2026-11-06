@@ -1,0 +1,23 @@
+---
+import * as RefineUI from "@refineui/react";
+
+interface Props {
+  is: string;
+  ariaLabel?: string;
+  class?: string;
+  [prop: string]: unknown;
+}
+
+const { is, ariaLabel, class: className, ...props } = Astro.props;
+const Component = (RefineUI as unknown as Record<string, any>)[is];
+
+if (!Component) {
+  throw new Error(`@pelagornis/page/markdoc: "${is}" is not exported by @refineui/react.`);
+}
+
+if (ariaLabel) props["aria-label"] = ariaLabel;
+if (className) props.className = className;
+const children = Astro.slots.has("default") ? (await Astro.slots.render("default")).trim() : "";
+---
+
+{children ? <Component {...props}><Fragment set:html={children} /></Component> : <Component {...props} />}

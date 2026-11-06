@@ -1,0 +1,138 @@
+---
+title: MDX에서 사용
+description: MDX 페이지에 RefineUI 컴포넌트를 가져오는 방법과, .tsx 파일로 조합해야 하는 경우를 설명합니다.
+sidebar:
+  order: 2
+---
+
+import { Badge, Button, Stack } from "@pelagornis/page/components";
+import TabsDemo from "../../../../demos/tabs";
+
+MDX 페이지는 `@pelagornis/page/components`의 모든 export를 가져올 수 있습니다. 이 진입점은 `@refineui/react`를 그대로 다시 내보내므로 이름, props, 타입이 [RefineUI 문서](https://ui.pelagornis.com/)와 같습니다.
+
+## 컴포넌트 렌더
+
+frontmatter 아래에서 import하고 JSX로 씁니다.
+
+```mdx title="src/content/docs/release.mdx"
+---
+title: Release notes
+---
+
+import { Badge, Button, Stack } from "@pelagornis/page/components";
+
+<Stack direction="row" gap="sizeSmall" align="center">
+  <Badge variant="success">Stable</Badge>
+  <Button variant="outline" size="sm">Changelog</Button>
+</Stack>
+```
+
+<div class="not-content">
+  <Stack direction="row" gap="sizeSmall" align="center">
+    <Badge variant="success">Stable</Badge>
+    <Button variant="outline" size="sm">Changelog</Button>
+  </Stack>
+</div>
+
+`client:*` 지시어가 없으면 Astro가 서버에서 HTML로 렌더하고 JavaScript를 보내지 않습니다. `Badge`, `Text`, `Box`, `Stack`, `Grid`, `Divider`, `Progress`, `Spinner`, `Link`, 핸들러가 없는 `Button`, `Input`·`Checkbox`·`Radio` 같은 기본 입력처럼 표시만 하는 컴포넌트에 맞습니다.
+
+## 입력에 반응하는 컴포넌트 하이드레이션
+
+`SearchField`, `Calendar`처럼 혼자 상태를 가지는 컴포넌트에는 `client:load`를 붙입니다.
+
+```mdx
+import { SearchField } from "@pelagornis/page/components";
+
+<SearchField client:load defaultValue="tokens" aria-label="Search" />
+```
+
+하이드레이션되는 컴포넌트의 props는 브라우저로 직렬화됩니다. 문자열, 숫자, 불리언, 배열, 일반 객체는 됩니다. 함수와 JSX 요소는 넘길 수 없으므로 `onChange={…}`나 `trigger={<Button />}`는 `.tsx` 파일에 둡니다.
+
+## 복합 컴포넌트는 `.tsx` 파일에서 조합
+
+`Tabs`, `Dialog`, `Select`, `Accordion`, `Menu` 같은 여러 부품 컴포넌트는 React context로 상태를 공유합니다. 부품을 MDX 자식으로 쓰면 Astro가 각각 따로 렌더해서 context가 닿지 않습니다. React 파일에서 조합하고 그 파일을 가져옵니다.
+
+```tsx title="src/components/ReleaseTabs.tsx"
+import { Tabs, TabsContent, TabsList, TabsTrigger, Text } from "@pelagornis/page/components";
+
+export default function ReleaseTabs() {
+  return (
+    <Tabs defaultValue="overview">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="usage">Usage</TabsTrigger>
+      </TabsList>
+      <TabsContent value="overview">
+        <Text variant="bodyMd">Tabs switch between panes in place.</Text>
+      </TabsContent>
+      <TabsContent value="usage">
+        <Text variant="bodyMd">Give each trigger and content the same value.</Text>
+      </TabsContent>
+    </Tabs>
+  );
+}
+```
+
+```mdx title="src/content/docs/release.mdx"
+import ReleaseTabs from "../../components/ReleaseTabs";
+
+<ReleaseTabs client:load />
+```
+
+<div class="not-content">
+  <TabsDemo client:load />
+</div>
+
+[컴포넌트 페이지](/ko/components/)마다 그대로 복사해 시작할 수 있는 `.tsx` 예제가 있습니다.
+
+## 표
+
+표는 일반 Markdown으로 씁니다. 플러그인이 `.md`, `.mdx`, `.mdoc` 페이지의 모든 Markdown 표를 RefineUI `Table` 마크업으로 렌더하므로 import가 필요 없습니다.
+
+```md
+| Option | Type | Use |
+| --- | --- | --- |
+| `navigation` | `NavigationItem[]` | 헤더 링크 |
+| `footerText` | `string` | 저작권 문구 |
+```
+
+| Option | Type | Use |
+| --- | --- | --- |
+| `navigation` | `NavigationItem[]` | 헤더 링크 |
+| `footerText` | `string` | 저작권 문구 |
+
+정렬, 배지 같은 컴포넌트가 들어가는 데이터 표는 [Table 예제](/ko/components/table/)처럼 `Table`, `TableHeader`, `TableRow` 등으로 `.tsx` 파일에서 만듭니다. `.astro` 파일에서는 `@pelagornis/page/table`의 클래스 이름을 일반 표 요소에 씁니다.
+
+## 클라이언트 지시어 고르기
+
+| 지시어 | 하이드레이션 시점 | 용도 |
+| --- | --- | --- |
+| 없음 | 하지 않음 | 표시만 하는 컴포넌트 |
+| `client:load` | 페이지 로드 시 | 페이지 위쪽에 보이는 콘텐츠 |
+| `client:visible` | 화면에 들어올 때 | 긴 페이지 아래쪽 예제 |
+| `client:idle` | 브라우저가 한가할 때 | 우선순위가 낮은 위젯 |
+
+## Starlight 본문 스타일 피하기
+
+Starlight는 본문의 `p`, `ul`, `table`, 제목에 스타일을 줍니다. 그 스타일이 컴포넌트에 들어가지 않게 하려면 `<div class="not-content">`로 감쌉니다.
+
+```mdx
+<div class="not-content">
+  <ReleaseTabs client:load />
+</div>
+```
+
+## 토큰으로 스타일 쓰기
+
+직접 쓰는 CSS도 RefineUI 시맨틱 변수를 쓰면 라이트·다크 모드를 따라갑니다.
+
+```css
+.release-banner {
+  padding: var(--refineui-spacing-size-large);
+  border-radius: var(--refineui-radius-rounded-x-large);
+  background: var(--refineui-color-alias-background-surface);
+  color: var(--refineui-color-alias-foreground-primary);
+}
+```
+
+`gap="sizeSmall"`, `padding="sizeLarge"`, `background="backgroundSurface"`, `radius="roundedLarge"` 같은 레이아웃 props도 같은 토큰 이름을 씁니다.

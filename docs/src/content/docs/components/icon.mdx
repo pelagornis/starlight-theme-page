@@ -1,0 +1,53 @@
+---
+title: Icon
+description: RefineUI system icon rendered from the icon font with WebIcon.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/icon";
+import source from "../../../demos/icon.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { WebIcon } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/IconExample.tsx" />
+
+## Use in MDX
+
+`Icon` can be written straight in an `.mdx` page. Import it below the frontmatter. It renders on the server, so no client directive is needed.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { WebIcon } from "@pelagornis/page/components";
+
+<WebIcon name="search" size={24} aria-label="Search" />
+```
+
+## Use in Markdoc
+
+`pageMarkdoc()` registers a `icon` tag for this component. Add the preset once in `markdoc.config.mjs` (see [Use in Markdoc](/guides/markdoc/)), then write the tag in any `.mdoc` page.
+
+```md title="src/content/docs/example.mdoc"
+{% icon name="search" size=24 ariaLabel="Search" /%}
+```
+
+Attributes use the same names and values as the React props.
+
+## Reference
+
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

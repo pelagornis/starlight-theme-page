@@ -1,0 +1,24 @@
+---
+import { SidebarLink } from '@refineui/react';
+
+interface TocItem {
+  slug: string;
+  text: string;
+  children: TocItem[];
+}
+
+interface Props {
+  toc: TocItem[];
+}
+
+const { toc } = Astro.props;
+---
+
+{
+  toc.map((heading) => (
+    <>
+      <SidebarLink href={'#' + heading.slug}>{heading.text}</SidebarLink>
+      {heading.children.length > 0 && <Astro.self toc={heading.children} />}
+    </>
+  ))
+}

@@ -1,191 +1,106 @@
 ---
 title: Card
-description: 情報をカード形式で表示するコンポーネント
-sidebar:
-  order: 7
-  group: components
+description: "ヘッダー、内容、フッターで 1 つの話題をまとめるコンテナです。"
 ---
 
-import Card from "@pelagornis/page/components/Card.astro";
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/card";
+import source from "../../../../demos/card.tsx?raw";
 
-Card コンポーネントは、情報をカード形式で表示し、リンクとしても使用できます。モダンなガラス効果とグラデーションを提供します。
+<Preview>
+  <Demo client:load />
+</Preview>
 
-## 基本的な使用方法
+## インポート
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 1rem 0;">
-  <Card
-    variant="default"
-    icon="📦"
-    title="パッケージマネージャー"
-    subtitle="様々なパッケージマネージャーのサポート"
-  >
-    npm、pnpm、yarn など様々なパッケージマネージャーをサポートし、ユーザーが好むツールを選択できます。
-  </Card>
-
-{" "}
-
-<Card
-  variant="elevated"
-  icon="🎨"
-  title="テーマサポート"
-  subtitle="ダーク/ライトモード"
->
-  完璧なダークモードサポートと共に美しいグラデーションとガラスモーフィズム効果を提供します。
-</Card>
-
-</div>
-
-## サイズ例
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0;">
-  <Card variant="default" padding="sm" title="Small Padding">
-    小さなパディングを持つカードです。簡単な情報を表示する際に適しています。
-  </Card>
-
-{" "}
-
-<Card variant="default" padding="md" title="Medium Padding">
-  デフォルトパディングを持つカードです。ほとんどの場合に使用されます。
-</Card>
-
-  <Card variant="default" padding="lg" title="Large Padding">
-    大きなパディングを持つカードです。重要な情報や詳細な内容を表示する際に使用します。
-  </Card>
-</div>
-
-## リンクカード
-
-<Card
-  variant="elevated"
-  icon="🚀"
-  title="はじめに"
-  subtitle="クイックインストールガイド"
-  href="/guides/getting-started/"
->
-  Pageテーマをインストールして設定する方法を学びます。ステップバイステップガイドで簡単に始められます。
-</Card>
-
-## Props
-
-| Prop       | Type                                                  | Default     | Description                   |
-| ---------- | ----------------------------------------------------- | ----------- | ----------------------------- |
-| `variant`  | `'default' \| 'elevated' \| 'outlined' \| 'gradient'` | `'default'` | カードのスタイル              |
-| `padding`  | `'sm' \| 'md' \| 'lg'`                                | `'md'`      | カードのパディング            |
-| `icon`     | `string`                                              | -           | アイコン (オプション)         |
-| `title`    | `string`                                              | -           | タイトル (オプション)         |
-| `subtitle` | `string`                                              | -           | サブタイトル (オプション)     |
-| `href`     | `string`                                              | -           | リンク URL (オプション)       |
-| `target`   | `string`                                              | -           | リンクターゲット (オプション) |
-
-## 使用例
-
-### 基本的なカード
-
-```mdx
-<Card>これは基本的なカードです。簡単な情報を表示する際に使用します。</Card>
+```tsx
+import {
+  Card,
+  CardHeader,
+  CardHeaderMain,
+  CardTitle,
+  CardDescription,
+  CardAction,
+  CardContent,
+  CardFooter,
+} from "@pelagornis/page/components";
 ```
 
-### タイトルとアイコン付きカード
+## 例
 
-```mdx
-<Card icon="🎨" title="デザイン" subtitle="美しいUI">
-  Pageテーマのデザイン特徴を説明します。モダンで直感的なインターフェースを提供します。
-</Card>
+上のプレビューはこのファイルを描画したものです。`src/components/` にコピーして使い始めてください。
+
+<Code code={source} lang="tsx" title="src/components/CardExample.tsx" />
+
+## MDX で使う
+
+`Card` は React の状態を共有する複数のパーツで構成されます。MDX に書いた子要素はそれぞれ別のアイランドとして描画されるため、パーツ同士がつながりません。上の例のように `.tsx` ファイルで組み立て、そのファイルをインポートしてください。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import CardExample from "../../components/CardExample";
+
+<CardExample client:load />
 ```
 
-### 様々なスタイル
+`client:load` はページの読み込み時にアイランドをハイドレートします。ページの下の方にあるコンテンツには `client:visible` を使ってください。
 
-```mdx
-<Card variant="default" title="Default">
-  デフォルトスタイルのカードです。
-</Card>
+## Markdoc で使う
 
-<Card variant="elevated" title="Elevated">
-  シャドウ効果が強いカードです。
-</Card>
+Markdoc のタグは Astro コンポーネントを描画しますが、このコンポーネントにはクライアントの状態が必要です。例をハイドレートする `.astro` ファイルで包み、そのファイルをタグとして登録してください。
 
-<Card variant="outlined" title="Outlined">
-  ボーダーのみの透明なカードです。
-</Card>
+```astro title="src/components/markdoc/CardExample.astro"
+---
+import CardExample from "../CardExample";
+---
 
-<Card variant="gradient" title="Gradient">
-  グラデーション背景の特別なカードです。
-</Card>
+<CardExample client:load />
 ```
 
-### リンクカード
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
 
-```mdx
-<Card variant="elevated" icon="📚" title="ドキュメント" href="/docs">
-  ドキュメントに移動します。
-</Card>
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "card-example": {
+      render: component("./src/components/markdoc/CardExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
 ```
 
-### 外部リンク
-
-```mdx
-<Card
-  variant="outlined"
-  icon="🔗"
-  title="GitHub"
-  href="https://github.com"
-  target="_blank"
->
-  GitHubリポジトリを訪問します。
-</Card>
+```md title="src/content/docs/example.mdoc"
+{% card-example /%}
 ```
 
-## 特徴
+## バリアント
 
-### ✨ モダンデザイン
+各 variant prop が受け付ける値です。
 
-- **ガラス効果**: `backdrop-filter: blur(20px)` を適用
-- **グラデーション背景**: 美しいグラデーション効果
-- **ソフトシャドウ**: 多層シャドウで深さを表現
-- **ホバーアニメーション**: `translateY(-4px) scale(1.02)` 変換
+<ComponentSpec id="card" section="variants" />
 
-### 🎨 バリアント別特徴
+## 構造
 
-- **Default**: デフォルトスタイル、適度なシャドウとガラス効果
-- **Elevated**: より強いシャドウとホバー効果
-- **Outlined**: 透明背景、ボーダーのみ表示
-- **Gradient**: 美しいグラデーション背景 (新機能)
+コンポーネントを構成するパーツと、それぞれが描画する `data-refineui` のロールです。
 
-### 🌙 ダークモードサポート
+<ComponentSpec id="card" section="anatomy" />
 
-- 自動色調整
-- 一貫したユーザー体験
-- 完璧なテーマ互換性
+## 状態
 
-### 📱 レスポンシブデザイン
+コンポーネントがスタイルを当てる状態です。コンポーネントの状態は data 属性として公開されます。
 
-- モバイルで最適化されたサイズ
-- 柔軟なグリッドレイアウト
-- タッチフレンドリーなインターフェース
+<ComponentSpec id="card" section="states" />
 
-### 💫 アニメーション効果
+## 参考
 
-- **カードフェードイン**: ページ読み込み時のスムーズな登場
-- **ホバー効果**: マウスオーバー時の自然な変換
-- **アイコンアニメーション**: ホバー時のアイコンスケール効果
-
-## スタイリング
-
-Card コンポーネントは CSS 変数を通じてカスタマイズできます：
-
-```css
-:root {
-  --page-card-border-radius: 16px;
-  --page-card-padding: 24px;
-  --page-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-```
-
-## ブラウザサポート
-
-- Chrome 88+
-- Firefox 85+
-- Safari 14+
-- Edge 88+
-
-モダンブラウザで最適なパフォーマンスを提供します。
+- デザインのガイドとトークンの詳細は [RefineUI · Card](https://ui.pelagornis.com/components/card/) を参照してください。
+- 共通のルールは [MDX で使う](/ja/guides/mdx/) と [Markdoc で使う](/ja/guides/markdoc/) を参照してください。

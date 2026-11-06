@@ -1,0 +1,61 @@
+---
+title: Text
+description: Typography primitive that maps a semantic text token to an element.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/text";
+import source from "../../../demos/text.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import { Text } from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/TextExample.tsx" />
+
+## Use in MDX
+
+`Text` can be written straight in an `.mdx` page. Import it below the frontmatter. It renders on the server, so no client directive is needed.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Text } from "@pelagornis/page/components";
+
+<Text as="p" variant="titleMd">Title medium</Text>
+<Text variant="captionMd">Caption</Text>
+```
+
+## Use in Markdoc
+
+`pageMarkdoc()` registers a `text` tag for this component. Add the preset once in `markdoc.config.mjs` (see [Use in Markdoc](/guides/markdoc/)), then write the tag in any `.mdoc` page.
+
+```md title="src/content/docs/example.mdoc"
+{% text as="p" variant="titleMd" %}Title medium{% /text %}
+```
+
+Attributes use the same names and values as the React props.
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="text" section="anatomy" />
+
+## Reference
+
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

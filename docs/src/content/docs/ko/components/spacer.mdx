@@ -1,0 +1,68 @@
+---
+title: Spacer
+description: "행이나 열 안에서 형제 요소를 밀어내는 유연한 간격입니다."
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/spacer";
+import source from "../../../../demos/spacer.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## 가져오기
+
+```tsx
+import { Spacer } from "@pelagornis/page/components";
+```
+
+## 예제
+
+위 미리보기는 이 파일을 렌더링한 것입니다. `src/components/`에 복사해서 시작하세요.
+
+<Code code={source} lang="tsx" title="src/components/SpacerExample.tsx" />
+
+## MDX에서 사용
+
+`Spacer` 컴포넌트는 `.mdx` 페이지에 바로 쓸 수 있습니다. frontmatter 아래에서 가져오세요. 서버에서 렌더링되므로 client 지시어가 필요 없습니다.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Button, Spacer, Stack } from "@pelagornis/page/components";
+
+<Stack direction="row">
+  <span>Project</span>
+  <Spacer />
+  <Button size="sm">New file</Button>
+</Stack>
+```
+
+## Markdoc에서 사용
+
+`pageMarkdoc()`가 이 컴포넌트의 `stack` 태그를 등록합니다. `markdoc.config.mjs`에 프리셋을 한 번 추가한 뒤([Markdoc에서 사용](/ko/guides/markdoc/) 참고), 어느 `.mdoc` 페이지에서나 태그를 쓰세요.
+
+```md title="src/content/docs/example.mdoc"
+{% stack direction="row" %}
+Project
+{% spacer /%}
+{% button size="sm" %}New file{% /button %}
+{% /stack %}
+```
+
+속성 이름과 값은 React props와 같습니다.
+
+## 구조
+
+컴포넌트를 이루는 부분과 각 부분이 렌더링하는 `data-refineui` 역할입니다.
+
+<ComponentSpec id="spacer" section="anatomy" />
+
+## 참고
+
+- 공통 규칙은 [MDX에서 사용](/ko/guides/mdx/)과 [Markdoc에서 사용](/ko/guides/markdoc/)을 참고하세요.

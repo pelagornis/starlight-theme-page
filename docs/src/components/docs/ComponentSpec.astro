@@ -1,0 +1,101 @@
+---
+import { tableClasses } from "@pelagornis/page/table";
+import { loadSpec } from "./spec";
+
+interface Props {
+  id: string;
+  section: "variants" | "anatomy" | "states" | "keyboard";
+}
+
+type Row = { key: string; keyAs: "code" | "kbd" | "text"; values: string[]; valuesAs: "code" | "text" };
+
+const labels = {
+  en: { prop: "Prop", values: "Values", part: "Part", role: "Role", kind: "Kind", states: "States", key: "Key", action: "Action", pseudo: "Pseudo", availability: "Availability" },
+  ko: { prop: "Prop", values: "값", part: "부분", role: "역할", kind: "종류", states: "상태", key: "키", action: "동작", pseudo: "의사 클래스", availability: "사용 가능 여부" },
+  ja: { prop: "Prop", values: "値", part: "パーツ", role: "ロール", kind: "種類", states: "状態", key: "キー", action: "動作", pseudo: "疑似クラス", availability: "利用可否" },
+  zh: { prop: "Prop", values: "取值", part: "部件", role: "角色", kind: "类型", states: "状态", key: "按键", action: "动作", pseudo: "伪类", availability: "可用性" },
+};
+
+const { id, section } = Astro.props;
+const spec = loadSpec(id);
+const t = labels[Astro.locals.starlightRoute.lang as keyof typeof labels] ?? labels.en;
+
+const sections: Record<Props["section"], { headers: [string, string]; rows: Row[] }> = {
+  variants: {
+    headers: [t.prop, t.values],
+    rows: Object.entries(spec?.variants ?? {}).map(([prop, values]) => ({
+      key: prop,
+      keyAs: "code",
+      values,
+      valuesAs: "code",
+    })),
+  },
+  anatomy: {
+    headers: [t.part, t.role],
+    rows: Object.entries(spec?.anatomy ?? {}).map(([part, role]) => ({
+      key: part,
+      keyAs: "code",
+      values: [role],
+      valuesAs: "text",
+    })),
+  },
+  states: {
+    headers: [t.kind, t.states],
+    rows: (
+      [
+        [t.pseudo, spec?.states?.pseudo ?? []],
+        [t.availability, spec?.states?.availability ?? []],
+        ...Object.entries(spec?.states?.component ?? {}),
+      ] as [string, string[]][]
+    )
+      .filter(([, values]) => values.length > 0)
+      .map(([kind, values]) => ({ key: kind, keyAs: "text", values, valuesAs: "code" })),
+  },
+  keyboard: {
+    headers: [t.key, t.action],
+    rows: Object.entries(spec?.keyboard ?? {}).map(([key, value]) => ({
+      key,
+      keyAs: "kbd",
+      values: [typeof value === "string" ? value : value.action],
+      valuesAs: "text",
+    })),
+  },
+};
+
+const { headers, rows } = sections[section];
+---
+
+{
+  rows.length > 0 && (
+    <div class:list={[tableClasses.wrapper, "not-content"]} data-refineui="table" data-page-table>
+      <table class={tableClasses.table}>
+        <thead class={tableClasses.thead}>
+          <tr class={tableClasses.tr} data-refineui="table-row">
+            {headers.map((header) => (
+              <th class={tableClasses.th} scope="col">
+                {header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody class={tableClasses.tbody}>
+          {rows.map((row) => (
+            <tr class={tableClasses.tr} data-refineui="table-row">
+              <td class={tableClasses.td}>
+                {row.keyAs === "code" ? <code>{row.key}</code> : row.keyAs === "kbd" ? <kbd>{row.key}</kbd> : row.key}
+              </td>
+              <td class={tableClasses.td}>
+                {row.values.map((value, index) => (
+                  <>
+                    {index > 0 && " "}
+                    {row.valuesAs === "code" ? <code>{value}</code> : value}
+                  </>
+                ))}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}

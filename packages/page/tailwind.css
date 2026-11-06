@@ -1,0 +1,13 @@
+@layer theme, base, starlight.base, starlight.reset, starlight.core, starlight.content, starlight.components, starlight.utils, components, utilities;
+
+@import "tailwindcss";
+@import "@refineui/tokens/css-variables.css";
+@import "@refineui/tokens/tailwind-theme.css";
+@import "@refineui/tokens/refineui-typography.css";
+
+/* RefineUI class names live in its dist; where it sits depends on how the package manager lays out node_modules. */
+@source "./node_modules/@refineui/react/dist";
+@source "../../@refineui/react/dist";
+@source "../../node_modules/@refineui/react/dist";
+@source "./overrides";
+@source inline("refineui-typo-heading-1 refineui-typo-heading-2 refineui-typo-heading-3 refineui-typo-heading-4 refineui-typo-title-1 refineui-typo-title-2 refineui-typo-title-3 refineui-typo-sub-title-1 refineui-typo-sub-title-2 refineui-typo-body-1 refineui-typo-body-2 refineui-typo-body-3 refineui-typo-body-4 refineui-typo-caption-1 refineui-typo-caption-2 refineui-typo-caption-3");

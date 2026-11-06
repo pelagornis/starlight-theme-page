@@ -1,218 +1,81 @@
 ---
 title: Button
-description: 提供各种样式按钮的组件
-sidebar:
-  order: 6
-  group: components
+description: "触发保存、继续或打开面板等操作。"
 ---
 
-import Button from "@pelagornis/page/components/Button.astro";
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/button";
+import source from "../../../../demos/button.tsx?raw";
 
-Button 组件提供各种样式和尺寸的按钮，也可以用作链接。提供现代玻璃效果和渐变。
+<Preview>
+  <Demo client:load />
+</Preview>
 
-## 基本用法
+## 导入
 
-<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
-  <Button variant="default">Default</Button>
-  <Button variant="primary">Primary</Button>
-  <Button variant="success">Success</Button>
-  <Button variant="warning">Warning</Button>
-  <Button variant="error">Error</Button>
-  <Button variant="ghost">Ghost</Button>
-</div>
-
-## 尺寸示例
-
-<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
-  <Button variant="primary" size="sm">
-    Small
-  </Button>
-  <Button variant="primary" size="md">
-    Medium
-  </Button>
-  <Button variant="primary" size="lg">
-    Large
-  </Button>
-</div>
-
-## 带图标
-
-<div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0;">
-  <Button variant="primary" size="sm" icon="📥">
-    Download
-  </Button>
-  <Button variant="success" size="md" icon="✅">
-    Install
-  </Button>
-  <Button variant="warning" size="lg" icon="⚠️">
-    Delete
-  </Button>
-  <Button variant="gradient" size="md" icon="✨">
-    Special
-  </Button>
-</div>
-
-## 链接按钮
-
-<Button variant="primary" href="https://github.com" target="_blank" icon="🔗">
-  访问 GitHub
-</Button>
-
-<Button variant="ghost" href="/guides/getting-started/" icon="📚">
-  入门指南
-</Button>
-
-<Button variant="gradient" href="https://npmjs.com" target="_blank" icon="📦">
-  在 npm 上查看
-</Button>
-
-## Props
-
-| Prop       | Type                                                                                   | Default     | Description          |
-| ---------- | -------------------------------------------------------------------------------------- | ----------- | -------------------- |
-| `variant`  | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error' \| 'ghost' \| 'gradient'` | `'default'` | 按钮的样式          |
-| `size`     | `'sm' \| 'md' \| 'lg'`                                                                 | `'md'`      | 按钮的尺寸          |
-| `icon`     | `string`                                                                               | -           | 图标 (可选)         |
-| `href`     | `string`                                                                               | -           | 链接 URL (可选)     |
-| `target`   | `string`                                                                               | -           | 链接目标 (可选)     |
-| `disabled` | `boolean`                                                                              | `false`     | 禁用状态            |
-
-## 使用示例
-
-### 基本按钮
-
-```mdx
-<Button variant="primary">点击我</Button>
+```tsx
+import { Button } from "@pelagornis/page/components";
 ```
 
-### 尺寸调整
+## 示例
 
-```mdx
-<Button variant="success" size="sm">
-  Small
-</Button>
-<Button variant="success" size="md">
-  Medium
-</Button>
-<Button variant="success" size="lg">
-  Large
-</Button>
+上方预览渲染的就是这个文件。把它复制到 `src/components/` 即可开始使用。
+
+<Code code={source} lang="tsx" title="src/components/ButtonExample.tsx" />
+
+## 在 MDX 中使用
+
+`Button` 可以直接写在 `.mdx` 页面中。在 frontmatter 下方导入即可。它在服务器端渲染，不需要 client 指令。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import { Button } from "@pelagornis/page/components";
+
+<Button variant="primary">Continue</Button>
+<Button variant="outline" size="sm">Cancel</Button>
 ```
 
-### 带图标
+## 在 Markdoc 中使用
 
-```mdx
-<Button variant="primary" icon="📥">
-  下载
-</Button>
+`pageMarkdoc()` 会为这个组件注册 `button` 标签。在 `markdoc.config.mjs` 中添加一次预设（见[在 Markdoc 中使用](/zh/guides/markdoc/)），就能在任意 `.mdoc` 页面中使用该标签。
+
+```md title="src/content/docs/example.mdoc"
+{% button variant="primary" %}Continue{% /button %}
+{% button variant="outline" size="sm" %}Cancel{% /button %}
 ```
 
-### 链接按钮
+属性的名称和取值与 React props 相同。
 
-```mdx
-<Button variant="primary" href="/docs" icon="📚">
-  查看文档
-</Button>
-```
+## 变体
 
-### 外部链接
+每个 variant prop 可接受的取值。
 
-```mdx
-<Button variant="ghost" href="https://github.com" target="_blank">
-  GitHub
-</Button>
-```
+<ComponentSpec id="button" section="variants" />
 
-### 各种样式的链接按钮
+## 结构
 
-```mdx
-<Button variant="primary" href="/install" icon="📥">
-  安装
-</Button>
+组件的组成部分，以及每个部分渲染的 `data-refineui` 角色。
 
-<Button variant="success" href="/docs" icon="📖">
-  阅读文档
-</Button>
+<ComponentSpec id="button" section="anatomy" />
 
-<Button variant="warning" href="/migrate" icon="🔄">
-  迁移
-</Button>
+## 状态
 
-<Button variant="gradient" href="/special" icon="✨">
-  特殊功能
-</Button>
-```
+组件会设置样式的状态。组件状态通过 data 属性暴露。
 
-### 禁用按钮
+<ComponentSpec id="button" section="states" />
 
-```mdx
-<Button variant="primary" disabled>
-  已禁用
-</Button>
-```
+## 键盘
 
-## 特性
+组件获得焦点时处理的按键。
 
-### ✨ 现代设计
+<ComponentSpec id="button" section="keyboard" />
 
-- **玻璃效果**: 应用 `backdrop-filter: blur(15px)`
-- **渐变背景**: 美丽的渐变效果
-- **柔和阴影**: 多层阴影营造深度感
-- **悬停动画**: `translateY(-2px)` 变换和图标缩放效果
+## 参考
 
-### 🎨 变体特定功能
-
-- **Default**: 默认样式，适应浅色/深色主题
-- **Primary**: 主要操作用，蓝色渐变
-- **Success**: 成功操作用，绿色渐变
-- **Warning**: 警告操作用，橙色渐变
-- **Error**: 危险操作用，红色渐变
-- **Ghost**: 透明背景，悬停时仅显示背景
-- **Gradient**: 特殊渐变背景 (新功能)
-
-### 🌙 深色模式支持
-
-- 自动颜色调整
-- 一致的用户体验
-- 完美的主题兼容性
-
-### 📱 响应式设计
-
-- 移动端优化尺寸
-- 触摸友好界面
-- 自适应内边距和字体大小
-
-### 💫 动画效果
-
-- **悬停效果**: 鼠标悬停时的自然变换
-- **图标动画**: 悬停时的图标缩放效果
-- **点击效果**: 点击时的脉冲动画
-- **焦点指示器**: 键盘导航支持
-
-### ♿ 无障碍性
-
-- 键盘导航支持
-- 焦点指示器
-- 屏幕阅读器兼容
-- 禁用状态支持
-
-## 样式
-
-Button 组件可以通过 CSS 变量进行自定义：
-
-```css
-:root {
-  --page-button-border-radius: 12px;
-  --page-button-padding: 12px 20px;
-  --page-button-font-weight: 600;
-}
-```
-
-## 浏览器支持
-
-- Chrome 88+
-- Firefox 85+
-- Safari 14+
-- Edge 88+
-
-在现代浏览器上提供最佳性能。
+- 设计指南和令牌细节见 [RefineUI · Button](https://ui.pelagornis.com/components/button/)。
+- 通用规则见[在 MDX 中使用](/zh/guides/mdx/)和[在 Markdoc 中使用](/zh/guides/markdoc/)。

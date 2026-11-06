@@ -1,279 +1,527 @@
 ---
-// Page-style hero section
 import { Image } from "astro:assets";
-import Button from "@pelagornis/page/components/Button.astro";
 
-// In Starlight entry comes from locals.starlightRoute or props.entry
-const entry = Astro.locals.starlightRoute?.entry || Astro.props.entry;
+const { data } = Astro.locals.starlightRoute.entry;
+const { siteTitle } = Astro.locals.starlightRoute;
+const { title = data.title, tagline, image, actions = [] } = data.hero || {};
 
-// Read hero field from entry.data
-const heroData = entry?.data?.hero;
+const imageAttrs = {
+  loading: "eager" as const,
+  decoding: "async" as const,
+  width: 400,
+  height: 400,
+  alt: image?.alt || "",
+};
 
-// Don't render Hero if no hero section
-if (!heroData) {
-  return null;
+let darkImage: ImageMetadata | undefined;
+let lightImage: ImageMetadata | undefined;
+let rawHtml: string | undefined;
+if (image) {
+  if ("file" in image) darkImage = image.file;
+  else if ("dark" in image) {
+    darkImage = image.dark;
+    lightImage = image.light;
+  } else rawHtml = image.html;
 }
 
-// Use hero.title if present, else page title
-const title = heroData.title ?? entry?.data?.title;
+const hasImage = Boolean(darkImage || lightImage || rawHtml);
 
-// Read tagline (Starlight default schema supports it)
-const tagline = heroData.tagline;
-const actions = heroData.actions || [];
-const imageFile = heroData.image?.file;
+function buttonVariant(variant: string | undefined) {
+  if (variant === "primary") return "primary";
+  if (variant === "minimal") return "ghost";
+  return "default";
+}
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const home = path === "/" || path === "/ko" || path === "/ja" || path === "/zh";
+const splash = data.template === "splash" || home;
+const homeTitle = data.hero?.title ?? siteTitle;
+
+function externalLink(link: string) {
+  return /^https?:/i.test(link) ? { target: "_blank", rel: "noreferrer" } : {};
+}
 ---
 
+{
+  splash ? (
+    <section data-refineui-home-hero>
+      <div data-refineui-home-backdrop aria-hidden="true">
+        <div data-refineui-home-gradient="flow" />
+        <div data-refineui-home-gradient="mesh" />
+        <span data-refineui-home-glow="primary" />
+        <span data-refineui-home-glow="secondary" />
+        <span data-refineui-home-glow="tertiary" />
+      </div>
+      <div data-refineui-home-hero-inner>
+        <h1 id="_top" data-refineui-home-brand set:html={homeTitle} />
+        {tagline && <p data-refineui-home-lead set:html={tagline} />}
+        {
+          actions.length > 0 && (
+            <div data-refineui-home-actions>
+              {actions.map(({ link, text, variant }) => (
+                <a
+                  href={link}
+                  data-refineui-home-cta={variant === "primary" ? "primary" : "secondary"}
+                  {...externalLink(link)}
+                >
+                  {text}
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </div>
+    </section>
+  ) : (
 <div class="page-hero">
-  <div class={`page-hero-container ${imageFile ? "has-image" : ""}`}>
+  <div class:list={["page-hero-container", { "has-image": hasImage }]}>
     <div class="page-hero-content">
-      <!-- Main title -->
-      <h1 class="page-hero-title">{title || "Starlight Page"}</h1>
-
-      <!-- Description -->
-      {tagline && <p class="page-hero-tagline">{tagline}</p>}
-
-      <!-- Action buttons -->
+      <h1 id="_top" class="page-hero-title" set:html={title} />
+      {tagline && <p class="page-hero-tagline" set:html={tagline} />}
       {
-        actions && actions.length > 0 && (
+        actions.length > 0 && (
           <div class="page-hero-actions">
-            {actions.map(
-              (action: {
-                link: string;
-                text: string;
-                variant?: string;
-                icon?: string;
-              }) => {
-                const variant = action.variant || "default";
-                const buttonVariant =
-                  variant === "primary"
-                    ? "primary"
-                    : variant === "minimal"
-                      ? "ghost"
-                      : "default";
-
-                const isExternal = action.link.startsWith("http");
-                const iconType = action.icon || "right-arrow";
-
-                return (
-                  <Button
-                    href={action.link}
-                    variant={buttonVariant as any}
-                    {...(isExternal
-                      ? { target: "_blank", rel: "noopener noreferrer" }
-                      : {})}
-                  >
-                    {action.text}
-                  </Button>
-                );
-              }
-            )}
+            {actions.map(({ link, text, variant }) => (
+              <a
+                class:list={["page-button", "page-button-md", `page-button-${buttonVariant(variant)}`]}
+                href={link}
+                {...externalLink(link)}
+              >
+                <span class="page-button-text">{text}</span>
+              </a>
+            ))}
           </div>
         )
       }
     </div>
-
-    <!-- Show only when image exists -->
     {
-      imageFile && (
+      hasImage && (
         <div class="page-hero-visual">
           <div class="page-hero-image">
-            <img
-              src={imageFile}
-              alt={title || "Hero image"}
-              class="page-hero-img"
-            />
+            {darkImage && (
+              <Image src={darkImage} {...imageAttrs} class:list={["page-hero-img", { "light:sl-hidden": Boolean(lightImage) }]} />
+            )}
+            {lightImage && <Image src={lightImage} {...imageAttrs} class="page-hero-img dark:sl-hidden" />}
+            {rawHtml && <div class="page-hero-img" set:html={rawHtml} />}
           </div>
         </div>
       )
     }
   </div>
 </div>
+  )
+}
 
 <style>
   .page-hero {
-    background: linear-gradient(
-      135deg,
-      var(--page-bg-secondary) 0%,
-      var(--page-bg) 50%,
-      var(--page-bg-secondary) 100%
-    );
-    border-radius: 1.5em;
-    padding: 4rem 0 3rem;
-    margin-top: calc(-1 * var(--page-header-height) + 1rem);
-    margin-bottom: 3rem;
-    padding-top: calc(4rem + var(--page-header-height));
-    position: relative;
-    overflow: hidden;
-  }
-
-  .page-hero::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(
-        circle at 30% 20%,
-        rgba(120, 119, 198, 0.08) 0%,
-        transparent 50%
-      ),
-      radial-gradient(
-        circle at 70% 80%,
-        rgba(255, 119, 198, 0.06) 0%,
-        transparent 50%
-      );
-    pointer-events: none;
-  }
-
-  [data-theme="dark"] .page-hero {
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
-  }
-
-  [data-theme="dark"] .page-hero::before {
-    background: radial-gradient(
-        circle at 30% 20%,
-        rgba(120, 119, 198, 0.12) 0%,
-        transparent 50%
-      ),
-      radial-gradient(
-        circle at 70% 80%,
-        rgba(255, 119, 198, 0.1) 0%,
-        transparent 50%
-      );
+    margin-block-end: var(--refineui-spacing-size-xxx-large);
   }
 
   .page-hero-container {
-    margin: 0 auto;
-    padding: 0 var(--page-space-16);
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--page-space-10);
     align-items: start;
-  }
-
-  .page-hero-container.has-image {
-    grid-template-columns: 1.2fr 1fr;
-    gap: var(--page-space-12);
+    gap: var(--refineui-spacing-size-xx-large);
   }
 
   .page-hero-content {
-    width: 100%;
-    margin: 0;
-    text-align: left;
-    position: relative;
-    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--refineui-spacing-size-large);
+    min-width: 0;
   }
 
   .page-hero-title {
-    font-weight: 700;
-    color: var(--page-text);
-    margin: 0 0 var(--page-space-4) 0;
+    margin: 0;
+    color: var(--refineui-color-alias-foreground-primary);
+    font-family: var(--refineui-typography-heading-2-font-family);
+    font-size: var(--refineui-typography-heading-3-font-size);
+    font-weight: var(--refineui-typography-heading-2-font-weight);
+    line-height: var(--refineui-typography-heading-2-line-height);
     letter-spacing: -0.02em;
-    font-family: var(--page-font-family);
-    font-size: 3rem;
-    line-height: 1.2;
   }
 
   .page-hero-tagline {
-    font-size: 1.125rem;
-    line-height: 1.7;
-    color: var(--page-text-secondary);
-    margin: 0 0 var(--page-space-4) 0;
-    font-weight: 400;
-    opacity: 0.75;
+    margin: 0;
+    max-width: var(--refineui-size-foundation-size-5750);
+    color: var(--refineui-color-alias-foreground-secondary);
+    font-family: var(--refineui-text-body-lg-font-family);
+    font-size: var(--refineui-text-body-lg-font-size);
+    font-weight: var(--refineui-text-body-lg-font-weight);
+    line-height: var(--refineui-text-body-lg-line-height);
   }
 
   .page-hero-actions {
     display: flex;
-    gap: var(--page-space-3);
     flex-wrap: wrap;
+    gap: var(--refineui-spacing-size-small);
   }
 
-  /* Hero action buttons reuse Button component styles */
-  .page-hero-actions :global(.page-button) {
-    margin-top: 0;
+  .page-button {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--refineui-size-button-min-height-md);
+    padding: var(--refineui-spacing-size-x-small) var(--refineui-spacing-size-large);
+    border: var(--refineui-stroke-width-thin) solid transparent;
+    border-radius: var(--refineui-radius-rounded-x-large);
+    font-family: var(--refineui-text-subtitle-md-font-family);
+    font-size: var(--refineui-text-subtitle-md-font-size);
+    font-weight: var(--refineui-text-subtitle-md-font-weight);
+    line-height: var(--refineui-text-subtitle-md-line-height);
+    text-decoration: none;
+    transition:
+      background-color var(--refineui-motion-duration-fast) var(--refineui-motion-easing-ease-out),
+      color var(--refineui-motion-duration-fast) var(--refineui-motion-easing-ease-out);
   }
 
-  /* Show only when image exists */
+  .page-button-text {
+    color: inherit;
+  }
+
+  .page-button-primary {
+    background: var(--refineui-color-alias-background-brand);
+    color: var(--refineui-color-alias-foreground-inversed);
+  }
+
+  .page-button-default {
+    background: var(--refineui-color-alias-background-surface-hover);
+    color: var(--refineui-color-alias-foreground-primary);
+  }
+
+  .page-button-ghost {
+    background: transparent;
+    color: var(--refineui-color-alias-foreground-secondary);
+  }
+
+  .page-button-primary:hover {
+    background: var(--refineui-color-alias-background-brand-hover);
+  }
+
+  .page-button-default:hover,
+  .page-button-ghost:hover {
+    background: var(--refineui-color-alias-background-surface-hover);
+    color: var(--refineui-color-alias-foreground-primary);
+  }
+
+  .page-button:focus-visible {
+    outline: var(--refineui-focus-ring-width) var(--refineui-focus-ring-style) var(--refineui-focus-ring-color);
+    outline-offset: var(--refineui-focus-ring-offset);
+  }
+
   .page-hero-visual {
     display: flex;
-    justify-content: center;
     align-items: center;
-    position: relative;
-    z-index: 1;
+    justify-content: center;
+    min-width: 0;
   }
 
   .page-hero-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
-    max-width: 500px;
+    max-width: var(--refineui-size-foundation-size-5750);
   }
 
   .page-hero-img {
     width: 100%;
     height: auto;
-    border-radius: var(--page-radius);
-    object-fit: contain;
+    border-radius: var(--refineui-radius-rounded-x-large);
   }
 
-  /* Mobile */
-  @media (max-width: 768px) {
-    .page-hero {
-      padding: 3rem 0 2rem;
-      padding-top: calc(3rem + var(--page-header-height));
-    }
-
-    .page-hero-container {
-      grid-template-columns: 1fr !important;
-      padding: 0 var(--page-space-4);
-      gap: var(--page-space-8);
-    }
-
-    .page-hero-content {
-      max-width: 100%;
-    }
-
+  @media (min-width: 50rem) {
     .page-hero-title {
-      font-size: 2rem;
+      font-size: var(--refineui-typography-heading-2-font-size);
     }
 
-    .page-hero-tagline {
-      font-size: 1rem;
-    }
-
-    .page-hero-visual {
-      order: -1;
-      margin-bottom: var(--page-space-6);
+    .page-hero-container.has-image {
+      grid-template-columns: 1.2fr 1fr;
     }
   }
 
-  @media (max-width: 480px) {
-    .page-hero-title {
-      font-size: 1.75rem;
-    }
+  [data-refineui-home-hero] {
+    --refineui-home-gradient-cycle: calc(var(--refineui-motion-duration-spinner) * 5);
+    --refineui-home-mesh-cycle: calc(var(--refineui-motion-duration-spinner) * 7);
+    --refineui-home-glow-cycle-a: calc(var(--refineui-motion-duration-skeleton) * 2);
+    --refineui-home-glow-cycle-b: calc(var(--refineui-motion-duration-skeleton) * 2.5);
+    --refineui-home-glow-cycle-c: calc(var(--refineui-motion-duration-skeleton) * 3);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    width: 100%;
+    max-width: var(--refineui-size-foundation-size-8500);
+    margin-inline: auto;
+    border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-subtle);
+    border-radius: var(--refineui-radius-rounded-x-large);
+    background: var(--refineui-color-alias-background-primary);
+  }
 
-    .page-hero-btn {
-      padding: var(--page-space-3) var(--page-space-4);
-      font-size: 0.875rem;
+  [data-refineui-home-backdrop] {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  [data-refineui-home-gradient="flow"] {
+    position: absolute;
+    inset: -60%;
+    background-image: linear-gradient(
+      125deg,
+      var(--refineui-color-alias-background-primary),
+      var(--refineui-color-alias-background-brand-subtle),
+      var(--refineui-color-alias-surface-sunken),
+      color-mix(
+        in srgb,
+        var(--refineui-color-alias-background-brand) 20%,
+        var(--refineui-color-alias-background-brand-subtle)
+      ),
+      var(--refineui-color-alias-background-primary)
+    );
+    background-size: 450% 450%;
+    background-position: 0% 50%;
+    will-change: background-position;
+    animation: refineui-home-gradient-flow var(--refineui-home-gradient-cycle)
+      var(--refineui-motion-easing-ease-in-out) infinite;
+  }
+
+  [data-refineui-home-gradient="mesh"] {
+    position: absolute;
+    inset: -50%;
+    background-image:
+      radial-gradient(
+        ellipse at 28% 28%,
+        var(--refineui-color-alias-background-brand-subtle),
+        var(--refineui-color-alias-background-primary) 64%
+      ),
+      radial-gradient(
+        ellipse at 78% 68%,
+        var(--refineui-color-alias-surface-sunken),
+        var(--refineui-color-alias-background-primary) 64%
+      ),
+      radial-gradient(
+        ellipse at 52% 48%,
+        color-mix(
+          in srgb,
+          var(--refineui-color-alias-background-brand) 14%,
+          var(--refineui-color-alias-background-surface-selected)
+        ),
+        var(--refineui-color-alias-background-primary) 68%
+      );
+    background-size:
+      200% 200%,
+      220% 220%,
+      210% 210%;
+    background-position:
+      0% 20%,
+      100% 80%,
+      50% 50%;
+    will-change: background-position;
+    animation: refineui-home-gradient-mesh var(--refineui-home-mesh-cycle)
+      var(--refineui-motion-easing-ease-in-out) infinite;
+  }
+
+  [data-refineui-home-glow] {
+    position: absolute;
+    aspect-ratio: 1;
+    border-radius: var(--refineui-radius-rounded-circle);
+    filter: blur(var(--refineui-size-foundation-size-400));
+  }
+
+  [data-refineui-home-glow="primary"] {
+    top: -18%;
+    left: 8%;
+    width: min(52%, var(--refineui-size-foundation-size-3200));
+    background: var(--refineui-color-alias-background-brand-subtle);
+    animation: refineui-home-glow-drift-a var(--refineui-home-glow-cycle-a)
+      var(--refineui-motion-easing-ease-in-out) infinite;
+  }
+
+  [data-refineui-home-glow="secondary"] {
+    top: 10%;
+    right: -6%;
+    width: min(48%, var(--refineui-size-foundation-size-2560));
+    background: var(--refineui-color-alias-surface-sunken);
+    animation: refineui-home-glow-drift-b var(--refineui-home-glow-cycle-b)
+      var(--refineui-motion-easing-ease-in-out) infinite;
+  }
+
+  [data-refineui-home-glow="tertiary"] {
+    bottom: -24%;
+    left: 34%;
+    width: min(56%, var(--refineui-size-foundation-size-3200));
+    background: color-mix(
+      in srgb,
+      var(--refineui-color-alias-background-brand) 22%,
+      var(--refineui-color-alias-background-brand-subtle)
+    );
+    animation: refineui-home-glow-drift-c var(--refineui-home-glow-cycle-c)
+      var(--refineui-motion-easing-ease-in-out) infinite;
+  }
+
+  @keyframes refineui-home-gradient-flow {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
     }
   }
 
-  /* Large screens */
-  @media (min-width: 1200px) {
-    .page-hero {
-      padding: 5rem 0 4rem;
-      padding-top: calc(5rem + var(--page-header-height));
+  @keyframes refineui-home-gradient-mesh {
+    0%,
+    100% {
+      background-position:
+        0% 20%,
+        100% 80%,
+        50% 50%;
     }
-
-    .page-hero-title {
-      font-size: 3.5rem;
+    33% {
+      background-position:
+        85% 5%,
+        15% 95%,
+        95% 35%;
     }
+    66% {
+      background-position:
+        35% 95%,
+        65% 5%,
+        5% 75%;
+    }
+  }
 
-    .page-hero-tagline {
-      font-size: 1.25rem;
+  @keyframes refineui-home-glow-drift-a {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(var(--refineui-size-foundation-size-200), var(--refineui-size-foundation-size-160))
+        scale(var(--refineui-motion-scale-hover-grow));
+    }
+  }
+
+  @keyframes refineui-home-glow-drift-b {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(calc(var(--refineui-size-foundation-size-240) * -1), var(--refineui-size-foundation-size-200))
+        scale(var(--refineui-motion-scale-hover-grow));
+    }
+  }
+
+  @keyframes refineui-home-glow-drift-c {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(var(--refineui-size-foundation-size-160), calc(var(--refineui-size-foundation-size-240) * -1))
+        scale(var(--refineui-motion-scale-hover-grow));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-refineui-home-gradient],
+    [data-refineui-home-glow] {
+      animation: none;
+    }
+  }
+
+  [data-refineui-home-hero-inner] {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--refineui-spacing-size-x-large);
+    padding: var(--refineui-size-foundation-size-800) var(--refineui-spacing-size-x-large);
+    text-align: center;
+  }
+
+  [data-refineui-home-brand] {
+    margin: 0;
+    color: var(--refineui-color-alias-foreground-primary);
+    font-family: var(--refineui-typography-heading-1-font-family);
+    font-size: clamp(
+      var(--refineui-typography-heading-1-font-size),
+      11vw,
+      calc(var(--refineui-typography-heading-1-font-size) + var(--refineui-typography-heading-2-font-size))
+    );
+    font-weight: var(--refineui-typography-heading-1-font-weight);
+    line-height: 1.04;
+    letter-spacing: -0.04em;
+  }
+
+  [data-refineui-home-lead] {
+    max-width: var(--refineui-size-foundation-size-5750);
+    margin: 0;
+    color: var(--refineui-color-alias-foreground-secondary);
+    font-family: var(--refineui-text-body-lg-font-family);
+    font-size: var(--refineui-text-body-lg-font-size);
+    font-weight: var(--refineui-text-body-lg-font-weight);
+    line-height: var(--refineui-text-body-lg-line-height);
+  }
+
+  [data-refineui-home-actions] {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--refineui-spacing-size-small);
+  }
+
+  [data-refineui-home-cta] {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--refineui-size-button-min-height-lg);
+    padding-block: var(--refineui-spacing-size-small);
+    padding-inline: var(--refineui-spacing-size-x-large);
+    border: var(--refineui-stroke-width-thin) solid transparent;
+    border-radius: var(--refineui-radius-rounded-circle);
+    font-family: var(--refineui-text-label-md-font-family);
+    font-size: var(--refineui-text-label-md-font-size);
+    font-weight: var(--refineui-text-label-md-font-weight);
+    line-height: var(--refineui-text-label-md-line-height);
+    text-decoration: none;
+    transition:
+      background-color var(--refineui-motion-duration-normal) var(--refineui-motion-easing-standard),
+      border-color var(--refineui-motion-duration-normal) var(--refineui-motion-easing-standard);
+  }
+
+  [data-refineui-home-cta="primary"] {
+    background: var(--refineui-color-alias-background-brand);
+    color: var(--refineui-color-alias-foreground-inversed);
+  }
+
+  [data-refineui-home-cta="primary"]:hover {
+    background: var(--refineui-color-alias-background-brand-hover);
+  }
+
+  [data-refineui-home-cta="secondary"] {
+    border-color: var(--refineui-color-alias-border-default);
+    background: var(--refineui-color-alias-background-primary);
+    color: var(--refineui-color-alias-foreground-primary);
+  }
+
+  [data-refineui-home-cta="secondary"]:hover {
+    border-color: var(--refineui-color-alias-border-hover);
+    background: var(--refineui-color-alias-background-primary-hover);
+  }
+
+  [data-refineui-home-cta]:focus-visible {
+    outline: var(--refineui-focus-ring-width) var(--refineui-focus-ring-style) var(--refineui-focus-ring-color);
+    outline-offset: var(--refineui-focus-ring-offset);
+  }
+
+  @media (min-width: 50em) {
+    [data-refineui-home-hero-inner] {
+      padding: var(--refineui-size-foundation-size-800) var(--refineui-size-foundation-size-600);
     }
   }
 </style>

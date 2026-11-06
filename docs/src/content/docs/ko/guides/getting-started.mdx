@@ -1,35 +1,25 @@
 ---
 title: 시작하기
-description: Starlight Theme Page를 설치하고 사용하는 방법을 배워보세요.
+description: Page 테마를 설치하고 Starlight에 등록한 뒤 첫 RefineUI 컴포넌트를 렌더합니다.
 sidebar:
-  order: 2
-  group: getting-started
-hero:
-  tagline: 몇 분 안에 Starlight Theme Page를 시작하세요
-  actions:
-    - text: 지금 설치하기
-      link: /ko/guides/getting-started/
-      variant: primary
-      icon: right-arrow
-    - text: GitHub 보기
-      link: https://github.com/pelagornis/starlight-theme-page
-      variant: secondary
-      icon: external
+  order: 1
 ---
 
-import { Steps, Card } from "@astrojs/starlight/components";
-import Tabs from "@pelagornis/page/components/Tabs.astro";
-import PackageManagerTabs from "@pelagornis/page/components/PackageManagerTabs.astro";
+import { InstallTabs } from "../../../../components/InstallTabs";
 
-## Quick Start
+Page는 Starlight 플러그인입니다. Starlight의 헤더, 사이드바, 검색, 목차, 페이지 이동, 푸터를 RefineUI로 바꾸고, 모든 RefineUI 컴포넌트를 다시 내보내서 문서 페이지에서도 같은 부품을 쓸 수 있게 합니다.
 
-<PackageManagerTabs />
+## 1. 설치
 
-### 2. Astro 설정
+테마와 React 통합, React를 추가합니다. `@astrojs/starlight`는 Starlight 프로젝트에 이미 들어 있습니다.
 
-`astro.config.mjs` 파일에 플러그인을 추가하세요:
+<InstallTabs client:load packageName="@pelagornis/page @astrojs/react react react-dom" />
 
-```js
+`@refineui/react`, `@refineui/tokens`, 아이콘 폰트, Tailwind는 테마가 함께 가져옵니다. 따로 설치하지 않습니다.
+
+## 2. 플러그인 등록
+
+```ts title="astro.config.ts" ins={3,9-13}
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import pagePlugin from "@pelagornis/page";
@@ -37,80 +27,100 @@ import pagePlugin from "@pelagornis/page";
 export default defineConfig({
   integrations: [
     starlight({
-      plugins: [pagePlugin()],
+      title: "My Docs",
+      plugins: [
+        pagePlugin({
+          navigation: [{ href: "/guides/getting-started/", label: "Guide" }],
+        }),
+      ],
     }),
   ],
 });
 ```
 
-### 3. 스타일 추가
+플러그인이 `@astrojs/react`와 Tailwind를 등록합니다. `integrations`에 `react()`를 한 번 더 넣지 않습니다.
 
-`src/styles/global.css` 파일에 스타일을 추가하세요:
+### 옵션
 
-```css
-@import "@pelagornis/page/styles";
-```
+| 옵션 | 타입 | 용도 |
+| --- | --- | --- |
+| `navigation` | `NavigationItem[]` | 헤더 가운데 항목. 링크나 드롭다운. [헤더 내비게이션](#헤더-내비게이션) 참고 |
+| `footerText` | `string` | 푸터 저작권 문구 |
+| `siteTitle` | `string` | 헤더 브랜드 텍스트. 기본값은 Starlight `title` |
+| `breadcrumbs` | `boolean` | 페이지 제목 위의 사이드바 경로. 기본값 `true` |
+| `llmsTxt` | `boolean \| { title?, description?, details? }` | 빌드할 때 AI 도구용 `llms.txt`를 만듭니다. 기본값 `true`. [llms.txt](#llmstxt) 참고 |
+| `skipComponents` | `string[]` | Starlight 기본 컴포넌트를 그대로 둘 슬롯. [셸 오버라이드](/ko/guides/overrides/) 참고 |
 
-## 주요 특징
+### 헤더 내비게이션
 
-### 🎨 현대적인 디자인
+`navigation`의 각 항목은 링크나 드롭다운입니다. 드롭다운은 `items`를 나열하거나, 최상위 사이드바 그룹에서 항목을 채웁니다. 사이드바 그룹은 `sidebar`에 Starlight 설정에 적은 라벨 그대로 적습니다. 사이드바 드롭다운은 그룹의 번역된 라벨을 쓰고, 그룹의 페이지와 하위 그룹마다 링크 하나씩을 보여 줍니다.
 
-깔끔하고 직관적인 인터페이스로 최고의 사용자 경험 제공
-
-### 🌙 다크 모드 지원
-
-자동 테마 전환과 완벽한 다크 모드 지원
-
-### 📱 반응형
-
-모바일부터 데스크톱까지 모든 기기에서 완벽한 사용자 경험
-
-## 커스터마이제이션
-
-### 색상 변경
-
-CSS 변수를 사용하여 테마 색상을 쉽게 변경할 수 있습니다:
-
-```css
-:root {
-  --page-accent: hsl(220, 100%, 50%);
-  --page-accent-hover: hsl(220, 100%, 40%);
-  --page-bg: hsl(0, 0%, 100%);
-  --page-text: hsl(0, 0%, 10%);
-}
-```
-
-### 네비게이션 링크
-
-플러그인 설정에서 네비게이션 링크를 설정할 수 있습니다:
-
-```js
+```ts title="astro.config.ts"
 pagePlugin({
-  navLinks: [
+  navigation: [
+    { label: "Blog", href: "/blog/", translations: { ko: "블로그" } },
+    { sidebar: "Guides" },
     {
-      label: "Blog",
-      link: "/blog/",
-      badge: "New",
+      label: "Resources",
+      items: [
+        { label: "Changelog", href: "/changelog/" },
+        { label: "GitHub", href: "https://github.com/pelagornis/starlight-theme-page" },
+      ],
     },
   ],
 });
 ```
 
-## 컴포넌트 예제
+`translations`에는 언어(`lang`)별 라벨을 적습니다. `/`로 시작하는 링크는 번역된 페이지에서 현재 언어 경로가 앞에 붙습니다.
 
-### 코드 블록
+### llms.txt
 
-```bash
-npm install @pelagornis/page
+`astro build`를 실행하면 기본 언어 페이지의 렌더링 결과로 AI 도구용 파일을 만듭니다.
+
+- `/llms.txt`: 프로젝트 요약과, 사이드바 순서대로 각 페이지의 Markdown 링크
+- `/llms-full.txt`: 모든 페이지를 한 파일에 담은 것
+- 각 페이지의 Markdown 사본: 페이지 주소 끝의 `/`를 `.md`로 바꾼 주소. 예: `/guides/getting-started.md`
+
+코드 예제, 표, 탭의 모든 내용이 들어가고 실시간 컴포넌트 미리보기는 빠집니다. 직접 만든 `llms.txt`나 `llms-full.txt`를 쓰려면 `public/`에 넣습니다. 플러그인은 그 파일을 덮어쓰지 않습니다. `llmsTxt: false`로 끌 수 있습니다.
+
+## 3. 실행
+
+```sh
+bun run dev
 ```
 
-## 다음 단계
+`http://localhost:4321/`을 엽니다. 헤더, 사이드바, 검색(<kbd>⌘</kbd> <kbd>K</kbd>), 푸터가 RefineUI로 바뀌어 있습니다.
 
-이제 테마가 설정되었습니다! 헤더의 테마 토글 버튼을 클릭해보거나, 로고에 마우스를 올려보세요.
-모든 인터랙션이 부드러운 애니메이션과 함께 작동합니다.
+## 4. 페이지에서 컴포넌트 쓰기
 
-다음 문서들을 확인해보세요:
+모든 RefineUI 컴포넌트는 `@pelagornis/page/components`에서 가져옵니다. 페이지 확장자를 `.mdx`로 바꾸고 필요한 것을 import합니다.
 
-- **[컴포넌트 가이드](/components/header/)** - 각 컴포넌트의 사용법
-- **[기본 예제](/examples/basic/)** - 간단한 설정 예제
-- **[고급 예제](/examples/advanced/)** - 복잡한 커스터마이제이션
+```mdx title="src/content/docs/index.mdx"
+---
+title: Welcome
+---
+
+import { Badge, Button } from "@pelagornis/page/components";
+
+<Badge variant="success">Stable</Badge>
+
+<Button variant="primary">Continue</Button>
+```
+
+화면에 표시만 하는 컴포넌트는 이렇게 바로 씁니다. `Tabs`, `Dialog`처럼 상태를 가진 컴포넌트는 먼저 `.tsx` 파일로 조합합니다. 두 경우 모두 [MDX에서 사용](/ko/guides/mdx/)에, `.mdoc` 페이지는 [Markdoc에서 사용](/ko/guides/markdoc/)에 정리했습니다.
+
+## 스타일
+
+셸에 필요한 스타일시트는 플러그인이 넣습니다. `global.css`에 따로 import하지 않아도 됩니다.
+
+- RefineUI 토큰 테마가 들어간 `@pelagornis/page` Tailwind 진입점
+- RefineUI 시스템 아이콘 폰트
+- `@refineui/react/refineui.css`
+- Starlight 레이아웃 변수를 RefineUI 토큰에 맞추는 크롬 규칙
+
+라이트·다크 모드는 Starlight 테마 전환을 따릅니다. RefineUI 시맨틱 토큰이 `data-theme`에 따라 바뀌므로, 컴포넌트와 `var(--refineui-color-alias-*)`를 쓰는 CSS도 함께 바뀝니다.
+
+## 다음
+
+- [전체 컴포넌트](/ko/components/)를 미리보기와 함께 살펴봅니다.
+- 상호작용하는 부품을 조합하기 전에 [MDX에서 사용](/ko/guides/mdx/)을 읽습니다.

@@ -1,0 +1,61 @@
+---
+import { Badge, SidebarGroup, SidebarGroupLabel, SidebarLink } from '@refineui/react';
+
+interface BadgeInfo {
+  text: string;
+  variant: 'default' | 'note' | 'tip' | 'caution' | 'danger' | 'success';
+}
+
+interface SidebarLinkEntry {
+  type: 'link';
+  label: string;
+  href: string;
+  isCurrent: boolean;
+  badge?: BadgeInfo;
+}
+
+interface SidebarGroupEntry {
+  type: 'group';
+  label: string;
+  entries: Array<SidebarLinkEntry | SidebarGroupEntry>;
+  badge?: BadgeInfo;
+}
+
+interface Props {
+  entries: Array<SidebarLinkEntry | SidebarGroupEntry>;
+}
+
+const { entries } = Astro.props;
+
+const badgeVariant = {
+  default: 'default',
+  note: 'neutral',
+  tip: 'default',
+  caution: 'warning',
+  danger: 'danger',
+  success: 'success',
+} as const;
+---
+
+{
+  entries.map((entry) =>
+    entry.type === 'link' ? (
+      <SidebarLink href={entry.href} active={entry.isCurrent}>
+        {entry.label}
+        {entry.badge && (
+          <Badge variant={badgeVariant[entry.badge.variant]}>{entry.badge.text}</Badge>
+        )}
+      </SidebarLink>
+    ) : (
+      <SidebarGroup>
+        <SidebarGroupLabel>
+          {entry.label}
+          {entry.badge && (
+            <Badge variant={badgeVariant[entry.badge.variant]}>{entry.badge.text}</Badge>
+          )}
+        </SidebarGroupLabel>
+        <Astro.self entries={entry.entries} />
+      </SidebarGroup>
+    )
+  )
+}

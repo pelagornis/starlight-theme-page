@@ -1,0 +1,105 @@
+---
+title: Carousel
+description: "带上一张、下一张按钮和指示器的幻灯片。"
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../../components/docs/Preview.astro";
+import Demo from "../../../../demos/carousel";
+import source from "../../../../demos/carousel.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## 导入
+
+```tsx
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselControls,
+  CarouselPrevious,
+  CarouselNext,
+  CarouselIndicators,
+} from "@pelagornis/page/components";
+```
+
+## 示例
+
+上方预览渲染的就是这个文件。把它复制到 `src/components/` 即可开始使用。
+
+<Code code={source} lang="tsx" title="src/components/CarouselExample.tsx" />
+
+## 在 MDX 中使用
+
+`Carousel` 由共享 React 状态的多个部件组成。写在 MDX 中的子元素会各自渲染成独立的岛，部件之间无法互通。请像上面的示例一样在 `.tsx` 文件中组合，再导入该文件。
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import CarouselExample from "../../components/CarouselExample";
+
+<CarouselExample client:load />
+```
+
+`client:load` 会在页面加载时水合该岛。位于页面靠下位置的内容请使用 `client:visible`。
+
+## 在 Markdoc 中使用
+
+Markdoc 标签渲染的是 Astro 组件，而这个组件需要客户端状态。请把示例包进一个负责水合的 `.astro` 文件，再把该文件注册为标签。
+
+```astro title="src/components/markdoc/CarouselExample.astro"
+---
+import CarouselExample from "../CarouselExample";
+---
+
+<CarouselExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "carousel-example": {
+      render: component("./src/components/markdoc/CarouselExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% carousel-example /%}
+```
+
+## 结构
+
+组件的组成部分，以及每个部分渲染的 `data-refineui` 角色。
+
+<ComponentSpec id="carousel" section="anatomy" />
+
+## 状态
+
+组件会设置样式的状态。组件状态通过 data 属性暴露。
+
+<ComponentSpec id="carousel" section="states" />
+
+## 键盘
+
+组件获得焦点时处理的按键。
+
+<ComponentSpec id="carousel" section="keyboard" />
+
+## 参考
+
+- 设计指南和令牌细节见 [RefineUI · Carousel](https://ui.pelagornis.com/components/carousel/)。
+- 通用规则见[在 MDX 中使用](/zh/guides/mdx/)和[在 Markdoc 中使用](/zh/guides/markdoc/)。

@@ -1,35 +1,25 @@
 ---
 title: 开始使用
-description: 学习如何安装和使用 Starlight Theme Page。
+description: 安装 Page 主题、注册到 Starlight，并渲染第一个 RefineUI 组件。
 sidebar:
-  order: 2
-  group: getting-started
-hero:
-  tagline: 几分钟内开始使用 Starlight Theme Page
-  actions:
-    - text: 立即安装
-      link: /zh/guides/getting-started/
-      variant: primary
-      icon: right-arrow
-    - text: 查看 GitHub
-      link: https://github.com/pelagornis/starlight-theme-page
-      variant: secondary
-      icon: external
+  order: 1
 ---
 
-import { Steps, Card } from "@astrojs/starlight/components";
-import Tabs from "@pelagornis/page/components/Tabs.astro";
-import PackageManagerTabs from "@pelagornis/page/components/PackageManagerTabs.astro";
+import { InstallTabs } from "../../../../components/InstallTabs";
 
-## 快速开始
+Page 是一个 Starlight 插件。它把 Starlight 的页眉、侧栏、搜索、目录、翻页和页脚换成 RefineUI，并重新导出所有 RefineUI 组件，让文档页面也能使用同样的部件。
 
-<PackageManagerTabs />
+## 1. 安装
 
-### 2. Astro 配置
+添加主题、React 集成和 React。`@astrojs/starlight` 已经在 Starlight 项目中。
 
-在您的 `astro.config.mjs` 文件中添加插件：
+<InstallTabs client:load packageName="@pelagornis/page @astrojs/react react react-dom" />
 
-```js
+`@refineui/react`、`@refineui/tokens`、图标字体和 Tailwind 会随主题一起安装，不需要单独安装。
+
+## 2. 注册插件
+
+```ts title="astro.config.ts" ins={3,9-13}
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import pagePlugin from "@pelagornis/page";
@@ -37,73 +27,100 @@ import pagePlugin from "@pelagornis/page";
 export default defineConfig({
   integrations: [
     starlight({
-      plugins: [pagePlugin()],
+      title: "My Docs",
+      plugins: [
+        pagePlugin({
+          navigation: [{ href: "/guides/getting-started/", label: "Guide" }],
+        }),
+      ],
     }),
   ],
 });
 ```
 
-### 3. 添加样式
+插件会注册 `@astrojs/react` 和 Tailwind，不要在 `integrations` 中再添加一次 `react()`。
 
-在您的 `src/styles/global.css` 文件中添加样式：
+### 选项
 
-```css
-@import "@pelagornis/page/styles";
-```
+| 选项 | 类型 | 用途 |
+| --- | --- | --- |
+| `navigation` | `NavigationItem[]` | 页眉中间的项目，可以是链接或下拉菜单，见[页眉导航](#页眉导航) |
+| `footerText` | `string` | 页脚版权文字 |
+| `siteTitle` | `string` | 页眉品牌文字，默认是 Starlight 的 `title` |
+| `breadcrumbs` | `boolean` | 页面标题上方的侧栏路径，默认 `true` |
+| `llmsTxt` | `boolean \| { title?, description?, details? }` | 构建时为 AI 工具生成 `llms.txt`，默认 `true`，见 [llms.txt](#llmstxt) |
+| `skipComponents` | `string[]` | 保留 Starlight 默认组件的插槽，见[外壳覆盖](/zh/guides/overrides/) |
 
-## 主要特性
+### 页眉导航
 
-### 🎨 现代设计
+`navigation` 的每一项是链接或下拉菜单。下拉菜单可以列出 `items`，也可以从顶层侧栏分组自动填充：在 `sidebar` 中写上 Starlight 配置里的分组标签即可。侧栏下拉菜单使用分组的翻译标签，列出分组中的页面，并为每个子分组给出一个链接。
 
-干净直观的界面提供最佳用户体验
-
-### 🌙 深色模式支持
-
-自动主题切换和完美的深色模式支持
-
-### 📱 响应式
-
-从移动设备到桌面设备，在所有设备上提供完美的用户体验
-
-## 自定义
-
-### 颜色更改
-
-您可以使用 CSS 变量轻松更改主题颜色：
-
-```css
-:root {
-  --page-accent: hsl(220, 100%, 50%);
-  --page-accent-hover: hsl(220, 100%, 40%);
-  --page-bg: hsl(0, 0%, 100%);
-  --page-text: hsl(0, 0%, 10%);
-}
-```
-
-### 导航链接
-
-您可以在插件设置中配置导航链接：
-
-```js
+```ts title="astro.config.ts"
 pagePlugin({
-  navLinks: [
+  navigation: [
+    { label: "Blog", href: "/blog/", translations: { zh: "博客" } },
+    { sidebar: "Guides" },
     {
-      label: "Blog",
-      link: "/blog/",
-      badge: "New",
+      label: "Resources",
+      items: [
+        { label: "Changelog", href: "/changelog/" },
+        { label: "GitHub", href: "https://github.com/pelagornis/starlight-theme-page" },
+      ],
     },
   ],
 });
 ```
 
-## 组件示例
+`translations` 按语言（`lang`）写标签。以 `/` 开头的链接在翻译页面上会加上当前语言的路径前缀。
 
-### 代码块
+### llms.txt
 
-```bash
-npm install @pelagornis/page
+`astro build` 会根据默认语言页面的渲染结果，为 AI 工具生成以下文件：
+
+- `/llms.txt`：项目简介，以及按侧栏顺序排列、指向各页面 Markdown 的链接
+- `/llms-full.txt`：所有页面合在一个文件里
+- 每个页面的 Markdown 副本：把页面地址末尾的 `/` 换成 `.md`，例如 `/guides/getting-started.md`
+
+代码示例、表格和标签页的全部内容都会保留，实时组件预览会去掉。要使用自己写的 `llms.txt` 或 `llms-full.txt`，把它放进 `public/`，插件不会覆盖。设置 `llmsTxt: false` 可以关闭。
+
+## 3. 运行
+
+```sh
+bun run dev
 ```
+
+打开 `http://localhost:4321/`，页眉、侧栏、搜索（<kbd>⌘</kbd> <kbd>K</kbd>）和页脚已经是 RefineUI。
+
+## 4. 在页面中使用组件
+
+所有 RefineUI 组件都从 `@pelagornis/page/components` 引入。把页面改成 `.mdx` 并引入需要的组件。
+
+```mdx title="src/content/docs/index.mdx"
+---
+title: Welcome
+---
+
+import { Badge, Button } from "@pelagornis/page/components";
+
+<Badge variant="success">Stable</Badge>
+
+<Button variant="primary">Continue</Button>
+```
+
+只负责展示的组件可以直接这样写。`Tabs`、`Dialog` 这类有状态的组件要先在 `.tsx` 文件里组合。详见[在 MDX 中使用](/zh/guides/mdx/)，`.mdoc` 页面见[在 Markdoc 中使用](/zh/guides/markdoc/)。
+
+## 样式
+
+外壳需要的样式表由插件注入，不需要在 `global.css` 里另外引入。
+
+- 带 RefineUI 令牌主题的 `@pelagornis/page` Tailwind 入口
+- RefineUI 系统图标字体
+- `@refineui/react/refineui.css`
+- 把 Starlight 布局变量对齐到 RefineUI 令牌的外壳规则
+
+浅色与深色跟随 Starlight 的主题切换。RefineUI 语义令牌随 `data-theme` 变化，组件以及使用 `var(--refineui-color-alias-*)` 的 CSS 也会一起变化。
 
 ## 下一步
 
-您的主题现已设置完成！试试点击标题中的主题切换按钮，或将鼠标悬停在徽标上。
+- 带预览浏览[全部组件](/zh/components/)
+- 组合可交互部件之前先读[在 MDX 中使用](/zh/guides/mdx/)

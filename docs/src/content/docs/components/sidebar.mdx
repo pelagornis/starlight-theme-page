@@ -1,0 +1,101 @@
+---
+title: Sidebar
+description: Vertical navigation with groups. The docs shell is built on it.
+---
+
+import { Code } from "@astrojs/starlight/components";
+import ComponentSpec from "../../../components/docs/ComponentSpec.astro";
+import Preview from "../../../components/docs/Preview.astro";
+import Demo from "../../../demos/sidebar";
+import source from "../../../demos/sidebar.tsx?raw";
+
+<Preview>
+  <Demo client:load />
+</Preview>
+
+## Import
+
+```tsx
+import {
+  Sidebar,
+  SidebarHeader,
+  SidebarBrand,
+  SidebarContent,
+  SidebarNav,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarLink,
+  SidebarFooter,
+} from "@pelagornis/page/components";
+```
+
+## Example
+
+The preview above renders this file. Copy it into `src/components/` to start from it.
+
+<Code code={source} lang="tsx" title="src/components/SidebarExample.tsx" />
+
+## Use in MDX
+
+`Sidebar` is composed from parts that share React state. Children written in MDX are rendered as separate islands, so the parts can't reach each other. Put the composition in a `.tsx` file, like the example above, and import that file instead.
+
+```mdx title="src/content/docs/example.mdx"
+---
+title: Example
+---
+
+import SidebarExample from "../../components/SidebarExample";
+
+<SidebarExample client:load />
+```
+
+`client:load` hydrates the island on page load. Use `client:visible` for content far down the page.
+
+## Use in Markdoc
+
+Markdoc tags render Astro components, and this one needs client state. Wrap the example in an `.astro` file that hydrates it, then register that file as a tag.
+
+```astro title="src/components/markdoc/SidebarExample.astro"
+---
+import SidebarExample from "../SidebarExample";
+---
+
+<SidebarExample client:load />
+```
+
+```js title="markdoc.config.mjs" ins={7-12}
+import { component, defineMarkdocConfig } from "@astrojs/markdoc/config";
+import starlightMarkdoc from "@astrojs/starlight-markdoc";
+import pageMarkdoc from "@pelagornis/page/markdoc";
+
+export default defineMarkdocConfig({
+  extends: [starlightMarkdoc(), pageMarkdoc()],
+  tags: {
+    "sidebar-example": {
+      render: component("./src/components/markdoc/SidebarExample.astro"),
+      selfClosing: true,
+    },
+  },
+});
+```
+
+```md title="src/content/docs/example.mdoc"
+{% sidebar-example /%}
+```
+
+## Anatomy
+
+Parts of the component and the `data-refineui` role each one renders.
+
+<ComponentSpec id="sidebar" section="anatomy" />
+
+## States
+
+States the component styles. Component states are exposed as data attributes.
+
+<ComponentSpec id="sidebar" section="states" />
+
+## Reference
+
+- [RefineUI · Sidebar](https://ui.pelagornis.com/components/sidebar/) for design guidance and token detail.
+- [Use in MDX](/guides/mdx/) and [Use in Markdoc](/guides/markdoc/) for the general rules.

@@ -1,0 +1,81 @@
+---
+title: Starlight のコンポーネント
+description: Starlight 標準のコンテンツコンポーネントもそのまま使え、テーマが RefineUI トークンで描きます。
+sidebar:
+  order: 5
+---
+
+import { Aside, Badge, Card, CardGrid, FileTree, LinkCard, Steps, TabItem, Tabs } from "@astrojs/starlight/components";
+
+ページでは Starlight 標準のコンポーネントと RefineUI のコンポーネントを混ぜて使えます。テーマが標準コンポーネントを同じトークンで描き直すので、両者は同じように見えます。
+
+## Aside
+
+<Aside>ノートは情報の色を使います。</Aside>
+
+<Aside type="tip">ヒントは成功の色を使います。</Aside>
+
+<Aside type="caution" title="設定を確認してください">注意は警告の色を使います。</Aside>
+
+<Aside type="danger">危険はエラーの色を使います。</Aside>
+
+## Badge
+
+<Badge text="Default" /> <Badge text="Note" variant="note" /> <Badge text="Tip" variant="tip" /> <Badge text="Caution" variant="caution" /> <Badge text="Danger" variant="danger" /> <Badge text="Success" variant="success" />
+
+## Tabs
+
+<Tabs>
+  <TabItem label="bun">
+
+```sh
+bun add @pelagornis/page
+```
+
+  </TabItem>
+  <TabItem label="npm">
+
+```sh
+npm install @pelagornis/page
+```
+
+  </TabItem>
+</Tabs>
+
+## Steps
+
+<Steps>
+
+1. プラグインをインストールします。
+
+2. Starlight の `plugins` に `pagePlugin()` を追加します。
+
+3. dev サーバーを起動します。
+
+</Steps>
+
+## Card
+
+<CardGrid>
+  <Card title="シェル" icon="rocket">
+    ヘッダー、サイドバー、検索、フッターは RefineUI です。
+  </Card>
+  <Card title="コンポーネント" icon="puzzle">
+    すべての RefineUI コンポーネントは `@pelagornis/page/components` から使えます。
+  </Card>
+</CardGrid>
+
+<LinkCard title="はじめに" href="/ja/guides/getting-started/" description="テーマをインストールしてプラグインを登録します。" />
+
+## ファイルツリー
+
+<FileTree>
+- astro.config.ts
+- markdoc.config.mjs
+- src/
+  - content/
+    - docs/
+      - index.mdx
+      - guides/
+        - getting-started.mdx
+</FileTree>
