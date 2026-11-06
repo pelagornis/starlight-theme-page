@@ -20,11 +20,17 @@ jobs:
         with:
           bun-version-file: package.json
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org/
+
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
       - name: Publish @pelagornis/page to npm
         working-directory: packages/page
-        run: bun publish --access public
+        run: npm publish --access public
         env:
-          NPM_CONFIG_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}
