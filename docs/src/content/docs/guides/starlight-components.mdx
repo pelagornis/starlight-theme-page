@@ -1,15 +1,17 @@
 ---
 title: Starlight components
-description: Starlight's own content components keep working, and the theme draws them with RefineUI tokens.
+description: Starlight's own content components keep working, and the theme renders them with RefineUI components.
 sidebar:
   order: 5
 ---
 
-import { Aside, Badge, Card, CardGrid, FileTree, LinkCard, Steps, TabItem, Tabs } from "@astrojs/starlight/components";
+import { Aside, Badge, Card, CardGrid, FileTree, LinkButton, LinkCard, Steps, TabItem, Tabs } from "@astrojs/starlight/components";
 
-Pages can mix Starlight's built-in components with RefineUI components. The theme restyles the built-in ones with the same tokens, so both sets look alike.
+Pages can mix Starlight's built-in components with RefineUI components. The theme renders the built-in ones with RefineUI components, so both sets look alike and existing pages need no changes.
 
 ## Asides
+
+`<Aside>` renders as a RefineUI Alert: note uses the info colors, tip success, caution warning, and danger error. The `:::note` Markdown syntax gives the same Alert. An `icon` replaces the Alert's icon.
 
 <Aside>A note uses the info colors.</Aside>
 
@@ -19,21 +21,29 @@ Pages can mix Starlight's built-in components with RefineUI components. The them
 
 <Aside type="danger">A danger aside uses the error colors.</Aside>
 
+:::tip[Markdown syntax]
+Written with `:::tip[Markdown syntax]`.
+:::
+
 ## Badges
+
+`<Badge>` renders as a RefineUI Badge. RefineUI Badge has one size, so `size` has no effect.
 
 <Badge text="Default" /> <Badge text="Note" variant="note" /> <Badge text="Tip" variant="tip" /> <Badge text="Caution" variant="caution" /> <Badge text="Danger" variant="danger" /> <Badge text="Success" variant="success" />
 
 ## Tabs
 
-<Tabs>
-  <TabItem label="bun">
+`<Tabs>` renders as RefineUI Tabs. Tab sets with the same `syncKey` switch together, and the choice is remembered across pages. Pick a package manager in the first set and the second one follows.
+
+<Tabs syncKey="package-manager">
+  <TabItem label="bun" icon="bun">
 
 ```sh
 bun add @pelagornis/page
 ```
 
   </TabItem>
-  <TabItem label="npm">
+  <TabItem label="npm" icon="npm">
 
 ```sh
 npm install @pelagornis/page
@@ -41,6 +51,29 @@ npm install @pelagornis/page
 
   </TabItem>
 </Tabs>
+
+<Tabs syncKey="package-manager">
+  <TabItem label="bun">
+
+```sh
+bun run dev
+```
+
+  </TabItem>
+  <TabItem label="npm">
+
+```sh
+npm run dev
+```
+
+  </TabItem>
+</Tabs>
+
+## Link buttons
+
+`<LinkButton>` is a link drawn as a RefineUI Button. `primary`, `secondary`, and `minimal` match the primary, outline, and ghost buttons.
+
+<LinkButton href="/guides/getting-started/">Get started</LinkButton> <LinkButton href="/components/" variant="secondary" icon="right-arrow">Components</LinkButton> <LinkButton href="https://ui.pelagornis.com/" variant="minimal" icon="external">RefineUI</LinkButton>
 
 ## Steps
 

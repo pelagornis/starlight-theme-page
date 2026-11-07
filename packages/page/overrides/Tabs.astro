@@ -1,0 +1,20 @@
+---
+import type { ComponentProps } from "astro/types";
+import { Icon } from "@astrojs/starlight/components";
+import { DocsTabs } from "./DocsTabs";
+import { parseTabs } from "./tabs";
+
+interface Props {
+  syncKey?: string;
+}
+
+type IconName = ComponentProps<typeof Icon>["name"];
+
+const { syncKey } = Astro.props;
+const { panels, stylesheets } = parseTabs(await Astro.slots.render("default"));
+---
+
+<Fragment set:html={stylesheets.join("")} />
+<DocsTabs client:load tabs={panels.map(({ label, html, icon }) => ({ label, html, icon: Boolean(icon) }))} syncKey={syncKey}>
+  {panels.map((tab, index) => tab.icon && <Icon slot={`icon${index}`} name={tab.icon as IconName} />)}
+</DocsTabs>

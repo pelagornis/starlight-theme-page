@@ -11,7 +11,7 @@ interface Props {
 const { icon, title } = Astro.props;
 ---
 
-<DocsCard title={title}>
+<DocsCard title={title} hasIcon={Boolean(icon)}>
   {icon && <Icon slot="icon" name={icon} size="1.333em" />}
   <slot />
 </DocsCard>

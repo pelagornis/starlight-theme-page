@@ -1,9 +1,10 @@
 ---
 import { Badge, SidebarGroup, SidebarGroupLabel, SidebarLink } from '@refineui/react';
+import { badgeVariants, type StarlightBadgeVariant } from './badge';
 
 interface BadgeInfo {
   text: string;
-  variant: 'default' | 'note' | 'tip' | 'caution' | 'danger' | 'success';
+  variant: StarlightBadgeVariant;
 }
 
 interface SidebarLinkEntry {
@@ -26,15 +27,6 @@ interface Props {
 }
 
 const { entries } = Astro.props;
-
-const badgeVariant = {
-  default: 'default',
-  note: 'neutral',
-  tip: 'default',
-  caution: 'warning',
-  danger: 'danger',
-  success: 'success',
-} as const;
 ---
 
 {
@@ -43,7 +35,7 @@ const badgeVariant = {
       <SidebarLink href={entry.href} active={entry.isCurrent}>
         {entry.label}
         {entry.badge && (
-          <Badge variant={badgeVariant[entry.badge.variant]}>{entry.badge.text}</Badge>
+          <Badge variant={badgeVariants[entry.badge.variant]}>{entry.badge.text}</Badge>
         )}
       </SidebarLink>
     ) : (
@@ -51,7 +43,7 @@ const badgeVariant = {
         <SidebarGroupLabel>
           {entry.label}
           {entry.badge && (
-            <Badge variant={badgeVariant[entry.badge.variant]}>{entry.badge.text}</Badge>
+            <Badge variant={badgeVariants[entry.badge.variant]}>{entry.badge.text}</Badge>
           )}
         </SidebarGroupLabel>
         <Astro.self entries={entry.entries} />

@@ -1,15 +1,17 @@
 ---
 title: Starlight 组件
-description: Starlight 自带的内容组件照常可用，主题用 RefineUI 令牌绘制它们。
+description: Starlight 自带的内容组件照常可用，主题用 RefineUI 组件渲染它们。
 sidebar:
   order: 5
 ---
 
-import { Aside, Badge, Card, CardGrid, FileTree, LinkCard, Steps, TabItem, Tabs } from "@astrojs/starlight/components";
+import { Aside, Badge, Card, CardGrid, FileTree, LinkButton, LinkCard, Steps, TabItem, Tabs } from "@astrojs/starlight/components";
 
-页面中可以混用 Starlight 自带组件和 RefineUI 组件。主题用同样的令牌重新绘制自带组件，所以两者看起来一致。
+页面中可以混用 Starlight 自带组件和 RefineUI 组件。主题用 RefineUI 组件渲染自带组件，所以两者看起来一致，已有页面无需修改。
 
 ## Aside
+
+`<Aside>` 使用 RefineUI Alert 渲染。note 使用信息色，tip 使用成功色，caution 使用警告色，danger 使用错误色。Markdown 的 `:::note` 语法也会得到同样的 Alert。设置 `icon` 会替换 Alert 的图标。
 
 <Aside>注释使用信息色。</Aside>
 
@@ -19,21 +21,29 @@ import { Aside, Badge, Card, CardGrid, FileTree, LinkCard, Steps, TabItem, Tabs 
 
 <Aside type="danger">危险使用错误色。</Aside>
 
+:::tip[Markdown 语法]
+用 `:::tip[Markdown 语法]` 编写。
+:::
+
 ## Badge
+
+`<Badge>` 使用 RefineUI Badge 渲染。RefineUI Badge 只有一种尺寸，所以 `size` 不起作用。
 
 <Badge text="Default" /> <Badge text="Note" variant="note" /> <Badge text="Tip" variant="tip" /> <Badge text="Caution" variant="caution" /> <Badge text="Danger" variant="danger" /> <Badge text="Success" variant="success" />
 
 ## Tabs
 
-<Tabs>
-  <TabItem label="bun">
+`<Tabs>` 使用 RefineUI Tabs 渲染。`syncKey` 相同的标签组会一起切换，所选标签在其他页面也会保留。在第一组中选择包管理器，第二组也会跟着切换。
+
+<Tabs syncKey="package-manager">
+  <TabItem label="bun" icon="bun">
 
 ```sh
 bun add @pelagornis/page
 ```
 
   </TabItem>
-  <TabItem label="npm">
+  <TabItem label="npm" icon="npm">
 
 ```sh
 npm install @pelagornis/page
@@ -41,6 +51,29 @@ npm install @pelagornis/page
 
   </TabItem>
 </Tabs>
+
+<Tabs syncKey="package-manager">
+  <TabItem label="bun">
+
+```sh
+bun run dev
+```
+
+  </TabItem>
+  <TabItem label="npm">
+
+```sh
+npm run dev
+```
+
+  </TabItem>
+</Tabs>
+
+## LinkButton
+
+`<LinkButton>` 是外观为 RefineUI Button 的链接。`primary`、`secondary`、`minimal` 分别对应 primary、outline、ghost 按钮。
+
+<LinkButton href="/zh/guides/getting-started/">快速开始</LinkButton> <LinkButton href="/zh/components/" variant="secondary" icon="right-arrow">组件</LinkButton> <LinkButton href="https://ui.pelagornis.com/" variant="minimal" icon="external">RefineUI</LinkButton>
 
 ## Steps
 

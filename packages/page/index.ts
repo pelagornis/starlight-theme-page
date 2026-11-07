@@ -7,6 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { translations } from './i18n.ts';
 import { llmsTxt } from './llms/index.ts';
+import { registerRefineUIAside } from './markdown/aside.ts';
 import { registerRefineUITable } from './markdown/rehype-table.ts';
 
 const require = createRequire(import.meta.url);
@@ -164,7 +165,15 @@ function inlineLogo(logo: StarlightUserConfig['logo'], root: URL) {
   return dark && light ? { dark, light } : undefined;
 }
 
-const refineUIContentComponents = ['FileTree.astro', 'Card.astro', 'LinkCard.astro'];
+const refineUIContentComponents = [
+  'Aside.astro',
+  'Badge.astro',
+  'Card.astro',
+  'FileTree.astro',
+  'LinkButton.astro',
+  'LinkCard.astro',
+  'Tabs.astro',
+];
 
 /**
  * Content components are not component slots, so Starlight's own imports of them
@@ -210,6 +219,7 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
                 },
               });
               registerRefineUITable(astroSetupConfig.markdown.processor);
+              registerRefineUIAside(astroSetupConfig.markdown.processor);
             },
           },
         });

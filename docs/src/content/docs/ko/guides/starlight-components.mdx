@@ -1,15 +1,17 @@
 ---
 title: Starlight 컴포넌트
-description: Starlight 기본 콘텐츠 컴포넌트도 그대로 쓸 수 있고, 테마가 RefineUI 토큰으로 그립니다.
+description: Starlight 기본 콘텐츠 컴포넌트도 그대로 쓸 수 있고, 테마가 RefineUI 컴포넌트로 그립니다.
 sidebar:
   order: 5
 ---
 
-import { Aside, Badge, Card, CardGrid, FileTree, LinkCard, Steps, TabItem, Tabs } from "@astrojs/starlight/components";
+import { Aside, Badge, Card, CardGrid, FileTree, LinkButton, LinkCard, Steps, TabItem, Tabs } from "@astrojs/starlight/components";
 
-페이지에서 Starlight 기본 컴포넌트와 RefineUI 컴포넌트를 함께 쓸 수 있습니다. 테마가 기본 컴포넌트를 같은 토큰으로 다시 그려서 두 종류가 비슷하게 보입니다.
+페이지에서 Starlight 기본 컴포넌트와 RefineUI 컴포넌트를 함께 쓸 수 있습니다. 테마가 기본 컴포넌트를 RefineUI 컴포넌트로 그려서 두 종류가 똑같이 보이고, 기존 페이지는 고칠 필요가 없습니다.
 
 ## Aside
+
+`<Aside>`는 RefineUI Alert로 그려집니다. note는 정보, tip은 성공, caution은 경고, danger는 오류 색을 씁니다. Markdown의 `:::note` 문법도 같은 Alert가 됩니다. `icon`을 주면 Alert 아이콘이 바뀝니다.
 
 <Aside>노트는 정보 색을 씁니다.</Aside>
 
@@ -19,21 +21,29 @@ import { Aside, Badge, Card, CardGrid, FileTree, LinkCard, Steps, TabItem, Tabs 
 
 <Aside type="danger">위험은 오류 색을 씁니다.</Aside>
 
+:::tip[Markdown 문법]
+`:::tip[Markdown 문법]`으로 썼습니다.
+:::
+
 ## Badge
+
+`<Badge>`는 RefineUI Badge로 그려집니다. RefineUI Badge는 크기가 하나라서 `size`는 적용되지 않습니다.
 
 <Badge text="Default" /> <Badge text="Note" variant="note" /> <Badge text="Tip" variant="tip" /> <Badge text="Caution" variant="caution" /> <Badge text="Danger" variant="danger" /> <Badge text="Success" variant="success" />
 
 ## Tabs
 
-<Tabs>
-  <TabItem label="bun">
+`<Tabs>`는 RefineUI Tabs로 그려집니다. `syncKey`가 같은 탭 묶음은 함께 바뀌고, 고른 탭은 다른 페이지에서도 유지됩니다. 첫 번째 묶음에서 패키지 매니저를 고르면 두 번째 묶음도 따라 바뀝니다.
+
+<Tabs syncKey="package-manager">
+  <TabItem label="bun" icon="bun">
 
 ```sh
 bun add @pelagornis/page
 ```
 
   </TabItem>
-  <TabItem label="npm">
+  <TabItem label="npm" icon="npm">
 
 ```sh
 npm install @pelagornis/page
@@ -41,6 +51,29 @@ npm install @pelagornis/page
 
   </TabItem>
 </Tabs>
+
+<Tabs syncKey="package-manager">
+  <TabItem label="bun">
+
+```sh
+bun run dev
+```
+
+  </TabItem>
+  <TabItem label="npm">
+
+```sh
+npm run dev
+```
+
+  </TabItem>
+</Tabs>
+
+## LinkButton
+
+`<LinkButton>`은 RefineUI Button 모양의 링크입니다. `primary`, `secondary`, `minimal`은 각각 primary, outline, ghost 버튼에 대응합니다.
+
+<LinkButton href="/ko/guides/getting-started/">시작하기</LinkButton> <LinkButton href="/ko/components/" variant="secondary" icon="right-arrow">컴포넌트</LinkButton> <LinkButton href="https://ui.pelagornis.com/" variant="minimal" icon="external">RefineUI</LinkButton>
 
 ## Steps
 

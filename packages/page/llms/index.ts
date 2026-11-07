@@ -50,6 +50,16 @@ const stripSelectors = [
   "[data-pagefind-ignore]",
   '[data-refineui-docs-card] [aria-hidden="true"]',
   '[data-refineui-docs-link-card] [aria-hidden="true"]',
+  '[data-refineui-docs-aside] [data-refineui="alert-icon"]',
+];
+
+/** Markers on the RefineUI components the theme draws for Starlight's content components. */
+const contentComponents = [
+  "dataRefineuiDocsAside",
+  "dataRefineuiDocsBadge",
+  "dataRefineuiDocsCard",
+  "dataRefineuiDocsLinkButton",
+  "dataRefineuiDocsLinkCard",
 ];
 
 const parseHtml = unified().use(rehypeParse);
@@ -122,6 +132,21 @@ function codeBlocks(content: Element) {
   }
 }
 
+/** Asides read as a quote led by the title, since the Alert title is an `<h5>` outside the page outline. */
+function asides(content: Element) {
+  for (const aside of selectAll("[data-refineui-docs-aside]", content)) {
+    const title = toText(select('[data-refineui="alert-title"]', aside) ?? { type: "root", children: [] }).trim();
+    const body = select('[data-refineui="alert-description"]', aside);
+    const lead: ElementContent = {
+      type: "element",
+      tagName: "p",
+      properties: {},
+      children: [{ type: "element", tagName: "strong", properties: {}, children: [{ type: "text", value: title }] }],
+    };
+    Object.assign(aside, { tagName: "blockquote", properties: {}, children: [lead, ...(body?.children ?? [])] });
+  }
+}
+
 /** Lists every tab of a tab set instead of only the one that is open. */
 function tabSets(content: Element) {
   for (const set of selectAll('[data-refineui="tabs"]', content)) {
@@ -179,12 +204,12 @@ function fileTrees(content: Element) {
 
 /**
  * RefineUI components rendered in the page body are live examples; only tables, tab sets,
- * and the cards the theme draws for Starlight's `<Card>` and `<LinkCard>` carry text worth keeping.
+ * and the components the theme draws for Starlight's content components carry text worth keeping.
  */
 function liveExamples(node: Root | Element, found = new Set<Element>()) {
   for (const child of node.children) {
     if (child.type !== "element") continue;
-    if (child.properties.dataRefineuiDocsCard !== undefined || child.properties.dataRefineuiDocsLinkCard !== undefined) continue;
+    if (contentComponents.some((marker) => child.properties[marker] !== undefined)) continue;
     const role = child.properties.dataRefineui;
     if (role === "table" || role === "tabs") continue;
     if (role !== undefined) found.add(child);
@@ -206,6 +231,7 @@ function pageMarkdown(tree: Root, site: string): string {
   const content = select(".sl-markdown-content", tree);
   if (!content) return "";
   fileTrees(content);
+  asides(content);
   const stripped = liveExamples(content, new Set(stripSelectors.flatMap((selector) => selectAll(selector, content))));
   remove(content, (node) => node.type === "comment" || stripped.has(node as Element));
   codeBlocks(content);

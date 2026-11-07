@@ -1,0 +1,21 @@
+---
+import type { ComponentProps, HTMLAttributes } from "astro/types";
+import { Icon } from "@astrojs/starlight/components";
+import { linkButtonAttributes, type LinkButtonVariant } from "./linkButton";
+
+interface Props extends Omit<HTMLAttributes<"a">, "href"> {
+  href: string | URL;
+  icon?: ComponentProps<typeof Icon>["name"] | undefined;
+  iconPlacement?: "start" | "end" | undefined;
+  variant?: LinkButtonVariant;
+}
+
+const { class: className, icon, iconPlacement = "end", variant = "primary", ...attributes } = Astro.props;
+const { class: buttonClass, ...buttonAttributes } = linkButtonAttributes(variant);
+---
+
+<a class:list={[buttonClass, "not-content no-underline", className]} {...buttonAttributes} data-refineui-docs-link-button {...attributes}>
+  {icon && iconPlacement === "start" && <Icon name={icon} size="1.25em" class="rtl:flip" />}
+  <slot />
+  {icon && iconPlacement === "end" && <Icon name={icon} size="1.25em" class="rtl:flip" />}
+</a>

@@ -44,6 +44,7 @@
         "@refineui/web-icons": "^0.3.43",
         "@tailwindcss/vite": "^4.3.3",
         "hast-util-select": "^6.0.4",
+        "hast-util-to-html": "^9.0.6",
         "hast-util-to-text": "^4.0.3",
         "rehype-parse": "^9.0.1",
         "rehype-remark": "^10.0.1",

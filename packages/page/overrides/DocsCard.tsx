@@ -11,14 +11,27 @@ import {
   WebIcon,
 } from "@refineui/react";
 
-/** Starlight's `<Card>` as a RefineUI Card. `title` is HTML, as in Starlight. */
-export function DocsCard({ title, icon, children }: { title: string; icon?: ReactNode; children?: ReactNode }) {
+/**
+ * Starlight's `<Card>` as a RefineUI Card. `title` is HTML, as in Starlight.
+ * `hasIcon` says whether the `icon` slot is filled; Astro passes it even when empty.
+ */
+export function DocsCard({
+  title,
+  hasIcon = false,
+  icon,
+  children,
+}: {
+  title: string;
+  hasIcon?: boolean;
+  icon?: ReactNode;
+  children?: ReactNode;
+}) {
   return (
     <Card variant="outlined" data-refineui-docs-card>
       <CardHeader className="not-content">
         <CardHeaderMain>
           <CardTitle className="flex items-center gap-refineui-size-small">
-            {icon ? <span data-refineui-docs-card-icon>{icon}</span> : null}
+            {hasIcon ? <span data-refineui-docs-card-icon>{icon}</span> : null}
             <span dangerouslySetInnerHTML={{ __html: title }} />
           </CardTitle>
         </CardHeaderMain>

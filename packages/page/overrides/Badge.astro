@@ -1,0 +1,16 @@
+---
+import { Badge } from "@refineui/react";
+import type { HTMLAttributes } from "astro/types";
+import { badgeVariants, type StarlightBadgeVariant } from "./badge";
+
+/** `size` is accepted for compatibility; RefineUI Badge has a single size. */
+type Props = Omit<HTMLAttributes<"span">, "style"> & {
+  text: string;
+  variant?: StarlightBadgeVariant;
+  size?: "small" | "medium" | "large";
+};
+
+const { text, variant = "default", size: _size, class: className, ...attributes } = Astro.props;
+---
+
+<Badge variant={badgeVariants[variant]} className={className ?? undefined} data-refineui-docs-badge {...attributes}>{text}</Badge>

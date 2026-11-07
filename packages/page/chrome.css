@@ -682,83 +682,34 @@ details[open] > [data-refineui-docs-toc-summary] [data-refineui-docs-toc-caret] 
   padding-inline: 0;
 }
 
-/* Starlight's content components (Aside, Badge, Tabs, Steps, Card, LinkCard, FileTree) drawn with RefineUI tokens. */
-/* Matches RefineUI Badge: solid status fill with inverted text. */
-:root {
-  --sl-badge-default-border: transparent;
-  --sl-badge-default-bg: var(--refineui-color-alias-background-brand);
-  --sl-badge-default-text: var(--refineui-color-alias-foreground-inversed);
-  --sl-badge-note-border: transparent;
-  --sl-badge-note-bg: var(--refineui-color-alias-background-info);
-  --sl-badge-note-text: var(--refineui-color-alias-foreground-inversed);
-  --sl-badge-tip-border: transparent;
-  --sl-badge-tip-bg: var(--refineui-color-alias-background-success);
-  --sl-badge-tip-text: var(--refineui-color-alias-foreground-inversed);
-  --sl-badge-success-border: transparent;
-  --sl-badge-success-bg: var(--refineui-color-alias-background-success);
-  --sl-badge-success-text: var(--refineui-color-alias-foreground-inversed);
-  --sl-badge-caution-border: transparent;
-  --sl-badge-caution-bg: var(--refineui-color-alias-background-warning);
-  --sl-badge-caution-text: var(--refineui-color-alias-foreground-inversed);
-  --sl-badge-danger-border: transparent;
-  --sl-badge-danger-bg: var(--refineui-color-alias-background-error);
-  --sl-badge-danger-text: var(--refineui-color-alias-foreground-inversed);
+/* Starlight's content components render RefineUI components; these rules only fit them into page content. */
+/* Starlight spaces sibling elements in page content; the parts of these components keep their own layout. */
+[data-refineui-docs-aside] :is([data-refineui="alert-body"], [data-refineui="alert-description"]),
+[data-refineui-docs-card] > [data-refineui="card-content"],
+[data-refineui-docs-tabs] > [role="tabpanel"] {
+  margin-top: 0;
 }
 
-.sl-badge {
-  border-radius: var(--refineui-radius-rounded-medium);
-  font-family: var(--refineui-typography-caption-2-font-family);
-  font-weight: var(--refineui-typography-caption-2-font-weight);
+[data-refineui-docs-aside] [data-refineui="alert-icon"] svg {
+  width: 1.25em;
+  height: 1.25em;
 }
 
-/* Matches RefineUI Alert: neutral surface and border, status color on the icon, title, and text. */
-.starlight-aside {
-  --sl-color-asides-text-accent: var(--refineui-color-alias-foreground-info);
-  --sl-color-asides-border: var(--refineui-color-alias-border-default);
-  padding: var(--refineui-spacing-size-medium) var(--refineui-spacing-size-large);
-  border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-default);
-  border-radius: var(--refineui-radius-rounded-large);
-  background-color: var(--refineui-color-alias-background-primary);
-  color: var(--sl-color-asides-text-accent);
+[data-refineui-docs-aside-content] > :first-child {
+  margin-top: 0;
 }
 
-.starlight-aside--tip {
-  --sl-color-asides-text-accent: var(--refineui-color-alias-foreground-success);
+[data-refineui-docs-tabs] > [role="tabpanel"] {
+  padding-top: var(--refineui-spacing-size-medium);
 }
 
-.starlight-aside--caution {
-  --sl-color-asides-text-accent: var(--refineui-color-alias-foreground-warning);
+[data-refineui-docs-tabs] > [role="tabpanel"] > :first-child {
+  margin-top: 0;
 }
 
-.starlight-aside--danger {
-  --sl-color-asides-text-accent: var(--refineui-color-alias-foreground-error);
-}
-
-.starlight-aside__title {
-  font-family: var(--refineui-typography-sub-title-2-font-family);
-  font-size: var(--refineui-typography-sub-title-2-font-size);
-  font-weight: var(--refineui-typography-sub-title-2-font-weight);
-  line-height: var(--refineui-typography-sub-title-2-line-height);
-}
-
-starlight-tabs [role="tablist"] {
-  border-bottom-color: var(--refineui-color-alias-border-subtle);
-}
-
-starlight-tabs [role="tab"] {
-  --sl-tab-color-border: transparent;
-  color: var(--refineui-color-alias-foreground-secondary);
-  font-family: var(--refineui-typography-sub-title-2-font-family);
-  font-size: var(--refineui-typography-body-2-font-size);
-}
-
-starlight-tabs [role="tab"]:hover {
-  color: var(--refineui-color-alias-foreground-primary);
-}
-
-starlight-tabs [role="tab"][aria-selected="true"] {
-  --sl-tab-color-border: var(--refineui-color-alias-foreground-primary);
-  color: var(--refineui-color-alias-foreground-primary);
+[data-refineui-docs-tabs] [role="tab"] svg {
+  width: 1.25em;
+  height: 1.25em;
 }
 
 /* Same marker and rail as a vertical RefineUI Stepper; Steps keep Starlight's list so step bodies can hold any content. */

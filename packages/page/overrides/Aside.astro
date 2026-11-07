@@ -1,0 +1,25 @@
+---
+import type { ComponentProps } from "astro/types";
+import { Icon } from "@astrojs/starlight/components";
+import { DocsAside, type AsideType } from "./DocsAside";
+
+interface Props {
+  type?: AsideType;
+  title?: string;
+  icon?: ComponentProps<typeof Icon>["name"];
+}
+
+const asideTypes: AsideType[] = ["note", "tip", "caution", "danger"];
+const { type = "note", icon } = Astro.props;
+
+if (!asideTypes.includes(type)) {
+  throw new Error(`Invalid \`type\` prop passed to the \`<Aside>\` component: ${JSON.stringify(type)}. Expected one of ${asideTypes.join(", ")}.`);
+}
+
+const title = Astro.props.title || Astro.locals.t(`aside.${type}`);
+---
+
+<DocsAside type={type} title={title} customIcon={Boolean(icon)}>
+  {icon && <Icon slot="icon" name={icon} size="1.25em" />}
+  <slot />
+</DocsAside>
