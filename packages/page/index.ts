@@ -216,6 +216,11 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
               updateAstroConfig({
                 vite: {
                   plugins: [tailwindcss(), refineUIContentComponentsPlugin()],
+                  build: {
+                    // Without targets the CSS minifier folds `animation-timeline` into the `animation`
+                    // shorthand, which browsers reject, and RefineUI ScrollArea loses its edge blur.
+                    cssTarget: astroSetupConfig.vite?.build?.cssTarget ?? ['chrome111', 'edge111', 'firefox114', 'safari16.4'],
+                  },
                 },
               });
               registerRefineUITable(astroSetupConfig.markdown.processor);

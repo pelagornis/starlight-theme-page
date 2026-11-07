@@ -21,6 +21,7 @@ export default function ScrollAreaDemo() {
               as="li"
               paddingX="sizeLarge"
               paddingY="sizeMedium"
+              data-scroll-edge-item
               className="border-b-refineui-thin border-refineui-alias-border-default"
             >
               <Text variant="bodySm">{release}</Text>
