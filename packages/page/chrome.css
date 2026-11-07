@@ -800,58 +800,32 @@ starlight-tabs [role="tab"][aria-selected="true"] {
   content: none;
 }
 
-.card {
-  --sl-card-border: var(--refineui-color-alias-border-default);
-  --sl-card-bg: var(--refineui-color-alias-background-surface-hover);
-  padding: var(--refineui-spacing-size-x-large);
-  border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-default);
-  border-radius: var(--refineui-radius-rounded-x-large);
-  background-color: var(--refineui-color-alias-background-primary);
-}
-
-.card .title {
-  color: var(--refineui-color-alias-foreground-primary);
-  font-family: var(--refineui-typography-sub-title-1-font-family);
-  font-size: var(--refineui-typography-sub-title-1-font-size);
-  font-weight: var(--refineui-typography-sub-title-1-font-weight);
-}
-
-.card .icon {
-  border-radius: var(--refineui-radius-rounded-medium);
-  color: var(--refineui-color-alias-foreground-primary);
-}
-
-.card .body {
+/* Starlight's <Card> and <LinkCard> render RefineUI Card. */
+[data-refineui-docs-card-icon] {
+  display: inline-flex;
+  flex-shrink: 0;
   color: var(--refineui-color-alias-foreground-secondary);
 }
 
-.sl-link-card {
-  border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-default);
-  border-radius: var(--refineui-radius-rounded-x-large);
-  background-color: var(--refineui-color-alias-background-primary);
-  box-shadow: none;
-  transition:
-    background-color var(--refineui-motion-duration-fast) var(--refineui-motion-easing-ease-out),
-    border-color var(--refineui-motion-duration-fast) var(--refineui-motion-easing-ease-out);
-}
-
-.sl-link-card:hover {
-  border-color: var(--refineui-color-alias-border-hover);
-  background-color: var(--refineui-color-alias-background-surface-hover);
-}
-
-.sl-link-card .title {
-  color: var(--refineui-color-alias-foreground-primary);
-  font-family: var(--refineui-typography-sub-title-2-font-family);
-  font-weight: var(--refineui-typography-sub-title-2-font-weight);
-}
-
-.sl-link-card .description {
+[data-refineui-docs-card-body] {
   color: var(--refineui-color-alias-foreground-secondary);
 }
 
-.sl-link-card .icon {
-  color: var(--refineui-color-alias-foreground-tertiary);
+[data-refineui-docs-link-card] > [data-refineui="card-header"] {
+  flex-wrap: nowrap;
+}
+
+[data-refineui-docs-link-card]:hover {
+  background-color: var(--refineui-color-alias-background-primary-hover);
+}
+
+[data-refineui-docs-link-card]:has(a:focus-visible) {
+  outline: var(--refineui-stroke-width-thick) solid var(--refineui-color-alias-border-focus);
+  outline-offset: var(--refineui-stroke-width-thick);
+}
+
+[data-refineui-docs-link-card] a:focus-visible {
+  outline: none;
 }
 
 /* Starlight's <FileTree> renders RefineUI Tree inside this frame. */

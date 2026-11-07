@@ -1,0 +1,11 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { DocsLinkCard } from "./DocsCard";
+
+interface Props extends Omit<HTMLAttributes<"a">, "title"> {
+  title: string;
+  description?: string;
+}
+---
+
+<DocsLinkCard {...Astro.props} />

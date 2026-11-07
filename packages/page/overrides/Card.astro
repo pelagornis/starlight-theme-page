@@ -1,0 +1,17 @@
+---
+import type { ComponentProps } from "astro/types";
+import { Icon } from "@astrojs/starlight/components";
+import { DocsCard } from "./DocsCard";
+
+interface Props {
+  icon?: ComponentProps<typeof Icon>["name"];
+  title: string;
+}
+
+const { icon, title } = Astro.props;
+---
+
+<DocsCard title={title}>
+  {icon && <Icon slot="icon" name={icon} size="1.333em" />}
+  <slot />
+</DocsCard>

@@ -164,18 +164,21 @@ function inlineLogo(logo: StarlightUserConfig['logo'], root: URL) {
   return dark && light ? { dark, light } : undefined;
 }
 
+const refineUIContentComponents = ['FileTree.astro', 'Card.astro', 'LinkCard.astro'];
+
 /**
- * `<FileTree>` is a content component, not a component slot, so Starlight's own import of it
- * (used by MDX pages and the Markdoc `filetree` tag) is pointed at the RefineUI Tree version.
+ * Content components are not component slots, so Starlight's own imports of them
+ * (used by MDX pages and the Markdoc tags) are pointed at the RefineUI versions.
  */
-function refineUIFileTree() {
+function refineUIContentComponentsPlugin() {
   return {
-    name: 'page-refineui-file-tree',
+    name: 'page-refineui-content-components',
     enforce: 'pre' as const,
     resolveId(source: string, importer: string | undefined) {
-      if (source !== './user-components/FileTree.astro') return null;
+      const name = source.replace('./user-components/', '');
+      if (name === source || !refineUIContentComponents.includes(name)) return null;
       if (!importer?.replaceAll('\\', '/').includes('/@astrojs/starlight/')) return null;
-      return override('FileTree.astro');
+      return override(name);
     },
   };
 }
@@ -203,7 +206,7 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
             'astro:config:setup'({ config: astroSetupConfig, updateConfig: updateAstroConfig }) {
               updateAstroConfig({
                 vite: {
-                  plugins: [tailwindcss(), refineUIFileTree()],
+                  plugins: [tailwindcss(), refineUIContentComponentsPlugin()],
                 },
               });
               registerRefineUITable(astroSetupConfig.markdown.processor);

@@ -1,4 +1,5 @@
 import {
+  Box,
   ScrollArea,
   ScrollAreaScrollbar,
   ScrollAreaThumb,
@@ -11,13 +12,19 @@ const releases = Array.from({ length: 20 }, (_, index) => `v2.${20 - index}.0`);
 
 export default function ScrollAreaDemo() {
   return (
-    <ScrollArea type="hover" className="h-48 w-full max-w-xs">
+    <ScrollArea type="hover" className="h-refineui-foundation-size-2560 w-full">
       <ScrollAreaViewport>
-        <Stack gap="sizeXSmall">
+        <Stack as="ul" className="m-0 list-none p-0">
           {releases.map((release) => (
-            <Text key={release} variant="bodyMd">
-              {release}
-            </Text>
+            <Box
+              key={release}
+              as="li"
+              paddingX="sizeLarge"
+              paddingY="sizeMedium"
+              className="border-b-refineui-thin border-refineui-alias-border-default"
+            >
+              <Text variant="bodySm">{release}</Text>
+            </Box>
           ))}
         </Stack>
       </ScrollAreaViewport>

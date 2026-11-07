@@ -87,7 +87,7 @@ export default defineMarkdocConfig({
 
 Overrides: `PageFrame`, `Header`, `SiteTitle`, `ThemeSelect`, `LanguageSelect`, `Sidebar`, `MobileMenuFooter`, `PageSidebar`, `TableOfContents`, `MobileTableOfContents`, `Footer`, `Pagination`, `PageTitle`, `Hero`.
 
-Starlight's Aside, Badge, Tabs, Steps, Card, and LinkCard are restyled with RefineUI tokens, and FileTree renders as a RefineUI Tree. The plugin supports Starlight 0.42.
+Starlight's Aside, Badge, Tabs, and Steps are restyled with RefineUI tokens. Card and LinkCard render as a RefineUI Card, and FileTree as a RefineUI Tree. The plugin supports Starlight 0.42.
 
 ## License
 

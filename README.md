@@ -85,7 +85,7 @@ export default defineMarkdocConfig({
 {% button variant="primary" %}Continue{% /button %}
 ```
 
-Markdown tables render with the RefineUI Table markup. Starlight's Aside, Badge, Tabs, Steps, Card, and LinkCard are restyled with RefineUI tokens, and FileTree renders as a RefineUI Tree. The docs site has a page for each of the 59 components with a live preview, example source, MDX and Markdoc usage, and props.
+Markdown tables render with the RefineUI Table markup. Starlight's Aside, Badge, Tabs, and Steps are restyled with RefineUI tokens. Card and LinkCard render as a RefineUI Card, and FileTree as a RefineUI Tree. The docs site has a page for each of the 59 components with a live preview, example source, MDX and Markdoc usage, and props.
 
 ## Shell
 

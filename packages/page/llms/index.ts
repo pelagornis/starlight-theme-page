@@ -48,6 +48,8 @@ const stripSelectors = [
   ".sl-anchor-link",
   ".expressive-code .copy",
   "[data-pagefind-ignore]",
+  '[data-refineui-docs-card] [aria-hidden="true"]',
+  '[data-refineui-docs-link-card] [aria-hidden="true"]',
 ];
 
 const parseHtml = unified().use(rehypeParse);
@@ -175,10 +177,14 @@ function fileTrees(content: Element) {
   }
 }
 
-/** RefineUI components rendered in the page body are live examples; only tables and tab sets carry text worth keeping. */
+/**
+ * RefineUI components rendered in the page body are live examples; only tables, tab sets,
+ * and the cards the theme draws for Starlight's `<Card>` and `<LinkCard>` carry text worth keeping.
+ */
 function liveExamples(node: Root | Element, found = new Set<Element>()) {
   for (const child of node.children) {
     if (child.type !== "element") continue;
+    if (child.properties.dataRefineuiDocsCard !== undefined || child.properties.dataRefineuiDocsLinkCard !== undefined) continue;
     const role = child.properties.dataRefineui;
     if (role === "table" || role === "tabs") continue;
     if (role !== undefined) found.add(child);
