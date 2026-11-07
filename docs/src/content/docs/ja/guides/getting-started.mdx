@@ -63,7 +63,7 @@ pagePlugin({
     {
       label: "Resources",
       items: [
-        { label: "Changelog", href: "/changelog/" },
+        { label: "Changelog", href: "/changelog/", description: "What changed in each release" },
         { label: "GitHub", href: "https://github.com/pelagornis/starlight-theme-page" },
       ],
     },
@@ -71,7 +71,7 @@ pagePlugin({
 });
 ```
 
-`translations` には言語（`lang`）ごとのラベルを書きます。`/` で始まるリンクは、翻訳されたページで現在の言語のパスが前に付きます。
+ドロップダウンのリンクには、2 行目に出す短い `description` を文字列か言語（`lang`）ごとの値で書けます。RefineUI の `NavigationMenu` は最小幅だけを決め、パネルは文字の長さに合わせて広がるので、説明は数語にとどめます。サイドバーのドロップダウンは入れ子のグループを最初の 2 ページの名前で説明します。`translations` には言語（`lang`）ごとのラベルを書きます。`/` で始まるリンクは、翻訳されたページで現在の言語のパスが前に付きます。
 
 ### llms.txt
 

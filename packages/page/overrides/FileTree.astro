@@ -1,0 +1,11 @@
+---
+import { DocsFileTree } from "./DocsFileTree";
+import { parseFileTree } from "./fileTree";
+import { docsLabels } from "./labels";
+
+const entries = parseFileTree(await Astro.slots.render("default"));
+---
+
+<div class="not-content" data-refineui-docs-file-tree data-pagefind-ignore>
+  <DocsFileTree client:load entries={entries} label={docsLabels(Astro.locals.t).fileTree} />
+</div>

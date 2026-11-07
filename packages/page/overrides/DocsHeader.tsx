@@ -15,6 +15,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  Stack,
   WebIcon,
 } from "@refineui/react";
 import type { DocsLabels } from "./labels";
@@ -23,6 +24,7 @@ export type DocsHeaderNavLink = {
   label: string;
   href: string;
   active: boolean;
+  description?: string;
 };
 
 export type DocsHeaderNavSection = {
@@ -40,6 +42,19 @@ export type DocsSearchItem = {
   group: string;
   external?: boolean;
 };
+
+function NavLinkStack({ title, description }: { title: string; description?: string }) {
+  return (
+    <Stack as="span" gap="sizeXXXSmall" className="min-w-0 flex-1 px-refineui-size-xxx-small">
+      <span className="break-words whitespace-normal">{title}</span>
+      {description ? (
+        <span className="break-words whitespace-normal text-refineui-alias-foreground-tertiary refineui-typo-body-4">
+          {description}
+        </span>
+      ) : null}
+    </Stack>
+  );
+}
 
 export function DocsHeaderNav({ sections, label }: { sections: DocsHeaderNavSection[]; label: string }) {
   if (sections.length === 0) return null;
@@ -61,11 +76,18 @@ export function DocsHeaderNav({ sections, label }: { sections: DocsHeaderNavSect
                   {section.label}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  {section.links.map((link) => (
-                    <NavigationMenuLink key={link.href} href={link.href} active={link.active}>
-                      {link.label}
-                    </NavigationMenuLink>
-                  ))}
+                  <div className="grid w-full min-w-refineui-navigation-menu-panel-width grid-cols-2 gap-refineui-size-x-small">
+                    {section.links.map((link) => (
+                      <NavigationMenuLink
+                        key={link.href}
+                        href={link.href}
+                        active={link.active}
+                        {...(/^https?:/i.test(link.href) ? { target: "_blank", rel: "noreferrer" } : {})}
+                      >
+                        <NavLinkStack title={link.label} description={link.description} />
+                      </NavigationMenuLink>
+                    ))}
+                  </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
             ),

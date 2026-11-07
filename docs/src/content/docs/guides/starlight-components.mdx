@@ -48,9 +48,17 @@ npm install @pelagornis/page
 
 1. Install the plugin.
 
+   ```sh
+   bun add @pelagornis/page
+   ```
+
 2. Add `pagePlugin()` to Starlight's `plugins`.
 
 3. Run the dev server.
+
+   ```sh
+   bun run dev
+   ```
 
 </Steps>
 
@@ -69,13 +77,16 @@ npm install @pelagornis/page
 
 ## File tree
 
+`<FileTree>` renders as a RefineUI Tree. Directories start open, a **bold** entry is selected, and text after the name is a comment.
+
 <FileTree>
-- astro.config.ts
+- astro.config.ts registers pagePlugin()
 - markdoc.config.mjs
 - src/
   - content/
     - docs/
       - index.mdx
       - guides/
-        - getting-started.mdx
+        - **getting-started.mdx**
+        - …
 </FileTree>

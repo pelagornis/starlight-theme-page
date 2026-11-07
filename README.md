@@ -49,7 +49,7 @@ export default defineConfig({
 
 | Option | Use |
 | --- | --- |
-| `navigation` | Header items. A link (`{ label, href }`) or a dropdown (`{ label, items }`, or `{ sidebar: "Group label" }` to fill it from a top-level sidebar group). Every item takes `translations` keyed by locale `lang`. |
+| `navigation` | Header items. A link (`{ label, href }`) or a dropdown (`{ label, items }`, or `{ sidebar: "Group label" }` to fill it from a top-level sidebar group). Dropdown links show a short `description` under the label; the panel grows with it, so keep it to a few words. Every item takes `translations` keyed by locale `lang`. |
 | `footerText` | Footer copyright line. |
 | `siteTitle` | Brand text in the header. Defaults to the Starlight `title`. |
 | `breadcrumbs` | Sidebar trail above each page title. Defaults to `true`. |
@@ -85,7 +85,7 @@ export default defineMarkdocConfig({
 {% button variant="primary" %}Continue{% /button %}
 ```
 
-Markdown tables render with the RefineUI Table markup, and Starlight's Aside, Badge, Tabs, Steps, Card, LinkCard, and FileTree are restyled with RefineUI tokens. The docs site has a page for each of the 59 components with a live preview, example source, MDX and Markdoc usage, and props.
+Markdown tables render with the RefineUI Table markup, and Starlight's Aside, Badge, Tabs, Steps, Card, and LinkCard are restyled with RefineUI tokens, and FileTree renders as a RefineUI Tree. The docs site has a page for each of the 59 components with a live preview, example source, MDX and Markdoc usage, and props.
 
 ## Shell
 

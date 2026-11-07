@@ -21,6 +21,8 @@ export interface NavigationLink {
   href: string;
   /** Labels per locale `lang`, e.g. `{ ko: '가이드' }`. */
   translations?: Record<string, string>;
+  /** Second line under the label in a dropdown. A string, or one per locale `lang`. */
+  description?: string | Record<string, string>;
 }
 
 export interface NavigationMenu {
@@ -162,6 +164,22 @@ function inlineLogo(logo: StarlightUserConfig['logo'], root: URL) {
   return dark && light ? { dark, light } : undefined;
 }
 
+/**
+ * `<FileTree>` is a content component, not a component slot, so Starlight's own import of it
+ * (used by MDX pages and the Markdoc `filetree` tag) is pointed at the RefineUI Tree version.
+ */
+function refineUIFileTree() {
+  return {
+    name: 'page-refineui-file-tree',
+    enforce: 'pre' as const,
+    resolveId(source: string, importer: string | undefined) {
+      if (source !== './user-components/FileTree.astro') return null;
+      if (!importer?.replaceAll('\\', '/').includes('/@astrojs/starlight/')) return null;
+      return override('FileTree.astro');
+    },
+  };
+}
+
 /** The default locale's string for options Starlight accepts per language. */
 function defaultLocaleText(config: StarlightUserConfig, value: string | Record<string, string> | undefined) {
   if (typeof value !== 'object') return value;
@@ -185,7 +203,7 @@ export default function pagePlugin(userConfig?: pageUserConfig): StarlightPlugin
             'astro:config:setup'({ config: astroSetupConfig, updateConfig: updateAstroConfig }) {
               updateAstroConfig({
                 vite: {
-                  plugins: [tailwindcss()],
+                  plugins: [tailwindcss(), refineUIFileTree()],
                 },
               });
               registerRefineUITable(astroSetupConfig.markdown.processor);

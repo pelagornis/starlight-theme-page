@@ -63,7 +63,7 @@ pagePlugin({
     {
       label: "Resources",
       items: [
-        { label: "Changelog", href: "/changelog/" },
+        { label: "Changelog", href: "/changelog/", description: "What changed in each release" },
         { label: "GitHub", href: "https://github.com/pelagornis/starlight-theme-page" },
       ],
     },
@@ -71,7 +71,7 @@ pagePlugin({
 });
 ```
 
-`translations` holds labels per locale `lang`. Links that start with `/` get the current locale prefix on translated pages.
+Dropdown links take a short `description` for the second line, a string or one per locale `lang`. The panel grows with its text, as RefineUI's `NavigationMenu` sets only a minimum width, so keep descriptions to a few words. A sidebar dropdown describes each nested group by its first two pages. `translations` holds labels per locale `lang`. Links that start with `/` get the current locale prefix on translated pages.
 
 ### llms.txt
 

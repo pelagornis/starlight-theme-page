@@ -46,7 +46,7 @@ export default defineConfig({
 
 | Option | Use |
 | --- | --- |
-| `navigation` | Header items. A link (`{ label, href }`) or a dropdown (`{ label, items }`, or `{ sidebar: "Group label" }` to fill it from a top-level sidebar group). Every item takes `translations` keyed by locale `lang`. |
+| `navigation` | Header items. A link (`{ label, href }`) or a dropdown (`{ label, items }`, or `{ sidebar: "Group label" }` to fill it from a top-level sidebar group). Dropdown links show a short `description` under the label; the panel grows with it, so keep it to a few words. Every item takes `translations` keyed by locale `lang`. |
 | `footerText` | Footer copyright line. |
 | `siteTitle` | Brand text in the header. Defaults to the Starlight `title`. |
 | `breadcrumbs` | Sidebar trail above each page title. Defaults to `true`. |
@@ -87,7 +87,7 @@ export default defineMarkdocConfig({
 
 Overrides: `PageFrame`, `Header`, `SiteTitle`, `ThemeSelect`, `LanguageSelect`, `Sidebar`, `MobileMenuFooter`, `PageSidebar`, `TableOfContents`, `MobileTableOfContents`, `Footer`, `Pagination`, `PageTitle`, `Hero`.
 
-Starlight's Aside, Badge, Tabs, Steps, Card, LinkCard, and FileTree are restyled with RefineUI tokens. The plugin supports Starlight 0.42.
+Starlight's Aside, Badge, Tabs, Steps, Card, and LinkCard are restyled with RefineUI tokens, and FileTree renders as a RefineUI Tree. The plugin supports Starlight 0.42.
 
 ## License
 

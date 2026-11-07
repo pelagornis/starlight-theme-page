@@ -48,9 +48,17 @@ npm install @pelagornis/page
 
 1. 플러그인을 설치합니다.
 
+   ```sh
+   bun add @pelagornis/page
+   ```
+
 2. Starlight의 `plugins`에 `pagePlugin()`을 추가합니다.
 
 3. dev 서버를 실행합니다.
+
+   ```sh
+   bun run dev
+   ```
 
 </Steps>
 
@@ -69,13 +77,16 @@ npm install @pelagornis/page
 
 ## 파일 트리
 
+`<FileTree>`는 RefineUI Tree로 그려집니다. 폴더는 펼친 상태로 시작하고, **굵게** 쓴 항목이 선택되며, 이름 뒤의 글은 주석으로 표시됩니다.
+
 <FileTree>
-- astro.config.ts
+- astro.config.ts pagePlugin() 등록
 - markdoc.config.mjs
 - src/
   - content/
     - docs/
       - index.mdx
       - guides/
-        - getting-started.mdx
+        - **getting-started.mdx**
+        - …
 </FileTree>

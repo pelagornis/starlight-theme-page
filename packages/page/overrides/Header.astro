@@ -38,21 +38,37 @@ function sidebarGroup(label: string) {
   return group?.type === "group" ? group : undefined;
 }
 
-/** One dropdown link per direct sidebar link, and one per nested group pointing at its first page. */
-function sidebarLinks(label: string) {
-  const group = sidebarGroup(label);
-  if (!group) return [];
-  const links = new Map<string, { label: string; href: string; active: boolean }>();
-  for (const link of group.entries) {
-    const key = link.section ?? link.href;
-    const existing = links.get(key);
-    if (existing) existing.active ||= link.isCurrent;
-    else links.set(key, { label: link.section ?? link.label, href: link.href, active: link.isCurrent });
-  }
-  return [...links.values()];
+function localized(value: string | Record<string, string> | undefined) {
+  if (typeof value !== "object") return value;
+  return value[lang] ?? Object.values(value)[0];
 }
 
 const trimSlash = (path: string) => path.replace(/\/$/, "") || "/";
+
+/**
+ * One dropdown link per direct sidebar link, and one per nested group pointing at its first page.
+ * RefineUI sizes the panel to its content, so a group is described only by its first two page names.
+ */
+function sidebarLinks(label: string) {
+  const group = sidebarGroup(label);
+  if (!group) return [];
+  const links = new Map<string, { label: string; href: string; active: boolean; pages: string[] }>();
+  for (const link of group.entries) {
+    const key = link.section ?? link.href;
+    const existing = links.get(key);
+    if (existing) {
+      existing.active ||= link.isCurrent;
+      existing.pages.push(link.label);
+    } else {
+      links.set(key, { label: link.section ?? link.label, href: link.href, active: link.isCurrent, pages: [link.label] });
+    }
+  }
+  return [...links.entries()].map(([key, { pages, ...link }]) => ({
+    ...link,
+    description: key === link.href ? undefined : `${pages.slice(0, 2).join(", ")}${pages.length > 2 ? ", …" : ""}`,
+  }));
+}
+
 const isCurrent = (href: string) => trimSlash(href) === trimSlash(currentPath);
 const isWithin = (href: string) =>
   isCurrent(href) || (trimSlash(href) !== "/" && trimSlash(currentPath).startsWith(`${trimSlash(href)}/`));
@@ -66,7 +82,7 @@ const sections: DocsHeaderNavSection[] = configured.map((item, index) => {
     ? sidebarLinks(item.sidebar)
     : (item.items ?? []).map((link: NavigationLink) => {
         const href = localize(link.href);
-        return { label: translate(link), href, active: isCurrent(href) };
+        return { label: translate(link), href, active: isCurrent(href), description: localized(link.description) };
       });
   const label = translate(item, item.sidebar ? sidebarGroup(item.sidebar)?.label : "");
   return { value: `nav-${index}`, label, href: links[0]?.href ?? "", active: links.some((link) => link.active), links };

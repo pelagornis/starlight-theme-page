@@ -52,7 +52,45 @@ export default defineConfig({
 
       plugins: [
         pagePlugin({
-          navigation: [{ sidebar: 'Guides' }, { sidebar: 'Components' }],
+          navigation: [
+            {
+              label: 'Guides',
+              translations: { ko: '가이드', ja: 'ガイド', zh: '指南' },
+              items: [
+                {
+                  label: 'Getting Started',
+                  href: '/guides/getting-started/',
+                  translations: { ko: '시작하기', ja: 'はじめに', zh: '开始使用' },
+                  description: { en: 'Install and register', ko: '설치와 등록', ja: 'インストールと登録', zh: '安装与注册' },
+                },
+                {
+                  label: 'Use in MDX',
+                  href: '/guides/mdx/',
+                  translations: { ko: 'MDX에서 사용', ja: 'MDX で使う', zh: '在 MDX 中使用' },
+                  description: { en: 'Imports and islands', ko: '가져오기와 아일랜드', ja: 'インポートとアイランド', zh: '导入与岛' },
+                },
+                {
+                  label: 'Use in Markdoc',
+                  href: '/guides/markdoc/',
+                  translations: { ko: 'Markdoc에서 사용', ja: 'Markdoc で使う', zh: '在 Markdoc 中使用' },
+                  description: { en: 'The tag preset', ko: '태그 프리셋', ja: 'タグのプリセット', zh: '标签预设' },
+                },
+                {
+                  label: 'Shell overrides',
+                  href: '/guides/overrides/',
+                  translations: { ko: '셸 오버라이드', ja: 'シェルのオーバーライド', zh: '外壳覆盖' },
+                  description: { en: 'Replaced Starlight slots', ko: '바뀐 Starlight 슬롯', ja: '置き換えたスロット', zh: '替换的插槽' },
+                },
+                {
+                  label: 'Starlight components',
+                  href: '/guides/starlight-components/',
+                  translations: { ko: 'Starlight 컴포넌트', ja: 'Starlight のコンポーネント', zh: 'Starlight 组件' },
+                  description: { en: 'Built-ins, restyled', ko: '기본 컴포넌트 스타일', ja: '標準コンポーネント', zh: '内置组件样式' },
+                },
+              ],
+            },
+            { sidebar: 'Components' },
+          ],
           footerText: `© ${new Date().getFullYear()} Pelagornis Inc. All rights reserved.`,
           llmsTxt: {
             title: '@pelagornis/page',

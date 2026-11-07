@@ -48,9 +48,17 @@ npm install @pelagornis/page
 
 1. 安装插件。
 
+   ```sh
+   bun add @pelagornis/page
+   ```
+
 2. 把 `pagePlugin()` 加到 Starlight 的 `plugins` 中。
 
 3. 运行开发服务器。
+
+   ```sh
+   bun run dev
+   ```
 
 </Steps>
 
@@ -69,13 +77,16 @@ npm install @pelagornis/page
 
 ## 文件树
 
+`<FileTree>` 使用 RefineUI Tree 渲染。文件夹默认展开，**加粗**的条目会被选中，名称后的文字显示为注释。
+
 <FileTree>
-- astro.config.ts
+- astro.config.ts 注册 pagePlugin()
 - markdoc.config.mjs
 - src/
   - content/
     - docs/
       - index.mdx
       - guides/
-        - getting-started.mdx
+        - **getting-started.mdx**
+        - …
 </FileTree>

@@ -761,16 +761,43 @@ starlight-tabs [role="tab"][aria-selected="true"] {
   color: var(--refineui-color-alias-foreground-primary);
 }
 
+/* Same marker and rail as a vertical RefineUI Stepper; Steps keep Starlight's list so step bodies can hold any content. */
+.sl-steps {
+  --bullet-size: var(--refineui-size-calendar-day-size);
+  --bullet-margin: 0px;
+}
+
+.sl-steps > li {
+  padding-inline-start: calc(var(--bullet-size) + var(--refineui-spacing-size-medium));
+  padding-bottom: var(--refineui-spacing-size-large);
+}
+
+.sl-steps > li:last-child {
+  padding-bottom: 1px;
+}
+
 .sl-steps > li::before {
+  box-sizing: border-box;
   border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-default);
-  background-color: var(--refineui-color-alias-background-surface-hover);
-  color: var(--refineui-color-alias-foreground-primary);
-  font-family: var(--refineui-typography-caption-2-font-family);
-  font-weight: var(--refineui-typography-sub-title-2-font-weight);
+  border-radius: var(--refineui-radius-rounded-large);
+  box-shadow: none;
+  background-color: transparent;
+  color: var(--refineui-color-alias-foreground-secondary);
+  font-family: var(--refineui-typography-caption-1-font-family);
+  font-size: var(--refineui-typography-caption-1-font-size);
+  font-weight: var(--refineui-typography-caption-1-font-weight);
+  line-height: calc(var(--bullet-size) - 2 * var(--refineui-stroke-width-thin));
 }
 
 .sl-steps > li::after {
-  background-color: var(--refineui-color-alias-border-subtle);
+  --guide-width: var(--refineui-size-progress-track-height-sm);
+  top: var(--bullet-size);
+  bottom: 0;
+  background-color: var(--refineui-color-alias-border-default);
+}
+
+.sl-steps > li:last-child::after {
+  content: none;
 }
 
 .card {
@@ -827,14 +854,28 @@ starlight-tabs [role="tab"][aria-selected="true"] {
   color: var(--refineui-color-alias-foreground-tertiary);
 }
 
-starlight-file-tree {
+/* Starlight's <FileTree> renders RefineUI Tree inside this frame. */
+[data-refineui-docs-file-tree] {
+  box-sizing: border-box;
+  margin-block: var(--refineui-spacing-size-large);
+  padding: var(--refineui-spacing-size-small);
+  overflow-x: auto;
   border: var(--refineui-stroke-width-thin) solid var(--refineui-color-alias-border-default);
   border-radius: var(--refineui-radius-rounded-large);
   background-color: var(--refineui-color-alias-surface-sunken);
-  color: var(--refineui-color-alias-foreground-primary);
 }
 
-starlight-file-tree .directory > details > summary:hover,
-starlight-file-tree .directory > details > summary:hover .tree-icon {
-  color: var(--refineui-color-alias-foreground-primary);
+[data-refineui-docs-file-tree-entry] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--refineui-spacing-size-x-small);
+  min-width: 0;
+}
+
+[data-refineui-docs-file-tree-name] {
+  font-family: var(--__sl-font-mono);
+}
+
+[data-refineui-docs-file-tree-comment] {
+  color: var(--refineui-color-alias-foreground-tertiary);
 }

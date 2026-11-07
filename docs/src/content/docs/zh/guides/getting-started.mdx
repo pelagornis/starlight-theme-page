@@ -63,7 +63,7 @@ pagePlugin({
     {
       label: "Resources",
       items: [
-        { label: "Changelog", href: "/changelog/" },
+        { label: "Changelog", href: "/changelog/", description: "What changed in each release" },
         { label: "GitHub", href: "https://github.com/pelagornis/starlight-theme-page" },
       ],
     },
@@ -71,7 +71,7 @@ pagePlugin({
 });
 ```
 
-`translations` 按语言（`lang`）写标签。以 `/` 开头的链接在翻译页面上会加上当前语言的路径前缀。
+下拉链接可以用简短的 `description` 写第二行说明，值为字符串或按语言（`lang`）分别填写。RefineUI 的 `NavigationMenu` 只规定最小宽度，面板会随文字变宽，所以说明请控制在几个词以内。侧栏下拉菜单用子分组的前两个页面名称来描述它。`translations` 按语言（`lang`）写标签。以 `/` 开头的链接在翻译页面上会加上当前语言的路径前缀。
 
 ### llms.txt
 

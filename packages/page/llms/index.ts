@@ -139,6 +139,42 @@ function tabSets(content: Element) {
   }
 }
 
+function treeItems(node: Element, found: Element[] = []) {
+  for (const child of node.children) {
+    if (child.type !== "element") continue;
+    if (child.properties.role === "treeitem") found.push(child);
+    else treeItems(child, found);
+  }
+  return found;
+}
+
+function treeLines(items: Element[], depth = 0): string[] {
+  return items.flatMap((item) => {
+    const group = select('[role="group"]', item);
+    const entry = select("[data-refineui-docs-file-tree-entry]", item);
+    const text = (selector: string) => {
+      const node = entry && select(selector, entry);
+      return node ? toText(node).trim() : "";
+    };
+    const name = text("[data-refineui-docs-file-tree-name]");
+    const comment = text("[data-refineui-docs-file-tree-comment]");
+    return [
+      `${"  ".repeat(depth)}${name}${comment ? `  # ${comment}` : ""}`,
+      ...(group ? treeLines(treeItems(group), depth + 1) : []),
+    ];
+  });
+}
+
+/** File trees are interactive Trees on the page; in Markdown they read as an indented listing. */
+function fileTrees(content: Element) {
+  for (const frame of selectAll("[data-refineui-docs-file-tree]", content)) {
+    const tree = select('[role="tree"]', frame);
+    const listing: ElementContent = { type: "text", value: tree ? treeLines(treeItems(tree)).join("\n") : "" };
+    const code: Element = { type: "element", tagName: "code", properties: {}, children: [listing] };
+    Object.assign(frame, { tagName: "pre", properties: {}, children: [code] });
+  }
+}
+
 /** RefineUI components rendered in the page body are live examples; only tables and tab sets carry text worth keeping. */
 function liveExamples(node: Root | Element, found = new Set<Element>()) {
   for (const child of node.children) {
@@ -163,6 +199,7 @@ function pageLinks(content: Element, site: string) {
 function pageMarkdown(tree: Root, site: string): string {
   const content = select(".sl-markdown-content", tree);
   if (!content) return "";
+  fileTrees(content);
   const stripped = liveExamples(content, new Set(stripSelectors.flatMap((selector) => selectAll(selector, content))));
   remove(content, (node) => node.type === "comment" || stripped.has(node as Element));
   codeBlocks(content);

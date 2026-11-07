@@ -22,6 +22,7 @@ export function docsLabels(t: Translate) {
     pagination: page("pelagornisPage.pagination"),
     breadcrumb: page("pelagornisPage.breadcrumb"),
     footer: page("pelagornisPage.footer"),
+    fileTree: page("pelagornisPage.fileTree"),
     sidebarResize: page("pelagornisPage.sidebar.resize"),
     sidebarOpen: page("pelagornisPage.sidebar.open"),
     sidebarClose: page("pelagornisPage.sidebar.close"),
