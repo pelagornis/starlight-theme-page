@@ -1,6 +1,6 @@
 {
     "name": "@pelagornis/page",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "license": "MIT",
     "description": "Starlight theme for Pelagornis Docs — RefineUI design system chrome",
     "type": "module",
